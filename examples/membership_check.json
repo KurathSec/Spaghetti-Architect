@@ -1,0 +1,16 @@
+{
+  "version": "1.0",
+  "module_name": "membership",
+  "inputs": {
+    "data_list": [10, 20, 30, 40],
+    "search_val": 30
+  },
+  "operations": [
+    {
+      "operation": "MEMBERSHIP_CHECK",
+      "collection_name": "data_list",
+      "target_var": "search_val",
+      "result_var": "is_found"
+    }
+  ]
+}

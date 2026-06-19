@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "patterns": {
+    "SPAGH_001": {
+      "name": "De-idiomatization / Loop Flattening",
+      "description": "Replace idiomatic constructs (in / range / map.get) with manual index loops or cascades.",
+      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP"],
+      "category": "structural"
+    },
+    "SPAGH_002": {
+      "name": "Redundant Temporaries",
+      "description": "Introduce a single-use temporary variable for every sub-expression.",
+      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP"],
+      "category": "verbosity"
+    },
+    "SPAGH_003": {
+      "name": "Boolean Verbosity",
+      "description": "Assign true/false explicitly via if/else; introduce redundant '== true' comparisons.",
+      "applies_to": ["MEMBERSHIP_CHECK"],
+      "category": "verbosity"
+    },
+    "SPAGH_004": {
+      "name": "Dead Code / No-op Injection",
+      "description": "Inject behavior-preserving no-op statements and unreachable branches.",
+      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP"],
+      "category": "noise"
+    },
+    "SPAGH_005": {
+      "name": "Cascading Conditionals",
+      "description": "Expand a lookup into a long elif/switch/nested-if chain enumerating each known key.",
+      "applies_to": ["KEY_VALUE_LOOKUP"],
+      "category": "structural"
+    },
+    "SPAGH_006": {
+      "name": "Manual Indexing / Pointer Arithmetic",
+      "description": "Use *(ptr+i) / explicit slice indexing instead of iterators or [] semantics.",
+      "applies_to": ["MEMBERSHIP_CHECK"],
+      "category": "structural"
+    },
+    "SPAGH_007": {
+      "name": "Defensive Over-Guarding",
+      "description": "Wrap every access in redundant null/bounds/type checks.",
+      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP"],
+      "category": "defensive"
+    },
+    "SPAGH_008": {
+      "name": "Verbose Decomposition",
+      "description": "Split a single expression into many statements: explicit accumulators, counters, flags.",
+      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP"],
+      "category": "verbosity"
+    },
+    "SPAGH_009": {
+      "name": "Opaque Predicates",
+      "description": "Guard real code with an always-true predicate that looks data-dependent (n*(n+1) is even). Collberg-Thomborson control-flow obfuscation.",
+      "applies_to": ["MEMBERSHIP_CHECK"],
+      "category": "control"
+    },
+    "SPAGH_010": {
+      "name": "Redundant Recomputation",
+      "description": "Recompute the loop-invariant collection length on every iteration instead of caching it (loop-invariant de-hoisting): the literal anti-optimization.",
+      "applies_to": ["MEMBERSHIP_CHECK"],
+      "category": "performance"
+    },
+    "SPAGH_011": {
+      "name": "Yoda Conditions",
+      "description": "Flip comparison operand order (constant == variable) in the match check. Classic readability code smell.",
+      "applies_to": ["MEMBERSHIP_CHECK"],
+      "category": "layout"
+    }
+  },
+  "profiles": {
+    "minimal":  ["SPAGH_001"],
+    "standard": ["SPAGH_001", "SPAGH_002", "SPAGH_005", "SPAGH_007"],
+    "max":      ["SPAGH_001", "SPAGH_002", "SPAGH_003", "SPAGH_004",
+                 "SPAGH_005", "SPAGH_006", "SPAGH_007", "SPAGH_008",
+                 "SPAGH_009", "SPAGH_010", "SPAGH_011"]
+  }
+}

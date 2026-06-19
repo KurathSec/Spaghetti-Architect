@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "module_name": "lookup",
+  "inputs": {
+    "config_db": {"dev": "localhost", "prod": "10.0.0.1"},
+    "input_key": "dev"
+  },
+  "operations": [
+    {
+      "operation": "KEY_VALUE_LOOKUP",
+      "map_name": "config_db",
+      "key_var": "input_key",
+      "result_var": "out_val",
+      "pairs": {"dev": "localhost", "prod": "10.0.0.1"},
+      "default_value": "127.0.0.1"
+    }
+  ]
+}

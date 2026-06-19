@@ -1,0 +1,37 @@
+# Python bytecode / caches
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Test / coverage tooling
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.mypy_cache/
+.ruff_cache/
+
+# Packaging / build artifacts
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Editor / OS noise
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store
+
+# Local design-blueprint sources (the in-repo architecture doc is architecture.md)
+init.md
+init.en.md
+
+# Note: tests/golden/ is intentionally tracked — those are test fixtures.

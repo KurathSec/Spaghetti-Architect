@@ -1,0 +1,26 @@
+{
+  "version": "1.0",
+  "module_name": "demo",
+  "inputs": {
+    "data_list": [10, 20, 30, 40],
+    "search_val": 30,
+    "config_db": {"dev": "localhost", "prod": "10.0.0.1"},
+    "input_key": "dev"
+  },
+  "operations": [
+    {
+      "operation": "MEMBERSHIP_CHECK",
+      "collection_name": "data_list",
+      "target_var": "search_val",
+      "result_var": "is_found"
+    },
+    {
+      "operation": "KEY_VALUE_LOOKUP",
+      "map_name": "config_db",
+      "key_var": "input_key",
+      "result_var": "out_val",
+      "pairs": {"dev": "localhost", "prod": "10.0.0.1"},
+      "default_value": "127.0.0.1"
+    }
+  ]
+}
