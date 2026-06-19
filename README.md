@@ -121,6 +121,26 @@ taxonomy and classic code smells. Composed via profiles: **`minimal`**
 
 ---
 
+## Use as an agent skill
+
+This repo ships a packaged **agent skill** so an AI agent can drive the engine
+directly — author an IR for a user's logic, then emit **verifiable** spaghetti
+that provably compiles and runs:
+
+```
+.claude/skills/spaghetti-architect/SKILL.md
+```
+
+A Claude Code agent auto-discovers it from the skill's `description` and invokes
+it when asked for anti-pattern / obfuscation / technical-debt examples or
+"messy-but-correct" sample code. The skill teaches the agent the IR schema and
+this workflow: **author IR → `python3 -m src.main <ir.json> --profile max
+--source` → read the per-language PASS/SKIP/FAIL panel as proof it builds.**
+Because every target is compiled, run, and checked against the oracle, the agent
+never has to guess whether its garbage code is correct — the validator answers.
+
+---
+
 ## Requirements
 
 - **Python 3.8+** — and nothing else to run the engine: standard library only, no
@@ -179,7 +199,8 @@ profile matrix.
 ## Project layout
 
 ```
-config/anti_patterns_db.json   # the 8 SPAGH_* patterns + profiles (data-driven)
+.claude/skills/spaghetti-architect/SKILL.md   # agent-skill manifest (discovery + how to drive the engine)
+config/anti_patterns_db.json   # the 11 SPAGH_* patterns + profiles (data-driven)
 examples/*.json                # ready-to-run IR samples
 src/emitter.py                 # CodeEmitter: the syntactic-correctness guarantee
 src/engine.py · src/main.py    # orchestration + CLI panel

@@ -31,6 +31,7 @@
 19. [Generated Output Examples](#19-generated-output-examples)
 20. [Implementation Status](#20-implementation-status)
 21. [Open Questions & Trade-offs](#21-open-questions--trade-offs)
+22. [Packaging as an Agent Skill](#22-packaging-as-an-agent-skill)
 
 ---
 
@@ -116,6 +117,11 @@ Spaghetti-Architect/                   # repo root — also the project package 
 ├── architecture.md                # this document
 ├── conftest.py                    # puts repo root on sys.path so bare `pytest` works
 ├── .gitignore                     # also ignores the untracked init.en.md / init.md sources
+│
+├── .claude/
+│   └── skills/
+│       └── spaghetti-architect/
+│           └── SKILL.md           # agent-skill manifest (§22): discovery + how to drive the engine
 │
 ├── config/
 │   └── anti_patterns_db.json      # SPAGH_001..011 metadata & profiles (data-driven)
@@ -1139,6 +1145,41 @@ FAIL). The four compiled targets are otherwise locked in by golden snapshots + i
 6. **Random obfuscation (future).** Currently fully deterministic on purpose, to support golden tests.
    If random naming/reordering is introduced, it must be `--seed`-able, and golden tests should switch
    to "structural assertions" rather than byte-for-byte.
+
+---
+
+## 22. Packaging as an Agent Skill
+
+The engine is also packaged as a **Claude Code agent skill** so an AI agent can drive it directly: model
+a user's logic as an IR, transpile, and hand back spaghetti that **provably builds**. The skill is the
+use-time counterpart to the build-time blueprint (`init.en.md`, untracked) — different document, different
+audience, and unlike the blueprint it is **committed**, because the manifest is what marks the repo as an
+invokable skill.
+
+```text
+.claude/skills/spaghetti-architect/SKILL.md
+```
+
+**Why a `SKILL.md`.** A skill is just a directory containing a `SKILL.md` with YAML front-matter (`name`,
+`description`). A Claude Code agent discovers it by its `description` — the single relevance hook — and
+invokes it via the Skill tool. No build, install, or registration step; dropping the file into
+`.claude/skills/<name>/` (project-level, committed) or `~/.claude/skills/<name>/` (personal) is the whole
+mechanism. We ship it project-level so it travels with the repo.
+
+**What the manifest carries.** The `description` encodes *when* to fire (anti-pattern / obfuscation /
+technical-debt examples; "messy-but-correct" sample code in the five languages). The body teaches the
+agent the artefact it must produce — a valid IR — by restating the §5.2 field constraints, and the
+correctness gotcha that a lookup's result derives from `pairs`, not the `map_name` input (mirrors §15's
+oracle). It then prescribes the workflow that makes the output *verifiable* rather than merely plausible:
+
+> author IR → `python3 -m src.main <ir.json> --profile max --source` → read the per-language
+> PASS/SKIP/FAIL panel as proof, and report SKIPs honestly (a missing toolchain is not a pass).
+
+**Design stance.** The skill is a thin pointer at the existing CLI (§17), not a second entry point — it
+adds no code and duplicates no logic, so the validator (§15) remains the single source of truth for "does
+this build". The agent authors inputs and reports results; correctness stays with the engine. Driving the
+engine over MCP, or a `pip` console-script entry point for non-Claude agents, is deliberately left out of
+scope here — the same `Engine`/`main` surface would back either if needed.
 
 ---
 
