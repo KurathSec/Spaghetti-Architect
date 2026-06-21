@@ -32,6 +32,7 @@
 20. [Implementation Status](#20-implementation-status)
 21. [Open Questions & Trade-offs](#21-open-questions--trade-offs)
 22. [Packaging as an Agent Skill](#22-packaging-as-an-agent-skill)
+23. [Benchmark Layer (`bench/`)](#23-benchmark-layer-bench)
 
 ---
 
@@ -1180,6 +1181,39 @@ adds no code and duplicates no logic, so the validator (§15) remains the single
 this build". The agent authors inputs and reports results; correctness stays with the engine. Driving the
 engine over MCP, or a `pip` console-script entry point for non-Claude agents, is deliberately left out of
 scope here — the same `Engine`/`main` surface would back either if needed.
+
+---
+
+## 23. Benchmark Layer (`bench/`)
+
+The engine that backs the CLI (§17) and the agent skill (§22) also backs a **benchmark
+generator** (`bench/`) that turns the transpiler into a scientific instrument: a source
+of **ground-truth, contamination-resistant** code tasks for evaluating LLMs. It is a
+distinct layer with its own design document — the paper `bench/paper/benchmark.tex` — so
+this section is only a navigational bridge.
+
+**Reuse, not re-implementation.** `bench/` adds no second generator or grader; it imports
+the existing surface:
+
+- `Engine.generate` (§16) renders the five-language sources at each profile;
+- `oracle` / `validate` (§15) are the semantic ground truth and the refactor grader —
+  model output is run **untrusted** (Python in an isolated subprocess with a private
+  network namespace and a wall-clock timeout; the other four via the validator's
+  compile/run path, inheriting the multi-JDK `java` fix);
+- the metric lanes (`eval.metrics`) and the deterministic seeded sample set
+  (`eval.gen_samples`) supply the simplification score and the dataset.
+
+**What it adds.** Two *orthogonal* difficulty axes — **intrinsic** (problem size: cascade
+arms `N`, list length `L`, operation count) and **incidental** (the `minimal`→`max`
+profile, identical semantics) — plus a private held-out seed for contamination control,
+across three auto-graded tasks: refactoring, quality judgment, and comprehension. The
+only new external dependency is the LLM client (`bench/models.py`, stdlib `urllib`),
+quarantined from the zero-dependency engine; the API key and the held-out seed are never
+committed.
+
+> **As built** — the public `eval/` ships only the metric lane (`metrics.py`,
+> `gen_samples.py`) that `bench/` reuses; a separate de-optimization study that also lives
+> under `eval/` is kept private.
 
 ---
 

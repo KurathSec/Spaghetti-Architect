@@ -141,10 +141,48 @@ never has to guess whether its garbage code is correct — the validator answers
 
 ---
 
+## Benchmark — measuring LLMs with ground-truth bad code (`bench/`)
+
+Because every generated program is correct *by construction* and the clean IR is a
+*known-optimal* reference, Spaghetti Architect doubles as a **ground-truth,
+contamination-resistant benchmark generator** for evaluating LLMs on code. It mints
+labelled instances along **two orthogonal difficulty axes**:
+
+- **intrinsic** complexity — the logic genuinely grows (cascade arms `N`, list
+  length `L`, operation count);
+- **incidental** complexity — the `minimal`→`standard`→`max` profile adds spaghetti
+  at **zero** semantic change.
+
+…so you can ask a question no fixed corpus can: *do models fail because the problem
+got bigger, or because the presentation got messier?* Three tasks are auto-graded
+against the oracle/validator and the clean baseline:
+
+| Task | Measures | Grading |
+|------|----------|---------|
+| **Refactor** | recover clean code from mess | semantic equivalence (validator) + simplification toward the known optimum |
+| **Judge** | LLM-as-judge quality sense | monotonicity & sensitivity to ground-truth degradation |
+| **Comprehend** | output prediction | exact-match vs the oracle over differential variants |
+
+Fresh instances are minted from a **private held-out seed** for contamination
+control. The whole harness runs end-to-end on a **mock model at zero cost**; going
+live is one edit to `bench/config.json`:
+
+```bash
+python3 bench/run_bench.py --selftest      # mock plumbing check (zero spend)
+python3 bench/run_bench.py --dry-run       # mock over the real dataset
+python3 bench/run_bench.py --plan          # the (task × model × family) fan-out
+```
+
+The benchmark design, the six figures, and the bibliography live in
+[`bench/paper/benchmark.tex`](bench/paper/benchmark.tex); see [`bench/`](bench/) and
+[`REQUIREMENTS.md`](REQUIREMENTS.md).
+
+---
+
 ## Requirements
 
 - **Python 3.8+ to run the engine** — and nothing else: standard library only, no
-  `pip install`, no virtualenv (developed on 3.14). The evaluation harness
+  `pip install`, no virtualenv (developed on 3.14). The metric lane
   (`eval/`) and the benchmark generator (`bench/`) need **Python 3.12+** (they
   measure executed work with `sys.monitoring`, PEP 669), and `bench/`
   additionally needs network access plus an LLM API key. See
@@ -211,6 +249,8 @@ src/engine.py · src/main.py    # orchestration + CLI panel
 src/nodes/{parser,planner,safety,validator}.py
 src/generators/{base,python,javascript,go,java,cpp}_gen.py
 tests/                         # golden + equivalency + parser + profiles
+eval/{metrics,gen_samples}.py  # metric lanes + seeded sample set (reused by bench/)
+bench/                         # LLM benchmark generator (refactor/judge/comprehend) + paper
 ```
 
 ## Supported operations
