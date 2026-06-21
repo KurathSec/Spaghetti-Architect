@@ -1,0 +1,235 @@
+%% Spaghetti Architect — MSR Data and Tool Showcase (Reusable Tool) submission.
+%%
+%% BUILD: needs the ACM "Primary Article Template" (acmart.cls). It is NOT bundled
+%% here (track the upstream version). Get it from https://www.acm.org/publications/proceedings-template
+%% or use the Overleaf "ACM Conference Proceedings — Primary Article Template".
+%% Then:  pdflatex -> bibtex -> pdflatex -> pdflatex   (see paper/README.md).
+%%
+%% FORMAT (MSR Data & Tool Showcase): max 4 pages + 1 page references; acmart
+%% sigconf; SINGLE-anonymous (author names ARE shown). Review criteria: value,
+%% usefulness, reusability. Make the artifact runnable by reviewers and archive a
+%% DOI (Zenodo) for the camera-ready.
+%%
+%% SCOPE NOTE: this is the TOOL paper. Keep it about the generator and its design;
+%% the empirical LLM-evaluation study (numbers from running models) is a SEPARATE
+%% paper — cite it here only as evidence of use, do not report its findings.
+
+\documentclass[sigconf,nonacm=false]{acmart}
+
+%% --- ACM boilerplate (fill at camera-ready) ---
+\acmConference[MSR 2027]{International Conference on Mining Software Repositories}{2027}{Dublin, Ireland}
+\acmYear{2027}
+\copyrightyear{2027}
+\settopmatter{printacmref=true}
+%% \setcopyright{acmlicensed}  % set per ACM instructions at camera-ready
+
+\begin{document}
+
+\title{Spaghetti Architect: Generating Ground-Truth, Contamination-Resistant Code Datasets via an Anti-Optimization Transpiler}
+
+%% SINGLE-anonymous: real author identity is required. TODO: fill in.
+\author{Kurath}
+\affiliation{%
+  \institution{TODO: Institution}
+  \city{TODO}
+  \country{TODO}}
+\email{TODO@example.com}
+
+\begin{abstract}
+% TODO (~150 words). Draft:
+Mining-based corpora give researchers abundant code but little \emph{control}: the
+semantics, the ``messiness,'' and the difficulty of a snippet are whatever the wild
+happened to contain, and any public sample may already be in a model's training set.
+We present \textsc{Spaghetti Architect}, an \emph{anti-optimization transpiler} that
+maps a clean, language-agnostic JSON intermediate representation (IR) to deliberately
+redundant, fully-flattened code in five languages (Python, JavaScript, Go, Java, C++).
+Crucially, generated code is correct \emph{by construction} and every target is
+compiled, run, and checked against a reference oracle, so each artifact provably
+builds and computes the intended result. Because the clean IR is a known-optimal
+reference and ``messiness'' is dialed by composable, named anti-pattern profiles, the
+tool mints labelled instances along two \emph{orthogonal} difficulty axes---intrinsic
+(problem size) and incidental (presentation mess at fixed semantics)---and resists
+contamination by minting fresh variants from a private seed. We describe the design,
+the extension contract, and a preliminary evaluation establishing the correctness and
+diversity of the generated data. The tool is open source (MIT), dependency-free, and
+archived with a DOI.
+\end{abstract}
+
+%% TODO: pick CCS concepts from https://dl.acm.org/ccs
+\begin{CCSXML}
+% paste generated CCS XML here
+\end{CCSXML}
+% \ccsdesc[500]{Software and its engineering~Software maintenance tools}
+
+\keywords{code generation, anti-patterns, ground-truth datasets, data
+contamination, program comprehension, refactoring, software-engineering benchmarks}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:intro}
+% Frame for MSR: the value/usefulness/reusability of a DATA-GENERATING tool.
+% Key claims to land:
+% - Mined code is plentiful but uncontrolled: you cannot vary "difficulty" while
+%   holding semantics fixed, you have no ground-truth optimal reference, and public
+%   code risks LLM training-set contamination.
+% - Many SE studies need exactly that control: refactoring-tool evaluation,
+%   code-smell detector training/evaluation, clone/translation studies, program
+%   comprehension, and LLM-on-code evaluation.
+% - Spaghetti Architect synthesizes such data: semantically-equivalent variants,
+%   across 5 languages, labelled by construction, with tunable intrinsic vs.
+%   incidental difficulty, minted fresh for contamination control.
+% - Contribution: (1) the tool + its correctness-by-construction + oracle design;
+%   (2) an extensible operation/anti-pattern model; (3) a reusable, FAIR artifact.
+\textbf{TODO:} write 3--4 paragraphs. End with an explicit contributions list and a
+one-line pointer to the artifact + DOI.
+
+\section{Motivating Use Cases}
+\label{sec:usecases}
+% Short, concrete: why an MSR researcher would reach for this.
+\begin{itemize}
+  \item \textbf{Refactoring \& code-smell tooling.} Labelled (messy~$\leftrightarrow$~clean)
+        pairs with \emph{provable} semantic equivalence and a known-optimal target.
+  \item \textbf{Cross-language / clone \& translation studies.} The same logic
+        emitted in five languages as a parallel corpus.
+  \item \textbf{Program comprehension.} Output-prediction items with a ground-truth
+        oracle, gradable automatically.
+  \item \textbf{LLM-on-code evaluation.} Contamination-resistant, difficulty-tunable
+        items (see \S\ref{sec:axes}); the empirical study is separate
+        work~\cite{TODO-companion-study}.
+\end{itemize}
+
+\section{Tool Overview}
+\label{sec:overview}
+% The pipeline. Reuse the architecture.md content, compressed.
+\textsc{Spaghetti Architect} is a staged pipeline:
+\[
+\textsf{IR JSON} \rightarrow \textsf{Parser} \rightarrow \textsf{Planner}
+\rightarrow \textsf{Generators ($\times 5$, +safety)} \rightarrow \textsf{Validator}.
+\]
+% TODO: replace with a proper figure (TikZ). Placeholder description:
+The \emph{Parser} validates the IR into a typed model (so a malformed IR can never
+reach a generator). The \emph{Planner} reads a data-driven anti-pattern database and
+selects which transforms apply per operation at the chosen \emph{profile}. Each of
+five \emph{Generators} emits source through a \texttt{CodeEmitter} that makes correct
+indentation/bracing \emph{structural} rather than hand-managed, with always-on safety
+(try/catch + guards + a pre-set fallback) injected via hooks. The \emph{Validator}
+compiles and runs each target and compares its output to a reference \emph{oracle}.
+
+\paragraph{Design properties.}
+\begin{itemize}
+  \item \emph{Correctness by construction.} Valid syntax is structural; safety is
+        always on, so output is crash-free regardless of profile strength.
+  \item \emph{Provable correctness.} Every target is compiled, run, and checked
+        against the oracle; a missing toolchain \textsf{SKIP}s (never a silent pass).
+  \item \emph{Deterministic.} The same IR yields byte-identical output (enabling
+        golden-snapshot testing and reproducible datasets).
+  \item \emph{Data-driven.} The anti-patterns and strength profiles live in a JSON
+        database, not in code.
+\end{itemize}
+
+\section{Operations and Anti-Patterns}
+\label{sec:ops}
+The IR composes a sequence of typed \emph{operations} (Table~\ref{tab:ops}); each
+reads validated inputs and writes a fresh result variable.
+
+\begin{table}[t]
+\caption{Supported operations (v0.2).}
+\label{tab:ops}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Operation & Semantics & Result \\
+\midrule
+\texttt{MEMBERSHIP\_CHECK} & \texttt{target in collection} & bool \\
+\texttt{KEY\_VALUE\_LOOKUP} & \texttt{map.get(key, default)} & scalar \\
+\texttt{AGGREGATE} & \texttt{sum|min|max(int collection)} & int \\
+\texttt{CONDITIONAL\_SELECT} & \texttt{then if (a$\,\bowtie\,$b) else else} & scalar \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% TODO: 1 short paragraph on the 11 named SPAGH_* anti-patterns and that three of
+% them (opaque predicates, redundant recomputation, Yoda conditions) are grounded in
+% the Collberg--Thomborson obfuscation taxonomy~\cite{collberg1997taxonomy} and
+% classic code smells~\cite{fowler-refactoring}.
+The eleven \texttt{SPAGH\_*} transforms span structural, verbosity, control, and
+layout categories; three are grounded in the Collberg--Thomborson obfuscation
+taxonomy~\cite{collberg1997taxonomy} and classic code
+smells~\cite{fowler-refactoring}. They compose into three profiles
+(\textsf{minimal}~$\subset$~\textsf{standard}~$\subset$~\textsf{max}).
+
+\subsection{Two Orthogonal Difficulty Axes}
+\label{sec:axes}
+A dataset can vary \emph{intrinsic} complexity (the problem genuinely grows: cascade
+arms, list length, operation count) independently of \emph{incidental} complexity
+(the \textsf{minimal}$\rightarrow$\textsf{max} profile adds mess at \emph{zero}
+semantic change). This separation---which no fixed mined corpus offers---lets a study
+ask whether a method fails because the \emph{problem} got bigger or because the
+\emph{presentation} got messier.
+
+\section{Using the Tool}
+\label{sec:usage}
+% Keep this concrete so a reviewer can run it (usefulness/reusability criteria).
+Install is optional; the engine runs from a clone with no dependencies:
+\begin{verbatim}
+python3 -m src.main examples/analytics.json \
+        --profile max --source
+\end{verbatim}
+This emits the five programs and prints a per-language validation panel
+(\textsf{PASS}/\textsf{SKIP}/\textsf{FAIL}). An editable install
+(\texttt{pip install -e .}) adds a \texttt{spaghetti-architect} command. The tool is
+also packaged as an AI-agent skill so an agent can author an IR and emit
+\emph{verifiable} examples on demand. % TODO: 1-2 sentences + maybe a small listing
+% of the IR and the generated spaghetti for one operation.
+
+\section{Preliminary Evaluation}
+\label{sec:eval}
+% NOT the LLM study. Establish that the artifact does what it claims.
+We establish the properties the tool's value depends on:
+\begin{itemize}
+  \item \textbf{Provable correctness.} On the bundled examples, all five targets
+        \textsc{compile}, \textsc{run}, and \textsc{match the oracle} across all three
+        profiles. % TODO: state machine/toolchain versions.
+  \item \textbf{Determinism \& regression safety.} A golden-snapshot suite asserts
+        byte-identical output; cross-language run-equivalency and parser-negative
+        suites round out \textbf{TODO:~N} tests.
+  \item \textbf{Coverage \& diversity.} % TODO: a small table — e.g. #operations,
+        #languages, #anti-patterns, and the size of the instance space reachable by
+        varying (operation $\times$ size $\times$ profile $\times$ language).
+\end{itemize}
+% TODO: optionally a construct-validity note: do generated anti-patterns move a
+% standard complexity metric (e.g. cyclomatic complexity / radon) monotonically with
+% profile strength? (eval/ provides metric lanes for this.)
+
+\section{Reusability and Availability}
+\label{sec:avail}
+The tool is open source under the MIT license, pure Python standard library
+(no \texttt{pip install} required), and tested in CI on CPython 3.12/3.13.
+% FAIR + DOI is required for the showcase track.
+\textbf{Availability.} Source: \url{https://github.com/KurathSec/Spaghetti-Architect};
+archived at \textbf{TODO: Zenodo DOI}. The repository ships installation
+instructions, runnable examples, a test suite, \texttt{CITATION.cff},
+\texttt{codemeta.json}, and a documented extension contract for adding operations
+(\S\ref{sec:ops}), satisfying the FAIR principles.
+
+\section{Limitations and Future Work}
+\label{sec:limits}
+The IR targets composable sequences of the operations in Table~\ref{tab:ops}, not
+arbitrary control flow; \texttt{AGGREGATE}/\texttt{CONDITIONAL\_SELECT} are restricted
+to integer operands so results format byte-identically across languages (a deliberate
+trade for the oracle invariant). Generated artifacts are single-file programs, not
+repository-scale projects. Future work: more operations (filtering, string and
+floating-point reductions), additional target languages, and richer dataset packaging.
+
+\section{Conclusion}
+\label{sec:conclusion}
+\textbf{TODO:} 3--4 sentences restating the contribution and the artifact pointer.
+
+\begin{acks}
+% TODO (remove if none). Single-anonymous: acknowledgements are allowed.
+\end{acks}
+
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{refs}
+
+\end{document}

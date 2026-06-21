@@ -13,7 +13,7 @@ from __future__ import annotations
 from contextlib import contextmanager
 
 from ..emitter import CodeEmitter
-from ..ir_models import KeyValueLookup, MembershipCheck, Pattern
+from ..ir_models import Pattern
 from .base import BaseGenerator
 
 
@@ -49,13 +49,16 @@ class PythonGenerator(BaseGenerator):
     # ---- safety: try + null guard + fallback (always on; the core promise) ----
     @contextmanager
     def safety_scope(self, e, op, pol):
-        guard_target = op.collection_name if isinstance(op, MembershipCheck) else op.map_name
+        target = self.guard_target(op)
         fb = f"{op.result_var} = {self.lit(self.fallback_value(op, pol))}"
         with e.block("try"):
-            with e.block(f"if {guard_target} is not None"):
+            if pol.needs_null_guard and target is not None:
+                with e.block(f"if {target} is not None"):
+                    yield e
+                with e.block("else"):
+                    e.line(fb)
+            else:
                 yield e
-            with e.block("else"):
-                e.line(fb)
         with e.block("except Exception"):
             e.line(fb)
 
@@ -146,3 +149,72 @@ class PythonGenerator(BaseGenerator):
 
         with e.block("if _resolved == False"):
             e.line(f"{res} = {default_lit}")
+
+    # ---- AGGREGATE ----
+    def emit_aggregate(self, e, op, patterns, pol) -> None:
+        coll, res, mode = op.collection_name, op.result_var, op.mode
+
+        if Pattern.DEIDIOMATIZE not in patterns:
+            e.line(f"{res} = {mode}({coll})")
+            return
+
+        e.comment(f"SPAGH_001/006/008: manual {mode} reduction instead of {mode}()")
+        e.line("_idx = 0")
+        if Pattern.REDUNDANT_RECOMP in patterns:
+            e.comment("SPAGH_010: recompute len() every iteration (de-hoisted)")
+            bound = f"len({coll})"
+        else:
+            e.line(f"_n = len({coll})")
+            bound = "_n"
+        e.line(f"_acc = {'0' if mode == 'sum' else f'{coll}[0]'}")
+        with e.block(f"while _idx < {bound}"):
+            if Pattern.REDUNDANT_TEMPS in patterns:
+                e.line(f"_current = {coll}[_idx]")
+                current = "_current"
+            else:
+                current = f"{coll}[_idx]"
+            self._emit_reduce(e, mode, current, patterns)
+            e.line("_idx = _idx + 1")
+        e.line(f"{res} = _acc")
+
+    def _emit_reduce(self, e, mode, current, patterns) -> None:
+        if Pattern.OPAQUE_PREDICATE in patterns:
+            e.comment("SPAGH_009: opaque predicate (always true: n*(n+1) is even)")
+            with e.block("if (_idx * (_idx + 1)) % 2 == 0"):
+                self._reduce_body(e, mode, current, patterns)
+        else:
+            self._reduce_body(e, mode, current, patterns)
+
+    def _reduce_body(self, e, mode, current, patterns) -> None:
+        if mode == "sum":
+            e.line(f"_acc = _acc + {current}")
+            if Pattern.DEAD_CODE in patterns:
+                e.line("_acc = _acc")                         # SPAGH_004 no-op
+            return
+        with e.block(f"if {self.reduce_cmp(mode, current, patterns)}"):
+            e.line(f"_acc = {current}")
+        if Pattern.DEAD_CODE in patterns:
+            with e.block("else"):
+                e.line("_acc = _acc")                         # SPAGH_004 no-op
+
+    # ---- CONDITIONAL_SELECT ----
+    def emit_conditional(self, e, op, patterns, pol) -> None:
+        res = op.result_var
+        then_lit, else_lit = self.lit(op.then_value), self.lit(op.else_value)
+        cond = self.select_cond(op, patterns)
+
+        branch = Pattern.DEIDIOMATIZE in patterns or Pattern.CASCADING_COND in patterns
+        if not branch:
+            e.line(f"{res} = {then_lit} if {cond} else {else_lit}")
+            return
+
+        e.comment("SPAGH_001/005: expand the ternary into an explicit if/else")
+        if Pattern.REDUNDANT_TEMPS in patterns:
+            e.line(f"_cond = {cond}")
+            cond = "_cond"
+        with e.block(f"if {cond}"):
+            e.line(f"{res} = {then_lit}")
+        with e.block("else"):
+            e.line(f"{res} = {else_lit}")
+            if Pattern.DEAD_CODE in patterns:
+                e.line(f"{res} = {res}")                      # SPAGH_004 no-op

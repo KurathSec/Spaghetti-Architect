@@ -3,14 +3,14 @@
   "patterns": {
     "SPAGH_001": {
       "name": "De-idiomatization / Loop Flattening",
-      "description": "Replace idiomatic constructs (in / range / map.get) with manual index loops or cascades.",
-      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP"],
+      "description": "Replace idiomatic constructs (in / range / map.get / sum / ternary) with manual index loops or explicit if-chains.",
+      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP", "AGGREGATE", "CONDITIONAL_SELECT"],
       "category": "structural"
     },
     "SPAGH_002": {
       "name": "Redundant Temporaries",
       "description": "Introduce a single-use temporary variable for every sub-expression.",
-      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP"],
+      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP", "AGGREGATE", "CONDITIONAL_SELECT"],
       "category": "verbosity"
     },
     "SPAGH_003": {
@@ -22,49 +22,49 @@
     "SPAGH_004": {
       "name": "Dead Code / No-op Injection",
       "description": "Inject behavior-preserving no-op statements and unreachable branches.",
-      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP"],
+      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP", "AGGREGATE", "CONDITIONAL_SELECT"],
       "category": "noise"
     },
     "SPAGH_005": {
       "name": "Cascading Conditionals",
-      "description": "Expand a lookup into a long elif/switch/nested-if chain enumerating each known key.",
-      "applies_to": ["KEY_VALUE_LOOKUP"],
+      "description": "Expand a lookup or selection into a long elif/switch/nested-if chain instead of a single expression.",
+      "applies_to": ["KEY_VALUE_LOOKUP", "CONDITIONAL_SELECT"],
       "category": "structural"
     },
     "SPAGH_006": {
       "name": "Manual Indexing / Pointer Arithmetic",
       "description": "Use *(ptr+i) / explicit slice indexing instead of iterators or [] semantics.",
-      "applies_to": ["MEMBERSHIP_CHECK"],
+      "applies_to": ["MEMBERSHIP_CHECK", "AGGREGATE"],
       "category": "structural"
     },
     "SPAGH_007": {
       "name": "Defensive Over-Guarding",
       "description": "Wrap every access in redundant null/bounds/type checks.",
-      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP"],
+      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP", "AGGREGATE", "CONDITIONAL_SELECT"],
       "category": "defensive"
     },
     "SPAGH_008": {
       "name": "Verbose Decomposition",
       "description": "Split a single expression into many statements: explicit accumulators, counters, flags.",
-      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP"],
+      "applies_to": ["MEMBERSHIP_CHECK", "KEY_VALUE_LOOKUP", "AGGREGATE", "CONDITIONAL_SELECT"],
       "category": "verbosity"
     },
     "SPAGH_009": {
       "name": "Opaque Predicates",
       "description": "Guard real code with an always-true predicate that looks data-dependent (n*(n+1) is even). Collberg-Thomborson control-flow obfuscation.",
-      "applies_to": ["MEMBERSHIP_CHECK"],
+      "applies_to": ["MEMBERSHIP_CHECK", "AGGREGATE"],
       "category": "control"
     },
     "SPAGH_010": {
       "name": "Redundant Recomputation",
       "description": "Recompute the loop-invariant collection length on every iteration instead of caching it (loop-invariant de-hoisting): the literal anti-optimization.",
-      "applies_to": ["MEMBERSHIP_CHECK"],
+      "applies_to": ["MEMBERSHIP_CHECK", "AGGREGATE"],
       "category": "performance"
     },
     "SPAGH_011": {
       "name": "Yoda Conditions",
-      "description": "Flip comparison operand order (constant == variable) in the match check. Classic readability code smell.",
-      "applies_to": ["MEMBERSHIP_CHECK"],
+      "description": "Flip comparison operand order (constant == variable) in the match / reduce / select check. Classic readability code smell.",
+      "applies_to": ["MEMBERSHIP_CHECK", "AGGREGATE", "CONDITIONAL_SELECT"],
       "category": "layout"
     }
   },

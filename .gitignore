@@ -53,4 +53,17 @@ bench/config.json
 bench/.heldout_seed
 bench/data/test/
 
+# LaTeX build artifacts (e.g. paper/, when compiling the tool paper)
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.synctex.gz
+*.toc
+
 # Note: tests/golden/ is intentionally tracked — those are test fixtures.

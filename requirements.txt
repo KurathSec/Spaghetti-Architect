@@ -1,0 +1,15 @@
+# Spaghetti Architect — runtime dependencies
+#
+# There are NONE. The engine (src/), the metric lane (eval/), and the benchmark
+# core (bench/) are pure Python standard library. `pip install -r requirements.txt`
+# is a no-op by design — that emptiness *is* the portability guarantee.
+#
+# What you actually need:
+#   * CPython >= 3.12          (eval/ and bench/ use sys.monitoring, PEP 669)
+#   * Optional language toolchains to validate the non-Python targets:
+#       node (JavaScript) · go (Go) · javac + java (Java) · g++ (C++)
+#     Any that are absent simply SKIP — Python is always validated via exec().
+#   * bench/ only: network access + an LLM API key (see REQUIREMENTS.md).
+#
+# Optional, quarantined extra (never imported by the engine or metric lanes):
+#   radon        # Phase-6 construct-validity anchor for bench/; `pip install -e .[anchor]`

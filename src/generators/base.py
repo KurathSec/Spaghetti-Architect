@@ -12,15 +12,22 @@ from typing import List, Tuple
 
 from ..emitter import CodeEmitter
 from ..ir_models import (
+    Aggregate,
+    ConditionalSelect,
     IRProgram,
     KeyValueLookup,
     MembershipCheck,
     Operation,
     OpPlan,
+    Pattern,
     TransformPlan,
     scalar_tag,
 )
 from ..nodes.safety import SafetyPolicy, policy_for
+
+# SPAGH_011 (Yoda) flips comparison operand order; the operators are identical in
+# all five target languages, so the flip table is language-agnostic.
+_FLIP_COMPARATOR = {"==": "==", "!=": "!=", "<": ">", "<=": ">=", ">": "<", ">=": "<="}
 
 
 class BaseGenerator(ABC):
@@ -51,6 +58,10 @@ class BaseGenerator(ABC):
                 self.emit_membership(e, op, op_plan.patterns, pol)
             elif isinstance(op, KeyValueLookup):
                 self.emit_lookup(e, op, op_plan.patterns, pol)
+            elif isinstance(op, Aggregate):
+                self.emit_aggregate(e, op, op_plan.patterns, pol)
+            elif isinstance(op, ConditionalSelect):
+                self.emit_conditional(e, op, op_plan.patterns, pol)
             else:
                 raise TypeError(op)
 
@@ -73,13 +84,34 @@ class BaseGenerator(ABC):
     def emit_membership(self, e, op, patterns, pol) -> None: ...
     @abstractmethod
     def emit_lookup(self, e, op, patterns, pol) -> None: ...
+    @abstractmethod
+    def emit_aggregate(self, e, op, patterns, pol) -> None: ...
+    @abstractmethod
+    def emit_conditional(self, e, op, patterns, pol) -> None: ...
 
     # ---- Shared helpers (language-agnostic) ----
     def describe(self, op: Operation) -> str:
         if isinstance(op, MembershipCheck):
             return f"MEMBERSHIP_CHECK: {op.result_var} = {op.target_var} in {op.collection_name}"
-        return (f"KEY_VALUE_LOOKUP: {op.result_var} = "
-                f"{op.map_name}[{op.key_var}] or {op.default_value!r}")
+        if isinstance(op, KeyValueLookup):
+            return (f"KEY_VALUE_LOOKUP: {op.result_var} = "
+                    f"{op.map_name}[{op.key_var}] or {op.default_value!r}")
+        if isinstance(op, Aggregate):
+            return f"AGGREGATE: {op.result_var} = {op.mode}({op.collection_name})"
+        return (f"CONDITIONAL_SELECT: {op.result_var} = {op.then_value!r} if "
+                f"{op.subject_var} {op.comparator} {op.compare_value} else {op.else_value!r}")
+
+    @staticmethod
+    def guard_target(op: Operation):
+        """The nullable container an operation reads, or ``None`` if it reads only
+        scalars (so :meth:`safety_scope` knows whether a null guard applies)."""
+        if isinstance(op, MembershipCheck):
+            return op.collection_name
+        if isinstance(op, KeyValueLookup):
+            return op.map_name
+        if isinstance(op, Aggregate):
+            return op.collection_name
+        return None  # ConditionalSelect: reads scalars only
 
     def result_specs(self, program: IRProgram) -> List[Tuple[str, str]]:
         """``[(result_var, type_tag)]`` in operation order, for typed declarations
@@ -88,8 +120,12 @@ class BaseGenerator(ABC):
         for op in program.operations:
             if isinstance(op, MembershipCheck):
                 out.append((op.result_var, "bool"))
-            else:
+            elif isinstance(op, KeyValueLookup):
                 out.append((op.result_var, scalar_tag(op.default_value)))
+            elif isinstance(op, Aggregate):
+                out.append((op.result_var, self.array_elem_tag(program.inputs[op.collection_name])))
+            else:  # ConditionalSelect — typed by its (same-typed) branch values
+                out.append((op.result_var, scalar_tag(op.then_value)))
         return out
 
     @staticmethod
@@ -99,6 +135,10 @@ class BaseGenerator(ABC):
             return False
         if pol.fallback_expr_kind == "default":
             return op.default_value
+        if pol.fallback_expr_kind == "zero":
+            return 0
+        if pol.fallback_expr_kind == "else":
+            return op.else_value
         raise ValueError(f"unknown fallback kind: {pol.fallback_expr_kind}")
 
     @staticmethod
@@ -121,3 +161,24 @@ class BaseGenerator(ABC):
     def collection_tag(self, op: MembershipCheck) -> str:
         """Element type tag of a MEMBERSHIP_CHECK collection (from stashed inputs)."""
         return self.array_elem_tag(self._inputs[op.collection_name])
+
+    # ---- new-operation comparison builders (shared across all five languages) ----
+    def reduce_cmp(self, mode: str, current: str, patterns) -> str:
+        """The keep-condition for a manual ``min``/``max`` reduction over ``_acc``.
+
+        ``min`` keeps the smaller element, ``max`` the larger; SPAGH_011 (Yoda)
+        flips the operand order to put the accumulator on the left."""
+        keep = "<" if mode == "min" else ">"
+        if Pattern.YODA_CONDITIONS in patterns:
+            return f"_acc {_FLIP_COMPARATOR[keep]} {current}"
+        return f"{current} {keep} _acc"
+
+    def select_cond(self, op: ConditionalSelect, patterns) -> str:
+        """The boolean test of a CONDITIONAL_SELECT, Yoda-flipped under SPAGH_011.
+
+        Uses the per-language ``lit`` so the constant renders correctly; the six
+        comparators are spelled identically in every target."""
+        val = self.lit(op.compare_value)
+        if Pattern.YODA_CONDITIONS in patterns:
+            return f"{val} {_FLIP_COMPARATOR[op.comparator]} {op.subject_var}"
+        return f"{op.subject_var} {op.comparator} {val}"

@@ -14,7 +14,7 @@ import json
 from contextlib import contextmanager
 
 from ..emitter import CodeEmitter
-from ..ir_models import MembershipCheck, Pattern, scalar_tag
+from ..ir_models import Aggregate, KeyValueLookup, MembershipCheck, Pattern, scalar_tag
 from .base import BaseGenerator
 
 _CPP_TYPE = {"bool": "bool", "int": "int", "float": "double", "str": "std::string"}
@@ -97,8 +97,12 @@ class CppGenerator(BaseGenerator):
     def declare_result_default(self, e, op, pol) -> None:
         if isinstance(op, MembershipCheck):
             rtype = "bool"
-        else:
+        elif isinstance(op, KeyValueLookup):
             rtype = _CPP_TYPE[scalar_tag(op.default_value)]
+        elif isinstance(op, Aggregate):
+            rtype = _CPP_TYPE[self.array_elem_tag(self._inputs[op.collection_name])]
+        else:  # ConditionalSelect — typed by its (same-typed) branch values
+            rtype = _CPP_TYPE[scalar_tag(op.then_value)]
         e.line(f"{rtype} {op.result_var} = {self.lit(self.fallback_value(op, pol))};")
 
     # ---- safety: try/catch only; the bounds guard lives in the body (pointer setup) ----
@@ -210,3 +214,77 @@ class CppGenerator(BaseGenerator):
         with e.block("if (_resolved == false)"):
             e.line(f"{res} = {default_lit};")
         e.line(f"(void){m};")          # map is a fixture; touch it to avoid -Wunused
+
+    # ---- AGGREGATE ----
+    def emit_aggregate(self, e, op, patterns, pol) -> None:
+        coll, res, mode = op.collection_name, op.result_var, op.mode
+        etype = _CPP_TYPE[self.array_elem_tag(self._inputs[coll])]
+        acc_init = "0" if mode == "sum" else f"{coll}[0]"
+
+        if Pattern.DEIDIOMATIZE not in patterns:
+            if mode == "sum":
+                e.line(f"{res} = std::accumulate({coll}.begin(), {coll}.end(), 0);")
+            else:
+                e.line(f"{res} = *std::{mode}_element({coll}.begin(), {coll}.end());")
+            return
+
+        e.comment(f"SPAGH_001/006/008: manual {mode} reduction with explicit indexing")
+        e.line("long _idx = 0;")
+        if Pattern.REDUNDANT_RECOMP in patterns:
+            e.comment("SPAGH_010: recompute .size() every iteration (de-hoisted)")
+            bound = f"(long){coll}.size()"
+        else:
+            e.line(f"long {coll}_len = (long){coll}.size();")
+            bound = f"{coll}_len"
+        e.line(f"{etype} _acc = {acc_init};")
+        with e.block(f"while (_idx < {bound})"):
+            if Pattern.REDUNDANT_TEMPS in patterns:
+                e.line(f"{etype} _current = {coll}[_idx];")
+                current = "_current"
+            else:
+                current = f"{coll}[_idx]"
+            self._emit_reduce(e, mode, current, patterns)
+            e.line("_idx = _idx + 1;")
+        e.line(f"{res} = _acc;")
+
+    def _emit_reduce(self, e, mode, current, patterns) -> None:
+        if Pattern.OPAQUE_PREDICATE in patterns:
+            e.comment("SPAGH_009: opaque predicate (always true: n*(n+1) is even)")
+            with e.block("if ((_idx * (_idx + 1)) % 2 == 0)"):
+                self._reduce_body(e, mode, current, patterns)
+        else:
+            self._reduce_body(e, mode, current, patterns)
+
+    def _reduce_body(self, e, mode, current, patterns) -> None:
+        if mode == "sum":
+            e.line(f"_acc = _acc + {current};")
+            if Pattern.DEAD_CODE in patterns:
+                e.line("_acc = _acc;")                        # SPAGH_004 no-op
+            return
+        with e.block(f"if ({self.reduce_cmp(mode, current, patterns)})"):
+            e.line(f"_acc = {current};")
+        if Pattern.DEAD_CODE in patterns:
+            with e.block("else"):
+                e.line("_acc = _acc;")                        # SPAGH_004 no-op
+
+    # ---- CONDITIONAL_SELECT ----
+    def emit_conditional(self, e, op, patterns, pol) -> None:
+        res = op.result_var
+        then_lit, else_lit = self.lit(op.then_value), self.lit(op.else_value)
+        cond = self.select_cond(op, patterns)
+
+        branch = Pattern.DEIDIOMATIZE in patterns or Pattern.CASCADING_COND in patterns
+        if not branch:
+            e.line(f"{res} = ({cond}) ? {then_lit} : {else_lit};")
+            return
+
+        e.comment("SPAGH_001/005: expand the ternary into an explicit if/else")
+        if Pattern.REDUNDANT_TEMPS in patterns:
+            e.line(f"bool _cond = {cond};")
+            cond = "_cond"
+        with e.block(f"if ({cond})"):
+            e.line(f"{res} = {then_lit};")
+        with e.block("else"):
+            e.line(f"{res} = {else_lit};")
+            if Pattern.DEAD_CODE in patterns:
+                e.line(f"{res} = {res};")                     # SPAGH_004 no-op

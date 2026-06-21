@@ -13,7 +13,7 @@ import json
 from contextlib import contextmanager
 
 from ..emitter import CodeEmitter
-from ..ir_models import MembershipCheck, Pattern, scalar_tag
+from ..ir_models import Aggregate, KeyValueLookup, MembershipCheck, Pattern, scalar_tag
 from .base import BaseGenerator
 
 _JAVA_TYPE = {"bool": "boolean", "int": "int", "float": "double", "str": "String"}
@@ -103,20 +103,27 @@ class JavaGenerator(BaseGenerator):
     def declare_result_default(self, e, op, pol) -> None:
         if isinstance(op, MembershipCheck):
             rtype = "boolean"
-        else:
+        elif isinstance(op, KeyValueLookup):
             rtype = _JAVA_TYPE[scalar_tag(op.default_value)]
+        elif isinstance(op, Aggregate):
+            rtype = _JAVA_TYPE[self.array_elem_tag(self._inputs[op.collection_name])]
+        else:  # ConditionalSelect — typed by its (same-typed) branch values
+            rtype = _JAVA_TYPE[scalar_tag(op.then_value)]
         e.line(f"{rtype} {op.result_var} = {self.lit(self.fallback_value(op, pol))};")
 
     # ---- safety: try + null guard + fallback ----
     @contextmanager
     def safety_scope(self, e, op, pol):
-        target = op.collection_name if isinstance(op, MembershipCheck) else op.map_name
+        target = self.guard_target(op)
         fb = f"{op.result_var} = {self.lit(self.fallback_value(op, pol))};"
         with e.block("try"):
-            with e.block(f"if ({target} != null)"):
+            if pol.needs_null_guard and target is not None:
+                with e.block(f"if ({target} != null)"):
+                    yield e
+                with e.block("else"):
+                    e.line(fb)
+            else:
                 yield e
-            with e.block("else"):
-                e.line(fb)
         with e.block("catch (Exception e)"):
             e.line(fb)
 
@@ -219,3 +226,76 @@ class JavaGenerator(BaseGenerator):
 
         with e.block("if (_resolved == false)"):
             e.line(f"{res} = {default_lit};")
+
+    # ---- AGGREGATE ----
+    def emit_aggregate(self, e, op, patterns, pol) -> None:
+        coll, res, mode = op.collection_name, op.result_var, op.mode
+        etype = _JAVA_TYPE[self.array_elem_tag(self._inputs[coll])]
+        acc_init = "0" if mode == "sum" else f"{coll}[0]"
+
+        if Pattern.DEIDIOMATIZE not in patterns:
+            e.line(f"{etype} _acc = {acc_init};")
+            with e.block(f"for ({etype} _v : {coll})"):
+                self._reduce_body(e, mode, "_v", frozenset())
+            e.line(f"{res} = _acc;")
+            return
+
+        e.comment(f"SPAGH_001/006/008: manual {mode} reduction over the raw array")
+        e.line("int _idx = 0;")
+        if Pattern.REDUNDANT_RECOMP in patterns:
+            e.comment("SPAGH_010: recompute .length every iteration (de-hoisted)")
+            bound = f"{coll}.length"
+        else:
+            e.line(f"int _n = {coll}.length;")
+            bound = "_n"
+        e.line(f"{etype} _acc = {acc_init};")
+        with e.block(f"for (_idx = 0; _idx < {bound}; _idx++)"):
+            if Pattern.REDUNDANT_TEMPS in patterns:
+                e.line(f"{etype} _current = {coll}[_idx];")
+                current = "_current"
+            else:
+                current = f"{coll}[_idx]"
+            self._emit_reduce(e, mode, current, patterns)
+        e.line(f"{res} = _acc;")
+
+    def _emit_reduce(self, e, mode, current, patterns) -> None:
+        if Pattern.OPAQUE_PREDICATE in patterns:
+            e.comment("SPAGH_009: opaque predicate (always true: n*(n+1) is even)")
+            with e.block("if ((_idx * (_idx + 1)) % 2 == 0)"):
+                self._reduce_body(e, mode, current, patterns)
+        else:
+            self._reduce_body(e, mode, current, patterns)
+
+    def _reduce_body(self, e, mode, current, patterns) -> None:
+        if mode == "sum":
+            e.line(f"_acc = _acc + {current};")
+            if Pattern.DEAD_CODE in patterns:
+                e.line("_acc = _acc;")                        # SPAGH_004 no-op
+            return
+        with e.block(f"if ({self.reduce_cmp(mode, current, patterns)})"):
+            e.line(f"_acc = {current};")
+        if Pattern.DEAD_CODE in patterns:
+            with e.block("else"):
+                e.line("_acc = _acc;")                        # SPAGH_004 no-op
+
+    # ---- CONDITIONAL_SELECT ----
+    def emit_conditional(self, e, op, patterns, pol) -> None:
+        res = op.result_var
+        then_lit, else_lit = self.lit(op.then_value), self.lit(op.else_value)
+        cond = self.select_cond(op, patterns)
+
+        branch = Pattern.DEIDIOMATIZE in patterns or Pattern.CASCADING_COND in patterns
+        if not branch:
+            e.line(f"{res} = ({cond}) ? {then_lit} : {else_lit};")
+            return
+
+        e.comment("SPAGH_001/005: expand the ternary into an explicit if/else")
+        if Pattern.REDUNDANT_TEMPS in patterns:
+            e.line(f"boolean _cond = {cond};")
+            cond = "_cond"
+        with e.block(f"if ({cond})"):
+            e.line(f"{res} = {then_lit};")
+        with e.block("else"):
+            e.line(f"{res} = {else_lit};")
+            if Pattern.DEAD_CODE in patterns:
+                e.line(f"{res} = {res};")                     # SPAGH_004 no-op

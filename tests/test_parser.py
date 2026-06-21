@@ -7,7 +7,13 @@ nothing bad ever reaches a generator.
 
 import unittest
 
-from src.ir_models import IRValidationError, KeyValueLookup, MembershipCheck
+from src.ir_models import (
+    Aggregate,
+    ConditionalSelect,
+    IRValidationError,
+    KeyValueLookup,
+    MembershipCheck,
+)
 from src.nodes.parser import parse
 
 
@@ -124,6 +130,99 @@ class ParserNegativeTest(unittest.TestCase):
 
     def test_map_name_not_object(self):
         self._assert_invalid(lambda r: r["operations"][1].__setitem__("map_name", "input_key"))
+
+
+def _valid_aggregate():
+    return {
+        "version": "1.0",
+        "module_name": "agg",
+        "inputs": {"nums": [3, 1, 2]},
+        "operations": [
+            {"operation": "AGGREGATE", "mode": "sum",
+             "collection_name": "nums", "result_var": "total"},
+        ],
+    }
+
+
+class AggregateParserTest(unittest.TestCase):
+    def test_parses(self):
+        program = parse(_valid_aggregate())
+        op = program.operations[0]
+        self.assertIsInstance(op, Aggregate)
+        self.assertEqual(op.mode, "sum")
+        self.assertEqual(op.result_var, "total")
+
+    def _assert_invalid(self, mutate):
+        raw = _valid_aggregate()
+        mutate(raw)
+        with self.assertRaises(IRValidationError):
+            parse(raw)
+
+    def test_bad_mode(self):
+        self._assert_invalid(lambda r: r["operations"][0].__setitem__("mode", "avg"))
+
+    def test_missing_mode(self):
+        self._assert_invalid(lambda r: r["operations"][0].pop("mode"))
+
+    def test_collection_not_array(self):
+        self._assert_invalid(lambda r: r["inputs"].__setitem__("nums", 5))
+
+    def test_empty_collection_rejected(self):
+        self._assert_invalid(lambda r: r["inputs"].__setitem__("nums", []))
+
+    def test_float_collection_rejected(self):
+        self._assert_invalid(lambda r: r["inputs"].__setitem__("nums", [1.0, 2.0]))
+
+    def test_string_collection_rejected(self):
+        self._assert_invalid(lambda r: r["inputs"].__setitem__("nums", ["a", "b"]))
+
+    def test_result_var_collision(self):
+        self._assert_invalid(lambda r: r["operations"][0].__setitem__("result_var", "nums"))
+
+
+def _valid_conditional():
+    return {
+        "version": "1.0",
+        "module_name": "sel",
+        "inputs": {"x": 5},
+        "operations": [
+            {"operation": "CONDITIONAL_SELECT", "subject_var": "x", "comparator": ">=",
+             "compare_value": 3, "then_value": "hi", "else_value": "lo", "result_var": "r"},
+        ],
+    }
+
+
+class ConditionalSelectParserTest(unittest.TestCase):
+    def test_parses(self):
+        program = parse(_valid_conditional())
+        op = program.operations[0]
+        self.assertIsInstance(op, ConditionalSelect)
+        self.assertEqual(op.comparator, ">=")
+        self.assertEqual((op.then_value, op.else_value), ("hi", "lo"))
+
+    def _assert_invalid(self, mutate):
+        raw = _valid_conditional()
+        mutate(raw)
+        with self.assertRaises(IRValidationError):
+            parse(raw)
+
+    def test_bad_comparator(self):
+        self._assert_invalid(lambda r: r["operations"][0].__setitem__("comparator", "=<"))
+
+    def test_subject_not_in_inputs(self):
+        self._assert_invalid(lambda r: r["operations"][0].__setitem__("subject_var", "ghost"))
+
+    def test_subject_not_int(self):
+        self._assert_invalid(lambda r: r["inputs"].__setitem__("x", "five"))
+
+    def test_compare_value_not_int(self):
+        self._assert_invalid(lambda r: r["operations"][0].__setitem__("compare_value", "3"))
+
+    def test_branch_type_mismatch(self):
+        self._assert_invalid(lambda r: r["operations"][0].__setitem__("else_value", 0))
+
+    def test_missing_then_value(self):
+        self._assert_invalid(lambda r: r["operations"][0].pop("then_value"))
 
 
 if __name__ == "__main__":

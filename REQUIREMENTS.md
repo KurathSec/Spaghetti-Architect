@@ -1,27 +1,42 @@
 # Requirements & supported versions
 
-Spaghetti Architect is three layers with **different** runtime requirements. The
-engine is deliberately portable; the measurement layers trade that for newer
-language features. This file is the single, honest statement of what each needs.
+Spaghetti Architect is three layers. They share one Python baseline but differ in
+what else they touch (toolchains, network). This file is the single, honest
+statement of what each needs.
 
 | Layer | Path | Python | Third-party Python | Other |
 |-------|------|--------|--------------------|-------|
-| **Engine** (transpiler) | `src/`, `config/`, `examples/`, `tests/` | **3.8+** | **none** (stdlib only) | optional toolchains to *validate* non-Python targets |
+| **Engine** (transpiler) | `src/`, `config/`, `examples/`, `tests/` | **3.12+** | **none** (stdlib only) | optional toolchains to *validate* non-Python targets |
 | **Evaluation harness** | `eval/` | **3.12+** | **none** (stdlib only) | same optional toolchains |
 | **Benchmark generator** | `bench/` | **3.12+** | **none in the core** (stdlib only) | **network + an LLM API key**; optional non-LLM anchor tools (`radon`) are quarantined |
 
-## Why the split
+## Why Python 3.12+
 
-* **Engine — Python 3.8+, zero pip.** The transpiler (`src/`) is pure standard
-  library and runs on CPython 3.8 and up. This is the portability promise the
-  README and the agent skill make, and it is real: nothing in `src/` uses a
-  feature newer than 3.8.
+The whole project targets **CPython 3.12+**, developed and tested on 3.14.
 
-* **`eval/` & `bench/` — Python 3.12+.** Both measure *executed work* with
+* **`eval/` & `bench/`** measure *executed work* with
   [`sys.monitoring`](https://docs.python.org/3/library/sys.monitoring.html)
   (PEP 669), which only exists on **CPython 3.12+**. On older interpreters the
-  per-instruction op-count (`eval.metrics.count_work`) cannot fire, so the harness
-  as a whole requires 3.12+. Developed and tested on 3.14.
+  per-instruction op-count (`eval.metrics.count_work`) cannot fire.
+
+* **The engine** is pure standard library (no third-party imports, no
+  `pip install` required) and holds itself to the same 3.12+ baseline so the
+  whole repository runs and is tested on one interpreter version — that is what
+  CI exercises (3.12 and 3.13).
+
+## Optional editable install
+
+The engine runs straight from a clone (`python3 -m src.main …`) with no install
+step. For a console command, an **editable** install is supported:
+
+```bash
+pip install -e .        # adds the `spaghetti-architect` entry point
+spaghetti-architect examples/analytics.json --profile max --source
+```
+
+It pulls in **no runtime dependencies** (`requirements.txt` is intentionally
+empty). The editable install keeps `config/` and `examples/` in the source tree,
+where the engine resolves them.
 
 ## Optional language toolchains (validation only)
 

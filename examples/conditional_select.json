@@ -1,0 +1,18 @@
+{
+  "version": "1.0",
+  "module_name": "grade",
+  "inputs": {
+    "score": 72
+  },
+  "operations": [
+    {
+      "operation": "CONDITIONAL_SELECT",
+      "subject_var": "score",
+      "comparator": ">=",
+      "compare_value": 60,
+      "then_value": "pass",
+      "else_value": "fail",
+      "result_var": "verdict"
+    }
+  ]
+}

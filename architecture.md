@@ -50,13 +50,22 @@ Use cases: code-obfuscation teaching, anti-pattern demonstration, technical-debt
 - `MEMBERSHIP_CHECK` — checks whether a target value exists within a collection.
 - `KEY_VALUE_LOOKUP` — matches a dynamic key against a dictionary/map to retrieve a value, with a
   default fallback.
+- `AGGREGATE` — reduces a non-empty **integer** collection via `sum` / `min` / `max` to an int.
+- `CONDITIONAL_SELECT` — selects one of two same-typed values by an **integer** comparison
+  (`==`, `!=`, `<`, `<=`, `>`, `>=`): a branch / ternary.
+
+> The four operations share one extension contract (data model → parser rule → safety policy → a
+> per-language `emit_*` hook → oracle branch); §§7–15 walk the pipeline using `MEMBERSHIP_CHECK` and
+> `KEY_VALUE_LOOKUP` as the worked examples, and `AGGREGATE` / `CONDITIONAL_SELECT` follow the same
+> shape. The integer restriction on the latter two keeps results byte-identical across all five
+> languages — the invariant the oracle equivalence check relies on.
 
 **Non-goals (explicitly out of scope):**
 
 - Runtime performance. Inputs are tiny JSON; generator speed is irrelevant. Every "optimization" here
   targets **architecture, correctness guarantees, and maintainability**.
-- General program-level transpilation (arbitrary control flow / expressions). Only composable sequences
-  of the two scenarios above are supported.
+- General program-level transpilation (arbitrary control flow / expressions), and floating-point
+  reduction. Only composable sequences of the operations above are supported.
 
 ---
 

@@ -12,15 +12,18 @@ abstract: >-
   intrinsic complexity (problem size) and incidental complexity (presentation mess
   at fixed semantics).
 type: software
-version: "0.1.0"
+version: "0.2.0"
 date-released: "2026-06-21"
 license: "MIT"
 repository-code: "https://github.com/KurathSec/Spaghetti-Architect"
 authors:
-  - given-names: "FIRSTNAME"
-    family-names: "LASTNAME"
-    affiliation: "AFFILIATION (placeholder)"
-    # orcid: "https://orcid.org/0000-0000-0000-0000"
+  # TODO (camera-ready): MSR is single-anonymous, so real identity is required.
+  # Replace the entity name below with your person details, e.g.:
+  #   - given-names: "First"
+  #     family-names: "Last"
+  #     affiliation: "Your Institution"
+  #     orcid: "https://orcid.org/0000-0000-0000-0000"
+  - name: "Kurath"
 keywords:
   - "anti-optimization"
   - "code generation"

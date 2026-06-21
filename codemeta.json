@@ -1,0 +1,28 @@
+{
+  "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
+  "@type": "SoftwareSourceCode",
+  "name": "Spaghetti Architect",
+  "description": "An anti-optimization transpiler that maps a clean JSON intermediate representation to deliberately redundant, fully-flattened, yet provably-correct code in Python, JavaScript, Go, Java, and C++, with every target compiled, run, and checked against a reference oracle. Generates controllable, ground-truth, contamination-resistant code datasets for software-engineering research.",
+  "version": "0.2.0",
+  "license": "https://spdx.org/licenses/MIT.html",
+  "codeRepository": "https://github.com/KurathSec/Spaghetti-Architect",
+  "programmingLanguage": "Python",
+  "runtimePlatform": "Python 3.12+",
+  "operatingSystem": "OS Independent",
+  "keywords": [
+    "anti-optimization",
+    "code generation",
+    "transpiler",
+    "anti-patterns",
+    "LLM benchmark",
+    "data contamination",
+    "ground-truth dataset",
+    "mining software repositories"
+  ],
+  "author": [
+    {
+      "@type": "Person",
+      "name": "Kurath"
+    }
+  ]
+}

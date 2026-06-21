@@ -181,12 +181,13 @@ The benchmark design, the six figures, and the bibliography live in
 
 ## Requirements
 
-- **Python 3.8+ to run the engine** — and nothing else: standard library only, no
-  `pip install`, no virtualenv (developed on 3.14). The metric lane
-  (`eval/`) and the benchmark generator (`bench/`) need **Python 3.12+** (they
-  measure executed work with `sys.monitoring`, PEP 669), and `bench/`
-  additionally needs network access plus an LLM API key. See
-  [`REQUIREMENTS.md`](REQUIREMENTS.md) for the full per-layer breakdown.
+- **Python 3.12+** — standard library only, no required `pip install` and no
+  virtualenv (developed on 3.14). The whole project targets CPython 3.12+: the
+  metric lane (`eval/`) and benchmark generator (`bench/`) measure executed work
+  with `sys.monitoring` (PEP 669, new in 3.12), and the engine tracks the same
+  baseline. `bench/` additionally needs network access plus an LLM API key. An
+  optional editable install (`pip install -e .`) adds a `spaghetti-architect`
+  console command. See [`REQUIREMENTS.md`](REQUIREMENTS.md) for the per-layer breakdown.
 - **Optional language toolchains**, used *only* to validate the non-Python targets:
   `node` (JavaScript), `go` (Go), `javac` + `java` (Java), `g++` (C++). Any that are
   absent simply **SKIP** — Python is always validated via `exec()`.
@@ -235,8 +236,8 @@ python3 -m unittest discover -s tests -t .          # or: python3 -m pytest
 UPDATE_GOLDEN=1 python3 -m unittest tests.test_golden
 ```
 
-25 tests: golden snapshots, cross-language equivalency, parser negatives, and the
-profile matrix.
+40 tests: golden snapshots, cross-language equivalency, parser negatives, and the
+profile matrix (all four operations × five languages).
 
 ## Project layout
 
@@ -255,11 +256,17 @@ bench/                         # LLM benchmark generator (refactor/judge/compreh
 
 ## Supported operations
 
-- `MEMBERSHIP_CHECK` — is a value present in a collection?
+- `MEMBERSHIP_CHECK` — is a value present in a collection? (bool result)
 - `KEY_VALUE_LOOKUP` — resolve a key against a map, with a default fallback.
+- `AGGREGATE` — reduce an integer collection with `sum` / `min` / `max` (int result).
+- `CONDITIONAL_SELECT` — pick one of two values by an integer comparison
+  (`==`, `!=`, `<`, `<=`, `>`, `>=`): a branch / ternary.
 
-One IR may chain several operations. Out of scope: runtime performance, and
-general control-flow transpilation.
+One IR may chain several operations — see [`examples/analytics.json`](examples/analytics.json),
+which exercises all four. `AGGREGATE` and `CONDITIONAL_SELECT` take **integer**
+operands so their results format byte-identically across all five languages — the
+property the oracle equivalence check depends on. Out of scope: runtime
+performance, floating-point reductions, and general control-flow transpilation.
 
 ## License
 

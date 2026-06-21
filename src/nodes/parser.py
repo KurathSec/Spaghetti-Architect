@@ -12,6 +12,8 @@ import re
 from typing import Dict, List, Optional, Set
 
 from ..ir_models import (
+    Aggregate,
+    ConditionalSelect,
     IRProgram,
     IRValidationError,
     KeyValueLookup,
@@ -24,6 +26,8 @@ _IDENT = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 SUPPORTED_VERSIONS = {"1.0"}
 
 _SCALAR_TYPES = (str, int, float, bool, type(None))
+_AGGREGATE_MODES = {"sum", "min", "max"}
+_COMPARATORS = {"==", "!=", "<", "<=", ">", ">="}
 
 
 def parse(raw: dict) -> IRProgram:
@@ -151,6 +155,46 @@ def _parse_op(op: object, i: int, inputs: Dict[str, object], declared: Set[str])
         _check_new_ident(res, declared, i)
         declared.add(res)
         return KeyValueLookup(m, key, res, dict(pairs), default)
+
+    if kind == "AGGREGATE":
+        mode = op.get("mode")
+        _require(mode in _AGGREGATE_MODES,
+                 f"[{i}] AGGREGATE mode must be one of {sorted(_AGGREGATE_MODES)}, got {mode!r}")
+        col = _field(op, "collection_name", i)
+        res = _field(op, "result_var", i)
+        _require(isinstance(inputs.get(col), list),
+                 f"[{i}] collection_name {col!r} must point to an array input")
+        _require(len(inputs[col]) > 0,
+                 f"[{i}] AGGREGATE collection {col!r} must be non-empty")
+        elem_tag = _homogeneous_list_tag(inputs[col], f"[{i}] collection {col!r}")
+        _require(elem_tag == "int",
+                 f"[{i}] AGGREGATE requires an int collection (got element type {elem_tag})")
+        _check_new_ident(res, declared, i)
+        declared.add(res)
+        return Aggregate(col, mode, res)
+
+    if kind == "CONDITIONAL_SELECT":
+        subj = _field(op, "subject_var", i)
+        comparator = op.get("comparator")
+        _require(comparator in _COMPARATORS,
+                 f"[{i}] comparator must be one of {sorted(_COMPARATORS)}, got {comparator!r}")
+        res = _field(op, "result_var", i)
+        for fld in ("compare_value", "then_value", "else_value"):
+            _require(fld in op, f"[{i}] missing field: {fld}")
+        cmp_val, then_val, else_val = op["compare_value"], op["then_value"], op["else_value"]
+        _require(subj in inputs, f"[{i}] subject_var {subj!r} not declared in inputs")
+        _require(scalar_tag(inputs[subj]) == "int",
+                 f"[{i}] subject_var {subj!r} must be an int scalar")
+        _require(_is_scalar(cmp_val) and scalar_tag(cmp_val) == "int",
+                 f"[{i}] compare_value must be an int scalar")
+        _require(_is_scalar(then_val) and _is_scalar(else_val),
+                 f"[{i}] then_value and else_value must be scalars")
+        _require(scalar_tag(then_val) == scalar_tag(else_val),
+                 f"[{i}] then_value ({scalar_tag(then_val)}) and else_value "
+                 f"({scalar_tag(else_val)}) must have the same type")
+        _check_new_ident(res, declared, i)
+        declared.add(res)
+        return ConditionalSelect(subj, comparator, cmp_val, then_val, else_val, res)
 
     raise IRValidationError(f"operations[{i}] unknown operation: {kind!r}")
 

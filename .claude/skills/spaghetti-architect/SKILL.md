@@ -30,19 +30,22 @@ panel as proof.
 - Generating intentionally messy-but-correct fixtures or before/after refactor
   exercises in Python, JavaScript, Go, Java, or C++.
 
-If the user wants genuinely clean code, or logic outside the two supported
+If the user wants genuinely clean code, or logic outside the four supported
 operations below, this skill does **not** apply.
 
 ## What it can express
 
-Two composable operations. One IR may chain several of them.
+Four composable operations. One IR may chain several of them.
 
 - `MEMBERSHIP_CHECK` — `result = target in collection` (result is a bool).
 - `KEY_VALUE_LOOKUP` — `result = map.get(key, default)` (a known-key cascade).
+- `AGGREGATE` — `result = sum|min|max(collection)` over an **int** list (an int).
+- `CONDITIONAL_SELECT` — `result = then_value if (subject <cmp> value) else else_value`,
+  where `<cmp>` is one of `== != < <= > >=` and `subject`/`value` are **ints**.
 
-Out of scope: arbitrary control flow, arithmetic, general expressions, runtime
-performance. If the request can't be modelled as a sequence of these two
-operations, say so rather than forcing it.
+Out of scope: arbitrary control flow, floating-point reduction, general
+expressions, runtime performance. If the request can't be modelled as a sequence
+of these four operations, say so rather than forcing it.
 
 ## Workflow (follow this order)
 
@@ -113,6 +116,11 @@ Use `max` unless the user wants a milder mess.
 - `KEY_VALUE_LOOKUP`: `map_name` must point to a **map** input; `key_var` to a
   **string** input. `pairs` is a non-empty `string → scalar` map and
   `default_value` a scalar **of the same value type** as `pairs`.
+- `AGGREGATE`: `mode` is `sum`, `min`, or `max`; `collection_name` must point to a
+  **non-empty int array**. The result is an int.
+- `CONDITIONAL_SELECT`: `subject_var` and `compare_value` must be **ints**;
+  `comparator` ∈ `== != < <= > >=`; `then_value` and `else_value` must be scalars
+  of the **same type** (which becomes the result type).
 
 **Correctness gotcha:** the result of a lookup is computed from **`pairs`**, not
 from the `map_name` input (`pairs.get(key, default_value)` — the oracle and the
@@ -121,8 +129,10 @@ mapping and `default_value` the fallback; mirror the same content into the
 `map_name` input for realism. The operations are otherwise independent: each
 reads its own inputs and produces a distinct result.
 
-See `examples/membership_check.json`, `examples/key_value_lookup.json`, and
-`examples/combined.json` for minimal authored IRs.
+See `examples/membership_check.json`, `examples/key_value_lookup.json`,
+`examples/combined.json`, `examples/aggregate.json`,
+`examples/conditional_select.json`, and `examples/analytics.json` (all four
+operations chained) for minimal authored IRs.
 
 ## Guarantees & limits
 
@@ -134,4 +144,4 @@ See `examples/membership_check.json`, `examples/key_value_lookup.json`, and
 - **Python is always validated** in-process via `exec()`. JavaScript / Go /
   Java / C++ are compiled and run **only if their toolchain is present**
   (`node`, `go`, `javac`+`java`, `g++`); otherwise they `SKIP`.
-- Zero third-party dependencies — Python 3.8+ standard library only.
+- Zero third-party dependencies — Python 3.12+ standard library only.

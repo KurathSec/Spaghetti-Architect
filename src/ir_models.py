@@ -42,7 +42,40 @@ class KeyValueLookup:
     op: str = "KEY_VALUE_LOOKUP"
 
 
-Operation = Union[MembershipCheck, KeyValueLookup]
+@dataclass(frozen=True)
+class Aggregate:
+    """``result_var = sum|min|max(collection_name)`` over an int collection (an int).
+
+    A loop-reduction over a numeric list. Restricted to ``int`` elements so the
+    result formats byte-identically across all five languages (floats print with
+    language-specific precision, which would break the oracle equivalence check).
+    """
+
+    collection_name: str
+    mode: str                    # "sum" | "min" | "max"
+    result_var: str
+    op: str = "AGGREGATE"
+
+
+@dataclass(frozen=True)
+class ConditionalSelect:
+    """``result_var = then_value if (subject_var <comparator> compare_value) else else_value``.
+
+    A branch-select. ``subject_var``/``compare_value`` are ``int`` (so the six
+    comparators have identical cross-language semantics); ``then_value`` and
+    ``else_value`` are same-typed scalars and are the only values emitted.
+    """
+
+    subject_var: str
+    comparator: str              # == != < <= > >=
+    compare_value: Scalar
+    then_value: Scalar
+    else_value: Scalar
+    result_var: str
+    op: str = "CONDITIONAL_SELECT"
+
+
+Operation = Union[MembershipCheck, KeyValueLookup, Aggregate, ConditionalSelect]
 
 
 @dataclass(frozen=True)

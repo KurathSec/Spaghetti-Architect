@@ -9,7 +9,13 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 
-from ..ir_models import KeyValueLookup, MembershipCheck, Operation
+from ..ir_models import (
+    Aggregate,
+    ConditionalSelect,
+    KeyValueLookup,
+    MembershipCheck,
+    Operation,
+)
 
 
 @dataclass(frozen=True)
@@ -34,5 +40,21 @@ def policy_for(op: Operation) -> SafetyPolicy:
             needs_bounds_guard=False,
             wrap_in_try=True,
             fallback_expr_kind="default",
+        )
+    if isinstance(op, Aggregate):
+        return SafetyPolicy(
+            needs_null_guard=True,
+            needs_bounds_guard=True,
+            wrap_in_try=True,
+            fallback_expr_kind="zero",
+        )
+    if isinstance(op, ConditionalSelect):
+        # Reads scalars only: nothing nullable to guard, but still wrapped in try
+        # and pre-set to the else branch so it is crash-free by construction.
+        return SafetyPolicy(
+            needs_null_guard=False,
+            needs_bounds_guard=False,
+            wrap_in_try=True,
+            fallback_expr_kind="else",
         )
     raise TypeError(op)

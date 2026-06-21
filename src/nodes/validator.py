@@ -14,6 +14,7 @@ consistency between ``pairs`` and the ``map_name`` fixture.
 from __future__ import annotations
 
 import json
+import operator
 import os
 import shutil
 import subprocess
@@ -22,6 +23,16 @@ from dataclasses import dataclass
 from typing import Dict, List, Optional
 
 _TIMEOUT = 30  # seconds, per compile or run step
+
+# Comparators for CONDITIONAL_SELECT — the oracle mirror of the generated branch.
+_COMPARATORS = {
+    "==": operator.eq,
+    "!=": operator.ne,
+    "<": operator.lt,
+    "<=": operator.le,
+    ">": operator.gt,
+    ">=": operator.ge,
+}
 
 
 @dataclass
@@ -40,8 +51,14 @@ def oracle(program) -> dict:
     for op in program.operations:
         if op.op == "MEMBERSHIP_CHECK":
             out[op.result_var] = env[op.target_var] in env[op.collection_name]
-        else:  # KEY_VALUE_LOOKUP — mirror the generated cascade (uses pairs)
+        elif op.op == "KEY_VALUE_LOOKUP":  # mirror the generated cascade (uses pairs)
             out[op.result_var] = op.pairs.get(env[op.key_var], op.default_value)
+        elif op.op == "AGGREGATE":
+            vals = env[op.collection_name]
+            out[op.result_var] = {"sum": sum, "min": min, "max": max}[op.mode](vals)
+        else:  # CONDITIONAL_SELECT
+            picked = _COMPARATORS[op.comparator](env[op.subject_var], op.compare_value)
+            out[op.result_var] = op.then_value if picked else op.else_value
         env[op.result_var] = out[op.result_var]
     return out
 

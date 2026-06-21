@@ -1,0 +1,42 @@
+{
+  "version": "1.0",
+  "module_name": "analytics",
+  "inputs": {
+    "samples": [10, 20, 30, 40, 50],
+    "needle": 30,
+    "regions": {"us": "use1", "eu": "euw1"},
+    "region_key": "eu",
+    "threshold_input": 100
+  },
+  "operations": [
+    {
+      "operation": "MEMBERSHIP_CHECK",
+      "collection_name": "samples",
+      "target_var": "needle",
+      "result_var": "has_needle"
+    },
+    {
+      "operation": "AGGREGATE",
+      "mode": "sum",
+      "collection_name": "samples",
+      "result_var": "sample_sum"
+    },
+    {
+      "operation": "CONDITIONAL_SELECT",
+      "subject_var": "threshold_input",
+      "comparator": ">",
+      "compare_value": 50,
+      "then_value": "high",
+      "else_value": "low",
+      "result_var": "band"
+    },
+    {
+      "operation": "KEY_VALUE_LOOKUP",
+      "map_name": "regions",
+      "key_var": "region_key",
+      "result_var": "zone",
+      "pairs": {"us": "use1", "eu": "euw1"},
+      "default_value": "unknown"
+    }
+  ]
+}

@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spaghetti-architect"
+version = "0.2.0"
+description = "An anti-optimization transpiler: a clean JSON IR mapped to deliberately redundant but provably-correct code in Python, JavaScript, Go, Java, and C++, gated by a compile-run oracle."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { file = "LICENSE" }
+# TODO (camera-ready): MSR is single-anonymous — set your real name + email here.
+authors = [{ name = "Kurath" }]
+keywords = [
+  "anti-optimization",
+  "code generation",
+  "transpiler",
+  "obfuscation",
+  "anti-patterns",
+  "code smells",
+  "llm benchmark",
+  "data contamination",
+  "ground-truth dataset",
+  "mining software repositories",
+]
+classifiers = [
+  "Development Status :: 4 - Beta",
+  "Intended Audience :: Science/Research",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Software Development :: Code Generators",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/KurathSec/Spaghetti-Architect"
+Repository = "https://github.com/KurathSec/Spaghetti-Architect"
+Issues = "https://github.com/KurathSec/Spaghetti-Architect/issues"
+
+[project.scripts]
+spaghetti-architect = "src.main:main"
+
+[project.optional-dependencies]
+# Quarantined, optional construct-validity anchor for bench/ — never imported by
+# the engine or the metric lanes. See REQUIREMENTS.md.
+anchor = ["radon"]
+
+# Install editable (`pip install -e .`) so config/ and examples/ stay resolvable
+# in the source tree; that is the supported install mode for the engine.
+[tool.setuptools]
+packages = ["src", "src.nodes", "src.generators"]

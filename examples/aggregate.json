@@ -1,0 +1,27 @@
+{
+  "version": "1.0",
+  "module_name": "aggregate",
+  "inputs": {
+    "values": [3, 1, 4, 1, 5, 9, 2, 6]
+  },
+  "operations": [
+    {
+      "operation": "AGGREGATE",
+      "mode": "sum",
+      "collection_name": "values",
+      "result_var": "total"
+    },
+    {
+      "operation": "AGGREGATE",
+      "mode": "max",
+      "collection_name": "values",
+      "result_var": "largest"
+    },
+    {
+      "operation": "AGGREGATE",
+      "mode": "min",
+      "collection_name": "values",
+      "result_var": "smallest"
+    }
+  ]
+}
