@@ -34,4 +34,17 @@ env/
 init.md
 init.en.md
 
+# Local evaluation harness — kept out of the published repo
+eval/
+
+# Local environment files / secrets
+.env
+
+# Benchmark: live config (holds the API key) and the PRIVATE held-out test split.
+# Only the public `dev` split and the generator are committed; the held-out seed
+# (BENCH_HELDOUT_SEED) and anything minted from it must never be committed.
+bench/config.json
+bench/.heldout_seed
+bench/data/test/
+
 # Note: tests/golden/ is intentionally tracked — those are test fixtures.

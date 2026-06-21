@@ -1,0 +1,18 @@
+{
+  "provider": "anthropic",
+  "base_url": "https://api.anthropic.com/v1/messages",
+  "anthropic_version": "2023-06-01",
+  "api_key": "",
+  "api_key_env": "ANTHROPIC_API_KEY",
+  "models_under_test": [
+    "claude-opus-4-8",
+    "claude-sonnet-4-6",
+    "claude-haiku-4-5-20251001"
+  ],
+  "driver_subagent_model": "opus",
+  "k_samples": 5,
+  "temperature": 0,
+  "max_tokens": 2048,
+  "request_timeout_s": 120,
+  "_comment": "Copy this file to bench/config.json (gitignored) and fill api_key (or set the env var named by api_key_env) plus models_under_test. A resolved, non-empty key is the single switch that takes the pipeline live: --batch then makes real calls; --selftest/--dry-run always use the mock model and need no key. The default models_under_test is a capability gradient within one family (a result in itself); add an external provider by pointing base_url/provider elsewhere."
+}

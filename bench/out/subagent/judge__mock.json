@@ -1,0 +1,1021 @@
+{
+  "task": "judge",
+  "model": "mock",
+  "family": null,
+  "split": "dev",
+  "k": 1,
+  "prompt_version": "bench-prompts-v1",
+  "env": {
+    "python_version": "3.14.5",
+    "toolchains": {
+      "python": true,
+      "javascript": true,
+      "go": true,
+      "java": true,
+      "cpp": true
+    },
+    "network_isolation": true,
+    "dataset": {
+      "version": "1.0",
+      "split": "dev",
+      "seed": 20260619
+    },
+    "prompt_version": "bench-prompts-v1",
+    "sampling": {
+      "k_samples": 5,
+      "temperature": 0.0,
+      "max_tokens": 2048
+    },
+    "models_under_test": [
+      "claude-opus-4-8",
+      "claude-sonnet-4-6",
+      "claude-haiku-4-5-20251001"
+    ],
+    "provider": "anthropic",
+    "timestamp_utc": "2026-06-21T05:55:28.331320+00:00",
+    "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
+  },
+  "aggregate": {
+    "n_items": 50,
+    "monotonicity_mean": -0.9999999999999997,
+    "monotonicity_ci95": [
+      -0.9999999999999998,
+      -0.9999999999999998
+    ],
+    "sensitivity_mean": 9.0,
+    "pairwise_acc_mean": 1.0,
+    "inversions_total": 0
+  },
+  "items": [
+    {
+      "sample": "config_resolver_N16",
+      "language": "python",
+      "levels": [
+        "clean",
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        7.0,
+        4.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 6
+    },
+    {
+      "sample": "config_resolver_N16",
+      "language": "javascript",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N16",
+      "language": "go",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N16",
+      "language": "java",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N16",
+      "language": "cpp",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N32",
+      "language": "python",
+      "levels": [
+        "clean",
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        7.0,
+        4.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 6
+    },
+    {
+      "sample": "config_resolver_N32",
+      "language": "javascript",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N32",
+      "language": "go",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N32",
+      "language": "java",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N32",
+      "language": "cpp",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N4",
+      "language": "python",
+      "levels": [
+        "clean",
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        7.0,
+        4.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 6
+    },
+    {
+      "sample": "config_resolver_N4",
+      "language": "javascript",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N4",
+      "language": "go",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N4",
+      "language": "java",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N4",
+      "language": "cpp",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N8",
+      "language": "python",
+      "levels": [
+        "clean",
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        7.0,
+        4.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 6
+    },
+    {
+      "sample": "config_resolver_N8",
+      "language": "javascript",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N8",
+      "language": "go",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N8",
+      "language": "java",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "config_resolver_N8",
+      "language": "cpp",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "allowlist_L128",
+      "language": "python",
+      "levels": [
+        "clean",
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        7.0,
+        4.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 6
+    },
+    {
+      "sample": "allowlist_L128",
+      "language": "javascript",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "allowlist_L128",
+      "language": "go",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "allowlist_L128",
+      "language": "java",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "allowlist_L128",
+      "language": "cpp",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "allowlist_L32",
+      "language": "python",
+      "levels": [
+        "clean",
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        7.0,
+        4.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 6
+    },
+    {
+      "sample": "allowlist_L32",
+      "language": "javascript",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "allowlist_L32",
+      "language": "go",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "allowlist_L32",
+      "language": "java",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "allowlist_L32",
+      "language": "cpp",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "allowlist_L8",
+      "language": "python",
+      "levels": [
+        "clean",
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        7.0,
+        4.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 6
+    },
+    {
+      "sample": "allowlist_L8",
+      "language": "javascript",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "allowlist_L8",
+      "language": "go",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "allowlist_L8",
+      "language": "java",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "allowlist_L8",
+      "language": "cpp",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "status_router",
+      "language": "python",
+      "levels": [
+        "clean",
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        7.0,
+        4.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 6
+    },
+    {
+      "sample": "status_router",
+      "language": "javascript",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "status_router",
+      "language": "go",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "status_router",
+      "language": "java",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "status_router",
+      "language": "cpp",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "discovery_pipeline",
+      "language": "python",
+      "levels": [
+        "clean",
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        7.0,
+        4.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 6
+    },
+    {
+      "sample": "discovery_pipeline",
+      "language": "javascript",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "discovery_pipeline",
+      "language": "go",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "discovery_pipeline",
+      "language": "java",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "discovery_pipeline",
+      "language": "cpp",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "fsm_transition",
+      "language": "python",
+      "levels": [
+        "clean",
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        7.0,
+        4.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 6
+    },
+    {
+      "sample": "fsm_transition",
+      "language": "javascript",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "fsm_transition",
+      "language": "go",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "fsm_transition",
+      "language": "java",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    },
+    {
+      "sample": "fsm_transition",
+      "language": "cpp",
+      "levels": [
+        "minimal",
+        "standard",
+        "max"
+      ],
+      "monotonicity": -0.9999999999999998,
+      "sensitivity": 9.0,
+      "inversions": 0,
+      "rating_by_level": [
+        10.0,
+        6.0,
+        1.0
+      ],
+      "pairwise_acc": 1.0,
+      "n_pairs": 3
+    }
+  ]
+}

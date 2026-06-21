@@ -1,0 +1,1578 @@
+{
+  "task": "comprehend",
+  "model": "mock",
+  "family": "status_router",
+  "split": "dev",
+  "k": 1,
+  "prompt_version": "bench-prompts-v1",
+  "env": {
+    "python_version": "3.14.5",
+    "toolchains": {
+      "python": true,
+      "javascript": true,
+      "go": true,
+      "java": true,
+      "cpp": true
+    },
+    "network_isolation": true,
+    "dataset": {
+      "version": "1.0",
+      "split": "dev",
+      "seed": 20260619
+    },
+    "prompt_version": "bench-prompts-v1",
+    "sampling": {
+      "k_samples": 5,
+      "temperature": 0.0,
+      "max_tokens": 2048
+    },
+    "models_under_test": [
+      "claude-opus-4-8",
+      "claude-sonnet-4-6",
+      "claude-haiku-4-5-20251001"
+    ],
+    "provider": "anthropic",
+    "timestamp_utc": "2026-06-21T05:55:28.434877+00:00",
+    "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
+  },
+  "aggregate": {
+    "n_items": 90,
+    "exact_match_rate": 1.0,
+    "exact_match_ci95": [
+      1.0,
+      1.0
+    ]
+  },
+  "items": [
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "17a4c98111f9d3c4",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "f2ced5754a2f7434",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "3dbc7d6942cdb402",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "fb4d639350a33b23",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "63b87e45de39db72",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "2dd381b5b43523cc",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "45c9b3e769992fa4",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "a24c7e9a721f0430",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "d98f0d0b2c8f73fb",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "b9ac591133e018ae",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "2dd381b5b43523cc",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "45c9b3e769992fa4",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "a24c7e9a721f0430",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "d98f0d0b2c8f73fb",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "b9ac591133e018ae",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "b05bf55d7f2f23ee",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "5e396d33df22bbe5",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "615ca97511c00cce",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "47e03f4db1f0c1b6",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "aab17b1c8b3756c7",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "7dbf74520554dcc9",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "786f82fed7d8b9fb",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "8eab58a397fb9e9b",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "c7660091a010d22a",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "2ad6308616a81fff",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "7dbf74520554dcc9",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "786f82fed7d8b9fb",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "8eab58a397fb9e9b",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "c7660091a010d22a",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "2ad6308616a81fff",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "6d1585f566cd1824",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "d0d5ed0c287ae572",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "70efd9bdebd53cb3",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "8cb12f110f1075c0",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "627c5ec908fc7b7c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "9983d458a1b35bb0",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "93b3dbcb7cb65b76",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "7b2ea7ae823c495f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "eaadf7d4024c1480",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "8be089736c717621",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "9983d458a1b35bb0",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "93b3dbcb7cb65b76",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "7b2ea7ae823c495f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "eaadf7d4024c1480",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "8be089736c717621",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "bd1e74b73ae484be",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "6dbef24e4f6b1b70",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "5c317c214b7bf2f7",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "de1a9b40c3ac4419",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "484ff725bb281b94",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "df35ce1511b1b999",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "ebfb4981348f7991",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "ffe3ffb06ced485c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "ef746223ea4affb8",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "95c06a079dea9b65",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "df35ce1511b1b999",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "ebfb4981348f7991",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "ffe3ffb06ced485c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "ef746223ea4affb8",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "95c06a079dea9b65",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "2cefb547a0abf284",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "b7126b288ee0f605",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "6508075557a039a4",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "476d86d88ebebe4f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "3c26dd124b7fe24f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "542b774cde6df5cb",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "c9e8548e9618cf44",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "17c4bf141685fec5",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "bfbf47392fc207c2",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "f245a244be8e6db2",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "542b774cde6df5cb",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "c9e8548e9618cf44",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "17c4bf141685fec5",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "bfbf47392fc207c2",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "f245a244be8e6db2",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "f0588ae750803c16",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "81f30d011135924d",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "1dfeb619e310dbbc",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "301b26e888279625",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "735c3319c8423599",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "f75152c5677be2fa",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "254c18b0c8c09e01",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "fb6b97a5014b8264",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "77d92318d62dd137",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "24b6610eb4fbc2ed",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "f75152c5677be2fa",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "254c18b0c8c09e01",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "fb6b97a5014b8264",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "77d92318d62dd137",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "prompt_hash": "24b6610eb4fbc2ed",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    }
+  ]
+}

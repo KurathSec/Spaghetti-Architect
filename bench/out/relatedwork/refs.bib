@@ -1,0 +1,201 @@
+% Spaghetti Architect — Related Work bibliography (Phase 5).
+% All entries verified against primary sources (ACM DL / arXiv / IEEE / DBLP /
+% tool homepages). No DOIs or metadata were fabricated; works that could not be
+% verified were omitted rather than guessed.
+
+% ===========================================================================
+% Obfuscation / code transformation
+% ===========================================================================
+
+@techreport{collberg1997taxonomy,
+  author      = {Collberg, Christian and Thomborson, Clark and Low, Douglas},
+  title       = {A Taxonomy of Obfuscating Transformations},
+  institution = {Department of Computer Science, University of Auckland},
+  number      = {148},
+  year        = {1997},
+  month       = jul,
+  note        = {Technical Report 148}
+}
+
+@inproceedings{collberg1998manufacturing,
+  author    = {Collberg, Christian and Thomborson, Clark and Low, Douglas},
+  title      = {Manufacturing Cheap, Resilient, and Stealthy Opaque Constructs},
+  booktitle = {Proceedings of the 25th ACM SIGPLAN-SIGACT Symposium on Principles of Programming Languages (POPL '98)},
+  pages     = {184--196},
+  year      = {1998},
+  publisher = {ACM},
+  doi       = {10.1145/268946.268962}
+}
+
+@inproceedings{junod2015ollvm,
+  author    = {Junod, Pascal and Rinaldini, Julien and Wehrli, Johan and Michielin, Julie},
+  title     = {Obfuscator-{LLVM} -- Software Protection for the Masses},
+  booktitle = {Proceedings of the IEEE/ACM 1st International Workshop on Software Protection (SPRO '15)},
+  pages     = {3--9},
+  year      = {2015},
+  publisher = {IEEE},
+  doi       = {10.1109/SPRO.2015.10}
+}
+
+@misc{collberg2015tigress,
+  author       = {Collberg, Christian},
+  title        = {The {Tigress} {C} Diversifier/Obfuscator},
+  howpublished = {\url{https://tigress.cs.arizona.edu/}},
+  year         = {2015},
+  note         = {University of Arizona; accessed 2026-06-21}
+}
+
+@misc{kachalov2016jsobfuscator,
+  author       = {Kachalov, Timofei},
+  title        = {{javascript-obfuscator}: A Powerful Obfuscator for {JavaScript} and {Node.js}},
+  howpublished = {\url{https://github.com/javascript-obfuscator/javascript-obfuscator}},
+  year         = {2016},
+  note         = {Open-source tool; accessed 2026-06-21}
+}
+
+% ===========================================================================
+% Mutation testing (semantics-altering transforms — the contrast case)
+% ===========================================================================
+
+@article{demillo1978hints,
+  author  = {DeMillo, Richard A. and Lipton, Richard J. and Sayward, Frederick G.},
+  title   = {Hints on Test Data Selection: Help for the Practicing Programmer},
+  journal = {Computer},
+  volume  = {11},
+  number  = {4},
+  pages   = {34--41},
+  year    = {1978},
+  publisher = {IEEE},
+  doi     = {10.1109/C-M.1978.218136}
+}
+
+@article{jia2011mutation,
+  author  = {Jia, Yue and Harman, Mark},
+  title   = {An Analysis and Survey of the Development of Mutation Testing},
+  journal = {IEEE Transactions on Software Engineering},
+  volume  = {37},
+  number  = {5},
+  pages   = {649--678},
+  year    = {2011},
+  publisher = {IEEE},
+  doi     = {10.1109/TSE.2010.62}
+}
+
+% ===========================================================================
+% Program generators (the closest siblings)
+% ===========================================================================
+
+@inproceedings{yang2011csmith,
+  author    = {Yang, Xuejun and Chen, Yang and Eide, Eric and Regehr, John},
+  title     = {Finding and Understanding Bugs in {C} Compilers},
+  booktitle = {Proceedings of the 32nd ACM SIGPLAN Conference on Programming Language Design and Implementation (PLDI '11)},
+  pages     = {283--294},
+  year      = {2011},
+  publisher = {ACM},
+  doi       = {10.1145/1993498.1993532}
+}
+
+@article{livinskii2020yarpgen,
+  author  = {Livinskii, Vsevolod and Babokin, Dmitry and Regehr, John},
+  title   = {Random Testing for {C} and {C++} Compilers with {YARPGen}},
+  journal = {Proceedings of the ACM on Programming Languages},
+  volume  = {4},
+  number  = {OOPSLA},
+  articleno = {196},
+  year    = {2020},
+  publisher = {ACM},
+  doi     = {10.1145/3428264}
+}
+
+% ===========================================================================
+% Code-correctness / reasoning / execution / refactoring benchmarks
+% ===========================================================================
+
+@article{chen2021humaneval,
+  author  = {Chen, Mark and Tworek, Jerry and Jun, Heewoo and Yuan, Qiming and Pinto, Henrique Ponde de Oliveira and others},
+  title   = {Evaluating Large Language Models Trained on Code},
+  journal = {arXiv preprint arXiv:2107.03374},
+  year    = {2021},
+  note    = {Introduces Codex and the HumanEval benchmark}
+}
+
+@article{austin2021mbpp,
+  author  = {Austin, Jacob and Odena, Augustus and Nye, Maxwell and Bosma, Maarten and Michalewski, Henryk and Dohan, David and Jiang, Ellen and Cai, Carrie J. and Terry, Michael and Le, Quoc V. and Sutton, Charles},
+  title   = {Program Synthesis with Large Language Models},
+  journal = {arXiv preprint arXiv:2108.07732},
+  year    = {2021},
+  note    = {Introduces the MBPP benchmark}
+}
+
+@inproceedings{gu2024cruxeval,
+  author    = {Gu, Alex and Rozi\`{e}re, Baptiste and Leather, Hugh and Solar-Lezama, Armando and Synnaeve, Gabriel and Wang, Sida I.},
+  title     = {{CRUXEval}: A Benchmark for Code Reasoning, Understanding and Execution},
+  booktitle = {Proceedings of the 41st International Conference on Machine Learning (ICML '24)},
+  year      = {2024},
+  publisher = {PMLR},
+  note      = {arXiv:2401.03065}
+}
+
+@inproceedings{jimenez2024swebench,
+  author    = {Jimenez, Carlos E. and Yang, John and Wettig, Alexander and Yao, Shunyu and Pei, Kexin and Press, Ofir and Narasimhan, Karthik},
+  title     = {{SWE-bench}: Can Language Models Resolve Real-World {GitHub} Issues?},
+  booktitle = {The Twelfth International Conference on Learning Representations (ICLR '24)},
+  year      = {2024},
+  note      = {arXiv:2310.06770}
+}
+
+@inproceedings{gautam2025refactorbench,
+  author    = {Gautam, Dhruv and Garg, Spandan and Jang, Jinu and Sundaresan, Neel and Zilouchian Moghaddam, Roshanak},
+  title     = {{RefactorBench}: Evaluating Stateful Reasoning in Language Agents Through Code},
+  booktitle = {The Thirteenth International Conference on Learning Representations (ICLR '25)},
+  year      = {2025},
+  note      = {arXiv:2503.07832}
+}
+
+% ===========================================================================
+% LLM-as-a-judge and code-quality metric validity
+% ===========================================================================
+
+@inproceedings{zheng2023judging,
+  author    = {Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao and Lin, Zi and Li, Zhuohan and Li, Dacheng and Xing, Eric P. and Zhang, Hao and Gonzalez, Joseph E. and Stoica, Ion},
+  title     = {Judging {LLM}-as-a-Judge with {MT-Bench} and {Chatbot Arena}},
+  booktitle = {Advances in Neural Information Processing Systems 36 (NeurIPS '23), Datasets and Benchmarks Track},
+  year      = {2023},
+  note      = {arXiv:2306.05685}
+}
+
+@misc{vandeursen2014maintainability,
+  author       = {van Deursen, Arie},
+  title        = {Think Twice Before Using the ``Maintainability Index''},
+  howpublished = {\url{https://avandeursen.com/2014/08/29/think-twice-before-using-the-maintainability-index/}},
+  year         = {2014},
+  note         = {Accessed 2026-06-21}
+}
+
+% ===========================================================================
+% Data contamination (why freshly-minted instances matter)
+% ===========================================================================
+
+@inproceedings{jacovi2023contamination,
+  author    = {Jacovi, Alon and Caciularu, Avi and Goldman, Omer and Goldberg, Yoav},
+  title     = {Stop Uploading Test Data in Plain Text: Practical Strategies for Mitigating Data Contamination by Evaluation Benchmarks},
+  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP '23)},
+  year      = {2023},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2023.emnlp-main.308}
+}
+
+@article{ravaut2024contamination,
+  author  = {Ravaut, Mathieu and Ding, Bosheng and Jiao, Fangkai and Chen, Hailin and Li, Xingxuan and Zhao, Ruochen and Qin, Chengwei and Xiong, Caiming and Joty, Shafiq},
+  title   = {A Comprehensive Survey of Contamination Detection Methods in Large Language Models},
+  journal = {arXiv preprint arXiv:2404.00699},
+  year    = {2024}
+}
+
+@inproceedings{jain2025livecodebench,
+  author    = {Jain, Naman and Han, King and Gu, Alex and Li, Wen-Ding and Yan, Fanjia and Zhang, Tianjun and Wang, Sida and Solar-Lezama, Armando and Sen, Koushik and Stoica, Ion},
+  title     = {{LiveCodeBench}: Holistic and Contamination Free Evaluation of Large Language Models for Code},
+  booktitle = {The Thirteenth International Conference on Learning Representations (ICLR '25)},
+  year      = {2025},
+  note      = {arXiv:2403.07974}
+}

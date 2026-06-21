@@ -1,0 +1,44 @@
+name: CI
+
+# Engine tests are stdlib-only and run on the matrix Python. The eval and bench
+# self-tests need Python 3.12+ (sys.monitoring / PEP 669) and exercise the
+# compile/run validators, so the job installs the optional language toolchains.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      # Node, Go, javac/java and g++ are preinstalled on ubuntu-latest runners;
+      # any that were somehow absent would SKIP (never FAIL), so CI stays green.
+      - name: Report toolchains
+        run: |
+          echo "python: $(python3 --version)"
+          for t in node go javac java g++; do
+            printf '%-6s ' "$t"; command -v "$t" || echo '(absent -> SKIP)'
+          done
+
+      - name: Engine unit tests (stdlib only)
+        run: python -m unittest discover -s tests -t .
+
+      - name: Eval harness self-test (3.12+ : sys.monitoring)
+        run: python3 eval/run_eval.py --selftest
+
+      - name: Benchmark harness self-test (mock model, zero API spend)
+        run: python3 bench/run_bench.py --selftest

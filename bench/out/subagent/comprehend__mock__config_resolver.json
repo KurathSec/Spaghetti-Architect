@@ -1,0 +1,2478 @@
+{
+  "task": "comprehend",
+  "model": "mock",
+  "family": "config_resolver",
+  "split": "dev",
+  "k": 1,
+  "prompt_version": "bench-prompts-v1",
+  "env": {
+    "python_version": "3.14.5",
+    "toolchains": {
+      "python": true,
+      "javascript": true,
+      "go": true,
+      "java": true,
+      "cpp": true
+    },
+    "network_isolation": true,
+    "dataset": {
+      "version": "1.0",
+      "split": "dev",
+      "seed": 20260619
+    },
+    "prompt_version": "bench-prompts-v1",
+    "sampling": {
+      "k_samples": 5,
+      "temperature": 0.0,
+      "max_tokens": 2048
+    },
+    "models_under_test": [
+      "claude-opus-4-8",
+      "claude-sonnet-4-6",
+      "claude-haiku-4-5-20251001"
+    ],
+    "provider": "anthropic",
+    "timestamp_utc": "2026-06-21T05:55:28.368836+00:00",
+    "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
+  },
+  "aggregate": {
+    "n_items": 135,
+    "exact_match_rate": 1.0,
+    "exact_match_ci95": [
+      1.0,
+      1.0
+    ]
+  },
+  "items": [
+    {
+      "sample": "config_resolver_N16",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "b08f6de4186d5c20",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N16",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "0413beb153f2458f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N16",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "21bf65d69ae6d40d",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N16",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "d26642867bc9f5c1",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N16",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "184c1f05d1a969f3",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N16",
+      "profile": "standard",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "43b1d623bc4de9ca",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N16",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "c274913f17b1f0b2",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N16",
+      "profile": "standard",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "43ce696d0c9f6c04",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N16",
+      "profile": "standard",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "24c44925d4bf095e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N16",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "6fd188ef8f29ed00",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N16",
+      "profile": "max",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "43b1d623bc4de9ca",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N16",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "c274913f17b1f0b2",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N16",
+      "profile": "max",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "43ce696d0c9f6c04",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N16",
+      "profile": "max",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "24c44925d4bf095e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N16",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 16
+      },
+      "prompt_hash": "6fd188ef8f29ed00",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "de2e3b7273a8b349",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "a59fa68760048e07",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "24a32df662572a7a",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "abe17aaff2ddcd7f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "bafaab31e94488f4",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "standard",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "f3ead0da4c310f5a",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "223cf6f883ce427d",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "standard",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "07470135186ac09f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "standard",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "851bfc287f109cf0",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "b3887a86da78f79f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "max",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "f3ead0da4c310f5a",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "223cf6f883ce427d",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "max",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "07470135186ac09f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "max",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "851bfc287f109cf0",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N32",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 32
+      },
+      "prompt_hash": "b3887a86da78f79f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "ab33e0224af4cb0b",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "33d933984fe9f6bc",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "19aeab5318cfe502",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "54e8c9ff165eb241",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "009ea28d0a17dd20",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "standard",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "2a8d09197093441f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "abd470aaaffd5e70",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "standard",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "95108f691fc3fbb8",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "standard",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "40afc4ea0efb23b8",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "6b9e7f0760f1a980",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "max",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "2a8d09197093441f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "abd470aaaffd5e70",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "max",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "95108f691fc3fbb8",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "max",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "40afc4ea0efb23b8",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N4",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 4
+      },
+      "prompt_hash": "6b9e7f0760f1a980",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "f4ebede29907d09a",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "6de7c7fc9f44030f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "315022cc1b41e15f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "c0af54ebadf90d0a",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "c01ceeb746da8b8d",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "fab89d96bb33698c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "da032e7b68d43997",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "b3a350dcf6b4bf4f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "5b37775d540e6e0e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "cc814b8b163dd246",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "fab89d96bb33698c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "da032e7b68d43997",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "b3a350dcf6b4bf4f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "5b37775d540e6e0e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "cc814b8b163dd246",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "08abec5f23b98381",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "ba65be5afb953111",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "312e1752e71bbe8c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "c44d33ff5ec2592d",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "5601eef7c56481f7",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "1c37fd04f281e829",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "f9dd6c00e9ebec9d",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "6053a8c43e31cbf7",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "a8c7f5994a53dac1",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "a6ce164dbd300b54",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "1c37fd04f281e829",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "f9dd6c00e9ebec9d",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "6053a8c43e31cbf7",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "a8c7f5994a53dac1",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "a6ce164dbd300b54",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "e2743fdefe3e51a1",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "9205b4a3e5bd050f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "d607a6e65df294b5",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "5668d367c5936e0c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "b668cdb7005e6a35",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "b4118f24352565ee",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "8734c7f3322e4a0d",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "29347917691a2174",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "9db8b63b25d75b17",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "0211ef3d4772502e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "b4118f24352565ee",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "8734c7f3322e4a0d",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "29347917691a2174",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "9db8b63b25d75b17",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "0211ef3d4772502e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "aade72d2b48f7748",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "3c2ee28f180a6f9f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "ba526d708ecfdf64",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "7bab1d5d5f6df439",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "1a5d80ee5b22a1d1",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "6f60b59835156fe3",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "5c481a6ae601d286",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "746dd22b9d04dfda",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "311a2baa9224cda4",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "32f8c60db98c27f7",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "6f60b59835156fe3",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "5c481a6ae601d286",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "746dd22b9d04dfda",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "311a2baa9224cda4",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "32f8c60db98c27f7",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "4bfebfee2f3982ee",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "6e071eb59e45b966",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "00d1cb94fb5e417f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "8b5556deb17a4ac5",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "ad55cc96af149ec1",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "10837775031b6a71",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "0e1cfe56a469efcf",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "8f40d12242901575",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "7192bd19182b5254",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "c5d4fe0ee649e429",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "10837775031b6a71",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "0e1cfe56a469efcf",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "8f40d12242901575",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "7192bd19182b5254",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "c5d4fe0ee649e429",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "470aea102165314a",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "622b84766ae5aea3",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "83d37b5fcdc612a3",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "51c36f8709b7ccbb",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "aebcfe328232d379",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "e362d46b06286422",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "a37c0cce6e2c7599",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "04ab9fa0e4882718",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "063f606fc216c001",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "0f6168efe4b25f12",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "e362d46b06286422",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "a37c0cce6e2c7599",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "04ab9fa0e4882718",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "063f606fc216c001",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "config_resolver_N8",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "N": 8
+      },
+      "prompt_hash": "0f6168efe4b25f12",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    }
+  ]
+}

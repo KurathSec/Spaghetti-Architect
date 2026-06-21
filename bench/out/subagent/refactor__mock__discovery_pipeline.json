@@ -1,0 +1,2664 @@
+{
+  "task": "refactor",
+  "model": "mock",
+  "family": "discovery_pipeline",
+  "split": "dev",
+  "k": 1,
+  "prompt_version": "bench-prompts-v1",
+  "env": {
+    "python_version": "3.14.5",
+    "toolchains": {
+      "python": true,
+      "javascript": true,
+      "go": true,
+      "java": true,
+      "cpp": true
+    },
+    "network_isolation": true,
+    "dataset": {
+      "version": "1.0",
+      "split": "dev",
+      "seed": 20260619
+    },
+    "prompt_version": "bench-prompts-v1",
+    "sampling": {
+      "k_samples": 5,
+      "temperature": 0.0,
+      "max_tokens": 2048
+    },
+    "models_under_test": [
+      "claude-opus-4-8",
+      "claude-sonnet-4-6",
+      "claude-haiku-4-5-20251001"
+    ],
+    "provider": "anthropic",
+    "timestamp_utc": "2026-06-21T05:55:10.070476+00:00",
+    "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
+  },
+  "aggregate": {
+    "n_items": 90,
+    "semantic_ok_rate": 1.0,
+    "simplification_quality_mean": 0.23102027132793534,
+    "simplification_quality_ci95": [
+      0.15667420591713424,
+      0.3039101007355518
+    ],
+    "failure_modes": {
+      "broke_equivalence": 0,
+      "no_change": 48,
+      "over_complicated": 0
+    }
+  },
+  "items": [
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "35e6311f4d09c750",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8343653250773994,
+        "cyclomatic": 1.0,
+        "effort": 0.9758997500976743
+      },
+      "simplification_quality": 0.9337998890501985,
+      "simplification_quality_ci95": [
+        0.9337998890501985,
+        0.9337998890501985
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "7614c62745726cd9",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "ccecac87d42e343e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "bc8401e48d7c60b8",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "7b5e8fadfec9ff27",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "0ed8faaa4121704f",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8428781204111601,
+        "cyclomatic": 1.0,
+        "effort": 0.9774219579371732
+      },
+      "simplification_quality": 0.9374518215022016,
+      "simplification_quality_ci95": [
+        0.9374518215022016,
+        0.9374518215022016
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "1db6eecbaeaab47e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.029495718363463368
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "237dfbfa7d9f7edf",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.021897810218978103
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "75f70264f526fe80",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.02578125
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "4f5baac2d2944bb1",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0340393343419062
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "3d156a9c25fc1a8e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8629961587708067,
+        "cyclomatic": 1.0,
+        "effort": 0.9848458828017324
+      },
+      "simplification_quality": 0.9472378544732181,
+      "simplification_quality_ci95": [
+        0.9472378544732181,
+        0.9472378544732181
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "5e2c6f386f059b04",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.2,
+        "branch_keywords": 0.2222222222222222,
+        "tokens": 0.13778529163144548
+      },
+      "simplification_quality": 0.18295324374254765,
+      "simplification_quality_ci95": [
+        0.18295324374254765,
+        0.18295324374254765
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "3472fe927dde22c6",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.16,
+        "tokens": 0.11090047393364928
+      },
+      "simplification_quality": 0.14353816111375095,
+      "simplification_quality_ci95": [
+        0.14353816111375095,
+        0.14353816111375095
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "3f1e142cf33d3cf3",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.14285714285714285,
+        "branch_keywords": 0.20253164556962025,
+        "tokens": 0.11685552407932011
+      },
+      "simplification_quality": 0.15008871278397903,
+      "simplification_quality_ci95": [
+        0.15008871278397903,
+        0.15008871278397903
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "0abd0a950b3130ef",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.2077922077922078,
+        "tokens": 0.14524765729585007
+      },
+      "simplification_quality": 0.17134142763050067,
+      "simplification_quality_ci95": [
+        0.17134142763050067,
+        0.17134142763050067
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "10df10676bbfa5c9",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8343653250773994,
+        "cyclomatic": 1.0,
+        "effort": 0.9758997500976743
+      },
+      "simplification_quality": 0.9337998890501985,
+      "simplification_quality_ci95": [
+        0.9337998890501985,
+        0.9337998890501985
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "ad79709d910cbd95",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "6f275c39f98eaa2a",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "134cafcdb1957f58",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "eb9fcd55e17fa408",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "1a7749b0fd71bc19",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8428781204111601,
+        "cyclomatic": 1.0,
+        "effort": 0.9774219579371732
+      },
+      "simplification_quality": 0.9374518215022016,
+      "simplification_quality_ci95": [
+        0.9374518215022016,
+        0.9374518215022016
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "ed6d9492e86eed75",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.029495718363463368
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e68f2dc629b46bfa",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.021897810218978103
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "a1c1d7b8cde25644",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.02578125
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "aab63a30728b726c",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0340393343419062
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "bdc0e59d57c327c1",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8629961587708067,
+        "cyclomatic": 1.0,
+        "effort": 0.9848458828017324
+      },
+      "simplification_quality": 0.9472378544732181,
+      "simplification_quality_ci95": [
+        0.9472378544732181,
+        0.9472378544732181
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "b98a5800ffecf75e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.2,
+        "branch_keywords": 0.2222222222222222,
+        "tokens": 0.13778529163144548
+      },
+      "simplification_quality": 0.18295324374254765,
+      "simplification_quality_ci95": [
+        0.18295324374254765,
+        0.18295324374254765
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "c9911847b9bb5b90",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.16,
+        "tokens": 0.11090047393364928
+      },
+      "simplification_quality": 0.14353816111375095,
+      "simplification_quality_ci95": [
+        0.14353816111375095,
+        0.14353816111375095
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "65a0279d42bf0dc4",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.14285714285714285,
+        "branch_keywords": 0.20253164556962025,
+        "tokens": 0.11685552407932011
+      },
+      "simplification_quality": 0.15008871278397903,
+      "simplification_quality_ci95": [
+        0.15008871278397903,
+        0.15008871278397903
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e00464bbe45bff54",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.2077922077922078,
+        "tokens": 0.14524765729585007
+      },
+      "simplification_quality": 0.17134142763050067,
+      "simplification_quality_ci95": [
+        0.17134142763050067,
+        0.17134142763050067
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "d2223367b6020d1f",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8317901234567902,
+        "cyclomatic": 1.0,
+        "effort": 0.9711691763660875
+      },
+      "simplification_quality": 0.931328478366515,
+      "simplification_quality_ci95": [
+        0.931328478366515,
+        0.931328478366515
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "f65812dc39793e2e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e2ffcadf6c9bd327",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "8da17516b2214ef3",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "033a769001bf1d05",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "de9b08572d82fc06",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8404099560761347,
+        "cyclomatic": 1.0,
+        "effort": 0.9730034305079223
+      },
+      "simplification_quality": 0.9351225287848995,
+      "simplification_quality_ci95": [
+        0.9351225287848995,
+        0.9351225287848995
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "bf79d165f3635616",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.029467680608365018
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "07d853edbf5367df",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.021875
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "7d2a4f709e6f141a",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.02576112412177986
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e706e1da83c1e91a",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.034013605442176874
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "0063ec39cd6012f5",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8607918263090677,
+        "cyclomatic": 1.0,
+        "effort": 0.9816334063964347
+      },
+      "simplification_quality": 0.945400486320875,
+      "simplification_quality_ci95": [
+        0.945400486320875,
+        0.945400486320875
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "823443b4922dbaf0",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.2,
+        "branch_keywords": 0.2222222222222222,
+        "tokens": 0.13766891891891891
+      },
+      "simplification_quality": 0.18290172212795552,
+      "simplification_quality_ci95": [
+        0.18290172212795552,
+        0.18290172212795552
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "f2c95a09afda0d30",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.16,
+        "tokens": 0.11079545454545454
+      },
+      "simplification_quality": 0.14349283804123567,
+      "simplification_quality_ci95": [
+        0.14349283804123567,
+        0.14349283804123567
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "ced0e99257c0bd1e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.14285714285714285,
+        "branch_keywords": 0.20253164556962025,
+        "tokens": 0.11677282377919321
+      },
+      "simplification_quality": 0.15005329779616508,
+      "simplification_quality_ci95": [
+        0.15005329779616508,
+        0.15005329779616508
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "d29bfd6407f990d9",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.2077922077922078,
+        "tokens": 0.1451505016722408
+      },
+      "simplification_quality": 0.17130321589247383,
+      "simplification_quality_ci95": [
+        0.17130321589247383,
+        0.17130321589247383
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "aa39c9ad059f5dd7",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8343653250773994,
+        "cyclomatic": 1.0,
+        "effort": 0.9759980241047236
+      },
+      "simplification_quality": 0.9338312328354796,
+      "simplification_quality_ci95": [
+        0.9338312328354796,
+        0.9338312328354796
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "4af621986d32de8f",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "2cf25b29fdca0ceb",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "f30ac8476674e84e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "5f5c02d413d11608",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "9f610f10411bd4ce",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8428781204111601,
+        "cyclomatic": 1.0,
+        "effort": 0.9775191362937572
+      },
+      "simplification_quality": 0.937482888606048,
+      "simplification_quality_ci95": [
+        0.937482888606048,
+        0.937482888606048
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "42fb98361cc3218e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.029495718363463368
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "6ce19d8e36e92dc0",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.021897810218978103
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "8e13974cd9983a20",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.02578125
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "a864de0852d8109c",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0340393343419062
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "37de8a453df0648e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8629961587708067,
+        "cyclomatic": 1.0,
+        "effort": 0.9849105728501268
+      },
+      "simplification_quality": 0.9472585939351311,
+      "simplification_quality_ci95": [
+        0.9472585939351311,
+        0.9472585939351311
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "55486c72cf973fd8",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.2,
+        "branch_keywords": 0.2222222222222222,
+        "tokens": 0.13778529163144548
+      },
+      "simplification_quality": 0.18295324374254765,
+      "simplification_quality_ci95": [
+        0.18295324374254765,
+        0.18295324374254765
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "98b39270629ac816",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.16,
+        "tokens": 0.11090047393364928
+      },
+      "simplification_quality": 0.14353816111375095,
+      "simplification_quality_ci95": [
+        0.14353816111375095,
+        0.14353816111375095
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "3bec6cdc8d09586a",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.14285714285714285,
+        "branch_keywords": 0.20253164556962025,
+        "tokens": 0.11685552407932011
+      },
+      "simplification_quality": 0.15008871278397903,
+      "simplification_quality_ci95": [
+        0.15008871278397903,
+        0.15008871278397903
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "57798e25a525e77a",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.2077922077922078,
+        "tokens": 0.14524765729585007
+      },
+      "simplification_quality": 0.17134142763050067,
+      "simplification_quality_ci95": [
+        0.17134142763050067,
+        0.17134142763050067
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "fd40219619480a30",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8343653250773994,
+        "cyclomatic": 1.0,
+        "effort": 0.9759980241047236
+      },
+      "simplification_quality": 0.9338312328354796,
+      "simplification_quality_ci95": [
+        0.9338312328354796,
+        0.9338312328354796
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "370cb06d57dbb24d",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "fabe4669cda51e77",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "312e766649269691",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "a3f333d2bfe9546c",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "638cd89ea015708d",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8428781204111601,
+        "cyclomatic": 1.0,
+        "effort": 0.9775191362937572
+      },
+      "simplification_quality": 0.937482888606048,
+      "simplification_quality_ci95": [
+        0.937482888606048,
+        0.937482888606048
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "aef5df0af3e64d93",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.029495718363463368
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "976d7a1cc25cecda",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.021897810218978103
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "d815d1e874fe7f77",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.02578125
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "198d1d091aad24ac",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0340393343419062
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "c7e33a1b314e008b",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8629961587708067,
+        "cyclomatic": 1.0,
+        "effort": 0.9849105728501268
+      },
+      "simplification_quality": 0.9472585939351311,
+      "simplification_quality_ci95": [
+        0.9472585939351311,
+        0.9472585939351311
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "c27f74882040bf02",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.2,
+        "branch_keywords": 0.2222222222222222,
+        "tokens": 0.13778529163144548
+      },
+      "simplification_quality": 0.18295324374254765,
+      "simplification_quality_ci95": [
+        0.18295324374254765,
+        0.18295324374254765
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "a696d03a65526d36",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.16,
+        "tokens": 0.11090047393364928
+      },
+      "simplification_quality": 0.14353816111375095,
+      "simplification_quality_ci95": [
+        0.14353816111375095,
+        0.14353816111375095
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "b0cd772ad5a77706",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.14285714285714285,
+        "branch_keywords": 0.20253164556962025,
+        "tokens": 0.11685552407932011
+      },
+      "simplification_quality": 0.15008871278397903,
+      "simplification_quality_ci95": [
+        0.15008871278397903,
+        0.15008871278397903
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e40a0a89a28203f1",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.2077922077922078,
+        "tokens": 0.14524765729585007
+      },
+      "simplification_quality": 0.17134142763050067,
+      "simplification_quality_ci95": [
+        0.17134142763050067,
+        0.17134142763050067
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "4120d6e1ee9d50bc",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8343653250773994,
+        "cyclomatic": 1.0,
+        "effort": 0.9758997500976743
+      },
+      "simplification_quality": 0.9337998890501985,
+      "simplification_quality_ci95": [
+        0.9337998890501985,
+        0.9337998890501985
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "a1d5221429065538",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e6e6b6a3da5fd0b7",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "c32d3902d9574863",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "bf97519c68ce792e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "b0d73a19c665718e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8428781204111601,
+        "cyclomatic": 1.0,
+        "effort": 0.9774219579371732
+      },
+      "simplification_quality": 0.9374518215022016,
+      "simplification_quality_ci95": [
+        0.9374518215022016,
+        0.9374518215022016
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "fe8b8e57232e3772",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.029495718363463368
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "9847a5d6aa928fe1",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.021897810218978103
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "08f1667e157df748",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.02578125
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "23623aabd8729828",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0340393343419062
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "0811a11e1c6b7428",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8629961587708067,
+        "cyclomatic": 1.0,
+        "effort": 0.9848458828017324
+      },
+      "simplification_quality": 0.9472378544732181,
+      "simplification_quality_ci95": [
+        0.9472378544732181,
+        0.9472378544732181
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "155c9a219c8fcd14",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.2,
+        "branch_keywords": 0.2222222222222222,
+        "tokens": 0.13778529163144548
+      },
+      "simplification_quality": 0.18295324374254765,
+      "simplification_quality_ci95": [
+        0.18295324374254765,
+        0.18295324374254765
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "76802ef109e2b915",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.16,
+        "tokens": 0.11090047393364928
+      },
+      "simplification_quality": 0.14353816111375095,
+      "simplification_quality_ci95": [
+        0.14353816111375095,
+        0.14353816111375095
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "425eab9d732164c8",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.14285714285714285,
+        "branch_keywords": 0.20253164556962025,
+        "tokens": 0.11685552407932011
+      },
+      "simplification_quality": 0.15008871278397903,
+      "simplification_quality_ci95": [
+        0.15008871278397903,
+        0.15008871278397903
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e80884f07caec96f",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.2077922077922078,
+        "tokens": 0.14524765729585007
+      },
+      "simplification_quality": 0.17134142763050067,
+      "simplification_quality_ci95": [
+        0.17134142763050067,
+        0.17134142763050067
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    }
+  ]
+}

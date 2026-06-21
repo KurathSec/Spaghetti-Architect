@@ -1,0 +1,2664 @@
+{
+  "task": "refactor",
+  "model": "mock",
+  "family": "fsm_transition",
+  "split": "dev",
+  "k": 1,
+  "prompt_version": "bench-prompts-v1",
+  "env": {
+    "python_version": "3.14.5",
+    "toolchains": {
+      "python": true,
+      "javascript": true,
+      "go": true,
+      "java": true,
+      "cpp": true
+    },
+    "network_isolation": true,
+    "dataset": {
+      "version": "1.0",
+      "split": "dev",
+      "seed": 20260619
+    },
+    "prompt_version": "bench-prompts-v1",
+    "sampling": {
+      "k_samples": 5,
+      "temperature": 0.0,
+      "max_tokens": 2048
+    },
+    "models_under_test": [
+      "claude-opus-4-8",
+      "claude-sonnet-4-6",
+      "claude-haiku-4-5-20251001"
+    ],
+    "provider": "anthropic",
+    "timestamp_utc": "2026-06-21T05:55:28.315917+00:00",
+    "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
+  },
+  "aggregate": {
+    "n_items": 90,
+    "semantic_ok_rate": 1.0,
+    "simplification_quality_mean": 0.18900487580166725,
+    "simplification_quality_ci95": [
+      0.11544161855250236,
+      0.2625649187437136
+    ],
+    "failure_modes": {
+      "broke_equivalence": 0,
+      "no_change": 72,
+      "over_complicated": 0
+    }
+  },
+  "items": [
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "04f27b666137ea14",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8636363636363636,
+        "cyclomatic": 1.0,
+        "effort": 0.968468218961692
+      },
+      "simplification_quality": 0.9421905945611388,
+      "simplification_quality_ci95": [
+        0.9421905945611388,
+        0.9421905945611388
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "ee2fab1e6561514a",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "48f2345edc826de8",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "8a594efe8ab66eea",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "68584e6c669a4d86",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "84bb729bc0421361",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8732394366197183,
+        "cyclomatic": 1.0,
+        "effort": 0.9706172581586846
+      },
+      "simplification_quality": 0.9463688783705054,
+      "simplification_quality_ci95": [
+        0.9463688783705054,
+        0.9463688783705054
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "0a99e5630ea7ee46",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "fd53422f30ec44d0",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "dfdb65b3b86d6ff3",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "5963d2d64786b3b5",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "84bb729bc0421361",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8732394366197183,
+        "cyclomatic": 1.0,
+        "effort": 0.9706172581586846
+      },
+      "simplification_quality": 0.9463688783705054,
+      "simplification_quality_ci95": [
+        0.9463688783705054,
+        0.9463688783705054
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "0a99e5630ea7ee46",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "fd53422f30ec44d0",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "dfdb65b3b86d6ff3",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "5963d2d64786b3b5",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "78e79131c50c437d",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8636363636363636,
+        "cyclomatic": 1.0,
+        "effort": 0.968468218961692
+      },
+      "simplification_quality": 0.9421905945611388,
+      "simplification_quality_ci95": [
+        0.9421905945611388,
+        0.9421905945611388
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "4fca0dd907c9ae3c",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "b36b39c091f091cd",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "912eccd40cedc475",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "85ac2275409429ff",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "b66eae75021b1880",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8732394366197183,
+        "cyclomatic": 1.0,
+        "effort": 0.9706172581586846
+      },
+      "simplification_quality": 0.9463688783705054,
+      "simplification_quality_ci95": [
+        0.9463688783705054,
+        0.9463688783705054
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "409ae25a407ab7b7",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "a4e3091e0852d87c",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "3e6c81ad78b52578",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "1e7ef3830db69288",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "b66eae75021b1880",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8732394366197183,
+        "cyclomatic": 1.0,
+        "effort": 0.9706172581586846
+      },
+      "simplification_quality": 0.9463688783705054,
+      "simplification_quality_ci95": [
+        0.9463688783705054,
+        0.9463688783705054
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "409ae25a407ab7b7",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "a4e3091e0852d87c",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "3e6c81ad78b52578",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "1e7ef3830db69288",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "4c93d38338c840e4",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8636363636363636,
+        "cyclomatic": 1.0,
+        "effort": 0.968468218961692
+      },
+      "simplification_quality": 0.9421905945611388,
+      "simplification_quality_ci95": [
+        0.9421905945611388,
+        0.9421905945611388
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "7d0aff053260154d",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "c0fef8e12f5cc322",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "83916ae681a1845e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "ec5cf8fe55353ca9",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "a7b6f144a0d37199",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8732394366197183,
+        "cyclomatic": 1.0,
+        "effort": 0.9706172581586846
+      },
+      "simplification_quality": 0.9463688783705054,
+      "simplification_quality_ci95": [
+        0.9463688783705054,
+        0.9463688783705054
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "4cf6ca0dd4d3ff98",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "baa364952b659900",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "9cb07b9f9af78747",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "a6fc1a0f59c70dc3",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "a7b6f144a0d37199",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8732394366197183,
+        "cyclomatic": 1.0,
+        "effort": 0.9706172581586846
+      },
+      "simplification_quality": 0.9463688783705054,
+      "simplification_quality_ci95": [
+        0.9463688783705054,
+        0.9463688783705054
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "4cf6ca0dd4d3ff98",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "baa364952b659900",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "9cb07b9f9af78747",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "a6fc1a0f59c70dc3",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "296d2a2386fbf279",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8636363636363636,
+        "cyclomatic": 1.0,
+        "effort": 0.968468218961692
+      },
+      "simplification_quality": 0.9421905945611388,
+      "simplification_quality_ci95": [
+        0.9421905945611388,
+        0.9421905945611388
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "eb463dad7a7ccc4c",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "121485df81b30bf4",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "353f79517bcc1b98",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "572d35ebdaaa9347",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "5032e17e9abc0332",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8732394366197183,
+        "cyclomatic": 1.0,
+        "effort": 0.9706172581586846
+      },
+      "simplification_quality": 0.9463688783705054,
+      "simplification_quality_ci95": [
+        0.9463688783705054,
+        0.9463688783705054
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "ffd580b0a4aef678",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "9c55755c1500810e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "231b276cde8f928b",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "2eaf2f6d548dd718",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "5032e17e9abc0332",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8732394366197183,
+        "cyclomatic": 1.0,
+        "effort": 0.9706172581586846
+      },
+      "simplification_quality": 0.9463688783705054,
+      "simplification_quality_ci95": [
+        0.9463688783705054,
+        0.9463688783705054
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "ffd580b0a4aef678",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "9c55755c1500810e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "231b276cde8f928b",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "2eaf2f6d548dd718",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "d441518e2f57b4b3",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8636363636363636,
+        "cyclomatic": 1.0,
+        "effort": 0.968468218961692
+      },
+      "simplification_quality": 0.9421905945611388,
+      "simplification_quality_ci95": [
+        0.9421905945611388,
+        0.9421905945611388
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "76cf4fedb8314370",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "2077fe4ce228fc2d",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "c6a9ff198df7e5f2",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "7caea2824e429c91",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "2d8181e585712894",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8732394366197183,
+        "cyclomatic": 1.0,
+        "effort": 0.9706172581586846
+      },
+      "simplification_quality": 0.9463688783705054,
+      "simplification_quality_ci95": [
+        0.9463688783705054,
+        0.9463688783705054
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "05030fbdd88a8afd",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "762adf4c11c3c5be",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "b8c0c74c3b3b385d",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "c214b06ad9f7dd16",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "2d8181e585712894",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8732394366197183,
+        "cyclomatic": 1.0,
+        "effort": 0.9706172581586846
+      },
+      "simplification_quality": 0.9463688783705054,
+      "simplification_quality_ci95": [
+        0.9463688783705054,
+        0.9463688783705054
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "05030fbdd88a8afd",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "762adf4c11c3c5be",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "b8c0c74c3b3b385d",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "c214b06ad9f7dd16",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "239b7cb2cb7de4e0",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8636363636363636,
+        "cyclomatic": 1.0,
+        "effort": 0.9693631875389763
+      },
+      "simplification_quality": 0.9424807336169531,
+      "simplification_quality_ci95": [
+        0.9424807336169531,
+        0.9424807336169531
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "436bd2503e17c01f",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "16d79cc13152acc7",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "9dc01fbb1ac76729",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "bb2d0552551a31fb",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "f26e323ab3c34699",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8732394366197183,
+        "cyclomatic": 1.0,
+        "effort": 0.9715076300529657
+      },
+      "simplification_quality": 0.9466581660111762,
+      "simplification_quality_ci95": [
+        0.9466581660111762,
+        0.9466581660111762
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "b456435300e95d62",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "1552fdeed7c8887e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "74a86fb83c35666f",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "366449a3b08e9665",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "f26e323ab3c34699",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8732394366197183,
+        "cyclomatic": 1.0,
+        "effort": 0.9715076300529657
+      },
+      "simplification_quality": 0.9466581660111762,
+      "simplification_quality_ci95": [
+        0.9466581660111762,
+        0.9466581660111762
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "b456435300e95d62",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "1552fdeed7c8887e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "74a86fb83c35666f",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "366449a3b08e9665",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    }
+  ]
+}

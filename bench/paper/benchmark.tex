@@ -1,0 +1,277 @@
+% Spaghetti Architect benchmark paper. Emitted by bench/run_bench.py --report.
+% NOT compiled by the harness. Bibliography: refs.bib (copied from Phase 5).
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepackage{listings}
+\lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,
+ frame=single,framesep=2pt,aboveskip=3pt,belowskip=2pt}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{hyperref}
+\newcommand{\awaiting}[1]{\begin{center}\fbox{\parbox{0.82\textwidth}{\centering
+ \textbf{[AWAITING LIVE RUN]}\\[3pt]\small #1}}\end{center}}
+
+\title{Spaghetti Architect: A Ground-Truth, Contamination-Resistant Benchmark for
+ LLM Code Refactoring, Quality Judgment, and Comprehension}
+\author{Placeholder Author\\\texttt{placeholder@affiliation}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We present a benchmark generator for evaluating large language models on code, built
+on \emph{Spaghetti Architect}, a correctness-preserving ``anti-optimization''
+transpiler that compiles a clean JSON intermediate representation (IR) into
+deliberately awful but provably-equivalent code in five languages (Python,
+JavaScript, Go, Java, C++), gated by an oracle validator. Because every instance
+carries an exact semantic label \emph{by construction}, we obtain ground truth for
+three tasks where hand-collected corpora cannot: (i) \textbf{refactoring},
+auto-graded for semantic equivalence by the validator and for simplification against
+a \emph{known-optimal} clean baseline; (ii) \textbf{quality judgment}
+(LLM-as-judge), tested for monotonicity and sensitivity to ground-truth-controlled
+degradation; and (iii) \textbf{comprehension}, output prediction defeated neither by
+guessing (differential variants) nor by memorization (fresh instances). The
+benchmark exposes two \emph{orthogonal} difficulty axes --- \emph{intrinsic}
+complexity (problem size: cascade arms $N$, list length $L$, operation count) and
+\emph{incidental} complexity (a \texttt{minimal}$\to$\texttt{standard}$\to$\texttt{max}
+spaghetti profile that changes presentation at \textbf{zero} semantic cost) --- so we
+can ask a question no fixed corpus can: do models fail because the problem got
+bigger, or because the presentation got messier? Instances are minted fresh from a
+held-out seed for contamination resistance. This paper documents the design and the
+reusable harness; model results populate from a live run (status: \textbf{DRY-RUN (mock model; AWAITING LIVE RUN)}).
+\end{abstract}
+
+\section{Introduction}
+An optimizing compiler holds semantics fixed and minimizes a cost. Spaghetti
+Architect is its mirror image: it holds semantics fixed and \emph{maximizes}
+incidental complexity, composing eleven named anti-patterns under a strength profile.
+That inversion is useful precisely because it yields \textbf{labels}: the output is
+correct by construction (the validator compiles and runs all five targets against a
+reference oracle), and the clean IR is a \emph{known-optimal} reference. This is the
+``Csmith-for-badness'' framing --- where Csmith~\citep{yang2011csmith} mints random
+\emph{valid} programs to stress a compiler, we mint semantically-labelled \emph{bad}
+programs with a tunable degradation knob to stress a \emph{model}.
+
+Hand-collected bad-code corpora lack three things this construction provides: exact
+semantic labels, independently tunable difficulty knobs, and contamination control.
+The central scientific move is to separate two axes that are conflated everywhere
+else. \emph{Intrinsic} complexity grows the logic (more cascade arms, longer lists,
+more operations). \emph{Incidental} complexity grows the mess at \emph{identical}
+semantics (the profile). Varying them independently decomposes a model's failure into
+``the problem got harder'' versus ``the presentation got worse'' --- the latter being
+a robustness property that matters in the wild and that no benchmark we know of
+isolates.
+
+\section{Related Work}
+\paragraph{Obfuscation vs.\ anti-optimization.} The eleven \texttt{SPAGH\_*}
+transforms descend from the Collberg--Thomborson taxonomy~\citep{collberg1997taxonomy}
+--- opaque predicates are theirs~\citep{collberg1998manufacturing} --- and tools like
+Tigress~\citep{collberg2015tigress}, OLLVM~\citep{junod2015ollvm}, and
+\texttt{javascript-obfuscator}~\citep{kachalov2016jsobfuscator} apply structurally
+similar moves. But their objective is reverse-engineering resistance, and they emit
+neither a quality label nor a known-optimal target; we reuse the primitives as a
+\emph{maintainability-degradation knob with ground truth}.
+\paragraph{Mutation testing.} Reviewers will raise the analogy, so we draw the line
+sharply: mutation testing~\citep{demillo1978hints,jia2011mutation} \emph{injects faults}
+(semantics change, kill-labels follow), whereas we \emph{preserve} semantics and label
+the structural mess --- the sign-flipped problem.
+\paragraph{Program generators.} Csmith~\citep{yang2011csmith} and
+YARPGen~\citep{livinskii2020yarpgen} are the closest siblings: they mint random
+\emph{valid} programs to stress a compiler via differential testing. We extend that idea
+with explicit per-instance labels, a clean-baseline \emph{optimum}, and an orthogonal
+\emph{incidental} knob that they do not have.
+\paragraph{Benchmarks, judges, contamination.} Correctness
+benches~\citep{chen2021humaneval,austin2021mbpp} and reasoning/refactor
+suites~\citep{gu2024cruxeval,jimenez2024swebench,gautam2025refactorbench} grade
+correctness but fix presentation and (mostly) cannot regenerate; LLM-as-judge
+work~\citep{zheng2023judging} and maintainability-metric
+critiques~\citep{vandeursen2014maintainability} lack a controlled stimulus; and the
+contamination literature~\citep{jacovi2023contamination,ravaut2024contamination,jain2025livecodebench}
+motivates fresh-minted instances but does not supply orthogonal complexity knobs. Our
+contribution is to combine all of these properties at once.
+\begin{table}[t]\centering\footnotesize
+\begin{tabular}{lcccccc}
+\toprule
+Approach & GT label & Intrinsic & Incidental & Auto-equiv. & Contam. & Multi-lang \\
+\midrule
+\textbf{Spaghetti Architect (ours)} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
+Obfuscators~\citep{collberg1997taxonomy,collberg2015tigress,junod2015ollvm,kachalov2016jsobfuscator}
+ & $\times$ & $\circ$ & $\circ$ & $\circ$ & $\times$ & $\circ$ \\
+Mutation testing~\citep{demillo1978hints,jia2011mutation}
+ & \checkmark & --- & --- & inv. & $\times$ & $\circ$ \\
+Program generators~\citep{yang2011csmith,livinskii2020yarpgen}
+ & $\circ$ & \checkmark & $\times$ & \checkmark & \checkmark & $\circ$ \\
+Correctness benches~\citep{chen2021humaneval,austin2021mbpp}
+ & \checkmark & $\times$ & $\times$ & \checkmark & $\times$ & $\times$ \\
+Reasoning/refactor~\citep{gu2024cruxeval,jimenez2024swebench,gautam2025refactorbench}
+ & \checkmark & $\circ$ & $\times$ & \checkmark & $\circ$ & $\circ$ \\
+Judge / metric validity~\citep{zheng2023judging,vandeursen2014maintainability}
+ & $\times$ & $\times$ & $\times$ & $\times$ & --- & --- \\
+Contamination~\citep{jacovi2023contamination,ravaut2024contamination,jain2025livecodebench}
+ & varies & $\times$ & $\times$ & varies & \checkmark & $\circ$ \\
+\bottomrule
+\end{tabular}
+\caption{Positioning ($\checkmark$ yes, $\circ$ partial, $\times$ no, inv.\ inverted).
+No neighbor offers ground-truth labels \emph{and} orthogonal intrinsic/incidental
+knobs \emph{and} auto-checkable equivalence \emph{and} contamination resistance
+across five languages from one IR.}
+\end{table}
+
+\section{The Generator}
+Spaghetti Architect is a four-stage pipeline (parser $\to$ planner $\to$ five
+language backends $\to$ validator); see the project's \texttt{architecture.md}. The
+IR supports two composable operations, \texttt{MEMBERSHIP\_CHECK} ($r = t \in c$) and
+\texttt{KEY\_VALUE\_LOOKUP} ($r = \text{pairs}.\text{get}(k,d)$), chained into
+programs. A data-driven planner selects eleven \texttt{SPAGH\_*} transforms by
+profile; each backend lowers them idiomatically (only C++ emits genuine pointer
+arithmetic for the manual-index pattern). \textbf{Correctness by construction} is the
+property that yields labels: a \texttt{CodeEmitter} makes valid syntax structural,
+always-on safety (try/catch + guards + a preset fallback) makes the output crash-free,
+and the validator compiles and runs every target, comparing JSON stdout to the oracle
+(missing toolchains \textsc{skip}, never silently pass). The benchmark reuses this
+pipeline verbatim --- \texttt{Engine.generate}, \texttt{oracle}, \texttt{validate},
+and the metric library --- adding no second generator or grader.
+
+\section{Benchmark Design}
+\paragraph{Axes.} We cross \emph{incidental} profile $\in\{$\texttt{minimal},
+\texttt{standard}, \texttt{max}$\}$ (plus \texttt{clean} as the zero point) $\times$
+\emph{intrinsic} scale (the \texttt{config\_resolver} $N\in\{4,8,16,32\}$ and
+\texttt{allowlist} $L\in\{8,32,128\}$ families, plus \texttt{status\_router},
+\texttt{discovery\_pipeline}, \texttt{fsm\_transition}) $\times$ language $\in$ five
+backends $\times$ input variant ($\texttt{*\_v0..v4}$, exercising early/late cascade
+arms, present/absent membership, default-misses). The public \texttt{dev} split has
+35 instances (10 bases + variants), seed \texttt{20260619}.
+
+\paragraph{Contamination control.} A private \texttt{test} split is minted from an
+uncommitted seed (\texttt{BENCH\_HELDOUT\_SEED}): it re-draws every RNG-sourced
+numeric literal and applies a structure-preserving \emph{string salt} to every string
+literal, so instances are novel across all families while staying structurally
+identical (every minted IR is re-validated by the parser). The held-out seed is never
+stored; we report the \texttt{dev}$-$\texttt{test} score gap as the memorization probe.
+
+\paragraph{Tasks and grading (reusing the validator + metrics).}
+\emph{Refactor:} the model rewrites a rendered spaghetti source; we grade semantic
+equivalence by running its output \textbf{untrusted} (model Python in a subprocess
+with \texttt{-I} isolation, a wall-clock timeout, and a private network namespace (\texttt{unshare -rn}); the other four
+languages via the project validator's compile/run path) and comparing to the oracle.
+Simplification is scored only if equivalent: $\text{recovery}(m)=\mathrm{clamp}\!\big(
+(m_{\text{spag}}-m_{\text{model}})/(m_{\text{spag}}-m_{\text{clean}}),-1,1\big)$ over a
+rigorous Python-AST lane (cyclomatic, AST size, Halstead effort) and an agnostic proxy
+lane for the other languages, and $\text{simpl\_q}=\text{semantic\_ok}\cdot
+\mathrm{geomean}(\text{positive recoveries})$.
+\emph{Judge:} pointwise ratings across the incidental knob give monotonicity (Spearman
+$\rho$, expected strongly negative) and sensitivity; pairwise comparisons give accuracy
+versus the knob order.
+\emph{Comprehend:} predict the result variables; exact-match versus the oracle over
+base $+$ variants. Matrix sizes (dev): refactor 525, comprehend 525, judge
+50 items.
+
+\paragraph{Protocol and determinism.} Sample generation and all static metrics are
+byte-deterministic (seeded). LLM outputs are \emph{not}: we pin
+\texttt{temperature=0.0}, record the exact model id and parameters, draw $k=$5
+samples per item, and report mean with bootstrap 95\% CIs. We claim \emph{protocol}
+reproducibility, not byte reproducibility, for model results. Prompts are frozen and
+versioned (\texttt{bench-prompts-v1}); each returns a single parseable artifact (a code
+block / an integer / \texttt{A}|\texttt{B} / a JSON object) so no reasoning leaks into
+the graded output.
+
+\section{Results}
+\emph{Status: \textbf{DRY-RUN (mock model; AWAITING LIVE RUN)}.} Model figures populate from \texttt{out/results.json}
+after a live run; until then each is a wired placeholder.
+
+\begin{figure}[h]\centering \awaiting{Task score vs.\ incidental profile (minimal$\to$max) at fixed logic, one line per model. Populates from \texttt{figures.incidental\_degradation}.}
+\caption{\textbf{Incidental-complexity degradation.} Task score vs.\ profile with logic
+held fixed --- the headline: does mess alone hurt?}\end{figure}
+
+\begin{figure}[h]\centering \awaiting{$\Delta$score from growing $N/L$ (fixed profile) vs.\ growing profile (fixed logic). Populates from \texttt{figures.decomposition}.}
+\caption{\textbf{Intrinsic vs.\ incidental decomposition.} $\Delta$score from growing
+$N/L$ (fixed profile) vs.\ from growing the profile (fixed logic) --- the scientific
+core.}\end{figure}
+
+\begin{figure}[h]\centering \awaiting{Per model: semantic-ok rate ($x$) vs.\ simplification quality ($y$); clean baseline $=(1,1)$, no-op $=(*,0)$. From \texttt{figures.refactor\_2d}.}
+\caption{\textbf{Refactor 2-D.} Semantic-ok rate vs.\ simplification quality per model;
+the clean baseline is the $(1,1)$ upper bound.}\end{figure}
+
+\begin{figure}[h]\centering \awaiting{Judge monotonicity (Spearman $\rho$ of rating vs.\ knob) per model, with the radon anchor overlaid. From \texttt{figures.judge\_calibration} + anchor.}
+\caption{\textbf{Judge calibration.} Rating-vs-knob monotonicity per model, with the
+non-LLM radon anchor (\S\ref{sec:cv}) as the external reference.}\end{figure}
+
+\begin{figure}[h]\centering \awaiting{Public \texttt{dev} vs.\ private \texttt{test} (fresh seed) score per model; a gap flags memorization, $\approx 0$ supports the anti-contamination claim. Requires a \texttt{--split test} run. From \texttt{figures.contamination}.}
+\caption{\textbf{Contamination control.} Public \texttt{dev} vs.\ private \texttt{test}
+(fresh seed); a gap flags memorization.}\end{figure}
+
+\begin{figure}[h]\centering \awaiting{Task score per language (same logic) — where a backend is harder for models. From \texttt{figures.cross\_language}.}
+\caption{\textbf{Cross-language.} Task score per language (same logic), exposing harder
+backends.}\end{figure}
+
+\section{Construct Validity}\label{sec:cv}
+To anchor the bespoke metrics and the judge to an \emph{external} reference, we score
+the \texttt{dev} Python sources with \texttt{radon} (status: \textbf{OK},
+v\,6.0.1), a standard non-LLM complexity tool, off the zero-dependency core (a
+quarantined virtualenv). Two findings (this is real, model-independent data):
+\textbf{(1) the ground-truth knob moves an independent metric monotonically} ---
+Spearman of the incidental rank against radon cyclomatic is $\rho=+0.844$
+(more mess, more complexity) and against radon maintainability $\rho=-0.969$
+(more mess, lower maintainability), with the intrinsic $N$ knob giving
+$\rho=+1.000$ against radon CC; and \textbf{(2) our lane is anchored to the
+external one} --- our cyclomatic vs.\ radon CC $\rho=+1.000$ and our
+maintainability vs.\ radon MI $\rho=+0.952$ across all sources. The same radon MI
+is the reference against which Figure~4 calibrates LLM judges, so a judge is measured
+against an external metric, not only against other judges.
+
+\section{Threats to Validity}
+\paragraph{Construct.} The IR has two operations: this is a deliberate \emph{controlled
+stimulus}, not a claim of generality --- it is exactly what lets us hold semantics fixed
+while varying mess. Equivalence is established by differential testing over base $+$
+variants, not by proof; the rigorous simplification lane is Python-only (the other four
+use a text/regex proxy with a language-neutral clean floor).
+\paragraph{Conclusion.} LLM outputs are nondeterministic; we mitigate with
+\texttt{temperature=0}, $k$ samples, and CIs, and never claim byte reproducibility for
+model results. Prompt sensitivity is a known risk; prompts are frozen and versioned so
+the protocol is at least reproducible.
+\paragraph{External.} The default models-under-test are one vendor's capability
+gradient (a result in itself); the client has a hook for an external provider. A missing
+toolchain \textsc{skip}s rather than failing, and is recorded, never counted as a pass.
+
+\section{Conclusion}
+By treating an anti-optimizer as a labelled benchmark generator, we obtain ground truth,
+two orthogonal difficulty knobs, auto-checkable equivalence, and contamination
+resistance --- together, not separately --- across five languages from one IR. The
+orthogonal decomposition turns ``the model got it wrong'' into the sharper ``the model
+is not robust to incidental complexity,'' which is the property the benchmark is built
+to measure.
+
+\appendix
+\section{Exact commands}
+\begin{lstlisting}
+python3 bench/dataset.py --freeze         # public dev split + manifest
+python3 bench/run_bench.py --selftest     # mock plumbing (zero spend)
+python3 bench/run_bench.py --dry-run      # mock over the real dataset
+python3 bench/run_bench.py --plan         # the (task x model x family) fan-out
+# go live (after filling bench/config.json): one Opus 4.8 subagent per batch
+python3 bench/run_bench.py --batch refactor   --model <id> --family <fam>
+python3 bench/run_bench.py --batch comprehend --model <id> --family <fam>
+python3 bench/run_bench.py --batch judge      --model <id>
+python3 bench/run_bench.py --aggregate && python3 bench/run_bench.py --report
+\end{lstlisting}
+
+\section{Toolchains and held-out protocol}
+\begin{table}[h]\centering\begin{tabular}{ll}\toprule tool & availability \\\midrule
+python & present \\
+javascript & present \\
+go & present \\
+java & present \\
+cpp & present \\ \bottomrule\end{tabular}\caption{Validation toolchains on the run host.}
+\end{table}
+The held-out \texttt{test} split is minted from \texttt{BENCH\_HELDOUT\_SEED} (an
+environment variable, never committed) by re-drawing numeric literals and salting
+string literals; only the public \texttt{dev} split and the generator are committed.
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+\end{document}

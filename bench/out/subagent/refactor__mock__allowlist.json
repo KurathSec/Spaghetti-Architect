@@ -1,0 +1,3654 @@
+{
+  "task": "refactor",
+  "model": "mock",
+  "family": "allowlist",
+  "split": "dev",
+  "k": 1,
+  "prompt_version": "bench-prompts-v1",
+  "env": {
+    "python_version": "3.14.5",
+    "toolchains": {
+      "python": true,
+      "javascript": true,
+      "go": true,
+      "java": true,
+      "cpp": true
+    },
+    "network_isolation": true,
+    "dataset": {
+      "version": "1.0",
+      "split": "dev",
+      "seed": 20260619
+    },
+    "prompt_version": "bench-prompts-v1",
+    "sampling": {
+      "k_samples": 5,
+      "temperature": 0.0,
+      "max_tokens": 2048
+    },
+    "models_under_test": [
+      "claude-opus-4-8",
+      "claude-sonnet-4-6",
+      "claude-haiku-4-5-20251001"
+    ],
+    "provider": "anthropic",
+    "timestamp_utc": "2026-06-21T05:54:32.037904+00:00",
+    "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
+  },
+  "aggregate": {
+    "n_items": 120,
+    "semantic_ok_rate": 1.0,
+    "simplification_quality_mean": 0.22121743935225416,
+    "simplification_quality_ci95": [
+      0.16826612783113062,
+      0.2812692905086768
+    ],
+    "failure_modes": {
+      "broke_equivalence": 0,
+      "no_change": 64,
+      "over_complicated": 0
+    }
+  },
+  "items": [
+    {
+      "sample": "allowlist_L128",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "da0f94494a259617",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.31840796019900497,
+        "cyclomatic": 1.0,
+        "effort": 0.8788504978457019
+      },
+      "simplification_quality": 0.6540831679333847,
+      "simplification_quality_ci95": [
+        0.6540831679333847,
+        0.6540831679333847
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L128",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "7a226438d3b1f88b",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L128",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "b2f7ddee0fb4665d",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L128",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "6725c189480f8eec",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L128",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "97f88bfb972f4bc2",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L128",
+      "profile": "standard",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "ff442669460529a2",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.33495145631067963,
+        "cyclomatic": 1.0,
+        "effort": 0.8816298610645361
+      },
+      "simplification_quality": 0.665921015179079,
+      "simplification_quality_ci95": [
+        0.665921015179079,
+        0.665921015179079
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L128",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "7a955605b2b9f66f",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.011019283746556474
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L128",
+      "profile": "standard",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "f846eb094e34aaea",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.008264462809917356
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L128",
+      "profile": "standard",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "8a7da03954542d54",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.008791208791208791
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L128",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "516907ebc140e4be",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.010224948875255624
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L128",
+      "profile": "max",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "100780be1591b570",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.4069264069264069,
+        "cyclomatic": 1.0,
+        "effort": 0.913421955161548
+      },
+      "simplification_quality": 0.7190003580033477,
+      "simplification_quality_ci95": [
+        0.7190003580033477,
+        0.7190003580033477
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L128",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "a21026ec4f97abfb",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.2,
+        "branch_keywords": 0.4,
+        "tokens": 0.09343434343434344
+      },
+      "simplification_quality": 0.19552344548889528,
+      "simplification_quality_ci95": [
+        0.19552344548889528,
+        0.19552344548889528
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L128",
+      "profile": "max",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "5f7621d9f285c973",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.06976744186046512
+      },
+      "simplification_quality": 0.1570821238875599,
+      "simplification_quality_ci95": [
+        0.1570821238875599,
+        0.1570821238875599
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L128",
+      "profile": "max",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "0350f16d12c7235a",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.14285714285714285,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.07581967213114754
+      },
+      "simplification_quality": 0.153410188103481,
+      "simplification_quality_ci95": [
+        0.153410188103481,
+        0.153410188103481
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L128",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 128
+      },
+      "prompt_hash": "b44acf82d3cdfea7",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3076923076923077,
+        "tokens": 0.09022556390977443
+      },
+      "simplification_quality": 0.1666345288589539,
+      "simplification_quality_ci95": [
+        0.1666345288589539,
+        0.1666345288589539
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "ce9ff74077680b30",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6095238095238096,
+        "cyclomatic": 1.0,
+        "effort": 0.9403738988226228
+      },
+      "simplification_quality": 0.8306736106066965,
+      "simplification_quality_ci95": [
+        0.8306736106066965,
+        0.8306736106066965
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "538ff1c3a1996525",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "1af8b99c885c1a63",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "9581f922d254df77",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "217807aaf1f2c7d2",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "dc72226bbfcd60bb",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6272727272727273,
+        "cyclomatic": 1.0,
+        "effort": 0.9431962556469612
+      },
+      "simplification_quality": 0.8394976624411552,
+      "simplification_quality_ci95": [
+        0.8394976624411552,
+        0.8394976624411552
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "cbf8087d42afb02f",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.023391812865497075
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "b5feea72105d99d0",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.017543859649122806
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "508666b7b6703790",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.015209125475285171
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "5201b198894536c9",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.016835016835016835
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "3960d69c794026cc",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6962962962962963,
+        "cyclomatic": 1.0,
+        "effort": 0.9649548287452143
+      },
+      "simplification_quality": 0.8758579767689079,
+      "simplification_quality_ci95": [
+        0.8758579767689079,
+        0.8758579767689079
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "187a3cf5f4bcabb1",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.2,
+        "branch_keywords": 0.4,
+        "tokens": 0.18137254901960784
+      },
+      "simplification_quality": 0.2439048939654067,
+      "simplification_quality_ci95": [
+        0.2439048939654067,
+        0.2439048939654067
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "162e6d3efa030060",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.13846153846153847
+      },
+      "simplification_quality": 0.19740230337485715,
+      "simplification_quality_ci95": [
+        0.19740230337485715,
+        0.19740230337485715
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "0a0af6b083740508",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.14285714285714285,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.125
+      },
+      "simplification_quality": 0.1812300621671487,
+      "simplification_quality_ci95": [
+        0.1812300621671487,
+        0.1812300621671487
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "8db042c4b1d2b6f8",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3076923076923077,
+        "tokens": 0.1411764705882353
+      },
+      "simplification_quality": 0.19345319332064864,
+      "simplification_quality_ci95": [
+        0.19345319332064864,
+        0.19345319332064864
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "fad221182a472a5c",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6095238095238096,
+        "cyclomatic": 1.0,
+        "effort": 0.9403738988226228
+      },
+      "simplification_quality": 0.8306736106066965,
+      "simplification_quality_ci95": [
+        0.8306736106066965,
+        0.8306736106066965
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "9750a704ecb276ad",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "fc2b7447a54d1654",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "7c8047ad539a3a58",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "75e60bf51de12025",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "774a0be74b498570",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6272727272727273,
+        "cyclomatic": 1.0,
+        "effort": 0.9431962556469612
+      },
+      "simplification_quality": 0.8394976624411552,
+      "simplification_quality_ci95": [
+        0.8394976624411552,
+        0.8394976624411552
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "70e848821cb4a57f",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.023391812865497075
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "a17367a282048ac6",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.017543859649122806
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "2a859cb509e88d65",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.015209125475285171
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "2b94ed30d60b9325",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.016835016835016835
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "4af9f1acb87ecf7e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6962962962962963,
+        "cyclomatic": 1.0,
+        "effort": 0.9649548287452143
+      },
+      "simplification_quality": 0.8758579767689079,
+      "simplification_quality_ci95": [
+        0.8758579767689079,
+        0.8758579767689079
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "041a770f30eb9fc1",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.2,
+        "branch_keywords": 0.4,
+        "tokens": 0.18137254901960784
+      },
+      "simplification_quality": 0.2439048939654067,
+      "simplification_quality_ci95": [
+        0.2439048939654067,
+        0.2439048939654067
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "2bd1d5cb9705923e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.13846153846153847
+      },
+      "simplification_quality": 0.19740230337485715,
+      "simplification_quality_ci95": [
+        0.19740230337485715,
+        0.19740230337485715
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "2492a43747ef3d04",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.14285714285714285,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.125
+      },
+      "simplification_quality": 0.1812300621671487,
+      "simplification_quality_ci95": [
+        0.1812300621671487,
+        0.1812300621671487
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "002ba0db0a782956",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3076923076923077,
+        "tokens": 0.1411764705882353
+      },
+      "simplification_quality": 0.19345319332064864,
+      "simplification_quality_ci95": [
+        0.19345319332064864,
+        0.19345319332064864
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "c28e08efd4158bf3",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6095238095238096,
+        "cyclomatic": 1.0,
+        "effort": 0.9403738988226228
+      },
+      "simplification_quality": 0.8306736106066965,
+      "simplification_quality_ci95": [
+        0.8306736106066965,
+        0.8306736106066965
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "8099aacf94bf36af",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "1d743e2b1ce80e4f",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "37420cc4855e2d7b",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "ebfc96c47dbe3c46",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "37fca630c97b38e7",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6272727272727273,
+        "cyclomatic": 1.0,
+        "effort": 0.9431962556469612
+      },
+      "simplification_quality": 0.8394976624411552,
+      "simplification_quality_ci95": [
+        0.8394976624411552,
+        0.8394976624411552
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "9a709c9b642b2cf7",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.023391812865497075
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "ac22bd2f4cd184f0",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.017543859649122806
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "6b695838e5120836",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.015209125475285171
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "197dc3c43d838349",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.016835016835016835
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "2030c6d9db3631f0",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6962962962962963,
+        "cyclomatic": 1.0,
+        "effort": 0.9649548287452143
+      },
+      "simplification_quality": 0.8758579767689079,
+      "simplification_quality_ci95": [
+        0.8758579767689079,
+        0.8758579767689079
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "96fd5c798a0369f1",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.2,
+        "branch_keywords": 0.4,
+        "tokens": 0.18137254901960784
+      },
+      "simplification_quality": 0.2439048939654067,
+      "simplification_quality_ci95": [
+        0.2439048939654067,
+        0.2439048939654067
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "260bc4251df3eec8",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.13846153846153847
+      },
+      "simplification_quality": 0.19740230337485715,
+      "simplification_quality_ci95": [
+        0.19740230337485715,
+        0.19740230337485715
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "ffc0c2b63d418d46",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.14285714285714285,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.125
+      },
+      "simplification_quality": 0.1812300621671487,
+      "simplification_quality_ci95": [
+        0.1812300621671487,
+        0.1812300621671487
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "f50ca6534c3577fe",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3076923076923077,
+        "tokens": 0.1411764705882353
+      },
+      "simplification_quality": 0.19345319332064864,
+      "simplification_quality_ci95": [
+        0.19345319332064864,
+        0.19345319332064864
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "7233032cc2da0258",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6095238095238096,
+        "cyclomatic": 1.0,
+        "effort": 0.9403738988226228
+      },
+      "simplification_quality": 0.8306736106066965,
+      "simplification_quality_ci95": [
+        0.8306736106066965,
+        0.8306736106066965
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "4f21d4ddc15999d5",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "82fe8b0a17d3dd1b",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "5995a3e832854b57",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "5ff3e3ffa2a789c6",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "0cdc8ea10ca41821",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6272727272727273,
+        "cyclomatic": 1.0,
+        "effort": 0.9431962556469612
+      },
+      "simplification_quality": 0.8394976624411552,
+      "simplification_quality_ci95": [
+        0.8394976624411552,
+        0.8394976624411552
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "f85966d67180528e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.023391812865497075
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "0fe399d8fe2901b6",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.017543859649122806
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "943a3f44532b8441",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.015209125475285171
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "01a0d4f1f5eb650e",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.016835016835016835
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "19b35b1a277022d4",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6962962962962963,
+        "cyclomatic": 1.0,
+        "effort": 0.9649548287452143
+      },
+      "simplification_quality": 0.8758579767689079,
+      "simplification_quality_ci95": [
+        0.8758579767689079,
+        0.8758579767689079
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "2049e750542d0925",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.2,
+        "branch_keywords": 0.4,
+        "tokens": 0.18137254901960784
+      },
+      "simplification_quality": 0.2439048939654067,
+      "simplification_quality_ci95": [
+        0.2439048939654067,
+        0.2439048939654067
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "63c36a1bbf4d51e5",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.13846153846153847
+      },
+      "simplification_quality": 0.19740230337485715,
+      "simplification_quality_ci95": [
+        0.19740230337485715,
+        0.19740230337485715
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "7c86beed9f1b59e6",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.14285714285714285,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.125
+      },
+      "simplification_quality": 0.1812300621671487,
+      "simplification_quality_ci95": [
+        0.1812300621671487,
+        0.1812300621671487
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "f0af8009a5c7c983",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3076923076923077,
+        "tokens": 0.1411764705882353
+      },
+      "simplification_quality": 0.19345319332064864,
+      "simplification_quality_ci95": [
+        0.19345319332064864,
+        0.19345319332064864
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "cafd76642aa32310",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6095238095238096,
+        "cyclomatic": 1.0,
+        "effort": 0.9416651527068619
+      },
+      "simplification_quality": 0.8310536438246323,
+      "simplification_quality_ci95": [
+        0.8310536438246323,
+        0.8310536438246323
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "bb725a945b329e7b",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "b23c83976501d642",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "4e732b2aad86a4e6",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "e5b18036c356b590",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "b61ba97b20736d59",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6272727272727273,
+        "cyclomatic": 1.0,
+        "effort": 0.9444263889960627
+      },
+      "simplification_quality": 0.8398624664916484,
+      "simplification_quality_ci95": [
+        0.8398624664916484,
+        0.8398624664916484
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "6f75ab9ea1c93669",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.023391812865497075
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "40ecb932c94c9c76",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.017543859649122806
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "df4e6cfcfe3e73f0",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.015209125475285171
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "16e6f09030f8eabb",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.016835016835016835
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "992559fdc33ff0f3",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6962962962962963,
+        "cyclomatic": 1.0,
+        "effort": 0.9657137617059987
+      },
+      "simplification_quality": 0.8760875361493048,
+      "simplification_quality_ci95": [
+        0.8760875361493048,
+        0.8760875361493048
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "202c9646b6f19efd",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.2,
+        "branch_keywords": 0.4,
+        "tokens": 0.18137254901960784
+      },
+      "simplification_quality": 0.2439048939654067,
+      "simplification_quality_ci95": [
+        0.2439048939654067,
+        0.2439048939654067
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "88750fae91124106",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.13846153846153847
+      },
+      "simplification_quality": 0.19740230337485715,
+      "simplification_quality_ci95": [
+        0.19740230337485715,
+        0.19740230337485715
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "bb7411044538cf39",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.14285714285714285,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.125
+      },
+      "simplification_quality": 0.1812300621671487,
+      "simplification_quality_ci95": [
+        0.1812300621671487,
+        0.1812300621671487
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "906151e15a2dd180",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3076923076923077,
+        "tokens": 0.1411764705882353
+      },
+      "simplification_quality": 0.19345319332064864,
+      "simplification_quality_ci95": [
+        0.19345319332064864,
+        0.19345319332064864
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "806afe1bd5dce8f6",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6095238095238096,
+        "cyclomatic": 1.0,
+        "effort": 0.9406266464230586
+      },
+      "simplification_quality": 0.8307480249629302,
+      "simplification_quality_ci95": [
+        0.8307480249629302,
+        0.8307480249629302
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "f384432515add221",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "a4aac1f3590fbe8a",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "cfe7cb8b3d5b57d1",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "a994f08ac3381fc1",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "0f9974275bb56ca9",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6272727272727273,
+        "cyclomatic": 1.0,
+        "effort": 0.9434586098742788
+      },
+      "simplification_quality": 0.8395754918930931,
+      "simplification_quality_ci95": [
+        0.8395754918930931,
+        0.8395754918930931
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "067b1e1e0377b29f",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.023391812865497075
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "82f53bbb6a8e1bd2",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.017543859649122806
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "9dd86e6ab1f6691c",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.015209125475285171
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "260ab6c19cc89127",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.016835016835016835
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "b1a6db0f68637adb",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.6962962962962963,
+        "cyclomatic": 1.0,
+        "effort": 0.9651111096856667
+      },
+      "simplification_quality": 0.8759052579180209,
+      "simplification_quality_ci95": [
+        0.8759052579180209,
+        0.8759052579180209
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "d901d3f321f6ccaa",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.2,
+        "branch_keywords": 0.4,
+        "tokens": 0.18137254901960784
+      },
+      "simplification_quality": 0.2439048939654067,
+      "simplification_quality_ci95": [
+        0.2439048939654067,
+        0.2439048939654067
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "35c1d5bda3195b67",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.13846153846153847
+      },
+      "simplification_quality": 0.19740230337485715,
+      "simplification_quality_ci95": [
+        0.19740230337485715,
+        0.19740230337485715
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "77ee69678fe48f65",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.14285714285714285,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.125
+      },
+      "simplification_quality": 0.1812300621671487,
+      "simplification_quality_ci95": [
+        0.1812300621671487,
+        0.1812300621671487
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L32",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 32
+      },
+      "prompt_hash": "f54d7668951fd702",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3076923076923077,
+        "tokens": 0.1411764705882353
+      },
+      "simplification_quality": 0.19345319332064864,
+      "simplification_quality_ci95": [
+        0.19345319332064864,
+        0.19345319332064864
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "f0a45d401c9ffa71",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.7901234567901234,
+        "cyclomatic": 1.0,
+        "effort": 0.9764271837912389
+      },
+      "simplification_quality": 0.9171596479602249,
+      "simplification_quality_ci95": [
+        0.9171596479602249,
+        0.9171596479602249
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "39ed2e27a5a615e1",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "9047a7e5282bfc56",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "ff81c6db85d4995b",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "6a327bd8d98ceda3",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "standard",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "c90da5b867d09eee",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8023255813953488,
+        "cyclomatic": 1.0,
+        "effort": 0.9778123477874544
+      },
+      "simplification_quality": 0.9222925889741457,
+      "simplification_quality_ci95": [
+        0.9222925889741457,
+        0.9222925889741457
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "479bb0e8eb88fa36",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.032520325203252036
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "standard",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "ef69b9d00e24a361",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.024390243902439025
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "standard",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "971c4a811c558fb0",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.018604651162790697
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "42bff41c8239690b",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.020080321285140562
+      },
+      "simplification_quality": 0.0,
+      "simplification_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 1,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "max",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "5c18c6242de865bc",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "ast_nodes": 0.8468468468468469,
+        "cyclomatic": 1.0,
+        "effort": 0.988056881085588
+      },
+      "simplification_quality": 0.9423139214305329,
+      "simplification_quality_ci95": [
+        0.9423139214305329,
+        0.9423139214305329
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "f3c2d5b8009c3b1c",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.2,
+        "branch_keywords": 0.4,
+        "tokens": 0.23717948717948717
+      },
+      "simplification_quality": 0.26672007477277465,
+      "simplification_quality_ci95": [
+        0.26672007477277465,
+        0.26672007477277465
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "max",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "a4db69ae99bb2baa",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.1836734693877551
+      },
+      "simplification_quality": 0.21689921227683304,
+      "simplification_quality_ci95": [
+        0.21689921227683304,
+        0.21689921227683304
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "max",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "a6cdf126f129e6e2",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.14285714285714285,
+        "branch_keywords": 0.3333333333333333,
+        "tokens": 0.14919354838709678
+      },
+      "simplification_quality": 0.19223992255405478,
+      "simplification_quality_ci95": [
+        0.19223992255405478,
+        0.19223992255405478
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    },
+    {
+      "sample": "allowlist_L8",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1,
+        "L": 8
+      },
+      "prompt_hash": "add496db3d3ca42b",
+      "skip": false,
+      "k": 1,
+      "semantic_ok_rate": 1.0,
+      "recovery": {
+        "brace_depth": 0.16666666666666666,
+        "branch_keywords": 0.3076923076923077,
+        "tokens": 0.1643835616438356
+      },
+      "simplification_quality": 0.20352038937219394,
+      "simplification_quality_ci95": [
+        0.20352038937219394,
+        0.20352038937219394
+      ],
+      "simplification_quality_stdev": 0.0,
+      "failure_modes": {
+        "broke_equivalence": 0,
+        "no_change": 0,
+        "over_complicated": 0
+      }
+    }
+  ]
+}

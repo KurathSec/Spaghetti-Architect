@@ -1,0 +1,497 @@
+{
+  "status": "OK",
+  "tool": "radon",
+  "radon_version": "6.0.1",
+  "n_sources": 40,
+  "correlations": {
+    "incidental_cc_spearman_mean": 0.8442313207650954,
+    "incidental_mi_spearman_mean": -0.9692099788303082,
+    "config_resolver_N_cc_spearman": 0.9999999999999998,
+    "crosscheck_our_cc_vs_radon_cc_spearman": 1.0,
+    "crosscheck_our_mi_vs_radon_mi_spearman": 0.9521978216020669
+  },
+  "per_sample": {
+    "config_resolver_N16": {
+      "cc_vs_knob_spearman": 0.7745966692414834,
+      "mi_vs_knob_spearman": -0.9486832980505138
+    },
+    "config_resolver_N32": {
+      "cc_vs_knob_spearman": 0.7745966692414834,
+      "mi_vs_knob_spearman": -0.9486832980505138
+    },
+    "config_resolver_N4": {
+      "cc_vs_knob_spearman": 0.7745966692414834,
+      "mi_vs_knob_spearman": -0.9486832980505138
+    },
+    "config_resolver_N8": {
+      "cc_vs_knob_spearman": 0.7745966692414834,
+      "mi_vs_knob_spearman": -0.9486832980505138
+    },
+    "allowlist_L128": {
+      "cc_vs_knob_spearman": 0.9486832980505138,
+      "mi_vs_knob_spearman": -0.9999999999999998
+    },
+    "allowlist_L32": {
+      "cc_vs_knob_spearman": 0.9486832980505138,
+      "mi_vs_knob_spearman": -0.9999999999999998
+    },
+    "allowlist_L8": {
+      "cc_vs_knob_spearman": 0.9486832980505138,
+      "mi_vs_knob_spearman": -0.9999999999999998
+    },
+    "status_router": {
+      "cc_vs_knob_spearman": 0.7745966692414834,
+      "mi_vs_knob_spearman": -0.9486832980505138
+    },
+    "discovery_pipeline": {
+      "cc_vs_knob_spearman": 0.9486832980505138,
+      "mi_vs_knob_spearman": -0.9999999999999998
+    },
+    "fsm_transition": {
+      "cc_vs_knob_spearman": 0.7745966692414834,
+      "mi_vs_knob_spearman": -0.9486832980505138
+    }
+  },
+  "rows": [
+    {
+      "sample": "config_resolver_N16",
+      "family": "config_resolver",
+      "knob": "clean",
+      "rank": 0,
+      "scale": 16,
+      "radon_cc": 1.0,
+      "radon_mi": 100.0,
+      "our_cc": 1.0,
+      "our_mi": 90.20123981414659
+    },
+    {
+      "sample": "config_resolver_N16",
+      "family": "config_resolver",
+      "knob": "minimal",
+      "rank": 1,
+      "scale": 16,
+      "radon_cc": 20.0,
+      "radon_mi": 57.568984219775366,
+      "our_cc": 20.0,
+      "our_mi": 36.51321289680592
+    },
+    {
+      "sample": "config_resolver_N16",
+      "family": "config_resolver",
+      "knob": "standard",
+      "rank": 2,
+      "scale": 16,
+      "radon_cc": 20.0,
+      "radon_mi": 57.305571060054454,
+      "our_cc": 20.0,
+      "our_mi": 36.30494671301848
+    },
+    {
+      "sample": "config_resolver_N16",
+      "family": "config_resolver",
+      "knob": "max",
+      "rank": 3,
+      "scale": 16,
+      "radon_cc": 20.0,
+      "radon_mi": 57.305571060054454,
+      "our_cc": 20.0,
+      "our_mi": 36.30494671301848
+    },
+    {
+      "sample": "config_resolver_N32",
+      "family": "config_resolver",
+      "knob": "clean",
+      "rank": 0,
+      "scale": 32,
+      "radon_cc": 1.0,
+      "radon_mi": 100.0,
+      "our_cc": 1.0,
+      "our_mi": 90.20123981414659
+    },
+    {
+      "sample": "config_resolver_N32",
+      "family": "config_resolver",
+      "knob": "minimal",
+      "rank": 1,
+      "scale": 32,
+      "radon_cc": 36.0,
+      "radon_mi": 43.91518613285205,
+      "our_cc": 36.0,
+      "our_mi": 26.67469991217561
+    },
+    {
+      "sample": "config_resolver_N32",
+      "family": "config_resolver",
+      "knob": "standard",
+      "rank": 2,
+      "scale": 32,
+      "radon_cc": 36.0,
+      "radon_mi": 43.77747631374556,
+      "our_cc": 36.0,
+      "our_mi": 26.558475997614284
+    },
+    {
+      "sample": "config_resolver_N32",
+      "family": "config_resolver",
+      "knob": "max",
+      "rank": 3,
+      "scale": 32,
+      "radon_cc": 36.0,
+      "radon_mi": 43.77747631374556,
+      "our_cc": 36.0,
+      "our_mi": 26.558475997614284
+    },
+    {
+      "sample": "config_resolver_N4",
+      "family": "config_resolver",
+      "knob": "clean",
+      "rank": 0,
+      "scale": 4,
+      "radon_cc": 1.0,
+      "radon_mi": 100.0,
+      "our_cc": 1.0,
+      "our_mi": 90.20123981414659
+    },
+    {
+      "sample": "config_resolver_N4",
+      "family": "config_resolver",
+      "knob": "minimal",
+      "rank": 1,
+      "scale": 4,
+      "radon_cc": 8.0,
+      "radon_mi": 78.19766126658931,
+      "our_cc": 8.0,
+      "our_mi": 50.067565741824794
+    },
+    {
+      "sample": "config_resolver_N4",
+      "family": "config_resolver",
+      "knob": "standard",
+      "rank": 2,
+      "scale": 4,
+      "radon_cc": 8.0,
+      "radon_mi": 77.54446546026627,
+      "our_cc": 8.0,
+      "our_mi": 49.559760360609076
+    },
+    {
+      "sample": "config_resolver_N4",
+      "family": "config_resolver",
+      "knob": "max",
+      "rank": 3,
+      "scale": 4,
+      "radon_cc": 8.0,
+      "radon_mi": 77.54446546026627,
+      "our_cc": 8.0,
+      "our_mi": 49.559760360609076
+    },
+    {
+      "sample": "config_resolver_N8",
+      "family": "config_resolver",
+      "knob": "clean",
+      "rank": 0,
+      "scale": 8,
+      "radon_cc": 1.0,
+      "radon_mi": 100.0,
+      "our_cc": 1.0,
+      "our_mi": 90.20123981414659
+    },
+    {
+      "sample": "config_resolver_N8",
+      "family": "config_resolver",
+      "knob": "minimal",
+      "rank": 1,
+      "scale": 8,
+      "radon_cc": 12.0,
+      "radon_mi": 69.15733798717604,
+      "our_cc": 12.0,
+      "our_mi": 44.25655163395084
+    },
+    {
+      "sample": "config_resolver_N8",
+      "family": "config_resolver",
+      "knob": "standard",
+      "rank": 2,
+      "scale": 8,
+      "radon_cc": 12.0,
+      "radon_mi": 68.7093639551628,
+      "our_cc": 12.0,
+      "our_mi": 43.91310451537386
+    },
+    {
+      "sample": "config_resolver_N8",
+      "family": "config_resolver",
+      "knob": "max",
+      "rank": 3,
+      "scale": 8,
+      "radon_cc": 12.0,
+      "radon_mi": 68.7093639551628,
+      "our_cc": 12.0,
+      "our_mi": 43.91310451537386
+    },
+    {
+      "sample": "allowlist_L128",
+      "family": "allowlist",
+      "knob": "clean",
+      "rank": 0,
+      "scale": 128,
+      "radon_cc": 1.0,
+      "radon_mi": 95.12415216859318,
+      "our_cc": 1.0,
+      "our_mi": 92.40962204246611
+    },
+    {
+      "sample": "allowlist_L128",
+      "family": "allowlist",
+      "knob": "minimal",
+      "rank": 1,
+      "scale": 128,
+      "radon_cc": 5.0,
+      "radon_mi": 87.5221749455479,
+      "our_cc": 5.0,
+      "our_mi": 50.65499316445577
+    },
+    {
+      "sample": "allowlist_L128",
+      "family": "allowlist",
+      "knob": "standard",
+      "rank": 2,
+      "scale": 128,
+      "radon_cc": 5.0,
+      "radon_mi": 86.56730977838538,
+      "our_cc": 5.0,
+      "our_mi": 50.05953671105252
+    },
+    {
+      "sample": "allowlist_L128",
+      "family": "allowlist",
+      "knob": "max",
+      "rank": 3,
+      "scale": 128,
+      "radon_cc": 7.0,
+      "radon_mi": 81.53904769569615,
+      "our_cc": 7.0,
+      "our_mi": 47.19175246527978
+    },
+    {
+      "sample": "allowlist_L32",
+      "family": "allowlist",
+      "knob": "clean",
+      "rank": 0,
+      "scale": 32,
+      "radon_cc": 1.0,
+      "radon_mi": 95.12415216859318,
+      "our_cc": 1.0,
+      "our_mi": 92.40962204246611
+    },
+    {
+      "sample": "allowlist_L32",
+      "family": "allowlist",
+      "knob": "minimal",
+      "rank": 1,
+      "scale": 32,
+      "radon_cc": 5.0,
+      "radon_mi": 87.5221749455479,
+      "our_cc": 5.0,
+      "our_mi": 53.627313585158134
+    },
+    {
+      "sample": "allowlist_L32",
+      "family": "allowlist",
+      "knob": "standard",
+      "rank": 2,
+      "scale": 32,
+      "radon_cc": 5.0,
+      "radon_mi": 86.56730977838538,
+      "our_cc": 5.0,
+      "our_mi": 52.966994508436805
+    },
+    {
+      "sample": "allowlist_L32",
+      "family": "allowlist",
+      "knob": "max",
+      "rank": 3,
+      "scale": 32,
+      "radon_cc": 7.0,
+      "radon_mi": 81.53904769569615,
+      "our_cc": 7.0,
+      "our_mi": 49.812846698111585
+    },
+    {
+      "sample": "allowlist_L8",
+      "family": "allowlist",
+      "knob": "clean",
+      "rank": 0,
+      "scale": 8,
+      "radon_cc": 1.0,
+      "radon_mi": 95.12415216859318,
+      "our_cc": 1.0,
+      "our_mi": 92.40962204246611
+    },
+    {
+      "sample": "allowlist_L8",
+      "family": "allowlist",
+      "knob": "minimal",
+      "rank": 1,
+      "scale": 8,
+      "radon_cc": 5.0,
+      "radon_mi": 87.5221749455479,
+      "our_cc": 5.0,
+      "our_mi": 55.09141671808815
+    },
+    {
+      "sample": "allowlist_L8",
+      "family": "allowlist",
+      "knob": "standard",
+      "rank": 2,
+      "scale": 8,
+      "radon_cc": 5.0,
+      "radon_mi": 86.56730977838538,
+      "our_cc": 5.0,
+      "our_mi": 54.377042234932084
+    },
+    {
+      "sample": "allowlist_L8",
+      "family": "allowlist",
+      "knob": "max",
+      "rank": 3,
+      "scale": 8,
+      "radon_cc": 7.0,
+      "radon_mi": 81.53904769569615,
+      "our_cc": 7.0,
+      "our_mi": 51.01873420300754
+    },
+    {
+      "sample": "status_router",
+      "family": "status_router",
+      "knob": "clean",
+      "rank": 0,
+      "scale": null,
+      "radon_cc": 1.0,
+      "radon_mi": 100.0,
+      "our_cc": 1.0,
+      "our_mi": 90.20123981414659
+    },
+    {
+      "sample": "status_router",
+      "family": "status_router",
+      "knob": "minimal",
+      "rank": 1,
+      "scale": null,
+      "radon_cc": 28.0,
+      "radon_mi": 49.81923564559791,
+      "our_cc": 28.0,
+      "our_mi": 31.33181317467768
+    },
+    {
+      "sample": "status_router",
+      "family": "status_router",
+      "knob": "standard",
+      "rank": 2,
+      "scale": null,
+      "radon_cc": 28.0,
+      "radon_mi": 49.63699677079915,
+      "our_cc": 28.0,
+      "our_mi": 31.17555857702129
+    },
+    {
+      "sample": "status_router",
+      "family": "status_router",
+      "knob": "max",
+      "rank": 3,
+      "scale": null,
+      "radon_cc": 28.0,
+      "radon_mi": 49.63699677079915,
+      "our_cc": 28.0,
+      "our_mi": 31.17555857702129
+    },
+    {
+      "sample": "discovery_pipeline",
+      "family": "discovery_pipeline",
+      "knob": "clean",
+      "rank": 0,
+      "scale": null,
+      "radon_cc": 1.0,
+      "radon_mi": 70.36576595138195,
+      "our_cc": 1.0,
+      "our_mi": 65.18173666504289
+    },
+    {
+      "sample": "discovery_pipeline",
+      "family": "discovery_pipeline",
+      "knob": "minimal",
+      "rank": 1,
+      "scale": null,
+      "radon_cc": 40.0,
+      "radon_mi": 46.459595205896534,
+      "our_cc": 40.0,
+      "our_mi": 22.453881706806772
+    },
+    {
+      "sample": "discovery_pipeline",
+      "family": "discovery_pipeline",
+      "knob": "standard",
+      "rank": 2,
+      "scale": null,
+      "radon_cc": 40.0,
+      "radon_mi": 45.81341887785663,
+      "our_cc": 40.0,
+      "our_mi": 21.88614197412255
+    },
+    {
+      "sample": "discovery_pipeline",
+      "family": "discovery_pipeline",
+      "knob": "max",
+      "rank": 3,
+      "scale": null,
+      "radon_cc": 48.0,
+      "radon_mi": 43.99500664667881,
+      "our_cc": 48.0,
+      "our_mi": 19.29621820515088
+    },
+    {
+      "sample": "fsm_transition",
+      "family": "fsm_transition",
+      "knob": "clean",
+      "rank": 0,
+      "scale": null,
+      "radon_cc": 1.0,
+      "radon_mi": 100.0,
+      "our_cc": 1.0,
+      "our_mi": 72.12756971089607
+    },
+    {
+      "sample": "fsm_transition",
+      "family": "fsm_transition",
+      "knob": "minimal",
+      "rank": 1,
+      "scale": null,
+      "radon_cc": 21.0,
+      "radon_mi": 60.33577012200158,
+      "our_cc": 21.0,
+      "our_mi": 34.9112423700236
+    },
+    {
+      "sample": "fsm_transition",
+      "family": "fsm_transition",
+      "knob": "standard",
+      "rank": 2,
+      "scale": null,
+      "radon_cc": 21.0,
+      "radon_mi": 59.46941037169063,
+      "our_cc": 21.0,
+      "our_mi": 34.23524415293743
+    },
+    {
+      "sample": "fsm_transition",
+      "family": "fsm_transition",
+      "knob": "max",
+      "rank": 3,
+      "scale": null,
+      "radon_cc": 21.0,
+      "radon_mi": 59.46941037169063,
+      "our_cc": 21.0,
+      "our_mi": 34.23524415293743
+    }
+  ]
+}

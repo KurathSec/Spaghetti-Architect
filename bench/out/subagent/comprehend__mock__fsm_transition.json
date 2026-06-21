@@ -1,0 +1,1578 @@
+{
+  "task": "comprehend",
+  "model": "mock",
+  "family": "fsm_transition",
+  "split": "dev",
+  "k": 1,
+  "prompt_version": "bench-prompts-v1",
+  "env": {
+    "python_version": "3.14.5",
+    "toolchains": {
+      "python": true,
+      "javascript": true,
+      "go": true,
+      "java": true,
+      "cpp": true
+    },
+    "network_isolation": true,
+    "dataset": {
+      "version": "1.0",
+      "split": "dev",
+      "seed": 20260619
+    },
+    "prompt_version": "bench-prompts-v1",
+    "sampling": {
+      "k_samples": 5,
+      "temperature": 0.0,
+      "max_tokens": 2048
+    },
+    "models_under_test": [
+      "claude-opus-4-8",
+      "claude-sonnet-4-6",
+      "claude-haiku-4-5-20251001"
+    ],
+    "provider": "anthropic",
+    "timestamp_utc": "2026-06-21T05:55:28.501411+00:00",
+    "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
+  },
+  "aggregate": {
+    "n_items": 90,
+    "exact_match_rate": 1.0,
+    "exact_match_ci95": [
+      1.0,
+      1.0
+    ]
+  },
+  "items": [
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "0a0983160e825aec",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "71b9449cbe3aa75c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "ea07d3794aada3db",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "5d3dbdac0f6b29e9",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "12499e2dcbdd5a7a",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "d599863cd9b67380",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "4be1e2e31632c51e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "b85c2f088adf2914",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "9375860d079e8484",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "a57d7ef2c1da67b1",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "d599863cd9b67380",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "4be1e2e31632c51e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "b85c2f088adf2914",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "9375860d079e8484",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "a57d7ef2c1da67b1",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "140050da8b8f4929",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "2d7c87b4f63c828c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "40d1d3e9e26fa267",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "a99cb471bb4672a2",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "fe3447d95f59b18c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "92d40d66762c216e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "401be37f1f315956",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "b01594bc2fe30c9a",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "5a620ea0a8e0f7c3",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "c8c03ff415c5fa61",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "92d40d66762c216e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "401be37f1f315956",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "b01594bc2fe30c9a",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "5a620ea0a8e0f7c3",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "c8c03ff415c5fa61",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "46826617eeed9b44",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "68344059d9a560be",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "ef2b612c2dde46f1",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "b95c03fae391ca82",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "ad46ac1ab3ac94ba",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "9f587c11bded9272",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "254a8b05b4613a14",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "c5f9af1a763d76a3",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "f6d9f38ca4cd989b",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "af9e7547f7e6b429",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "9f587c11bded9272",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "254a8b05b4613a14",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "c5f9af1a763d76a3",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "f6d9f38ca4cd989b",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "af9e7547f7e6b429",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "0caeaf58efec4e65",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "c57f9957b11117d9",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "856b3124b88f9519",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "79a5070cf537e3a9",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "194404192cedb220",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "d2ea6dd3b6536fe6",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "b93a06ab015708c2",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "17d1cec87e83806d",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "da98a4f1c30da41c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "aef377fb3cbeb997",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "d2ea6dd3b6536fe6",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "b93a06ab015708c2",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "17d1cec87e83806d",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "da98a4f1c30da41c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "aef377fb3cbeb997",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "1c7d4162ee5701f6",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "c4240eb42fea2131",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "3b49d3682590ddea",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "902faf391d17bd45",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "175c4d10f186d3fc",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "3adb1b2f0dcfa049",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "09726c3e95898f0e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "500a0967db7eab43",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "5ebd9150a6c7a6dc",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "1f78ecbea1b43d62",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "3adb1b2f0dcfa049",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "09726c3e95898f0e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "500a0967db7eab43",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "5ebd9150a6c7a6dc",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "1f78ecbea1b43d62",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "169ae5bae5bbe5c4",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "0d28e90e0bcb2447",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "e84967a46abbb0d4",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "5739f434fe93fad9",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "a26b29ae2ee625da",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "62f5fee3068672d9",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "df5db8742dc947e9",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "896bd616bd943b52",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "aafea3117148aa50",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "715da17180a09ac3",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "62f5fee3068672d9",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "df5db8742dc947e9",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "896bd616bd943b52",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "aafea3117148aa50",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "prompt_hash": "715da17180a09ac3",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    }
+  ]
+}

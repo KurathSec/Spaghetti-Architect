@@ -143,8 +143,12 @@ never has to guess whether its garbage code is correct — the validator answers
 
 ## Requirements
 
-- **Python 3.8+** — and nothing else to run the engine: standard library only, no
-  `pip install`, no virtualenv (developed on 3.14).
+- **Python 3.8+ to run the engine** — and nothing else: standard library only, no
+  `pip install`, no virtualenv (developed on 3.14). The evaluation harness
+  (`eval/`) and the benchmark generator (`bench/`) need **Python 3.12+** (they
+  measure executed work with `sys.monitoring`, PEP 669), and `bench/`
+  additionally needs network access plus an LLM API key. See
+  [`REQUIREMENTS.md`](REQUIREMENTS.md) for the full per-layer breakdown.
 - **Optional language toolchains**, used *only* to validate the non-Python targets:
   `node` (JavaScript), `go` (Go), `javac` + `java` (Java), `g++` (C++). Any that are
   absent simply **SKIP** — Python is always validated via `exec()`.

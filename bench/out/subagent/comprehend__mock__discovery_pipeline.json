@@ -1,0 +1,1578 @@
+{
+  "task": "comprehend",
+  "model": "mock",
+  "family": "discovery_pipeline",
+  "split": "dev",
+  "k": 1,
+  "prompt_version": "bench-prompts-v1",
+  "env": {
+    "python_version": "3.14.5",
+    "toolchains": {
+      "python": true,
+      "javascript": true,
+      "go": true,
+      "java": true,
+      "cpp": true
+    },
+    "network_isolation": true,
+    "dataset": {
+      "version": "1.0",
+      "split": "dev",
+      "seed": 20260619
+    },
+    "prompt_version": "bench-prompts-v1",
+    "sampling": {
+      "k_samples": 5,
+      "temperature": 0.0,
+      "max_tokens": 2048
+    },
+    "models_under_test": [
+      "claude-opus-4-8",
+      "claude-sonnet-4-6",
+      "claude-haiku-4-5-20251001"
+    ],
+    "provider": "anthropic",
+    "timestamp_utc": "2026-06-21T05:55:28.468525+00:00",
+    "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
+  },
+  "aggregate": {
+    "n_items": 90,
+    "exact_match_rate": 1.0,
+    "exact_match_ci95": [
+      1.0,
+      1.0
+    ]
+  },
+  "items": [
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "03541c738138d60b",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "d01354caa09d352e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "de8988e4cff5c445",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "ca7cbe6c16196265",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "b987cdbc49a08bb1",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "2ac147686989b11a",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "75189e42aeff3be3",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "784ba20c576f0437",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "0b639136a2a83fbd",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e209ca6e92dd053b",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e05170a95137502b",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "ac035c5ff05905c4",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "58db6916a9e543c9",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "66d311f6e41c4084",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "13529dc363feea94",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "c63926aafd966799",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "5abfdbfb6b977e7e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "6842616481d87426",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "027f260af8a7ab3b",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "5e11ca519b4f0486",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "1932ff3805f6eee2",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e932457b752e6a60",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "a7bae19e460352a9",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "20a85415a055c1ee",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "c1984f452f0b7a5f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "d55299d1fd84fb0f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "09c853bf14a2d58f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "go",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "d675190536426ab7",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "java",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "55ec3738ab665dab",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "eb1b3dc41906ba46",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "a8bb8aed8120aa9b",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "c4be27b6a65c8d85",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "083ec40dd887ad91",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "c3b4afb701ed2165",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "899ea6e1ba610dff",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "85e9b4c3f286bfcd",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "a91a261d2fd59cfd",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "372978320778a821",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "d000db8ad0cdb23a",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "49430e43fe71e768",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "c92e7ce2120883f4",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "8d598e4dda705384",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "go",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "a763fec426ee181f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "java",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e19f7aba00a7b53f",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "a3d421f3ebb1e297",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "1de034377ca62d59",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "b61ffdbeb7267c71",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "2312ec27077f3036",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "cba6f53c95791141",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "481b08eb483fc869",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "420f86ae4113b7b4",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "4f6852ab7b9b552e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "a0b22a41359d489e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "2ee8fc6b407263a0",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "37fe08249dc9d1f8",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "d2b96d59f1de372e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "bc50eed01f623b23",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "go",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e8028a60078cc970",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "java",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "4761fb842b579979",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "0a376425de668f9c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "551d613bbce3a32d",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e33e506116ac0942",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "0d4dea80e1d1be53",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "ca0bc5ae589c508e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "3dca1b35cb69277c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "9aba6294cf418d2a",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "63ba6d191c88f81c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "12edcdec4cafdcbf",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "bfe586e3720e79bd",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "985c1e75f63e8f9e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "81b486dcffb35f19",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "af6c1e1b4bf56dfd",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "go",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "19e71dc4472b874e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "java",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "9d14943bcf8cab86",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "4e66913322926164",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "107a5bfa165bf497",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "3a09f87bec60998c",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "fe30fc5b65cad0a0",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "7491070692b9c29b",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "dbdebf0a81a02849",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "5cbd5812a6b5cea1",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "14ade6b97d1d81cb",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "3bb52af8f304a8df",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e590f161f704b38e",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "9508968163e0e92d",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "c1e134e1952711a3",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "723b08d6e6e340bc",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "go",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "4449d094020f0e9b",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "java",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "e918246d704a4367",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "discovery_pipeline",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 7
+      },
+      "prompt_hash": "8aaf034fca28a065",
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    }
+  ]
+}

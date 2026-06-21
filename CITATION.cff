@@ -1,0 +1,31 @@
+# Citation metadata (https://citation-file-format.github.io/).
+# Authors/affiliations are placeholders for the human maintainer to fill in.
+cff-version: 1.2.0
+message: "If you use Spaghetti Architect or its benchmark, please cite it as below."
+title: "Spaghetti Architect: an anti-optimization transpiler and a ground-truth, contamination-resistant LLM code benchmark"
+abstract: >-
+  Spaghetti Architect maps a clean JSON intermediate representation to deliberately
+  redundant, fully-flattened, yet provably-correct code in Python, JavaScript, Go,
+  Java and C++, gated by an oracle validator. On top of it, a benchmark generator
+  produces ground-truth, tunable, contamination-resistant code tasks (refactoring,
+  LLM-as-judge quality, and comprehension) with two orthogonal difficulty axes:
+  intrinsic complexity (problem size) and incidental complexity (presentation mess
+  at fixed semantics).
+type: software
+version: "0.1.0"
+date-released: "2026-06-21"
+license: "GPL-3.0"
+repository-code: "https://github.com/KurathSec/Spaghetti-Architect"
+authors:
+  - given-names: "FIRSTNAME"
+    family-names: "LASTNAME"
+    affiliation: "AFFILIATION (placeholder)"
+    # orcid: "https://orcid.org/0000-0000-0000-0000"
+keywords:
+  - "anti-optimization"
+  - "code generation"
+  - "LLM benchmark"
+  - "data contamination"
+  - "code refactoring"
+  - "LLM-as-judge"
+  - "program comprehension"
