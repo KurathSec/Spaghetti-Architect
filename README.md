@@ -223,8 +223,8 @@ general control-flow transpilation.
 
 ## License
 
-Free software under the **GNU General Public License v3.0 (GPL-3.0)** — see
-[`LICENSE`](LICENSE). Copyright © 2026 Kurath.
+Released under the **MIT License** — see [`LICENSE`](LICENSE).
+Copyright © 2026 Kurath.
 
 ---
 

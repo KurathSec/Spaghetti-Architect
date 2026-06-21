@@ -37,8 +37,8 @@ jobs:
       - name: Engine unit tests (stdlib only)
         run: python -m unittest discover -s tests -t .
 
-      - name: Eval harness self-test (3.12+ : sys.monitoring)
-        run: python3 eval/run_eval.py --selftest
-
+      # The benchmark self-test (mock model, zero API spend) transitively
+      # exercises the public metric lane (eval.metrics + eval.gen_samples) and
+      # the untrusted compile/run graders on 3.12+ (sys.monitoring).
       - name: Benchmark harness self-test (mock model, zero API spend)
         run: python3 bench/run_bench.py --selftest

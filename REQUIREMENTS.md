@@ -20,8 +20,8 @@ language features. This file is the single, honest statement of what each needs.
 * **`eval/` & `bench/` — Python 3.12+.** Both measure *executed work* with
   [`sys.monitoring`](https://docs.python.org/3/library/sys.monitoring.html)
   (PEP 669), which only exists on **CPython 3.12+**. On older interpreters the
-  per-instruction op-count (`eval.metrics.count_work`, `eval.worklane`) cannot
-  fire, so the harness as a whole requires 3.12+. Developed and tested on 3.14.
+  per-instruction op-count (`eval.metrics.count_work`) cannot fire, so the harness
+  as a whole requires 3.12+. Developed and tested on 3.14.
 
 ## Optional language toolchains (validation only)
 

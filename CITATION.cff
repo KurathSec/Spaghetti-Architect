@@ -14,7 +14,7 @@ abstract: >-
 type: software
 version: "0.1.0"
 date-released: "2026-06-21"
-license: "GPL-3.0"
+license: "MIT"
 repository-code: "https://github.com/KurathSec/Spaghetti-Architect"
 authors:
   - given-names: "FIRSTNAME"

@@ -34,8 +34,14 @@ env/
 init.md
 init.en.md
 
-# Local evaluation harness — kept out of the published repo
-eval/
+# eval/: publish only the metric lane that bench/ reuses (metrics.py +
+# gen_samples.py); keep the separate de-optimization study private (run_eval,
+# resilience, worklane, compare_obfuscators, report.tex, out/, samples/).
+eval/*
+!eval/__init__.py
+!eval/metrics.py
+!eval/gen_samples.py
+!eval/README.md
 
 # Local environment files / secrets
 .env
