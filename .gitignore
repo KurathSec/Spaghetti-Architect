@@ -53,9 +53,17 @@ bench/config.json
 bench/.heldout_seed
 bench/data/test/
 
-# LaTeX build artifacts (e.g. paper/, when compiling the tool paper)
+# Internal working notes (open problems, solutions, submission roadmap) — private.
+bench/notes/
+
+# LaTeX build artifacts — both papers: paper/ (engine/metric-lane write-up) and
+# bench/paper/ (the benchmark paper, emitted by `run_bench.py --report`). Submit the
+# compiled PDF to the venue / arXiv; never commit it. The ACL style files
+# (acl.sty, acl_natbib.bst) ARE meant to be committed if you vendor them for a
+# repo-local build — they are build inputs, not artifacts.
 *.aux
 *.bbl
+*.bcf
 *.blg
 *.fdb_latexmk
 *.fls
@@ -63,7 +71,12 @@ bench/data/test/
 *.log
 *.lot
 *.out
+*.run.xml
 *.synctex.gz
 *.toc
+*.xdv
+paper/*.pdf
+bench/paper/*.pdf
+bench/paper/_build/
 
 # Note: tests/golden/ is intentionally tracked — those are test fixtures.

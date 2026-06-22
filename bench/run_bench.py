@@ -30,6 +30,7 @@ import datetime
 import json
 import os
 import shutil
+import statistics
 import sys
 from typing import Dict, List, Optional
 
@@ -70,18 +71,37 @@ def toolchain_status() -> Dict[str, bool]:
     return st
 
 
+def _dev_n_items() -> Optional[int]:
+    path = os.path.join(D.DATA_DIR, "manifest.json")
+    if os.path.exists(path):
+        try:
+            return json.load(open(path, encoding="utf-8"))["splits"]["dev"]["n_items"]
+        except Exception:  # noqa: BLE001
+            return None
+    return None
+
+
 def env_block(cfg: models.Config, split: str) -> dict:
     seed = D.SEED if split == "dev" else "PRIVATE (held-out, not stored)"
     return {
         "python_version": PY_VERSION,
         "toolchains": toolchain_status(),
         "network_isolation": bool(G.network_isolation_prefix()),
-        "dataset": {"version": D.DATASET_VERSION, "split": split, "seed": seed},
+        "dataset": {"version": D.DATASET_VERSION, "split": split, "seed": seed,
+                    "dev_n_items": _dev_n_items(), "canary": D.CANARY_GUID,
+                    "novelty_tiers": {"A": "literal re-mint (salt + RNG)",
+                                      "B": "structural held-out (private)",
+                                      "C": "distribution shift (private)"}},
         "prompt_version": P.PROMPT_VERSION,
+        "prompt_set_hash": P.prompt_set_hash(),
+        "n_paraphrases": P.N_PARAPHRASES,
         "sampling": {"k_samples": cfg.k_samples, "temperature": cfg.temperature,
                      "max_tokens": cfg.max_tokens},
         "models_under_test": cfg.models_under_test,
-        "provider": cfg.provider,
+        # cross-vendor provenance: each model's provider (single-vendor is no longer
+        # assumed). Exact dated snapshot ids are recorded per call and aggregated into
+        # results.json["snapshots"].
+        "providers": {m: cfg.provider_of(m) for m in cfg.models_under_test},
         "timestamp_utc": datetime.datetime.now(datetime.timezone.utc).isoformat(),
         "note": "Static metrics & sample generation are byte-deterministic; LLM "
                 "outputs are NOT — results are protocol-reproducible (temp 0 + k + CIs).",
@@ -119,12 +139,17 @@ def headline_aggregate(task: str, items: List[dict]) -> dict:
         mono = _means(items, "monotonicity")
         sens = _means(items, "sensitivity")
         pw = _means(items, "pairwise_acc")
+        pc = _means(items, "position_consistency")
         inv = sum(it.get("inversions", 0) for it in items)
         return {"n_items": len(items),
+                # pairwise (position-swap-controlled) is the PRIMARY judge metric
+                "pairwise_acc_mean": G.mean(pw),
+                "pairwise_acc_ci95": G.ci95_bootstrap(pw),
+                "position_consistency_mean": G.mean(pc),
+                # pointwise monotonicity is the secondary (Spearman) view
                 "monotonicity_mean": G.mean(mono),
                 "monotonicity_ci95": G.ci95_bootstrap(mono),
                 "sensitivity_mean": G.mean(sens),
-                "pairwise_acc_mean": G.mean(pw),
                 "inversions_total": inv}
     if task == "comprehend":
         em = _means(items, "exact_match_rate")
@@ -140,8 +165,9 @@ def headline_aggregate(task: str, items: List[dict]) -> dict:
 def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
               k: Optional[int] = None, write: bool = True, echo: bool = True) -> dict:
     cfg = models.load_config()
-    if model != models.MOCK and cfg.is_placeholder:
-        print("configure bench/config.json, then re-run", file=sys.stderr)
+    if model != models.MOCK and not cfg.model_is_live(model):
+        print(f"configure bench/config.json: no API key for model {model!r} "
+              f"(provider {cfg.provider_of(model)!r}), then re-run", file=sys.stderr)
         raise SystemExit(2)
     if task not in T.TASKS:
         raise SystemExit(f"unknown task {task!r}; choose from {T.TASKS}")
@@ -230,13 +256,28 @@ def selftest() -> int:
                f"refactor/go compile path (PASS or SKIP): {c2}"]
     ok = ok and c1 and c2
 
+    # baseline panel: the clean ceiling must reach the optimality band (recovered=1)
+    # and the rule-based mid must score (anti-gaming / non-triviality reference)
+    panel = G.baseline_panel("python", py.spaghetti_src, py.program)
+    c1b = (panel["clean_ceiling"].get("recovered") == 1
+           and not panel["rule_based"].get("skip"))
+    checks.append(f"baseline panel (clean ceiling recovered, rule-based scored): {c1b}")
+    ok = ok and c1b
+
     # judge: one Python item -> monotone, perfect pairwise
     ji = next(it for it in T.build_judge_items(sp, family="allowlist")
               if it.sample == "allowlist_L8" and it.language == "python")
     jr = T.score_judge_item(ji, models.MOCK, cfg, k=1)
-    c3 = jr["monotonicity"] <= 0.0 and jr["pairwise_acc"] == 1.0
-    checks.append(f"judge monotone(<=0) & pairwise=1: {c3}")
+    c3 = (jr["monotonicity"] <= 0.0 and jr["pairwise_acc"] == 1.0
+          and jr["position_consistency"] == 1.0)
+    checks.append(f"judge monotone(<=0) & pairwise=1 & position-consistent: {c3}")
     ok = ok and c3
+    # bias-control helpers (pure, testable): self-judge guard + jury majority
+    c3b = (G.may_judge("anthropic", "engine") and not G.may_judge("openai", "openai")
+           and G.jury_majority(["A", "A", "B"]) == "A"
+           and G.jury_majority(["A", "B"]) is None)
+    checks.append(f"judge bias controls (no-self-judge + jury majority): {c3b}")
+    ok = ok and c3b
 
     # comprehend: one item -> exact match
     ci = next(it for it in T.build_comprehend_items(sp, family="allowlist")
@@ -294,9 +335,147 @@ def _one_liner(task: str, agg: dict) -> str:
         return (f"sem_ok={agg['semantic_ok_rate']:.2f} "
                 f"simpl_q={agg['simplification_quality_mean']:.2f}")
     if task == "judge":
-        return (f"mono={agg['monotonicity_mean']:.2f} "
-                f"pairwise={agg['pairwise_acc_mean']:.2f}")
+        return (f"pairwise={agg['pairwise_acc_mean']:.2f} "
+                f"mono={agg['monotonicity_mean']:.2f}")
     return f"exact_match={agg['exact_match_rate']:.2f}"
+
+
+# --------------------------------------------------------------------------- #
+# --baselines (non-LLM reference panel; no API)
+# --------------------------------------------------------------------------- #
+def run_baselines(split: str = "dev") -> int:
+    """Score the non-LLM baseline panel (formatter lower bound / rule-based mid /
+    clean ceiling) over the Python refactor items and write per-baseline artifacts
+    (``model=baseline_*``) so the panel lands alongside model results in the refactor
+    figure. Proves the task is non-trivial and the optimum reachable. No API spend."""
+    cfg = models.load_config()
+    sp = D.load(split)
+    items = [it for it in T.build_refactor_items(sp) if it.language == "python"]
+    by_baseline: Dict[str, List[dict]] = {}
+    for it in items:
+        for name, g1 in G.baseline_panel(it.language, it.spaghetti_src, it.program).items():
+            rec = {"sample": it.sample, "profile": it.profile, "language": it.language,
+                   "variant": it.variant, "intrinsic": it.intrinsic, "snapshot": "baseline"}
+            rec.update(G.aggregate_refactor([g1]))
+            by_baseline.setdefault(name, []).append(rec)
+    os.makedirs(SUBAGENT_DIR, exist_ok=True)
+    written = 0
+    for name, records in sorted(by_baseline.items()):
+        if not any(not r.get("skip") for r in records):  # all SKIP (tool absent) -> omit
+            print(f"  baseline {name:14s} SKIP (tool unavailable on this host)")
+            continue
+        model = f"baseline_{name}"
+        payload = {"task": "refactor", "model": model, "family": None, "split": split,
+                   "k": 1, "prompt_version": P.PROMPT_VERSION, "env": env_block(cfg, split),
+                   "aggregate": headline_aggregate("refactor", records), "items": records}
+        with open(subagent_path("refactor", model, None), "w", encoding="utf-8") as f:
+            json.dump(payload, f, indent=2)
+            f.write("\n")
+        written += 1
+        a = payload["aggregate"]
+        print(f"  baseline {name:14s} sem_ok={a['semantic_ok_rate']:.2f} "
+              f"simpl_q={a['simplification_quality_mean']:.2f} n={a['n_items']}")
+    print(f"baseline panel: {written} baselines written over {len(items)} python "
+          f"refactor items -> {SUBAGENT_DIR}")
+    return 0
+
+
+# --------------------------------------------------------------------------- #
+# --sweep (prompt-robustness: paraphrase ensemble + variance decomposition)
+# --------------------------------------------------------------------------- #
+def _variance_decomposition(cells: List[List[List[float]]]) -> dict:
+    """``cells`` = items -> paraphrases -> [k per-completion scores]. Split the total
+    variance into within-prompt (k-sampling), between-prompt (paraphrasing), and
+    between-item, and report the mean per-item between-prompt spread (the headline
+    robustness metric)."""
+    within, between_prompt, item_means, per_item_spread, all_means = [], [], [], [], []
+    for paraphrases in cells:
+        par_means = []
+        for scores in paraphrases:
+            if len(scores) >= 2:
+                within.append(statistics.pvariance(scores))
+            if scores:
+                par_means.append(statistics.fmean(scores))
+        if len(par_means) >= 2:
+            between_prompt.append(statistics.pvariance(par_means))
+            per_item_spread.append(statistics.pstdev(par_means))
+        if par_means:
+            item_means.append(statistics.fmean(par_means))
+            all_means.extend(par_means)
+    return {
+        "n_items": len(cells),
+        "overall_mean": statistics.fmean(all_means) if all_means else 0.0,
+        "between_prompt_spread_mean": statistics.fmean(per_item_spread) if per_item_spread else 0.0,
+        "variance_decomposition": {
+            "within_prompt": statistics.fmean(within) if within else 0.0,
+            "between_prompt": statistics.fmean(between_prompt) if between_prompt else 0.0,
+            "between_item": statistics.pvariance(item_means) if len(item_means) >= 2 else 0.0,
+        },
+    }
+
+
+def run_sweep(task: str, model: str, split: str = "dev") -> int:
+    """FormatSpread-style robustness sweep: run every frozen paraphrase (held to the
+    same output format) on the representatives at the ``max`` profile, and report the
+    between-prompt spread + variance decomposition. The canonical prompt (variant 0)
+    still drives the headline ``--batch`` numbers; this only measures sensitivity."""
+    if task not in ("refactor", "comprehend"):
+        raise SystemExit("--sweep supports refactor or comprehend")
+    cfg = models.load_config()
+    if model != models.MOCK and not cfg.model_is_live(model):
+        print(f"configure bench/config.json: no API key for model {model!r} "
+              f"(provider {cfg.provider_of(model)!r}), then re-run", file=sys.stderr)
+        raise SystemExit(2)
+    k = 1 if model == models.MOCK else cfg.k_samples
+    sp = D.load(split)
+    reps = set(sp.representatives())
+
+    def _is_subset(it):
+        return it.sample in reps and it.profile == "max" and it.variant == "base"
+
+    cells: List[List[List[float]]] = []
+    snap = models.MOCK_SNAPSHOT
+    if task == "refactor":
+        subset = [it for it in T.build_refactor_items(sp) if _is_subset(it)]
+    else:
+        subset = [it for it in T.build_comprehend_items(sp) if _is_subset(it)]
+    for it in subset:
+        per_par: List[List[float]] = []
+        for v in P.PARAPHRASE_VARIANTS:
+            if task == "refactor":
+                system, user = P.refactor(it.language, it.spaghetti_src, it.result_vars, v)
+                outs, snap = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=it.mock_gold)
+                scores = [g["simplification_quality"]
+                          for g in (G.grade_refactor_one(it.language, o, it.spaghetti_src,
+                                                         it.program) for o in outs)
+                          if not g.get("skip")]
+            else:
+                system, user = P.comprehend(it.language, it.source, it.result_vars, v)
+                outs, snap = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=it.mock_gold)
+                scores = [float(G.grade_comprehend_one(o, it.program)["exact_match"]) for o in outs]
+            if scores:
+                per_par.append(scores)
+        if len(per_par) >= 2:
+            cells.append(per_par)
+
+    decomp = _variance_decomposition(cells)
+    payload = {"task": task, "model": model, "split": split, "k": k, "mode": "sweep",
+               "n_paraphrases": P.N_PARAPHRASES, "prompt_version": P.PROMPT_VERSION,
+               "prompt_set_hash": P.prompt_set_hash(), "snapshot": snap,
+               "env": env_block(cfg, split), "sweep": decomp}
+    os.makedirs(SUBAGENT_DIR, exist_ok=True)
+    name = f"sweep__{task}__{model.replace('/', '-')}.json"
+    with open(os.path.join(SUBAGENT_DIR, name), "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2)
+        f.write("\n")
+    vd = decomp["variance_decomposition"]
+    print(json.dumps({"mode": "sweep", "task": task, "model": model,
+                      "n_items": decomp["n_items"], "n_paraphrases": P.N_PARAPHRASES,
+                      "overall_mean": round(decomp["overall_mean"], 4),
+                      "between_prompt_spread": round(decomp["between_prompt_spread_mean"], 4),
+                      "variance": {kk: round(vv, 5) for kk, vv in vd.items()}},
+                     separators=(",", ":")))
+    return 0
 
 
 # --------------------------------------------------------------------------- #
@@ -407,11 +586,19 @@ def build_figures(payloads: List[dict]) -> dict:
                        "pairwise_acc": G.mean([it["pairwise_acc"] for it in items])}
     figures["judge_calibration"] = fig4
 
-    # Fig 5 — contamination control: dev vs test score per (model, task)
+    # Fig 5 — contamination control: dev vs test, graded by novelty tier A/B/C
     fig5: Dict[str, dict] = {}
     for (task, model, split), items in by_tms.items():
-        sc = G.mean([s for s in (_score_of(task, it) for it in items) if s is not None])
-        fig5.setdefault(model, {}).setdefault(task, {})[split] = sc
+        if split == "dev":
+            sc = G.mean([s for s in (_score_of(task, it) for it in items) if s is not None])
+            fig5.setdefault(model, {}).setdefault(task, {})["dev"] = sc
+        else:  # test: break out each novelty tier
+            by_tier: Dict[str, List[dict]] = {}
+            for it in items:
+                by_tier.setdefault(it.get("tier", "A"), []).append(it)
+            for tier, its in by_tier.items():
+                sc = G.mean([s for s in (_score_of(task, it) for it in its) if s is not None])
+                fig5.setdefault(model, {}).setdefault(task, {})[f"test_{tier}"] = sc
     figures["contamination"] = fig5
 
     # Fig 6 — cross-language: score per language per (model, task)
@@ -433,22 +620,46 @@ def aggregate() -> int:
               f"--batch first", file=sys.stderr)
         return 1
 
+    # sweep artifacts have a different shape (no per-item records); keep them apart.
+    batch = [pl for pl in payloads if "items" in pl]
+    sweeps = [pl for pl in payloads if pl.get("mode") == "sweep"]
+    if not batch:
+        print("no batch artifacts (only sweeps?); run --dry-run or --batch first",
+              file=sys.stderr)
+        return 1
+
     per_model: Dict[str, dict] = {}
-    for pl in payloads:
+    for pl in batch:
         per_model.setdefault(pl["model"], {}).setdefault(pl["task"], {})[
             pl.get("family") or "_all"] = pl["aggregate"]
 
-    figures = build_figures(payloads)
-    any_env = payloads[0]["env"]
-    live = any(pl["model"] != models.MOCK for pl in payloads)
+    figures = build_figures(batch)
+    any_env = batch[0]["env"]
+    # "live" = a real model ran; the mock and the non-LLM baselines do not count.
+    live = any(pl["model"] != models.MOCK and not pl["model"].startswith("baseline")
+               for pl in batch)
+
+    robustness: Dict[str, dict] = {}
+    for pl in sweeps:
+        robustness.setdefault(pl["model"], {})[pl["task"]] = pl["sweep"]
+
+    # exact dated snapshot ids the APIs returned, per model (closed-model repro threat)
+    snaps: Dict[str, set] = {}
+    for pl in batch:
+        for it in pl["items"]:
+            s = it.get("snapshot")
+            if s:
+                snaps.setdefault(pl["model"], set()).add(s)
 
     record = {
         "env": any_env,
         "status": "LIVE" if live else "DRY-RUN (mock model; AWAITING LIVE RUN)",
-        "models": sorted({pl["model"] for pl in payloads}),
-        "splits": sorted({pl["split"] for pl in payloads}),
+        "models": sorted({pl["model"] for pl in batch}),
+        "splits": sorted({pl["split"] for pl in batch}),
+        "snapshots": {m: sorted(v) for m, v in snaps.items()},
         "n_subagent_files": len(payloads),
         "per_model": per_model,
+        "robustness": robustness,   # prompt-paraphrase sweep (Phase F)
         "figures": figures,
     }
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -465,9 +676,23 @@ def aggregate() -> int:
 # --report (emit paper/benchmark.tex; NEVER compiled)
 # --------------------------------------------------------------------------- #
 _PAPER_TEMPLATE = r"""% Spaghetti Architect benchmark paper. Emitted by bench/run_bench.py --report.
-% NOT compiled by the harness. Bibliography: refs.bib (copied from Phase 5).
+% NOT compiled by the harness. Target venue: EACL (main or Findings) via ACL Rolling Review (ARR).
+% Format: ACL (acl.sty + acl_natbib), anonymized for ARR double-blind review. The
+% acl.sty / acl_natbib.bst files ship with the official ACL style-files repository;
+% match the exact style file the target cycle mandates.
+% VERIFY against the ARR/EACL CfP for the target cycle: long-paper limit (8 pp content
+% + unlimited references), the current ARR anonymity / preprint policy, and the EACL
+% commitment deadline. The Limitations section is MANDATORY and is NOT counted toward
+% the page limit; the Responsible NLP checklist is filed in the submission portal, not
+% in this PDF. Bibliography: refs.bib.
 \documentclass[11pt]{article}
-\usepackage[margin=1in]{geometry}
+\usepackage[review]{acl}   % 'review' = anonymized + line numbers; switch to 'final' at camera-ready
+\usepackage{times}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{microtype}
+\usepackage{graphicx}
 \usepackage{amsmath,amssymb}
 \usepackage{booktabs}
 \usepackage{tikz}
@@ -476,123 +701,167 @@ _PAPER_TEMPLATE = r"""% Spaghetti Architect benchmark paper. Emitted by bench/ru
 \usepackage{listings}
 \lstset{basicstyle=\ttfamily\footnotesize,breaklines=true,columns=fullflexible,
  frame=single,framesep=2pt,aboveskip=3pt,belowskip=2pt}
-\usepackage[numbers,sort&compress]{natbib}
-\usepackage{hyperref}
-\newcommand{\awaiting}[1]{\begin{center}\fbox{\parbox{0.82\textwidth}{\centering
+\newcommand{\awaiting}[1]{\begin{center}\fbox{\parbox{0.92\columnwidth}{\centering
  \textbf{[AWAITING LIVE RUN]}\\[3pt]\small #1}}\end{center}}
 
-\title{Spaghetti Architect: A Ground-Truth, Contamination-Resistant Benchmark for
- LLM Code Refactoring, Quality Judgment, and Comprehension}
-\author{Placeholder Author\\\texttt{placeholder@affiliation}}
-\date{}
+\title{Do LLM Judges Track Ground-Truth Code Quality? A Construction-Labeled,
+ Contamination-Resistant Benchmark for Code Quality Judgment, Refactoring, and
+ Comprehension}
+\author{Anonymous ACL submission}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-We present a benchmark generator for evaluating large language models on code, built
-on \emph{Spaghetti Architect}, a correctness-preserving ``anti-optimization''
-transpiler that compiles a clean JSON intermediate representation (IR) into
-deliberately awful but provably-equivalent code in five languages (Python,
-JavaScript, Go, Java, C++), gated by an oracle validator. Because every instance
-carries an exact semantic label \emph{by construction}, we obtain ground truth for
-three tasks where hand-collected corpora cannot: (i) \textbf{refactoring},
-auto-graded for semantic equivalence by the validator and for simplification against
-a \emph{known-optimal} clean baseline; (ii) \textbf{quality judgment}
-(LLM-as-judge), tested for monotonicity and sensitivity to ground-truth-controlled
-degradation; and (iii) \textbf{comprehension}, output prediction defeated neither by
-guessing (differential variants) nor by memorization (fresh instances). The
-benchmark exposes two \emph{orthogonal} difficulty axes --- \emph{intrinsic}
-complexity (problem size: cascade arms $N$, list length $L$, operation count) and
-\emph{incidental} complexity (a \texttt{minimal}$\to$\texttt{standard}$\to$\texttt{max}
-spaghetti profile that changes presentation at \textbf{zero} semantic cost) --- so we
-can ask a question no fixed corpus can: do models fail because the problem got
-bigger, or because the presentation got messier? Instances are minted fresh from a
-held-out seed for contamination resistance. This paper documents the design and the
-reusable harness; model results populate from a live run (status: \textbf{@@STATUS@@}).
+LLM-as-judge evaluations are validated against human preference or other models, so a
+judge's error cannot be separated from rater noise: no code benchmark supplies a quality
+ordering known \emph{independently} of raters. We build one. \emph{Spaghetti Architect}
+is a correctness-preserving ``anti-optimization'' transpiler that compiles a clean JSON
+intermediate representation (IR) into deliberately awful but provably-equivalent code in
+five languages (Python, JavaScript, Go, Java, C++), gated by an oracle validator, along a
+strictly-nested degradation knob. Because that knob \emph{is} a by-construction
+maintainability order at fixed semantics, it yields ground-truth quality labels, which we
+use to measure \textbf{judge faithfulness} --- do LLM judges rank code by the true order?
+--- our headline task (pairwise, position-swap, no self-judging, optional jury). Two
+companion tasks reuse the same labels: \textbf{refactoring}, auto-graded for semantic
+equivalence by the validator and for simplification toward a \emph{provably-reachable}
+clean-complexity floor (with an optimality band, an over-golf guard, a readability axis,
+and a per-anti-pattern removal check); and \textbf{comprehension} (output prediction),
+defeated neither by guessing (differential variants) nor by memorization (fresh
+instances). Crossing the incidental knob with an \emph{orthogonal intrinsic} size axis
+(cascade arms $N$, list length $L$, operation count) lets us ask what no fixed corpus
+can: do models fail because the problem got bigger, or because the presentation got
+messier? We control contamination with a \emph{mint-after-cutoff} protocol, graded
+novelty tiers (literal / structural / distribution-shift), and a canary; evaluate
+\textbf{cross-vendor} models; treat prompt sensitivity as a \emph{measured} robustness
+axis; and establish construct validity \textbf{without a new human-subjects study} via a
+triad of by-construction ground truth, convergent automated complexity metrics
+(\texttt{radon}, \texttt{lizard}, cognitive complexity), and published human-validated
+readability models. This paper documents the design and the reusable harness; model
+results populate from a live run (status: \textbf{@@STATUS@@}).
 \end{abstract}
 
 \section{Introduction}
-An optimizing compiler holds semantics fixed and minimizes a cost. Spaghetti
-Architect is its mirror image: it holds semantics fixed and \emph{maximizes}
-incidental complexity, composing eleven named anti-patterns under a strength profile.
-That inversion is useful precisely because it yields \textbf{labels}: the output is
-correct by construction (the validator compiles and runs all five targets against a
-reference oracle), and the clean IR is a \emph{known-optimal} reference. This is the
-``Csmith-for-badness'' framing --- where Csmith~\citep{yang2011csmith} mints random
-\emph{valid} programs to stress a compiler, we mint semantically-labelled \emph{bad}
-programs with a tunable degradation knob to stress a \emph{model}.
+Evaluating generated code increasingly relies on \emph{LLM-as-judge}: a model rates or
+ranks candidate programs, and the rating stands in for quality. The method is only as
+trustworthy as its gold standard, yet that gold is almost always \emph{human preference}
+or \emph{another model} --- so a judge's mistakes are entangled with rater noise, and no
+existing code benchmark supplies a quality ordering known \emph{independently} of raters.
+We close that gap with a construction that emits the order \emph{by fiat}.
 
-Hand-collected bad-code corpora lack three things this construction provides: exact
-semantic labels, independently tunable difficulty knobs, and contamination control.
-The central scientific move is to separate two axes that are conflated everywhere
-else. \emph{Intrinsic} complexity grows the logic (more cascade arms, longer lists,
-more operations). \emph{Incidental} complexity grows the mess at \emph{identical}
-semantics (the profile). Varying them independently decomposes a model's failure into
-``the problem got harder'' versus ``the presentation got worse'' --- the latter being
-a robustness property that matters in the wild and that no benchmark we know of
-isolates.
+An optimizing compiler holds semantics fixed and minimizes a cost; Spaghetti Architect is
+its mirror image, holding semantics fixed and \emph{maximizing} incidental complexity by
+composing eleven named anti-patterns under a strength profile. The inversion is useful
+because it yields \textbf{labels}: the output is correct by construction (the validator
+compiles and runs all five targets against a reference oracle), the clean IR is a
+\emph{known-optimal} reference, and --- crucially --- the strictly-nested profiles form a
+\emph{known quality ordering} at identical semantics. This is the ``Csmith-for-badness''
+framing: where Csmith~\citep{yang-etal-2011-finding} mints random \emph{valid} programs to stress a
+compiler, we mint semantically-labelled \emph{bad} programs with a tunable degradation
+knob to stress --- and to \emph{audit the evaluators of} --- a model.
+
+That ordering lets us separate two axes conflated everywhere else. \emph{Intrinsic}
+complexity grows the logic (more cascade arms, longer lists, more operations);
+\emph{incidental} complexity grows the mess at \emph{identical} semantics (the profile).
+Varying them independently decomposes a model's failure into ``the problem got harder''
+versus ``the presentation got worse'' --- the latter a robustness property that matters in
+the wild and that no benchmark we know of isolates.
+
+\paragraph{Contributions.} (1) A benchmark whose code-quality ordering is ground truth
+\emph{by construction}, and the first measurement of LLM-judge \emph{faithfulness} to
+such an order (position-swap, no self-judging, jury). (2) Two companion tasks on the same
+labels --- semantically-gated refactoring toward a provably-reachable clean floor, and
+output-prediction comprehension. (3) Orthogonal \emph{intrinsic} vs.\ \emph{incidental}
+difficulty knobs that attribute a score change to one cause with the other held fixed.
+(4) A contamination protocol (mint-after-cutoff $+$ graded novelty tiers $+$ canary), a
+cross-vendor evaluation, a measured prompt-robustness axis, and a zero-IRB
+construct-validity triad --- all in a reusable, stdlib-core harness.
 
 \section{Related Work}
-\paragraph{Obfuscation vs.\ anti-optimization.} The eleven \texttt{SPAGH\_*}
-transforms descend from the Collberg--Thomborson taxonomy~\citep{collberg1997taxonomy}
---- opaque predicates are theirs~\citep{collberg1998manufacturing} --- and tools like
-Tigress~\citep{collberg2015tigress}, OLLVM~\citep{junod2015ollvm}, and
-\texttt{javascript-obfuscator}~\citep{kachalov2016jsobfuscator} apply structurally
-similar moves. But their objective is reverse-engineering resistance, and they emit
-neither a quality label nor a known-optimal target; we reuse the primitives as a
-\emph{maintainability-degradation knob with ground truth}.
-\paragraph{Mutation testing.} Reviewers will raise the analogy, so we draw the line
-sharply: mutation testing~\citep{demillo1978hints,jia2011mutation} \emph{injects faults}
-(semantics change, kill-labels follow), whereas we \emph{preserve} semantics and label
-the structural mess --- the sign-flipped problem.
-\paragraph{Program generators.} Csmith~\citep{yang2011csmith} and
-YARPGen~\citep{livinskii2020yarpgen} are the closest siblings: they mint random
-\emph{valid} programs to stress a compiler via differential testing. We extend that idea
-with explicit per-instance labels, a clean-baseline \emph{optimum}, and an orthogonal
-\emph{incidental} knob that they do not have.
-\paragraph{Benchmarks, judges, contamination.} Correctness
-benches~\citep{chen2021humaneval,austin2021mbpp} and reasoning/refactor
-suites~\citep{gu2024cruxeval,jimenez2024swebench,gautam2025refactorbench} grade
-correctness but fix presentation and (mostly) cannot regenerate; LLM-as-judge
-work~\citep{zheng2023judging} and maintainability-metric
-critiques~\citep{vandeursen2014maintainability} lack a controlled stimulus; and the
-contamination literature~\citep{jacovi2023contamination,ravaut2024contamination,jain2025livecodebench}
-motivates fresh-minted instances but does not supply orthogonal complexity knobs. Our
-contribution is to combine all of these properties at once.
-\begin{table}[t]\centering\footnotesize
+\paragraph{Code benchmarks and what they fix.} Correctness
+suites~\citep{chen-etal-2021-evaluating,austin-etal-2021-program,zhuo-etal-2024-bigcodebench} and
+reasoning/execution and repair
+benchmarks~\citep{gu-etal-2024-cruxeval,jimenez-etal-2024-swe,gautam-etal-2025-refactorbench} grade
+\emph{what} a model produces but fix \emph{presentation} and (mostly) cannot regenerate;
+functional test-augmentation~\citep{liu-etal-2023-code} tightens equivalence checking but on
+static tasks. None expose an incidental-complexity knob at fixed semantics, and none carry
+a ground-truth \emph{quality} ordering.
+\paragraph{LLM-as-judge and the missing ground truth.} MT-Bench and
+juries~\citep{zheng-etal-2023-judging,verga-etal-2024-replacing} validate judges against human preference or
+model panels, and maintainability-metric critiques~\citep{vandeursen-2014-think}
+warn that automated scores are not quality itself; what is missing is a \emph{controlled
+stimulus with a known order}. The closest prior move is robustness to semantics-preserving
+code transforms --- ReCode~\citep{wang-etal-2023-recode} perturbs problems and measures
+correctness drop --- but it targets generation, not \emph{judgment}, and carries no graded
+quality label. We supply the label and turn the judge itself into the measured object.
+\paragraph{Contamination.} A public generator is defensible only under a protocol: we
+adopt time-gating and protected
+release~\citep{jacovi-etal-2023-stop,jain-etal-2025-livecodebench}, templated regeneration and
+the robustness-under-resampling lesson~\citep{mirzadeh-etal-2024-gsm,zhu-etal-2024-dyval}, the
+contamination-detection survey~\citep{ravaut-etal-2024-comprehensive}, and membership
+probes~\citep{shi-etal-2024-detecting} as audits.
+\paragraph{Prompt sensitivity.} Format and phrasing move
+scores~\citep{liang-etal-2023-holistic,zhu-etal-2023-promptrobust,sclar-etal-2024-quantifying}; we treat that spread
+as a \emph{measured} axis (a canonical prompt for headline numbers plus a frozen
+paraphrase sweep with variance decomposition) rather than a confound.
+\paragraph{Provenance of the transforms.} The eleven \texttt{SPAGH\_*} moves descend from
+the Collberg--Thomborson obfuscation
+taxonomy~\citep{collberg-etal-1997-taxonomy,collberg-etal-1998-manufacturing} and tools like
+Tigress~\citep{collberg-2015-tigress}, OLLVM~\citep{junod-etal-2015-obfuscator}, and
+\texttt{javascript-obfuscator}~\citep{kachalov-2016-javascript}; mutation
+testing~\citep{demillo-etal-1978-hints,jia-harman-2011-analysis} is the sign-flipped sibling (it
+\emph{injects faults}; we \emph{preserve} semantics and label the mess); and program
+generators Csmith~\citep{yang-etal-2011-finding} and YARPGen~\citep{livinskii-etal-2020-random} mint random
+\emph{valid} programs for differential testing. We reuse these primitives as a
+\emph{maintainability-degradation knob with ground truth}; none of them emit a quality
+label or a known-optimal target.
+\paragraph{Adopt-and-add (our positioning).} We \emph{adopt} each field's mitigation and
+\emph{add} the one affordance none supply: regeneration, canary, and time-gating for
+contamination~\citep{jain-etal-2025-livecodebench,mirzadeh-etal-2024-gsm,zhu-etal-2024-dyval,jacovi-etal-2023-stop};
+position-swap, reference-guided grading, and juries for
+judges~\citep{zheng-etal-2023-judging,verga-etal-2024-replacing}; functional differential testing (not
+reference matching) for refactoring~\citep{liu-etal-2023-code,gautam-etal-2025-refactorbench}; and a
+canonical-prompt-plus-sweep design for prompt
+sensitivity~\citep{liang-etal-2023-holistic,zhu-etal-2023-promptrobust,sclar-etal-2024-quantifying}. We \emph{add} a
+controlled stimulus with orthogonal intrinsic/incidental knobs and a provably-reachable
+optimum, so a score change is attributable to one knob with the other held fixed --- the
+property the table below summarizes.
+\begin{table*}[t]\centering\footnotesize
 \begin{tabular}{lcccccc}
 \toprule
 Approach & GT label & Intrinsic & Incidental & Auto-equiv. & Contam. & Multi-lang \\
 \midrule
 \textbf{Spaghetti Architect (ours)} & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark & \checkmark \\
-Obfuscators~\citep{collberg1997taxonomy,collberg2015tigress,junod2015ollvm,kachalov2016jsobfuscator}
+Obfuscators~\citep{collberg-etal-1997-taxonomy,collberg-2015-tigress,junod-etal-2015-obfuscator,kachalov-2016-javascript}
  & $\times$ & $\circ$ & $\circ$ & $\circ$ & $\times$ & $\circ$ \\
-Mutation testing~\citep{demillo1978hints,jia2011mutation}
+Mutation testing~\citep{demillo-etal-1978-hints,jia-harman-2011-analysis}
  & \checkmark & --- & --- & inv. & $\times$ & $\circ$ \\
-Program generators~\citep{yang2011csmith,livinskii2020yarpgen}
+Program generators~\citep{yang-etal-2011-finding,livinskii-etal-2020-random}
  & $\circ$ & \checkmark & $\times$ & \checkmark & \checkmark & $\circ$ \\
-Correctness benches~\citep{chen2021humaneval,austin2021mbpp}
+Correctness benches~\citep{chen-etal-2021-evaluating,austin-etal-2021-program}
  & \checkmark & $\times$ & $\times$ & \checkmark & $\times$ & $\times$ \\
-Reasoning/refactor~\citep{gu2024cruxeval,jimenez2024swebench,gautam2025refactorbench}
+Reasoning/refactor~\citep{gu-etal-2024-cruxeval,jimenez-etal-2024-swe,gautam-etal-2025-refactorbench}
  & \checkmark & $\circ$ & $\times$ & \checkmark & $\circ$ & $\circ$ \\
-Judge / metric validity~\citep{zheng2023judging,vandeursen2014maintainability}
+Judge / metric validity~\citep{zheng-etal-2023-judging,vandeursen-2014-think}
  & $\times$ & $\times$ & $\times$ & $\times$ & --- & --- \\
-Contamination~\citep{jacovi2023contamination,ravaut2024contamination,jain2025livecodebench}
+Contamination~\citep{jacovi-etal-2023-stop,ravaut-etal-2024-comprehensive,jain-etal-2025-livecodebench}
  & varies & $\times$ & $\times$ & varies & \checkmark & $\circ$ \\
 \bottomrule
 \end{tabular}
 \caption{Positioning ($\checkmark$ yes, $\circ$ partial, $\times$ no, inv.\ inverted).
-No neighbor offers ground-truth labels \emph{and} orthogonal intrinsic/incidental
-knobs \emph{and} auto-checkable equivalence \emph{and} contamination resistance
-across five languages from one IR.}
-\end{table}
+No neighbor offers a by-construction ground-truth \emph{quality order} (the basis for our
+judge-faithfulness task) \emph{and} orthogonal intrinsic/incidental knobs \emph{and}
+auto-checkable equivalence \emph{and} contamination resistance across five languages from
+one IR.}
+\end{table*}
 
 \section{The Generator}
 Spaghetti Architect is a four-stage pipeline (parser $\to$ planner $\to$ five
 language backends $\to$ validator); see the project's \texttt{architecture.md}. The
-IR supports two composable operations, \texttt{MEMBERSHIP\_CHECK} ($r = t \in c$) and
-\texttt{KEY\_VALUE\_LOOKUP} ($r = \text{pairs}.\text{get}(k,d)$), chained into
+IR supports four composable operations --- \texttt{MEMBERSHIP\_CHECK} ($r = t \in c$),
+\texttt{KEY\_VALUE\_LOOKUP} ($r = \text{pairs}.\text{get}(k,d)$), \texttt{AGGREGATE}
+($\mathrm{sum}/\mathrm{min}/\mathrm{max}$ over an integer collection), and
+\texttt{CONDITIONAL\_SELECT} (an integer-comparison branch) --- chained into
 programs. A data-driven planner selects eleven \texttt{SPAGH\_*} transforms by
 profile; each backend lowers them idiomatically (only C++ emits genuine pointer
 arithmetic for the manual-index pattern). \textbf{Correctness by construction} is the
@@ -604,38 +873,74 @@ pipeline verbatim --- \texttt{Engine.generate}, \texttt{oracle}, \texttt{validat
 and the metric library --- adding no second generator or grader.
 
 \section{Benchmark Design}
-\paragraph{Axes.} We cross \emph{incidental} profile $\in\{$\texttt{minimal},
-\texttt{standard}, \texttt{max}$\}$ (plus \texttt{clean} as the zero point) $\times$
-\emph{intrinsic} scale (the \texttt{config\_resolver} $N\in\{4,8,16,32\}$ and
-\texttt{allowlist} $L\in\{8,32,128\}$ families, plus \texttt{status\_router},
-\texttt{discovery\_pipeline}, \texttt{fsm\_transition}) $\times$ language $\in$ five
-backends $\times$ input variant ($\texttt{*\_v0..v4}$, exercising early/late cascade
-arms, present/absent membership, default-misses). The public \texttt{dev} split has
-@@NDEV@@ instances (@@NBASE@@ bases + variants), seed \texttt{@@SEED@@}.
+\paragraph{Axes.} We cross \emph{incidental} profile --- a six-point,
+strictly-\emph{nested} ladder \texttt{clean}$\subset$\texttt{minimal}$\subset$%
+\texttt{light}$\subset$\texttt{standard}$\subset$\texttt{heavy}$\subset$\texttt{max}
+(\texttt{SPAGH\_*} set inclusion, which \emph{is} the by-construction maintainability
+order; deduplicated to distinct renders per family) --- $\times$ \emph{intrinsic}
+scale (\texttt{config\_resolver} $N\!\in\!\{4..32\}$, \texttt{allowlist}
+$L\!\in\!\{8..128\}$, an AGGREGATE family \texttt{agg\_stats} $W\!\in\!\{8,32\}$ and a
+CONDITIONAL\_SELECT family \texttt{threshold\_select} $T\!\in\!\{2,4\}$, plus
+\texttt{status\_router}, \texttt{discovery\_pipeline}, \texttt{fsm\_transition})
+$\times$ language $\in$ five backends $\times$ input variant ($\texttt{*\_v0..v4}$).
+The public \texttt{dev} split has @@NDEV@@ instances (@@NBASE@@ bases + variants)
+across seven families, seed \texttt{@@SEED@@}. The six-point knob restores statistical
+power to judge monotonicity, which we analyse with a mixed-effects model pooling
+families and items rather than a four-point per-series Spearman.
 
-\paragraph{Contamination control.} A private \texttt{test} split is minted from an
-uncommitted seed (\texttt{BENCH\_HELDOUT\_SEED}): it re-draws every RNG-sourced
-numeric literal and applies a structure-preserving \emph{string salt} to every string
-literal, so instances are novel across all families while staying structurally
-identical (every minted IR is re-validated by the parser). The held-out seed is never
-stored; we report the \texttt{dev}$-$\texttt{test} score gap as the memorization probe.
+\paragraph{Contamination: a mint-after-cutoff protocol, not a proof.} A public
+\emph{generator} is acceptable provided every \emph{scored} instance is minted
+\emph{after} a model's training cutoff from a \textbf{private, rotating seed}, after
+LiveCodeBench/GSM-Symbolic~\citep{jain-etal-2025-livecodebench,mirzadeh-etal-2024-gsm}: the
+defense is the \emph{protocol}, not the artifact, and we make no
+``contamination-proof'' claim. We report graded \textbf{novelty tiers} --- \textbf{A}
+(literal-novel: re-mint numeric literals and salt strings, defeats verbatim
+memorization), \textbf{B} (structural held-out: op-chain \emph{shapes} kept private,
+defeats structure memorization), \textbf{C} (distribution shift: deeper chains and
+out-of-range scales, defeats distribution learning) --- so degradation across
+A$\to$B$\to$C is a \emph{measured} axis. A \textbf{canary} GUID is embedded in the
+public release for training-set audits; the held-out seed and Tier B/C structures are
+never committed (a deliberate trade-off, not an omission). Every minted IR is
+re-validated by the parser.
 
 \paragraph{Tasks and grading (reusing the validator + metrics).}
-\emph{Refactor:} the model rewrites a rendered spaghetti source; we grade semantic
+\emph{Refactor.} The model rewrites a rendered spaghetti source; we grade semantic
 equivalence by running its output \textbf{untrusted} (model Python in a subprocess
 with \texttt{-I} isolation, a wall-clock timeout, and @@NETISO@@; the other four
-languages via the project validator's compile/run path) and comparing to the oracle.
-Simplification is scored only if equivalent: $\text{recovery}(m)=\mathrm{clamp}\!\big(
-(m_{\text{spag}}-m_{\text{model}})/(m_{\text{spag}}-m_{\text{clean}}),-1,1\big)$ over a
-rigorous Python-AST lane (cyclomatic, AST size, Halstead effort) and an agnostic proxy
-lane for the other languages, and $\text{simpl\_q}=\text{semantic\_ok}\cdot
-\mathrm{geomean}(\text{positive recoveries})$.
-\emph{Judge:} pointwise ratings across the incidental knob give monotonicity (Spearman
-$\rho$, expected strongly negative) and sensitivity; pairwise comparisons give accuracy
-versus the knob order.
-\emph{Comprehend:} predict the result variables; exact-match versus the oracle over
-base $+$ variants. Matrix sizes (dev): refactor @@NREFAC@@, comprehend @@NCOMP@@, judge
+languages via the project validator) against the oracle. Simplification is scored only
+if equivalent, as distance toward a \emph{provably-reachable clean-complexity floor}
+(not a unique optimum): per-facet
+$\mathrm{clamp}((m_{\text{spag}}\!-\!m_{\text{model}})/(m_{\text{spag}}\!-\!
+m_{\text{clean}}),-1,1)$ over a rigorous Python-AST lane (cyclomatic, AST size,
+Halstead effort, and a \emph{readability}/maintainability-index axis so
+terse-but-cryptic code cannot game size) and an agnostic proxy lane for the other
+languages, capped at the floor; $\text{simpl\_q}=\text{semantic\_ok}\cdot
+\mathrm{geomean}(\text{positive recoveries})$. We add an \emph{optimality band}
+(equivalent and within $\varepsilon$ of the reachable clean $\Rightarrow$
+``recovered''), an \texttt{over\_golfed} guard (undershooting the floor $=$ removed
+structure, flagged not rewarded), and a per-\texttt{SPAGH\_*} \emph{removal} check.
+A non-LLM \textbf{baseline panel} --- autoformatter (lower bound), a rule-based AST
+simplifier (non-LLM mid), and the clean baseline ($(1,1)$ ceiling) --- establishes the
+task is non-trivial and the optimum reachable (Fig.~\ref{fig:refactor}).
+\emph{Judge.} The \emph{knob} is ground truth (the by-construction order); external
+complexity metrics are \emph{convergent witnesses}, not the definition of quality
+(\S\ref{sec:cv}), which removes the circularity. We lead with \textbf{pairwise}
+accuracy against the known order under MT-Bench \textbf{position-swap} (a pair counts
+only if the choice is consistent across both orderings), with no self-judging and an
+optional jury~\citep{zheng-etal-2023-judging,verga-etal-2024-replacing}; pointwise ratings give the
+secondary monotonicity (Spearman) view.
+\emph{Comprehend.} Predict the result variables; exact-match vs.\ the oracle over base
+$+$ variants. Matrix sizes (dev): refactor @@NREFAC@@, comprehend @@NCOMP@@, judge
 @@NJUDGE@@ items.
+
+\paragraph{Prompt robustness as a measured axis.} Each task has a pre-registered
+\emph{canonical} prompt (for the headline numbers) plus $@@NPARA@@$ frozen
+\emph{paraphrases} that vary wording/role/order while holding the graded output format
+byte-identical, after HELM/FormatSpread~\citep{liang-etal-2023-holistic,sclar-etal-2024-quantifying}. A
+\texttt{--sweep} reports the mean and the between-prompt spread, and a variance
+decomposition into within-prompt (sampling), between-prompt (phrasing), and
+between-item components (Fig.~\ref{fig:robust}). The prompt set is content-hashed
+(\texttt{@@PROMPTHASH@@}) and was fixed before any results existed.
 
 \paragraph{Protocol and determinism.} Sample generation and all static metrics are
 byte-deterministic (seeded). LLM outputs are \emph{not}: we pin
@@ -648,69 +953,127 @@ the graded output.
 
 \section{Results}
 \emph{Status: \textbf{@@STATUS@@}.} Model figures populate from \texttt{out/results.json}
-after a live run; until then each is a wired placeholder.
+after a live run; until then each is a wired placeholder. The body carries the three
+headline figures; the decomposition, refactor, cross-language, and robustness panels are
+in Appendix~\ref{app:figs}.
 
-\begin{figure}[h]\centering @@FIG1@@
+\begin{figure*}[t]\centering @@FIG4@@
+\caption{\textbf{Judge faithfulness (headline).} Pairwise accuracy under MT-Bench
+position-swap and rating-vs-knob monotonicity per model, with the non-LLM
+\texttt{radon}/\texttt{lizard}/cognitive anchors (\S\ref{sec:cv}) as external references
+--- the knob, not a metric, is ground truth.}\label{fig:judge}\end{figure*}
+
+\begin{figure*}[t]\centering @@FIG1@@
 \caption{\textbf{Incidental-complexity degradation.} Task score vs.\ profile with logic
-held fixed --- the headline: does mess alone hurt?}\end{figure}
+held fixed --- does mess alone hurt?}\end{figure*}
 
-\begin{figure}[h]\centering @@FIG2@@
-\caption{\textbf{Intrinsic vs.\ incidental decomposition.} $\Delta$score from growing
-$N/L$ (fixed profile) vs.\ from growing the profile (fixed logic) --- the scientific
-core.}\end{figure}
+\begin{figure*}[t]\centering @@FIG5@@
+\caption{\textbf{Contamination control (graded tiers).} Public \texttt{dev} vs.\ private
+\texttt{test} by novelty tier A$\to$B$\to$C (literal / structural / distribution-shift);
+the gap, graded by tier, is a measured memorization axis.}\end{figure*}
 
-\begin{figure}[h]\centering @@FIG3@@
-\caption{\textbf{Refactor 2-D.} Semantic-ok rate vs.\ simplification quality per model;
-the clean baseline is the $(1,1)$ upper bound.}\end{figure}
+\section{Construct Validity (a zero-IRB triad)}\label{sec:cv}
+For a benchmark-\emph{generator} the contribution is the instrument, and we establish
+its validity \textbf{without a new human-subjects study} via three independent layers,
+none touching a participant. \textbf{(i) By-construction ground truth:} the nested
+\texttt{SPAGH\_*} inclusion order is a known maintainability ordering at fixed
+semantics. \textbf{(ii) Automated convergent validity (real, model-independent data):}
+the knob moves several \emph{independent} external complexity metrics monotonically
+(\texttt{radon}: cyclomatic complexity and the maintainability index; \texttt{lizard}:
+language-agnostic cyclomatic complexity; cognitive complexity: a nesting-aware readability
+proxy). Scoring the @@NANCHOR@@ \texttt{dev} Python sources off the zero-dependency core (a
+quarantined virtualenv), the incidental rank correlates with \texttt{radon} cyclomatic
+at $\rho=@@ANCINCCC@@$, \texttt{lizard} cyclomatic at $\rho=@@ANCLIZ@@$, and cognitive
+complexity at $\rho=@@ANCCOG@@$, and inversely with \texttt{radon} maintainability at
+$\rho=@@ANCINCMI@@$; the intrinsic $N$ knob gives $\rho=@@ANCNCC@@$. Our own metric
+lane is tightly anchored to the external ones (our CC vs.\ radon CC $\rho=@@ANCXCC@@$,
+our MI vs.\ radon MI $\rho=@@ANCXMI@@$). \textbf{(iii) External human grounding:} we
+anchor to \emph{published} human-validated readability models ---
+Buse--Weimer~\citep{buse-weimer-2010-learning}, Scalabrino et
+al.~\citep{scalabrino-etal-2018-comprehensive}, Dorn~\citep{dorn-2012-general}; using public,
+de-identified prior data is \emph{not} new human-subjects research. Our run records
+this anchor as \textbf{@@READSTATUS@@} (the models ship as Weka/Java artifacts --- an
+honest SKIP, not a relabeled proxy). The same external metrics are the reference
+against which the judge (Fig.~\ref{fig:judge}) is calibrated, so a judge is measured
+against an independent witness, not only against other judges. A fresh controlled
+human ranking would strengthen layer (iii) but is \emph{future work}; the triad stands
+on its own.
 
-\begin{figure}[h]\centering @@FIG4@@
-\caption{\textbf{Judge calibration.} Rating-vs-knob monotonicity per model, with the
-non-LLM radon anchor (\S\ref{sec:cv}) as the external reference.}\end{figure}
-
-\begin{figure}[h]\centering @@FIG5@@
-\caption{\textbf{Contamination control.} Public \texttt{dev} vs.\ private \texttt{test}
-(fresh seed); a gap flags memorization.}\end{figure}
-
-\begin{figure}[h]\centering @@FIG6@@
-\caption{\textbf{Cross-language.} Task score per language (same logic), exposing harder
-backends.}\end{figure}
-
-\section{Construct Validity}\label{sec:cv}
-To anchor the bespoke metrics and the judge to an \emph{external} reference, we score
-the \texttt{dev} Python sources with \texttt{radon} (status: \textbf{@@ANCHORSTATUS@@},
-v\,@@RADONVER@@), a standard non-LLM complexity tool, off the zero-dependency core (a
-quarantined virtualenv). Two findings (this is real, model-independent data):
-\textbf{(1) the ground-truth knob moves an independent metric monotonically} ---
-Spearman of the incidental rank against radon cyclomatic is $\rho=@@ANCINCCC@@$
-(more mess, more complexity) and against radon maintainability $\rho=@@ANCINCMI@@$
-(more mess, lower maintainability), with the intrinsic $N$ knob giving
-$\rho=@@ANCNCC@@$ against radon CC; and \textbf{(2) our lane is anchored to the
-external one} --- our cyclomatic vs.\ radon CC $\rho=@@ANCXCC@@$ and our
-maintainability vs.\ radon MI $\rho=@@ANCXMI@@$ across all sources. The same radon MI
-is the reference against which Figure~4 calibrates LLM judges, so a judge is measured
-against an external metric, not only against other judges.
-
-\section{Threats to Validity}
-\paragraph{Construct.} The IR has two operations: this is a deliberate \emph{controlled
-stimulus}, not a claim of generality --- it is exactly what lets us hold semantics fixed
-while varying mess. Equivalence is established by differential testing over base $+$
-variants, not by proof; the rigorous simplification lane is Python-only (the other four
-use a text/regex proxy with a language-neutral clean floor).
-\paragraph{Conclusion.} LLM outputs are nondeterministic; we mitigate with
-\texttt{temperature=0}, $k$ samples, and CIs, and never claim byte reproducibility for
-model results. Prompt sensitivity is a known risk; prompts are frozen and versioned so
-the protocol is at least reproducible.
-\paragraph{External.} The default models-under-test are one vendor's capability
-gradient (a result in itself); the client has a hook for an external provider. A missing
-toolchain \textsc{skip}s rather than failing, and is recorded, never counted as a pass.
+\section{Reproducibility and Availability}
+The generator, the public \texttt{dev} split, the metric/grader lanes, and the harness
+(\texttt{--selftest}/\texttt{--dry-run}/\texttt{--plan}/\texttt{--baselines}/%
+\texttt{--sweep}/\texttt{--aggregate}/\texttt{--report}) are released under the MIT
+license; for double-blind review an anonymized snapshot is provided at
+\textbf{@@ARTIFACT@@}, and the release carries a \textbf{canary} GUID for training-set
+audits. To preserve the \emph{mint-after-cutoff} guarantee, the private held-out seed and
+the Tier B/C structures are \textbf{deliberately withheld} --- a contamination trade-off,
+not an omission: anyone can regenerate an equivalent private split from a fresh secret
+seed with the released generator, and the public \texttt{dev} split plus the recorded
+protocol (frozen prompts \texttt{@@PROMPTHASH@@}, $k$, temperature, dated model snapshots)
+make every reported number protocol-reproducible. Generator and static metrics are
+byte-deterministic; model results are \emph{protocol}-reproducible, not byte-reproducible.
+The Responsible NLP / reproducibility checklist is filed with the submission.
 
 \section{Conclusion}
-By treating an anti-optimizer as a labelled benchmark generator, we obtain ground truth,
-two orthogonal difficulty knobs, auto-checkable equivalence, and contamination
-resistance --- together, not separately --- across five languages from one IR. The
-orthogonal decomposition turns ``the model got it wrong'' into the sharper ``the model
-is not robust to incidental complexity,'' which is the property the benchmark is built
-to measure.
+By treating an anti-optimizer as a labelled benchmark generator, we obtain a
+by-construction ground-truth quality order --- and with it the first direct measurement of
+LLM-judge faithfulness --- alongside semantically-gated refactoring, output-prediction
+comprehension, two orthogonal difficulty knobs, auto-checkable equivalence, and
+contamination resistance, across five languages from one IR. The orthogonal decomposition
+turns ``the model got it wrong'' into the sharper ``the model (or its judge) is not robust
+to incidental complexity,'' which is the property the benchmark is built to measure.
+
+\section*{Limitations}
+\paragraph{No new human evaluation (the principal open problem).} Our quality ground truth
+is by \emph{construction} --- the strictly-nested \texttt{SPAGH\_*} inclusion order --- and
+we validate the \emph{instrument} through convergent automated metrics and \emph{published}
+human-validated readability models rather than a fresh human study (\S\ref{sec:cv}). This
+is a deliberate scope choice, and we are explicit that it is \emph{not} solved: we do not
+collect human quality ratings on \emph{our} instances, so (i) the by-construction order,
+though monotone in every external complexity metric we measured, is not re-confirmed by
+fresh raters on these exact programs, and (ii) judge faithfulness is scored against the
+construction, not against human consensus --- if human notions of ``messy'' diverged from
+\texttt{SPAGH\_*} inclusion, a faithful judge could look unfaithful, or vice versa. A
+pre-registered, IRB-exempt human ranking on a sample of our instances is the single most
+valuable addition and is left as future work; the convergent-metric triad mitigates but
+does not remove this threat.
+\paragraph{Construct.} The IR has a small, fixed operation set --- a deliberate
+\emph{controlled stimulus}, not a generality claim; it is what holds semantics fixed while
+varying mess. Equivalence is established by differential testing over base $+$ variants,
+not by proof; the rigorous simplification and optimality-band lanes are Python-only (the
+other four languages use a text/regex proxy with a language-neutral floor), so
+cross-language scores are a proxy and are \emph{not} pooled without caveat.
+\paragraph{Contamination.} We claim mint-after-cutoff, not contamination-proofing: a public
+generator could synthesize in-distribution training data, which is exactly why we report
+graded A/B/C novelty tiers and keep the held-out seed and Tier B/C structures private. The
+optimum is a provably-reachable \emph{floor}, not a unique best refactoring; ``recovered''
+means reaching that floor's band, and the \texttt{over\_golfed} guard plus the readability
+axis defeat the obvious size-gaming strategy.
+\paragraph{Conclusion validity and scope.} LLM outputs are nondeterministic; we mitigate
+with \texttt{temperature=0}, $k$ samples, and bootstrap CIs, and claim \emph{protocol} ---
+not byte --- reproducibility for model results, recording the exact dated snapshot id per
+call since closed models drift. Prompt sensitivity is \emph{measured} (canonical prompt
+plus a frozen paraphrase sweep and variance decomposition), not assumed. The
+models-under-test are \textbf{cross-vendor} (Anthropic, OpenAI, Google, and open-weights
+via an OpenAI-compatible gateway); a missing toolchain \textsc{skip}s (recorded, never
+counted as a pass).
+
+\section*{Ethics Statement}
+This work introduces a \emph{measurement instrument}, not a deployment artifact. The
+generator deliberately emits low-quality but \emph{semantically faithful} code; its moves
+overlap with obfuscation (a dual-use concern), but it changes presentation at zero
+semantic cost and is intended for evaluating and auditing models, not for shipping
+degraded software. No human subjects, no personal or private data, and no annotation labor
+are involved: every instance is synthesized and labelled by construction, and the
+readability ``human grounding'' uses only \emph{published, de-identified} prior datasets
+and models. We embed a canary GUID so future training sets can be audited for inclusion of
+our public split, and we withhold the held-out seed to keep the scored split fresh. The
+live evaluation consumes paid API and local compute; we report the model snapshots,
+sampling budget ($k$), and toolchains so the cost and footprint are transparent.
+
+% acl.sty already issues \bibliographystyle{acl_natbib}; adding another triggers a
+% bibtex "another \bibstyle" error, so we deliberately omit it here.
+\bibliography{refs}
 
 \appendix
 \section{Exact commands}
@@ -734,8 +1097,26 @@ The held-out \texttt{test} split is minted from \texttt{BENCH\_HELDOUT\_SEED} (a
 environment variable, never committed) by re-drawing numeric literals and salting
 string literals; only the public \texttt{dev} split and the generator are committed.
 
-\bibliographystyle{plainnat}
-\bibliography{refs}
+\section{Additional figures}\label{app:figs}
+\begin{figure*}[t]\centering @@FIG2@@
+\caption{\textbf{Intrinsic vs.\ incidental decomposition.} $\Delta$score from growing
+$N/L$ (fixed profile) vs.\ from growing the profile (fixed logic) --- the scientific
+core.}\end{figure*}
+
+\begin{figure*}[t]\centering @@FIG3@@
+\caption{\textbf{Refactor 2-D $+$ baseline panel.} Semantic-ok rate vs.\ simplification
+quality per model; the clean baseline is the $(1,1)$ ceiling and the non-LLM panel
+(autoformatter lower bound, rule-based AST mid) marks the reachable range.}
+\label{fig:refactor}\end{figure*}
+
+\begin{figure*}[t]\centering @@FIG6@@
+\caption{\textbf{Cross-language.} Task score per language (same logic), exposing harder
+backends (a proxy across lanes; not pooled without caveat).}\end{figure*}
+
+\begin{figure*}[t]\centering @@FIG7@@
+\caption{\textbf{Prompt robustness.} Per-model between-prompt spread over the frozen
+paraphrase ensemble, and the within-prompt / between-prompt / between-item variance
+decomposition --- sensitivity is measured, not assumed.}\label{fig:robust}\end{figure*}
 \end{document}
 """
 
@@ -827,16 +1208,20 @@ def _fig_contamination(results, live):
     if not live:
         return _awaiting(hint)
     fig = results["figures"]["contamination"]
+    def cell(v):
+        return "---" if v is None else f"{v:.3f}"
+    def gap(dev, v):
+        return "---" if dev is None or v is None else f"{dev - v:+.3f}"
     rows = []
     for model, tasks_ in sorted(fig.items()):
         for task, sd in sorted(tasks_.items()):
-            dev, test = sd.get("dev"), sd.get("test")
-            gap = (f"{dev - test:+.3f}" if dev is not None and test is not None else "---")
-            rows.append(f"{_texesc(model)} & {task} & "
-                        f"{dev if dev is None else f'{dev:.3f}'} & "
-                        f"{test if test is None else f'{test:.3f}'} & {gap} \\\\")
-    return ("\\begin{tabular}{llrrr}\\toprule model & task & dev & test & gap \\\\\\midrule\n"
-            + "\n".join(rows) + "\n\\bottomrule\\end{tabular}")
+            dev = sd.get("dev")
+            ta, tb, tc = sd.get("test_A"), sd.get("test_B"), sd.get("test_C")
+            rows.append(f"{_texesc(model)} & {task} & {cell(dev)} & {cell(ta)} & "
+                        f"{cell(tb)} & {cell(tc)} & {gap(dev, tc)} \\\\")
+    return ("\\begin{tabular}{ll rrrr r}\\toprule model & task & dev & test\\,A & "
+            "test\\,B & test\\,C & dev$-$C \\\\\\midrule\n" + "\n".join(rows)
+            + "\n\\bottomrule\\end{tabular}")
 
 
 def _fig_crosslang(results, live):
@@ -854,6 +1239,27 @@ def _fig_crosslang(results, live):
     head = " & ".join(langs)
     return ("\\begin{tabular}{ll" + "r" * len(langs) + "}\\toprule model & task & "
             + head + " \\\\\\midrule\n" + "\n".join(rows) + "\n\\bottomrule\\end{tabular}")
+
+
+def _fig_robustness(results, live):
+    hint = ("Per-model between-prompt spread over the frozen paraphrase ensemble, plus "
+            "the within/between-prompt/between-item variance decomposition. From "
+            "\\texttt{results.robustness} (the \\texttt{--sweep} artifacts).")
+    rob = (results or {}).get("robustness", {})
+    if not live or not rob:
+        return _awaiting(hint)
+    rows = []
+    for model, tasks_ in sorted(rob.items()):
+        for task, d in sorted(tasks_.items()):
+            vd = d.get("variance_decomposition", {})
+            rows.append(f"{_texesc(model)} & {task} & {d.get('overall_mean', 0):.3f} & "
+                        f"{d.get('between_prompt_spread_mean', 0):.3f} & "
+                        f"{vd.get('within_prompt', 0):.4f} & {vd.get('between_prompt', 0):.4f} & "
+                        f"{vd.get('between_item', 0):.4f} \\\\")
+    return ("\\begin{tabular}{llrrrrr}\\toprule model & task & mean & spread & "
+            "$\\sigma^2_{\\text{within}}$ & $\\sigma^2_{\\text{prompt}}$ & "
+            "$\\sigma^2_{\\text{item}}$ \\\\\\midrule\n" + "\n".join(rows)
+            + "\n\\bottomrule\\end{tabular}")
 
 
 def _texesc(s) -> str:
@@ -877,6 +1283,19 @@ def _render_paper(results: Optional[dict]) -> str:
         v = anchor.get("correlations", {}).get(key)
         return absent if v is None else fmt.format(v)
 
+    def anc_tool(name, metric, fmt="{:+.3f}", absent="AWAITING"):
+        a = anchor.get("anchors", {}).get(name, {})
+        if a.get("status") != "OK":
+            return absent
+        v = a.get("metrics", {}).get(metric, {}).get("incidental_knob_spearman_mean")
+        return absent if v is None else fmt.format(v)
+
+    read_status = anchor.get("anchors", {}).get("readability", {}).get("status", "AWAITING")
+    try:                       # real, dedup'd judge item count (renders dev sources)
+        njudge = len(T.build_judge_items(D.load("dev")))
+    except Exception:          # noqa: BLE001
+        njudge = nbase * len(D.LANGS)
+
     status = (results or {}).get("status", "AWAITING LIVE RUN (no results.json yet)")
     tool_rows = "\n".join(f"{_texesc(k)} & {'present' if v else 'ABSENT (SKIP)'} \\\\"
                           for k, v in toolchain_status().items())
@@ -892,19 +1311,27 @@ def _render_paper(results: Optional[dict]) -> str:
         "@@NBASE@@": str(nbase),
         "@@NLANG@@": str(len(D.LANGS)),
         "@@NPROF@@": str(len(D.PROFILES)),
-        "@@NREFAC@@": str(ndev * len(D.PROFILES) * len(D.LANGS)),
-        "@@NCOMP@@": str(ndev * len(D.PROFILES) * len(D.LANGS)),
-        "@@NJUDGE@@": str(nbase * len(D.LANGS)),
+        "@@NREFAC@@": str(ndev * len(T.REFACTOR_PROFILES) * len(D.LANGS)),
+        "@@NCOMP@@": str(ndev * len(T.COMPREHEND_PROFILES) * len(D.LANGS)),
+        "@@NJUDGE@@": str(njudge),
+        "@@NPARA@@": str(P.N_PARAPHRASES),
+        "@@PROMPTHASH@@": _texesc(P.prompt_set_hash()),
+        "@@ARTIFACT@@": _texesc("anonymous.4open.science/r/spaghetti-architect-bench "
+                                "(anonymized for review; MIT public repo + archival DOI at camera-ready)"),
         "@@NETISO@@": ("a private network namespace (\\texttt{unshare -rn})"
                        if G.network_isolation_prefix()
                        else "\\texttt{-I} isolation + a sanitized environment"),
         "@@ANCHORSTATUS@@": _texesc(anchor.get("status", "ABSENT")),
         "@@RADONVER@@": _texesc(anchor.get("radon_version", "n/a")),
+        "@@NANCHOR@@": str(anchor.get("n_sources", "AWAITING")),
         "@@ANCINCCC@@": anc("incidental_cc_spearman_mean"),
         "@@ANCINCMI@@": anc("incidental_mi_spearman_mean"),
+        "@@ANCLIZ@@": anc_tool("lizard", "cc"),
+        "@@ANCCOG@@": anc_tool("cognitive", "cognitive"),
         "@@ANCNCC@@": anc("config_resolver_N_cc_spearman"),
         "@@ANCXCC@@": anc("crosscheck_our_cc_vs_radon_cc_spearman"),
         "@@ANCXMI@@": anc("crosscheck_our_mi_vs_radon_mi_spearman"),
+        "@@READSTATUS@@": _texesc(read_status),
         "@@TOOLROWS@@": tool_rows,
         "@@FIG1@@": _fig_incidental(results, live),
         "@@FIG2@@": _fig_decomposition(results, live),
@@ -912,6 +1339,7 @@ def _render_paper(results: Optional[dict]) -> str:
         "@@FIG4@@": _fig_judge(results, live),
         "@@FIG5@@": _fig_contamination(results, live),
         "@@FIG6@@": _fig_crosslang(results, live),
+        "@@FIG7@@": _fig_robustness(results, live),
     }
     tex = _PAPER_TEMPLATE
     for k, v in repl.items():
@@ -949,6 +1377,10 @@ def main(argv=None) -> int:
     g.add_argument("--dry-run", action="store_true", help="mock over the real dataset")
     g.add_argument("--batch", metavar="TASK", help="live subagent entry (refuses if placeholder)")
     g.add_argument("--plan", action="store_true", help="print the subagent fan-out")
+    g.add_argument("--baselines", action="store_true",
+                   help="score the non-LLM baseline panel (formatter/rule-based/clean); no API")
+    g.add_argument("--sweep", metavar="TASK",
+                   help="prompt-robustness paraphrase sweep (refactor|comprehend); needs --model")
     g.add_argument("--aggregate", action="store_true", help="merge subagent JSON -> results.json")
     g.add_argument("--report", action="store_true", help="emit paper/benchmark.tex (not compiled)")
     ap.add_argument("--model", help="model id for --batch")
@@ -963,6 +1395,12 @@ def main(argv=None) -> int:
         return dry_run(args.task, args.family, split=args.split)
     if args.plan:
         return print_plan(split=args.split)
+    if args.baselines:
+        return run_baselines(split=args.split)
+    if args.sweep:
+        if not args.model:
+            ap.error("--sweep requires --model")
+        return run_sweep(args.sweep, args.model, split=args.split)
     if args.aggregate:
         return aggregate()
     if args.report:

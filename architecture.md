@@ -67,6 +67,36 @@ Use cases: code-obfuscation teaching, anti-pattern demonstration, technical-debt
 - General program-level transpilation (arbitrary control flow / expressions), and floating-point
   reduction. Only composable sequences of the operations above are supported.
 
+### Repository layers (engine · metric lane · benchmark)
+
+The repo is a **layered monorepo** — one published library and two research layers that
+*consume* it, never a second implementation of it:
+
+```text
+  src/    ENGINE       clean IR -> 5-language spaghetti + compile/run oracle   (the published `spaghetti-architect` wheel)
+   ^
+   |  imports Engine.generate / oracle / validate
+  eval/   METRIC LANE  deterministic seeded sample set + static complexity metrics
+   ^
+   |  imports both of the above
+  bench/  BENCHMARK    LLM-eval harness (refactor / judge / comprehend) + the paper
+```
+
+- **One-way dependency:** `bench -> {eval, src, config}` and `eval -> src`. The engine
+  knows nothing about the layers above it; you can delete `bench/` and `eval/` and the
+  transpiler still builds and tests green.
+- **Reuse, not re-implementation** (the benchmark's headline property): `bench/` adds
+  no second generator or grader — it imports `Engine.generate`, `oracle`, `validate`
+  (§§15–16) and `eval`'s metric lane verbatim. §23 details this.
+- **Only the engine ships as a wheel.** `pyproject.toml` packages `src` alone; the
+  research layers run **from the source tree** and put the repo root on `sys.path` (the
+  small bootstrap shim at the top of each `bench/` module — an intentional choice, not
+  an accident, so the published tool stays dependency-free while the layers above carry
+  their own optional deps: the LLM client and the anchor tools).
+- The benchmark layer has its own design document — the paper
+  `bench/paper/benchmark.tex` (targeting **EACL via ACL Rolling Review**); *this*
+  document covers the engine it stands on.
+
 ---
 
 ## 2. Design Principles
@@ -172,6 +202,30 @@ Spaghetti-Architect/                   # repo root — also the project package 
         ├── planner.py             # anti-pattern selection & composition → TransformPlan
         ├── safety.py              # language-agnostic safety policy (SafetyPolicy)
         └── validator.py           # cross-language compile/run validation + oracle comparison
+```
+
+The tree above is the **engine**. The two research layers and the papers sit alongside
+it (see §1 "Repository layers"); they are not part of the engine wheel:
+
+```text
+eval/                              # METRIC LANE (reused by bench/, run from source)
+├── __init__.py
+├── metrics.py                     # static complexity lanes (cyclomatic / AST size / Halstead / MI)
+└── gen_samples.py                 # deterministic seeded sample set + held-out tier minting
+
+bench/                             # BENCHMARK LAYER (LLM-eval harness — imports src/ + eval/)
+├── dataset.py                     # public dev split + canary + tier definitions
+├── models.py                      # multi-provider LLM client (stdlib urllib; keys never committed)
+├── prompts.py                     # frozen, versioned prompts + paraphrase ensemble
+├── tasks.py                       # refactor / judge / comprehend task construction
+├── grade.py                       # graders (reuse oracle/validate + eval.metrics)
+├── anchor.py                      # quarantined construct-validity anchors (radon/lizard/cognitive)
+├── run_bench.py                   # CLI: --selftest/--dry-run/--plan/--batch/--aggregate/--report
+└── paper/benchmark.tex            # the benchmark paper (EACL via ARR) — emitted by --report
+
+paper/                             # the engine / metric-lane write-up (separate from bench/paper)
+pyproject.toml · requirements.txt · REQUIREMENTS.md   # packaging + per-layer deps
+CITATION.cff · codemeta.json · LICENSE                # citation metadata + MIT
 ```
 
 ---
@@ -1223,6 +1277,12 @@ committed.
 > **As built** — the public `eval/` ships only the metric lane (`metrics.py`,
 > `gen_samples.py`) that `bench/` reuses; a separate de-optimization study that also lives
 > under `eval/` is kept private.
+
+> **Publication.** The benchmark targets **EACL (main or Findings) via ACL Rolling
+> Review (ARR)**; the paper now *leads* with the LLM-as-judge result — whether judges
+> track the by-construction ground-truth quality order — with the refactor and
+> comprehension tasks and the contamination protocol alongside. It is emitted (never
+> compiled) by `python3 bench/run_bench.py --report`.
 
 ---
 

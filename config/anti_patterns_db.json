@@ -70,9 +70,13 @@
   },
   "profiles": {
     "minimal":  ["SPAGH_001"],
+    "light":    ["SPAGH_001", "SPAGH_002"],
     "standard": ["SPAGH_001", "SPAGH_002", "SPAGH_005", "SPAGH_007"],
+    "heavy":    ["SPAGH_001", "SPAGH_002", "SPAGH_004", "SPAGH_005", "SPAGH_007"],
     "max":      ["SPAGH_001", "SPAGH_002", "SPAGH_003", "SPAGH_004",
                  "SPAGH_005", "SPAGH_006", "SPAGH_007", "SPAGH_008",
                  "SPAGH_009", "SPAGH_010", "SPAGH_011"]
-  }
+  },
+  "profile_order": ["clean", "minimal", "light", "standard", "heavy", "max"],
+  "_profiles_note": "Strictly nested pattern sets minimal<light<standard<heavy<max (clean = empty baseline). The inclusion chain is a by-construction maintainability order (more enabled SPAGH_* = strictly more incidental complexity at fixed semantics), valid for both membership-only and lookup-only operations. 'light' and 'heavy' were added (v2 Phase C) to give >=6 incidental knob points for judge-monotonicity statistical power."
 }

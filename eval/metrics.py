@@ -355,15 +355,25 @@ def python_ast_metrics(py_src: str) -> dict:
 # Clean baseline + amplification ratios (C)
 # --------------------------------------------------------------------------- #
 def clean_baseline_lines(program) -> List[str]:
-    """One idiomatic Python line per operation, from oracle semantics."""
+    """One idiomatic Python line per operation, from oracle semantics — the
+    known-optimal floor for all four IR operations."""
     lines: List[str] = []
     for op in program.operations:
         if op.op == "MEMBERSHIP_CHECK":
             lines.append(f"{op.result_var} = {op.target_var} in {op.collection_name}")
-        else:  # KEY_VALUE_LOOKUP: r = m.get(k, d)
+        elif op.op == "KEY_VALUE_LOOKUP":  # r = m.get(k, d)
             lines.append(
                 f"{op.result_var} = {op.map_name}.get({op.key_var}, {op.default_value!r})"
             )
+        elif op.op == "AGGREGATE":         # r = sum|min|max(collection)
+            lines.append(f"{op.result_var} = {op.mode}({op.collection_name})")
+        elif op.op == "CONDITIONAL_SELECT":  # r = then if subj <cmp> val else else_
+            lines.append(
+                f"{op.result_var} = {op.then_value!r} if {op.subject_var} "
+                f"{op.comparator} {op.compare_value!r} else {op.else_value!r}"
+            )
+        else:  # pragma: no cover — defensive: a new op must add a baseline here
+            raise ValueError(f"clean_baseline_lines: unknown operation {op.op!r}")
     return lines
 
 

@@ -25,7 +25,8 @@ _LANG_ORDER = ["python", "javascript", "go", "java", "cpp"]
 def main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="Spaghetti Architect transpiler")
     ap.add_argument("ir", nargs="?", help="path to IR JSON; omit to run the built-in example suite")
-    ap.add_argument("--profile", default="max", choices=["minimal", "standard", "max"])
+    ap.add_argument("--profile", default="max",
+                    choices=["minimal", "light", "standard", "heavy", "max"])
     ap.add_argument("--lang", action="append",
                     help="only output the given language(s) (repeatable)")
     ap.add_argument("--source", action="store_true", help="also print the generated source")

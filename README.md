@@ -160,7 +160,7 @@ against the oracle/validator and the clean baseline:
 | Task | Measures | Grading |
 |------|----------|---------|
 | **Refactor** | recover clean code from mess | semantic equivalence (validator) + simplification toward the known optimum |
-| **Judge** | LLM-as-judge quality sense | monotonicity & sensitivity to ground-truth degradation |
+| **Judge** *(headline)* | LLM-as-judge **faithfulness** to the ground-truth order | pairwise accuracy (position-swap) + rating monotonicity |
 | **Comprehend** | output prediction | exact-match vs the oracle over differential variants |
 
 Fresh instances are minted from a **private held-out seed** for contamination
@@ -173,9 +173,11 @@ python3 bench/run_bench.py --dry-run       # mock over the real dataset
 python3 bench/run_bench.py --plan          # the (task × model × family) fan-out
 ```
 
-The benchmark design, the six figures, and the bibliography live in
-[`bench/paper/benchmark.tex`](bench/paper/benchmark.tex); see [`bench/`](bench/) and
-[`REQUIREMENTS.md`](REQUIREMENTS.md).
+The benchmark now *leads* with the **LLM-as-judge** question — do judges track the
+by-construction ground-truth quality order? — alongside the refactor and comprehend
+tasks. The full design, figures, and bibliography live in
+[`bench/paper/benchmark.tex`](bench/paper/benchmark.tex) (targeting **EACL via ACL
+Rolling Review**); see [`bench/`](bench/) and [`REQUIREMENTS.md`](REQUIREMENTS.md).
 
 ---
 
@@ -253,6 +255,12 @@ tests/                         # golden + equivalency + parser + profiles
 eval/{metrics,gen_samples}.py  # metric lanes + seeded sample set (reused by bench/)
 bench/                         # LLM benchmark generator (refactor/judge/comprehend) + paper
 ```
+
+A **layered monorepo**: one published engine (`src/`) plus two research layers that
+*consume* it — the metric lane (`eval/`) and the LLM benchmark (`bench/`). The
+dependency arrow is one-way (`bench → eval → src`); the layers above add **no second
+generator or grader**, they reuse `Engine.generate` / `oracle` / `validate`. Only the
+engine ships as a wheel; the research layers run from the source tree.
 
 ## Supported operations
 

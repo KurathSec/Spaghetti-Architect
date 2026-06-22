@@ -44,10 +44,18 @@ Issues = "https://github.com/KurathSec/Spaghetti-Architect/issues"
 spaghetti-architect = "src.main:main"
 
 [project.optional-dependencies]
-# Quarantined, optional construct-validity anchor for bench/ — never imported by
-# the engine or the metric lanes. See REQUIREMENTS.md.
-anchor = ["radon"]
+# Quarantined, optional construct-validity anchors for bench/ (Phase G) — never
+# imported by the engine or the metric lanes; install in a throwaway venv. See
+# REQUIREMENTS.md.
+anchor = ["radon", "lizard", "cognitive_complexity"]
 
+# --- Layered monorepo -------------------------------------------------------
+# Only the ENGINE (`src/`) is a distributed package. The two research layers that
+# consume it — the metric lane (`eval/`) and the LLM benchmark (`bench/`) — are run
+# from the source tree (each bench/ module puts the repo root on sys.path),
+# deliberately kept out of the engine wheel so the published tool stays
+# dependency-free. See architecture.md §1 "Repository layers" and §23.
+#
 # Install editable (`pip install -e .`) so config/ and examples/ stay resolvable
 # in the source tree; that is the supported install mode for the engine.
 [tool.setuptools]

@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 """Phase 1 — build harder IR samples for the de-optimization evaluation.
 
-The engine supports exactly two composable operations: ``MEMBERSHIP_CHECK``
-(``result = target in collection``) and ``KEY_VALUE_LOOKUP``
-(``result = pairs.get(key, default)``). "Harder" therefore means *more
-operations, larger inputs, and a scale knob* that makes a metric move. This
-module is the single source of truth for the sample set and the batch layout;
-``run_eval.py`` imports :func:`load` so generation and aggregation never drift.
+The engine supports four composable operations: ``MEMBERSHIP_CHECK``
+(``result = target in collection``), ``KEY_VALUE_LOOKUP``
+(``result = pairs.get(key, default)``), ``AGGREGATE`` (``sum``/``min``/``max`` over
+an int collection) and ``CONDITIONAL_SELECT`` (an int-comparison branch). "Harder"
+therefore means *more operations, larger inputs, and a scale knob* that makes a
+metric move. This module is the single source of truth for the sample set and the
+batch layout; ``run_eval.py`` imports :func:`load` so generation and aggregation
+never drift.
+
+The benchmark (``bench/dataset.py``) calls :func:`build` with ``extended=True`` for
+a larger, more diverse mint (finer intrinsic steps + two extra families exercising
+``AGGREGATE``/``CONDITIONAL_SELECT``); the default ``extended=False`` path is left
+**byte-identical** to the original so the committed ``eval/samples`` reproduce.
 
 Every emitted IR is validated by the real parser (:func:`src.nodes.parser.parse`)
 *before* it is written, so a sample can never be structurally invalid. All
@@ -72,6 +79,28 @@ def _lookup(map_name: str, key_var: str, result: str, pairs: dict, default) -> d
         "result_var": result,
         "pairs": dict(pairs),
         "default_value": default,
+    }
+
+
+def _aggregate(collection: str, mode: str, result: str) -> dict:
+    return {
+        "operation": "AGGREGATE",
+        "mode": mode,                 # sum / min / max
+        "collection_name": collection,
+        "result_var": result,
+    }
+
+
+def _conditional(subject: str, comparator: str, compare_value: int,
+                 then_value, else_value, result: str) -> dict:
+    return {
+        "operation": "CONDITIONAL_SELECT",
+        "subject_var": subject,
+        "comparator": comparator,
+        "compare_value": compare_value,
+        "then_value": then_value,
+        "else_value": else_value,
+        "result_var": result,
     }
 
 
@@ -173,6 +202,38 @@ def _fsm_transition() -> dict:
     return _ir("fsm_transition", inputs, operations)
 
 
+# --- extended families (v2 Phase C): exercise AGGREGATE & CONDITIONAL_SELECT --- #
+def _agg_stats(w: int, rng: random.Random) -> Tuple[dict, List[int]]:
+    """AGGREGATE family (knob ``W`` = collection length): sum/max/min over a
+    length-W int list -> manual-index (006) + len-recompute (010) scale with W. The
+    list is RNG-drawn, so a fresh seed re-mints it (Tier A numeric novelty)."""
+    readings = [rng.randint(1, w * 10) for _ in range(w)]
+    ir = _ir(
+        f"agg_stats_W{w}",
+        {"readings": list(readings)},
+        [_aggregate("readings", "sum", "total"),
+         _aggregate("readings", "max", "peak"),
+         _aggregate("readings", "min", "trough")],
+    )
+    return ir, readings
+
+
+def _threshold_select(t: int, rng: random.Random) -> Tuple[dict, List[str]]:
+    """CONDITIONAL_SELECT family (knob ``T`` = number of int-comparison branches):
+    a chain of T independent threshold selects -> cascading (005) + yoda (011)
+    scale with T. The subject ints are RNG-drawn (Tier A numeric novelty); each
+    branch keeps a distinct then/else label so backends render T real branches."""
+    inputs: Dict[str, int] = {}
+    ops: List[dict] = []
+    for i in range(t):
+        name = f"metric_{i:02d}"
+        inputs[name] = rng.randint(0, 100)
+        ops.append(_conditional(name, ">=", 50, f"high_{i:02d}", f"low_{i:02d}",
+                                f"verdict_{i:02d}"))
+    ir = _ir(f"threshold_select_T{t}", inputs, ops)
+    return ir, list(inputs)
+
+
 # --------------------------------------------------------------------------- #
 # Variants: same structure, different input *scalar(s)* to exercise branches
 # (early arm / late arm / default-miss / present / absent). Feeds the Phase 2.A
@@ -188,7 +249,7 @@ def _variant(base_ir: dict, stem: str, overrides: Dict[str, object]) -> dict:
     return ir
 
 
-def build(seed: int = SEED) -> Tuple[Dict[str, dict], dict]:
+def build(seed: int = SEED, extended: bool = False) -> Tuple[Dict[str, dict], dict]:
     """Return ``(samples, meta)``.
 
     ``samples`` maps a file stem -> IR dict (base samples *and* ``*_v0..v4``
@@ -203,15 +264,22 @@ def build(seed: int = SEED) -> Tuple[Dict[str, dict], dict]:
     RNG-free families (``config_resolver``/``status_router``/``fsm_transition``)
     are seed-independent here; ``bench/`` re-mints *their* string literals with a
     structure-preserving salt so the held-out split is novel across all families.
+
+    ``extended=True`` (used by the benchmark, v2 Phase C) mints a larger, more
+    diverse set: finer intrinsic steps for ``config_resolver``/``allowlist`` and two
+    extra families (``agg_stats`` exercising AGGREGATE, ``threshold_select``
+    exercising CONDITIONAL_SELECT). The default ``extended=False`` path is left
+    byte-identical so the committed ``eval/samples`` reproduce.
     """
     rng = random.Random(seed)
     samples: Dict[str, dict] = {}
 
-    # --- config_resolver: N in {4,8,16,32} (deterministic, no RNG) ---
+    # --- config_resolver: N (deterministic, no RNG) ---
     cfg_keys: Dict[str, List[str]] = {}
     cfg_bases: List[str] = []
     cfg_scales: Dict[str, int] = {}
-    for n in (4, 8, 16, 32):
+    cfg_N = (4, 8, 12, 16, 24, 32) if extended else (4, 8, 16, 32)
+    for n in cfg_N:
         ir, keys = _config_resolver(n)
         stem = f"config_resolver_N{n}"
         samples[stem] = ir
@@ -219,11 +287,12 @@ def build(seed: int = SEED) -> Tuple[Dict[str, dict], dict]:
         cfg_bases.append(stem)
         cfg_scales[stem] = n
 
-    # --- allowlist: L in {8,32,128} (RNG, drawn in fixed order) ---
+    # --- allowlist: L (RNG, drawn in fixed order) ---
     allow_lists: Dict[str, List[int]] = {}
     allow_bases: List[str] = []
     allow_scales: Dict[str, int] = {}
-    for length in (8, 32, 128):
+    allow_L = (8, 16, 32, 64, 128) if extended else (8, 32, 128)
+    for length in allow_L:
         ir, lst = _allowlist(length, rng)
         stem = f"allowlist_L{length}"
         samples[stem] = ir
@@ -236,6 +305,31 @@ def build(seed: int = SEED) -> Tuple[Dict[str, dict], dict]:
     samples["status_router"] = status_ir
     samples["discovery_pipeline"] = _discovery_pipeline(rng)
     samples["fsm_transition"] = _fsm_transition()
+
+    # --- extended-only families: AGGREGATE (agg_stats) + CONDITIONAL_SELECT
+    #     (threshold_select). Drawn AFTER the default families so the default RNG
+    #     sequence (hence eval/samples) is untouched. ---
+    agg_bases: List[str] = []
+    agg_scales: Dict[str, int] = {}
+    thr_bases: List[str] = []
+    thr_scales: Dict[str, int] = {}
+    thr_names: Dict[str, List[str]] = {}
+    agg_lists: Dict[str, List[int]] = {}
+    if extended:
+        for w in (8, 32):
+            ir, vals = _agg_stats(w, rng)
+            stem = f"agg_stats_W{w}"
+            samples[stem] = ir
+            agg_lists[stem] = vals
+            agg_bases.append(stem)
+            agg_scales[stem] = w
+        for t in (2, 4):
+            ir, names = _threshold_select(t, rng)
+            stem = f"threshold_select_T{t}"
+            samples[stem] = ir
+            thr_names[stem] = names
+            thr_bases.append(stem)
+            thr_scales[stem] = t
 
     # --- variants for one representative per family ---
     variants: Dict[str, List[str]] = {}
@@ -297,22 +391,52 @@ def build(seed: int = SEED) -> Tuple[Dict[str, dict], dict]:
         {"current_state": "galaxy"},  # not in any table -> default everywhere
     ])
 
+    if extended:
+        # agg_stats_W32: reading distributions that move sum/min/max differentially
+        base = agg_lists["agg_stats_W32"]
+        add_variants("agg_stats_W32", [
+            {"readings": list(reversed(base))},      # same multiset (sum/min/max equal)
+            {"readings": sorted(base)},              # sorted (same multiset)
+            {"readings": base + [max(base) * 3]},    # a spike -> max & sum jump
+            {"readings": [base[0]] * len(base)},     # flat -> min == max == base[0]
+            {"readings": [v + 1 for v in base]},     # shifted -> sum/min/max all move
+        ])
+        # threshold_select_T4: flip branches around the >=50 threshold
+        t4 = thr_names["threshold_select_T4"]
+        add_variants("threshold_select_T4", [
+            {t4[0]: 49},                 # just below -> low
+            {t4[0]: 50},                 # exactly at -> high (>=)
+            {t4[-1]: 0},                 # far below
+            {t4[-1]: 100},               # far above
+            {n: 50 for n in t4},         # all at the boundary -> all high
+        ])
+
+    families = {
+        "config_resolver": {"bases": cfg_bases, "repr": "config_resolver_N8",
+                            "knob": "N", "scales": cfg_scales},
+        "allowlist": {"bases": allow_bases, "repr": "allowlist_L32",
+                      "knob": "L", "scales": allow_scales},
+        "status_router": {"bases": ["status_router"], "repr": "status_router",
+                          "knob": None, "scales": {}},
+        "discovery_pipeline": {"bases": ["discovery_pipeline"],
+                               "repr": "discovery_pipeline", "knob": None, "scales": {}},
+        "fsm_transition": {"bases": ["fsm_transition"], "repr": "fsm_transition",
+                           "knob": None, "scales": {}},
+    }
+    family_order = ["config_resolver", "allowlist", "status_router",
+                    "discovery_pipeline", "fsm_transition"]
+    if extended:
+        families["agg_stats"] = {"bases": agg_bases, "repr": "agg_stats_W32",
+                                 "knob": "W", "scales": agg_scales}
+        families["threshold_select"] = {"bases": thr_bases,
+                                        "repr": "threshold_select_T4",
+                                        "knob": "T", "scales": thr_scales}
+        family_order = family_order + ["agg_stats", "threshold_select"]
+
     meta = {
         "seed": seed,
-        "family_order": ["config_resolver", "allowlist", "status_router",
-                         "discovery_pipeline", "fsm_transition"],
-        "families": {
-            "config_resolver": {"bases": cfg_bases, "repr": "config_resolver_N8",
-                                "knob": "N", "scales": cfg_scales},
-            "allowlist": {"bases": allow_bases, "repr": "allowlist_L32",
-                          "knob": "L", "scales": allow_scales},
-            "status_router": {"bases": ["status_router"], "repr": "status_router",
-                              "knob": None, "scales": {}},
-            "discovery_pipeline": {"bases": ["discovery_pipeline"],
-                                   "repr": "discovery_pipeline", "knob": None, "scales": {}},
-            "fsm_transition": {"bases": ["fsm_transition"], "repr": "fsm_transition",
-                               "knob": None, "scales": {}},
-        },
+        "family_order": family_order,
+        "families": families,
         "variants": variants,
     }
     # batches == families; each batch validates its bases + the repr's variants.
@@ -321,6 +445,88 @@ def build(seed: int = SEED) -> Tuple[Dict[str, dict], dict]:
         for fam, fmeta in meta["families"].items()
     }
     return samples, meta
+
+
+def build_heldout_tiers(seed: int) -> Tuple[Dict[str, dict], Dict[str, str]]:
+    """Mint **private** held-out structures (never committed) for the contamination
+    novelty axis (v2 Phase C). Two tiers beyond Tier A (literal re-mint):
+
+    * **Tier B — structural held-out:** op-chain *shapes* the public families never
+      use (e.g. membership co-chained with aggregate on one list), so an adversary
+      who memorised the public structures still cannot have seen these.
+    * **Tier C — distribution shift:** compositions outside the public distribution
+      — a far deeper op-chain and out-of-range scales (``N=256``/``L=512`` vs the
+      public ``N<=32``/``L<=128``).
+
+    All literals are RNG-drawn from the held-out ``seed`` (decorrelated from
+    :func:`build`'s stream). Returns ``(samples, tier_of)``; the caller
+    (:func:`bench.dataset.mint`) validates every IR with ``parse()``."""
+    rng = random.Random((seed ^ 0x5BD1E995) & 0xFFFFFFFF)
+    samples: Dict[str, dict] = {}
+    tier: Dict[str, str] = {}
+
+    # ---- Tier B: novel op-chain shapes ---------------------------------- #
+    vals = sorted(rng.sample(range(1, 400), 16))
+    samples["tierB_member_agg"] = _ir(
+        "tierB_member_agg", {"series": list(vals), "needle": vals[rng.randrange(16)]},
+        [_membership("series", "needle", "present"),
+         _aggregate("series", "sum", "series_sum"),
+         _aggregate("series", "max", "series_max")])
+    tier["tierB_member_agg"] = "B"
+
+    rewards = {"gold": "premium", "silver": "standard", "bronze": "basic"}
+    samples["tierB_select_lookup"] = _ir(
+        "tierB_select_lookup",
+        {"level": rng.randint(0, 100), "tier_key": "gold", "rewards": dict(rewards)},
+        [_conditional("level", ">=", rng.randint(20, 80), "high", "low", "band"),
+         _lookup("rewards", "tier_key", "reward", rewards, "none")])
+    tier["tierB_select_lookup"] = "B"
+
+    nums = sorted(rng.sample(range(1, 500), 10))
+    regions = {"us": "use1", "eu": "euw1", "ap": "apse1"}
+    samples["tierB_quad"] = _ir(
+        "tierB_quad",
+        {"data": list(nums), "x": nums[rng.randrange(10)], "score": rng.randint(0, 100),
+         "regions": dict(regions), "rk": "eu"},
+        [_aggregate("data", "min", "lo"),
+         _membership("data", "x", "seen"),
+         _conditional("score", ">", 50, "hi", "lo2", "scoreband"),
+         _lookup("regions", "rk", "zone", regions, "unknown")])
+    tier["tierB_quad"] = "B"
+
+    # ---- Tier C: distribution shift ------------------------------------- #
+    deep = sorted(rng.sample(range(1, 2000), 24))
+    regions2 = {"a": "ra", "b": "rb", "c": "rc", "d": "rd"}
+    samples["tierC_deep_chain"] = _ir(
+        "tierC_deep_chain",
+        {"nums": list(deep), "p1": deep[rng.randrange(24)], "p2": 999999,
+         "s1": rng.randint(0, 100), "s2": rng.randint(-50, 50), "s3": rng.randint(0, 200),
+         "regions": dict(regions2), "k1": "a", "k2": "d"},
+        [_aggregate("nums", "sum", "r_sum"),
+         _aggregate("nums", "max", "r_max"),
+         _aggregate("nums", "min", "r_min"),
+         _membership("nums", "p1", "r_m1"),
+         _membership("nums", "p2", "r_m2"),
+         _conditional("s1", ">=", 50, "a1", "b1", "r_c1"),
+         _conditional("s2", ">", 0, "pos", "neg", "r_c2"),
+         _conditional("s3", "<", 100, "lt", "ge", "r_c3"),
+         _lookup("regions", "k1", "r_l1", regions2, "none"),
+         _lookup("regions", "k2", "r_l2", regions2, "none"),
+         _aggregate("nums", "sum", "r_sum2"),
+         _membership("nums", "p1", "r_m3")])
+    tier["tierC_deep_chain"] = "C"
+
+    cfg_ir, _ = _config_resolver(256)          # far beyond public N<=32
+    cfg_ir["module_name"] = "tierC_huge_cfg"
+    samples["tierC_huge_cfg"] = cfg_ir
+    tier["tierC_huge_cfg"] = "C"
+
+    allow_ir, _ = _allowlist(512, rng)         # far beyond public L<=128
+    allow_ir["module_name"] = "tierC_huge_allow"
+    samples["tierC_huge_allow"] = allow_ir
+    tier["tierC_huge_allow"] = "C"
+
+    return samples, tier
 
 
 def load(seed: int = SEED) -> Tuple[Dict[str, dict], dict]:

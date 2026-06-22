@@ -47,10 +47,13 @@ LANGS = D.LANGS
 DB = D.DB
 TASKS = ["refactor", "judge", "comprehend"]
 
-# Which incidental profiles each per-instance task sweeps. Configurable so a live
-# run can trade matrix size for cost; the defaults give the full incidental axis.
-REFACTOR_PROFILES = list(PROFILES)
-COMPREHEND_PROFILES = list(PROFILES)
+# Which incidental profiles each per-instance task sweeps. The judge (cheap, no
+# compilation) uses the full 6-point axis (clean + all of PROFILES) for monotonicity
+# power; the per-instance compile/run tasks (refactor compiles untrusted code in five
+# languages) use a cost-bounded 3-point subset by default. Configurable so a live run
+# can trade matrix size for cost.
+REFACTOR_PROFILES = ["minimal", "standard", "max"]
+COMPREHEND_PROFILES = ["minimal", "standard", "max"]
 
 
 # --------------------------------------------------------------------------- #
@@ -84,9 +87,10 @@ class RefactorItem:
     spaghetti_src: str
     result_vars: List[str]
     mock_gold: str
+    tier: str = "A"            # novelty tier (A dev/salted, B structural, C shift)
 
-    def prompt(self):
-        return P.refactor(self.language, self.spaghetti_src, self.result_vars)
+    def prompt(self, variant: int = 0):
+        return P.refactor(self.language, self.spaghetti_src, self.result_vars, variant)
 
 
 @dataclass
@@ -96,6 +100,7 @@ class JudgeItem:
     family: str
     # levels: list of (label, rank, source); rank 0 = cleanest
     levels: List[tuple]
+    tier: str = "A"
 
     def ranks(self) -> List[int]:
         return [lvl[1] for lvl in self.levels]
@@ -113,9 +118,10 @@ class ComprehendItem:
     source: str
     result_vars: List[str]
     mock_gold: str
+    tier: str = "A"
 
-    def prompt(self):
-        return P.comprehend(self.language, self.source, self.result_vars)
+    def prompt(self, variant: int = 0):
+        return P.comprehend(self.language, self.source, self.result_vars, variant)
 
 
 # --------------------------------------------------------------------------- #
@@ -143,7 +149,7 @@ def build_refactor_items(split: D.Split, family: Optional[str] = None) -> List[R
                     sample=it.sample, variant=it.variant, profile=profile,
                     language=lang, intrinsic=it.intrinsic, family=it.family,
                     program=prog, spaghetti_src=srcs[lang], result_vars=rvars,
-                    mock_gold=gold,
+                    mock_gold=gold, tier=it.tier,
                 ))
     return _filter(items, family)
 
@@ -158,16 +164,23 @@ def build_judge_items(split: D.Split, family: Optional[str] = None) -> List[Judg
         rendered = {p: _sources(ir, p) for p in PROFILES}
         clean_static = M.clean_baseline_static(prog)
         for lang in LANGS:
+            # Ordered candidate levels (clean is rigorous for Python only), then
+            # DEDUPE by source text: several incidental profiles can render
+            # identically for a given family (e.g. lookup-only families), and the
+            # judge must never be asked to compare byte-identical code. Distinct
+            # renders keep their nested order, so the rank is still ground truth.
+            ordered = ([("clean", clean_static)] if lang == "python" else [])
+            ordered += [(p, rendered[p][lang]) for p in PROFILES]
             levels: List[tuple] = []
-            rank = 0
-            if lang == "python":  # clean baseline exists rigorously for Python
-                levels.append(("clean", rank, clean_static))
-                rank += 1
-            for p in PROFILES:
-                levels.append((p, rank, rendered[p][lang]))
-                rank += 1
-            items.append(JudgeItem(sample=it.sample, language=lang,
-                                   family=it.family, levels=levels))
+            seen: set = set()
+            for label, src in ordered:
+                if src in seen:
+                    continue
+                seen.add(src)
+                levels.append((label, len(levels), src))   # contiguous rank 0..n-1
+            if len(levels) >= 2:   # need >=2 distinct levels to score monotonicity
+                items.append(JudgeItem(sample=it.sample, language=lang,
+                                       family=it.family, levels=levels, tier=it.tier))
     return _filter(items, family)
 
 
@@ -185,7 +198,7 @@ def build_comprehend_items(split: D.Split, family: Optional[str] = None) -> List
                     sample=it.sample, variant=it.variant, profile=profile,
                     language=lang, intrinsic=it.intrinsic, family=it.family,
                     program=prog, source=srcs[lang], result_vars=rvars,
-                    mock_gold=gold,
+                    mock_gold=gold, tier=it.tier,
                 ))
     return _filter(items, family)
 
@@ -205,13 +218,13 @@ def build_items(task: str, split: D.Split, family: Optional[str] = None):
 # --------------------------------------------------------------------------- #
 def score_refactor_item(item: RefactorItem, model: str, cfg, k: int) -> dict:
     system, user = item.prompt()
-    outs = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=item.mock_gold)
+    outs, snap = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=item.mock_gold)
     per = [G.grade_refactor_one(item.language, o, item.spaghetti_src, item.program)
            for o in outs]
     agg = G.aggregate_refactor(per)
     rec = {"sample": item.sample, "profile": item.profile, "language": item.language,
-           "variant": item.variant, "intrinsic": item.intrinsic,
-           "prompt_hash": models.prompt_hash(system, user)}
+           "variant": item.variant, "intrinsic": item.intrinsic, "snapshot": snap,
+           "tier": item.tier, "prompt_hash": models.prompt_hash(system, user)}
     rec.update(agg)
     return rec
 
@@ -223,39 +236,45 @@ def score_judge_item(item: JudgeItem, model: str, cfg, k: int) -> dict:
     for label, rank, src in item.levels:
         system, user = P.judge_pointwise(item.language, src)
         gold = str(_mock_rating(rank, L))
-        outs = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=gold)
+        outs, snap = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=gold)
         ratings_by_level.append([G.extract_int(o) for o in outs])
     pointwise = G.grade_judge_pointwise(ratings_by_level, item.ranks())
-    # pairwise: every unordered pair of levels, A=first/B=second in level order
-    picks: List[Optional[str]] = []
-    correct: List[str] = []
+    # pairwise (PRIMARY judge metric), with MT-Bench position-swap: present every
+    # unordered pair of levels in BOTH orders and count it only if the model is
+    # position-consistent (see grade.grade_judge_pairwise).
+    pair_data: List[tuple] = []
     for (la, ra, sa), (lb, rb, sb) in combinations(item.levels, 2):
-        system, user = P.judge_pairwise(item.language, sa, sb)
-        gold = "A" if ra < rb else "B"          # less-degraded (lower rank) wins
-        outs = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=gold)
-        # majority vote across k for the item-level pick
-        labs = [G.extract_label(o) for o in outs]
-        picks.append(_majority(labs))
-        correct.append(gold)
-    pairwise = G.grade_judge_pairwise(picks, correct)
-    return {"sample": item.sample, "language": item.language,
-            "levels": [lvl[0] for lvl in item.levels],
-            "monotonicity": pointwise["monotonicity"],
+        clean_is_a = ra < rb                     # source a (first) cleaner iff lower rank
+        sys1, usr1 = P.judge_pairwise(item.language, sa, sb)        # AB order
+        o1, snap = models.sample_k(model, sys1, usr1, k, cfg=cfg,
+                                   mock_gold=("A" if clean_is_a else "B"))
+        pick_ab = _majority([G.extract_label(o) for o in o1])
+        sys2, usr2 = P.judge_pairwise(item.language, sb, sa)        # BA order (swapped)
+        o2, snap = models.sample_k(model, sys2, usr2, k, cfg=cfg,
+                                   mock_gold=("B" if clean_is_a else "A"))
+        pick_ba = _majority([G.extract_label(o) for o in o2])
+        pair_data.append((pick_ab, pick_ba, clean_is_a))
+    pairwise = G.grade_judge_pairwise(pair_data)
+    return {"sample": item.sample, "language": item.language, "snapshot": snap,
+            "tier": item.tier, "levels": [lvl[0] for lvl in item.levels],
+            "pairwise_acc": pairwise["pairwise_acc"],            # primary
+            "position_consistency": pairwise["position_consistency"],
+            "n_consistent": pairwise["n_consistent"],
+            "n_pairs": pairwise["n_pairs"],
+            "monotonicity": pointwise["monotonicity"],          # secondary (Spearman)
             "sensitivity": pointwise["sensitivity"],
             "inversions": pointwise["inversions"],
-            "rating_by_level": pointwise["rating_by_level"],
-            "pairwise_acc": pairwise["pairwise_acc"],
-            "n_pairs": pairwise["n_pairs"]}
+            "rating_by_level": pointwise["rating_by_level"]}
 
 
 def score_comprehend_item(item: ComprehendItem, model: str, cfg, k: int) -> dict:
     system, user = item.prompt()
-    outs = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=item.mock_gold)
+    outs, snap = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=item.mock_gold)
     per = [G.grade_comprehend_one(o, item.program) for o in outs]
     agg = G.aggregate_comprehend(per)
     rec = {"sample": item.sample, "profile": item.profile, "language": item.language,
-           "variant": item.variant, "intrinsic": item.intrinsic,
-           "prompt_hash": models.prompt_hash(system, user)}
+           "variant": item.variant, "intrinsic": item.intrinsic, "snapshot": snap,
+           "tier": item.tier, "prompt_hash": models.prompt_hash(system, user)}
     rec.update(agg)
     return rec
 
