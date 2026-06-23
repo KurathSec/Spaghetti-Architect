@@ -430,7 +430,8 @@ The generator, the public \texttt{dev} split, the metric/grader lanes, and the h
 (\texttt{--selftest}/\texttt{--dry-run}/\texttt{--plan}/\texttt{--baselines}/%
 \texttt{--sweep}/\texttt{--aggregate}/\texttt{--report}) are released under the MIT
 license; for double-blind review we provide an anonymized snapshot produced by a
-\emph{deterministic} script (\texttt{scripts/anonymize\_snapshot.py}, released) that
+\emph{deterministic} script (in the canonical repository; the script is itself withheld
+from the snapshot, since it necessarily hard-codes the strings it scrubs) that
 excludes version-control metadata, caches, the private held-out split, and credentials;
 deletes citation/packaging metadata; replaces every author, contact, hosting-handle, and
 institutional string with neutral placeholders; maps the distinctive project name to a

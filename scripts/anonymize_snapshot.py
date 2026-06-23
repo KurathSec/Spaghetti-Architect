@@ -82,6 +82,7 @@ EXCLUDE_DIR_NAMES = {
     "env",
     ".idea",
     ".vscode",
+    ".claude",  # IDE/agent tooling; its path embeds the project name (de-anon vector)
     "notes",  # only meaningful under bench/ (private working notes); see below
 }
 # Directory paths (relative, POSIX) excluded as whole subtrees.
@@ -95,6 +96,10 @@ EXCLUDE_FILE_PATHS = {
     "bench/.heldout_seed",   # held-out RNG seed
     "init.md",               # local design blueprint (gitignored)
     "init.en.md",            # local design blueprint (gitignored)
+    # This scrubber necessarily hard-codes the identity strings it scans for, so
+    # shipping it inside the anonymized snapshot would re-leak them. Exclude it;
+    # it lives in the canonical (de-anonymized) repo and is described in the paper.
+    "scripts/anonymize_snapshot.py",
 }
 # Glob-ish suffixes excluded anywhere.
 EXCLUDE_SUFFIXES = (
