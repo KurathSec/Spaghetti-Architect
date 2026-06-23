@@ -1,0 +1,30 @@
+{
+  "_comment": "Per-family Spearman rho (knob rank vs radon metric), aggregated from bench/out/anchor.json per_sample. radon 6.0.1, MI multi=False. CC stays monotone-positive for every family; MI is monotone-negative for every family EXCEPT threshold_select (CONDITIONAL_SELECT), where MI is near-zero/insensitive because the programs are tiny and Halstead volume is frozen across knob levels (see diagnosis).",
+  "metric": "spearman_knob_vs_radon",
+  "radon_version": "6.0.1",
+  "knob_rank": ["clean", "minimal", "light", "standard", "heavy", "max"],
+  "families": {
+    "config_resolver": {"cc_vs_knob_spearman": 0.6546536707079771, "mi_vs_knob_spearman": -0.8451542547285165, "n_samples": 6},
+    "allowlist": {"cc_vs_knob_spearman": 0.8451542547285165, "mi_vs_knob_spearman": -0.9856107606091623, "n_samples": 5},
+    "status_router": {"cc_vs_knob_spearman": 0.6546536707079771, "mi_vs_knob_spearman": -0.8451542547285165, "n_samples": 1},
+    "discovery_pipeline": {"cc_vs_knob_spearman": 0.8451542547285165, "mi_vs_knob_spearman": -0.9856107606091623, "n_samples": 1},
+    "fsm_transition": {"cc_vs_knob_spearman": 0.6546536707079771, "mi_vs_knob_spearman": -0.8451542547285165, "n_samples": 1},
+    "agg_stats": {"cc_vs_knob_spearman": 0.8451542547285165, "mi_vs_knob_spearman": -0.9276336570439175, "n_samples": 2},
+    "threshold_select": {"cc_vs_knob_spearman": 0.6546536707079771, "mi_vs_knob_spearman": -0.08827348295047495, "n_samples": 2}
+  },
+  "family_mean": {
+    "cc_vs_knob_spearman": 0.7363591341262066,
+    "mi_vs_knob_spearman": -0.7888930606283095,
+    "mi_vs_knob_spearman_excl_threshold_select": -0.9056935488447347
+  },
+  "threshold_select_mi_diagnosis": {
+    "near_zero_mi_rho": -0.08827348295047495,
+    "cause": "CONDITIONAL_SELECT programs are tiny and the spaghetti knob freezes Halstead volume. The clean baseline is a one-line ternary cascade; the spaghetti expansions add if/else+try/except control-flow scaffolding that reuses the operators/operands already present, so Halstead volume is constant across ALL knob levels (T2: 12.00; T4: 31.02). With volume pinned and CC pinned at the module level, MI is driven only by the small 16.2*ln(SLOC) term, and SLOC barely changes across light/standard/heavy/max, so MI saturates and ties. Worse, the clean baseline (SLOC=2) already sits near the MI ceiling and is LOWER than the minimal expansion, producing a rank inversion at clean->minimal that drives rho to ~0.",
+    "per_knob_radon_mi_T2": {"clean": 85.4734, "minimal": 92.5007, "light": 90.9079, "standard": 90.9079, "heavy": 89.3964, "max": 89.3964},
+    "per_knob_radon_mi_T4": {"clean": 75.7497, "minimal": 81.0295, "light": 79.2765, "standard": 79.2765, "heavy": 77.6525, "max": 77.6525},
+    "per_knob_halstead_volume_T2": {"clean": 12.0, "minimal": 12.0, "light": 12.0, "standard": 12.0, "heavy": 12.0, "max": 12.0},
+    "per_knob_halstead_volume_T4": {"clean": 31.02, "minimal": 31.02, "light": 31.02, "standard": 31.02, "heavy": 31.02, "max": 31.02},
+    "contrast_allowlist_L8_halstead_volume": {"clean": 4.75, "minimal": 41.51, "light": 41.51, "standard": 41.51, "heavy": 41.51, "max": 114.69},
+    "note": "By contrast, families whose expansion grows Halstead volume (allowlist clean->max volume 4.75->114.69; config_resolver 0->62.27) have clean, monotone MI (rho -0.986 / -0.845). CC stays monotone-positive everywhere (threshold_select CC rho = +0.655), so only the MI witness is insensitive for this one smallest family."
+  }
+}

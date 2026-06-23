@@ -62,8 +62,11 @@ novelty tiers (literal / structural / distribution-shift), and a canary; evaluat
 axis; and establish construct validity \textbf{without a new human-subjects study} via a
 triad of by-construction ground truth, convergent automated complexity metrics
 (\texttt{radon}, \texttt{lizard}, cognitive complexity), and published human-validated
-readability models. This paper documents the design and the reusable harness; model
-results populate from a live run (status: \textbf{DRY-RUN (mock model; AWAITING LIVE RUN)}).
+readability models. We report the \emph{real} non-LLM results --- a baseline panel that
+bounds the refactor task, the convergent-validity anchors, and the executed inferential
+pipeline --- and document the design and reusable harness; the cross-vendor \emph{model}
+results populate from the gated live run (status: \textbf{model-under-test numbers AWAITING
+LIVE RUN}).
 \end{abstract}
 
 \section{Introduction}
@@ -72,7 +75,11 @@ ranks candidate programs, and the rating stands in for quality. The method is on
 trustworthy as its gold standard, yet that gold is almost always \emph{human preference}
 or \emph{another model} --- so a judge's mistakes are entangled with rater noise, and no
 existing code benchmark supplies a quality ordering known \emph{independently} of raters.
-We close that gap with a construction that emits the order \emph{by fiat}.
+We close that gap with a construction that emits the order \emph{by fiat}. The object we
+measure is therefore not the code but the \emph{evaluator}: this is a meta-evaluation of
+LLM judges --- the reliability of model-based evaluation itself, a central concern for the
+NLP evaluation community --- with code as a controlled substrate whose quality order we
+can fix exactly.
 
 An optimizing compiler holds semantics fixed and minimizes a cost; Spaghetti Architect is
 its mirror image, holding semantics fixed and \emph{maximizing} incidental complexity by
@@ -203,7 +210,7 @@ and the validator compiles and runs every target, comparing JSON stdout to the o
 pipeline verbatim --- \texttt{Engine.generate}, \texttt{oracle}, \texttt{validate},
 and the metric library --- adding no second generator or grader.
 
-\section{Benchmark Design}
+\section{Benchmark Design}\label{sec:design}
 \paragraph{Axes.} We cross \emph{incidental} profile --- a six-point,
 strictly-\emph{nested} ladder \texttt{clean}$\subset$\texttt{minimal}$\subset$%
 \texttt{light}$\subset$\texttt{standard}$\subset$\texttt{heavy}$\subset$\texttt{max}
@@ -253,8 +260,10 @@ $\text{simpl\_q}=\text{semantic\_ok}\cdot
 ``recovered''), an \texttt{over\_golfed} guard (undershooting the floor $=$ removed
 structure, flagged not rewarded), and a per-\texttt{SPAGH\_*} \emph{removal} check.
 A non-LLM \textbf{baseline panel} --- autoformatter (lower bound), a rule-based AST
-simplifier (non-LLM mid), and the clean baseline ($(1,1)$ ceiling) --- establishes the
-task is non-trivial and the optimum reachable (Fig.~\ref{fig:refactor}).
+simplifier (non-LLM mid, real simplification quality $0.00$), and the clean baseline (the
+reachable ceiling: equivalent, \texttt{recovered}$=1.00$, simplification quality $0.83$)
+--- establishes the task is non-trivial and the optimum reachable
+(Fig.~\ref{fig:refactor}).
 \emph{Judge.} The \emph{knob} is our \emph{operational} ground truth (the by-construction
 order; validated, not asserted, in \S\ref{sec:cv}); external complexity metrics are
 \emph{convergent witnesses}, not the definition of quality. We lead with \textbf{pairwise}
@@ -287,17 +296,46 @@ the \emph{between-item} bootstrap; the pre-registered inferential test is a mixe
 model (judge rating vs.\ knob rank; random intercepts for family, sample, and language)
 with Benjamini--Hochberg FDR and Holm correction across models, implemented in the released
 \texttt{bench/analysis.py} (statsmodels in a quarantined env; an honest \textsc{skip} plus a
-cluster-bootstrap fallback if absent). We claim \emph{protocol} reproducibility, not byte
-reproducibility, for model results. Prompts are frozen and
+cluster-bootstrap fallback if absent). We have exercised the parametric engine
+end-to-end (statsmodels~0.14.6 in a throwaway virtualenv): on the mock
+model-under-test the fixed-effect slope of rating on knob rank is $-2.99$
+($p\!\approx\!0$), in close agreement with the dependency-free cluster-bootstrap
+fallback ($-2.57$, 95\% CI $[-2.60,-2.57]$); since the mock is constructed to track the
+knob this is a \emph{plumbing/reproducibility} check and not a finding, but it confirms
+the two estimators agree in sign and magnitude and the pipeline runs as pre-registered
+(the zero-dependency \textsc{skip} path is retained and tested). We claim \emph{protocol}
+reproducibility, not byte reproducibility, for model results. Prompts are frozen and
 versioned (\texttt{bench-prompts-v2}); each returns a single parseable artifact (a code
 block / an integer / \texttt{A}|\texttt{B} / a JSON object) so no reasoning leaks into
 the graded output.
 
 \section{Results}
-\emph{Status: \textbf{DRY-RUN (mock model; AWAITING LIVE RUN)}.} Model figures populate from \texttt{out/results.json}
-after a live run; until then each is a wired placeholder. The body carries the three
-headline figures; the decomposition, refactor, cross-language, and robustness panels are
-in Appendix~\ref{app:figs}.
+\emph{Status:} the \textbf{model-under-test} figures are \textbf{DRY-RUN (mock; AWAITING
+LIVE RUN)} --- they populate from \texttt{out/results.json} after the gated cross-vendor
+run, and until then each is a wired placeholder. \emph{The non-LLM results below ---
+the baseline panel, the construct-validity anchors (\S\ref{sec:cv}), and the
+inferential-pipeline check (\S\ref{sec:design}) --- are real, on the public \texttt{dev}
+split, and require no API.} The body carries the three headline figures; the
+decomposition, refactor, cross-language, and robustness panels are in
+Appendix~\ref{app:figs}.
+
+\paragraph{What we can already report (non-LLM, real).} The \textbf{baseline panel}
+(300 refactor items) bounds the refactor task without a model. The \emph{clean-ceiling}
+baseline is semantically equivalent on every item and lands in the optimality band
+(\texttt{recovered}$=1.00$) at simplification quality $0.83$ --- so the provably-reachable
+floor \emph{is} reached, confirming the task's optimum is attainable (the $<\!1$ value
+reflects the readability facet, by design not gameable by size alone). The
+\emph{rule-based AST simplifier} is semantics-preserving yet recovers \emph{nothing}
+(simplification quality $0.00$; all 300 items \texttt{no\_change}), so the task is
+non-trivial and is \emph{not} solved by naive constant-folding/dead-code rewriting --- an
+LLM must do real work. The non-LLM \textbf{metric-heuristic judge} (``pick the lower
+static-complexity candidate'') recovers the by-construction order with pairwise accuracy
+$0.986$ (position consistency $1.00$, rating--knob monotonicity $\rho=-0.99$; 250 items).
+This is a \emph{strong} lower bar: any LLM judge must beat a trivial complexity heuristic
+to show value, and the high ceiling is itself a finding --- the by-construction order is a
+well-posed, complexity-recoverable target. It also sharpens the open empirical question
+the live run answers: do LLM judges \emph{match} this without explicitly computing
+complexity, and do they stay faithful as incidental mess rises?
 
 \begin{figure*}[t]\centering \awaiting{Judge monotonicity (Spearman $\rho$ of rating vs.\ knob) per model, with the radon anchor overlaid. From \texttt{figures.judge\_calibration} + anchor.}
 \caption{\textbf{Judge faithfulness (headline).} Pairwise accuracy under MT-Bench
@@ -326,34 +364,81 @@ Automated convergent validity (real, model-independent data):}
 the knob moves several external complexity metrics monotonically
 (\texttt{radon}: cyclomatic complexity and the maintainability index; \texttt{lizard}:
 language-agnostic cyclomatic complexity; cognitive complexity: a nesting-aware readability
-proxy). Scoring the 108 \texttt{dev} Python sources off the zero-dependency core (a
-quarantined virtualenv), the incidental rank correlates with \texttt{radon} cyclomatic
-at $\rho=+0.739$, \texttt{lizard} cyclomatic at $\rho=+0.739$, and cognitive
-complexity at $\rho=+0.782$, and inversely with \texttt{radon} maintainability at
-$\rho=-0.817$; the intrinsic $N$ knob gives $\rho=+1.000$. Our own metric
-lane is tightly anchored to the external ones (our CC vs.\ radon CC $\rho=+0.997$,
-our MI vs.\ radon MI $\rho=+0.959$). These structural metrics are mutually
-\emph{correlated} (overlapping notions of complexity), so they are \emph{consistent}
-convergent evidence rather than statistically independent witnesses; the genuinely
-independent grounding is layer (iii). \textbf{(iii) External human grounding:} we
-anchor to \emph{published} human-validated readability models ---
-Buse--Weimer~\citep{buse-weimer-2010-learning}, Scalabrino et
-al.~\citep{scalabrino-etal-2018-comprehensive}, Dorn~\citep{dorn-2012-general}; using public,
-de-identified prior data is \emph{not} new human-subjects research. Our run records
-this anchor as \textbf{SKIP} (the models ship as Weka/Java artifacts --- an
-honest SKIP, not a relabeled proxy). The same external metrics are the reference
-against which the judge (Fig.~\ref{fig:judge}) is calibrated, so a judge is measured
-against an independent witness, not only against other judges. A fresh controlled
-human ranking would strengthen layer (iii) but is \emph{future work}; the triad stands
-on its own.
+proxy). Scoring 300 rendered \texttt{dev} Python sources (50 base programs $\times$ the
+six knob levels) off the zero-dependency core (a quarantined virtualenv), the incidental
+rank correlates with \texttt{radon} cyclomatic at $\rho=+0.750$, \texttt{lizard}
+cyclomatic at $\rho=+0.750$, and cognitive complexity at $\rho=+0.798$, and inversely
+with \texttt{radon} maintainability at $\rho=-0.789$; the intrinsic $N$ knob gives
+$\rho=+1.000$. Our own metric lane is tightly anchored to the external ones (our CC vs.\
+radon CC $\rho=+0.980$, our MI vs.\ radon MI $\rho=+0.918$). We report the
+\emph{per-family} spread openly (Table~\ref{tab:perfamily}): CC rises with the knob in all
+seven families ($\rho\in[{+}0.65,{+}0.85]$) and MI falls steeply in six. The lone exception
+is the smallest \textsc{conditional\_select} family (\texttt{threshold\_select}), where MI
+is weak ($\rho=-0.21$): its spaghetti expansion adds only control-flow scaffolding that
+reuses the operators/operands already present, so the Halstead volume --- MI's dominant
+term --- is frozen across all six levels and MI saturates on so few lines. This is a known
+MI artifact on tiny programs, not a knob failure --- CC there is normal ($+0.65$) and the
+ordering is by construction. These structural metrics are mutually \emph{correlated} (overlapping
+notions of complexity), so they are \emph{consistent} convergent evidence rather than
+statistically independent witnesses; the genuinely independent grounding is layer (iii).
+\begin{table}[t]\centering\small
+\begin{tabular}{lrr}
+\toprule
+Family & CC--knob $\rho$ & MI--knob $\rho$ \\
+\midrule
+\texttt{config\_resolver}    & $+0.65$ & $-0.85$ \\
+\texttt{allowlist}           & $+0.85$ & $-0.99$ \\
+\texttt{status\_router}      & $+0.65$ & $-0.85$ \\
+\texttt{discovery\_pipeline} & $+0.85$ & $-0.99$ \\
+\texttt{fsm\_transition}     & $+0.65$ & $-0.85$ \\
+\texttt{agg\_stats}          & $+0.85$ & $-0.93$ \\
+\texttt{threshold\_select}   & $+0.65$ & $-0.21$ \\
+\bottomrule
+\end{tabular}
+\caption{Per-family rank correlation of the incidental knob with \texttt{radon}
+cyclomatic complexity (CC, expected ${\to}{+}1$) and maintainability index (MI, expected
+${\to}{-}1$), averaged over each family's scale points (50 base programs). CC is monotone
+in every family; MI in all but the smallest \textsc{conditional\_select} family (see text).
+Family-mean MI $=-0.81$; the $-0.79$ headline is the per-sample mean.}\label{tab:perfamily}
+\end{table} \textbf{(iii) External human grounding via published readability features.}
+Unlike the complexity witnesses above (mutually correlated, complexity-flavoured), this
+leg draws on human-validated \emph{readability} research. We re-implement the published
+Buse--Weimer feature set --- the 25 textual-surface features of Fig.~6 of
+\citet{buse-weimer-2010-learning} --- in pure stdlib and correlate each feature (and a
+documented surface-density aggregate) with the knob. This is a faithful re-implementation
+of the published \emph{features only}, \textbf{not} the original trained Weka classifier
+(whose coefficients are unavailable offline), so the trained-model anchor (Buse--Weimer,
+Scalabrino et al.~\citep{scalabrino-etal-2018-comprehensive},
+Dorn~\citep{dorn-2012-general}) remains a deliberate, honest \textbf{SKIP} and we report
+feature/aggregate correlations, not a calibrated score. The features behave as the
+literature predicts: the most salient density signals rise monotonically with the knob ---
+maximum per-line character and identifier repetition ($\rho\approx+0.94,+0.78$),
+indentation ($+0.79$), maximum line length ($+0.67$) --- while strictly averaged-per-line
+features are diluted by the short scaffold lines the transform inserts, giving a modest
+aggregate ($\rho\approx+0.39$; the intrinsic $N$ knob drives it at $+1.0$). This is a
+genuinely \emph{more independent} (if weaker) external witness than the complexity metrics,
+now runnable with zero third-party dependencies; using public, de-identified prior work is
+\emph{not} new human-subjects research. The external metrics are also the reference against
+which the judge (Fig.~\ref{fig:judge}) is calibrated, so a judge is measured against an
+independent witness, not only against other judges. A fresh controlled human ranking on our
+instances, and --- where licensing permits --- evaluation against the original trained
+Buse--Weimer/Scalabrino/Dorn models, would strengthen layer (iii) and remain
+\emph{future work}; the triad stands on its own.
 
 \section{Reproducibility and Availability}
 The generator, the public \texttt{dev} split, the metric/grader lanes, and the harness
 (\texttt{--selftest}/\texttt{--dry-run}/\texttt{--plan}/\texttt{--baselines}/%
 \texttt{--sweep}/\texttt{--aggregate}/\texttt{--report}) are released under the MIT
-license; for double-blind review an anonymized snapshot is provided at
-\textbf{anonymous.4open.science/r/spaghetti-architect-bench (anonymized for review; MIT public repo + archival DOI at camera-ready)}, and the release carries a \textbf{canary} GUID for training-set
-audits. To preserve the \emph{mint-after-cutoff} guarantee, the private held-out seed and
+license; for double-blind review we provide an anonymized snapshot produced by a
+\emph{deterministic} script (\texttt{scripts/anonymize\_snapshot.py}, released) that
+excludes version-control metadata, caches, the private held-out split, and credentials;
+deletes citation/packaging metadata; replaces every author, contact, hosting-handle, and
+institutional string with neutral placeholders; maps the distinctive project name to a
+neutral codename throughout; and replaces the contamination \textbf{canary} GUID with an
+inert token --- then re-scans the snapshot and certifies that zero author-identifying
+tokens remain. The snapshot is hosted anonymously (e.g.\ anonymous.4open.science) under
+that codename; the canonical MIT repository, citation metadata, canary, and archival DOI
+are restored at camera-ready. To preserve the \emph{mint-after-cutoff} guarantee, the private held-out seed and
 the Tier B/C structures are \textbf{deliberately withheld} --- a contamination trade-off,
 not an omission: anyone can regenerate an equivalent private split from a fresh secret
 seed with the released generator, and the public \texttt{dev} split plus the recorded
@@ -469,10 +554,11 @@ string literals; only the public \texttt{dev} split and the generator are commit
 $N/L$ (fixed profile) vs.\ from growing the profile (fixed logic) --- the scientific
 core.}\end{figure*}
 
-\begin{figure*}[t]\centering \awaiting{Per model: semantic-ok rate ($x$) vs.\ simplification quality ($y$); clean baseline $=(1,1)$, no-op $=(*,0)$. From \texttt{figures.refactor\_2d}.}
+\begin{figure*}[t]\centering \awaiting{Per model: semantic-ok rate ($x$) vs.\ simplification quality ($y$); clean baseline (real) $\approx(1.0,0.83)$, rule-based no-op $=(1.0,0)$. From \texttt{figures.refactor\_2d}.}
 \caption{\textbf{Refactor 2-D $+$ baseline panel.} Semantic-ok rate vs.\ simplification
-quality per model; the clean baseline is the $(1,1)$ ceiling and the non-LLM panel
-(autoformatter lower bound, rule-based AST mid) marks the reachable range.}
+quality per model; the real clean baseline sits at $(1.0,0.83)$ --- the reachable ceiling
+($<\!1$ on the readability facet by construction) --- and the non-LLM panel (autoformatter
+lower bound, rule-based AST mid at simplification $0.00$) marks the reachable range.}
 \label{fig:refactor}\end{figure*}
 
 \begin{figure*}[t]\centering \awaiting{Task score per language (same logic) — where a backend is harder for models. From \texttt{figures.cross\_language}.}

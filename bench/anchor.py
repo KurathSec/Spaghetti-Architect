@@ -34,6 +34,19 @@ The anchors:
   tooling), **not** pip-installable, so this anchor records an honest ``SKIP`` with a
   precise reason. We do **not** relabel a generic proxy (or the unrelated PyPI
   ``readability`` prose/Flesch package) as one of those models.
+* **bw_readability** — a faithful *re-implementation of the published Buse--Weimer
+  (2010) readability **feature set*** (Fig. 6 of Buse & Weimer, "Learning a Metric
+  for Code Readability", IEEE TSE 36(4):546-558, 2010), computed with the Python
+  stdlib (``tokenize``/``keyword``) over the dev Python sources. This is the only
+  anchor that is *readability*-flavoured rather than complexity-flavoured, so it is a
+  more independent witness than radon/lizard/cognitive (which are mutually correlated
+  complexity metrics). **It is NOT the original trained Weka classifier** — those
+  trained coefficients remain unavailable offline (hence the ``readability`` SKIP
+  above stays). We therefore report only (a) the per-feature Spearman against the knob
+  and (b) a *documented surface-density aggregate* (mean of z-scored density/structure
+  features, oriented so higher = denser = less readable, per the paper's qualitative
+  finding that line length and identifier density most reduce readability). A fresh
+  human readability study calibrated to this benchmark is explicitly future work.
 
 Each anchor is guarded so a missing tool yields ``{"status":"SKIP","reason":...}``
 for that anchor only; the script still exits 0 (a missing tool must never fail the
@@ -48,10 +61,14 @@ generalized per-tool view lives under ``anchors``.
 from __future__ import annotations
 
 import ast
+import io
 import json
+import keyword
 import os
+import statistics
 import sys
 import textwrap
+import tokenize
 from typing import Callable, Dict, List, Optional
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
@@ -76,6 +93,190 @@ KNOB_RANK = {k: i for i, k in enumerate(D.KNOB_RANK)}
 # --------------------------------------------------------------------------- #
 def _wrap_for_cc(src: str) -> str:
     return "def _spaghetti():\n" + textwrap.indent(src if src.strip() else "pass", "    ")
+
+
+# --------------------------------------------------------------------------- #
+# Buse--Weimer (2010) readability FEATURE SET (Fig. 6).
+#
+# Source: R. P. L. Buse and W. R. Weimer, "Learning a Metric for Code
+# Readability", IEEE Transactions on Software Engineering 36(4):546-558, 2010
+# (TSE special issue on ISSTA 2008 best papers); preprint Fig. 6 enumerates the
+# 25-feature vector. Each feature is "either an average value per line, or a
+# maximum value for all lines" and is *size-independent by construction*. The
+# eight features marked X/X in Fig. 6 contribute BOTH an average-per-line and a
+# maximum-per-line column; the rest are average-per-line, and the final two
+# (most-frequent character / identifier) are maxima over the snippet.
+#
+# This is a faithful re-implementation of those FEATURE DEFINITIONS only. It is
+# NOT the trained Weka classifier (those coefficients are not available offline);
+# we therefore never emit a single "Buse--Weimer readability score" -- we report
+# the raw features and a clearly-labelled surface-density aggregate.
+# --------------------------------------------------------------------------- #
+_PY_KEYWORDS = frozenset(keyword.kwlist)
+_ARITH_OPS = frozenset(["+", "-", "*", "/", "//", "%", "**", "@"])
+_COMPARE_OPS = frozenset(["==", "!=", "<", ">", "<=", ">=", "<>"])
+_ASSIGN_OPS = frozenset(["=", "+=", "-=", "*=", "/=", "//=", "%=", "**=",
+                         "&=", "|=", "^=", ">>=", "<<=", "@=", ":="])
+_BRANCH_KW = frozenset(["if", "elif"])
+_LOOP_KW = frozenset(["for", "while"])
+
+# The 25 Buse--Weimer feature names, in Fig. 6 order. Used to keep the JSON
+# feature dict ordered and to drive the aggregate.
+_BW_FEATURE_NAMES = (
+    "avg_line_length", "max_line_length",
+    "avg_identifiers", "max_identifiers",
+    "avg_identifier_length", "max_identifier_length",
+    "avg_indentation", "max_indentation",
+    "avg_keywords", "max_keywords",
+    "avg_numbers", "max_numbers",
+    "avg_comments", "avg_periods", "avg_commas", "avg_spaces",
+    "avg_parentheses", "avg_arithmetic_ops", "avg_comparison_ops",
+    "avg_assignments", "avg_branches", "avg_loops", "avg_blank_lines",
+    "max_char_occurrences", "max_identifier_occurrences",
+)
+
+# Documented surface-density aggregate: the subset of Fig. 6 features that are
+# monotone in textual *density / structure* (more of them => less readable, per
+# the paper's PCA, which finds avg line length and avg #identifiers the strongest
+# negative readability factors). We deliberately exclude comments, blank lines,
+# spaces and identifier *length* (which Fig. 9 finds weak or readability-neutral),
+# so the aggregate is an honest "surface density" proxy, NOT the trained model.
+_BW_DENSITY_FEATURES = (
+    "avg_line_length", "max_line_length", "avg_identifiers", "max_identifiers",
+    "avg_keywords", "max_keywords", "avg_numbers", "max_numbers",
+    "avg_periods", "avg_commas", "avg_parentheses", "avg_arithmetic_ops",
+    "avg_comparison_ops", "avg_assignments", "avg_branches", "avg_loops",
+    "avg_indentation", "max_indentation",
+    "max_char_occurrences", "max_identifier_occurrences",
+)
+
+
+def _bw_tokens_by_line(src: str) -> Dict[int, List]:
+    """Map physical 1-based line number -> [(toktype, tokstr), ...].
+
+    Uses the stdlib ``tokenize`` for an accurate lexical view (keywords vs.
+    identifiers, numbers, comments, operator spelling). Robust to un-tokenizable
+    fragments (e.g. the bare clean baseline) -- on error we fall back to an empty
+    token map and the line-oriented features (length, indentation, blanks, raw
+    character frequency) still compute. Layout-only tokens are dropped.
+    """
+    out: Dict[int, List] = {}
+    try:
+        toks = list(tokenize.generate_tokens(io.StringIO(src).readline))
+    except (tokenize.TokenError, IndentationError, SyntaxError, ValueError):
+        return out
+    _skip = {tokenize.ENCODING, tokenize.ENDMARKER, tokenize.NEWLINE,
+             tokenize.NL, tokenize.INDENT, tokenize.DEDENT}
+    for tok in toks:
+        if tok.type in _skip:
+            continue
+        out.setdefault(tok.start[0], []).append((tok.type, tok.string))
+    return out
+
+
+def bw_readability_features(src: str) -> Dict[str, float]:
+    """Compute the 25 Buse--Weimer (2010) Fig. 6 readability features for ``src``.
+
+    Deterministic and dependency-free (Python stdlib only). Faithful to the
+    published *feature definitions*; this is **not** the trained Weka classifier.
+    """
+    lines = src.split("\n")
+    if lines and lines[-1] == "":
+        lines = lines[:-1]  # ignore the trailing newline's empty cell
+    n_lines = max(1, len(lines))
+    by_line = _bw_tokens_by_line(src)
+
+    line_len: List[int] = []
+    indent: List[int] = []
+    ident_per_line: List[int] = []
+    ident_len_per_line: List[int] = []   # max identifier length seen on the line
+    kw_per_line: List[int] = []
+    num_per_line: List[int] = []
+    comments = periods = commas = spaces = parens = 0
+    arith = compare = assign = branch = loop = blank = 0
+    char_freq: Dict[str, int] = {}
+    ident_freq: Dict[str, int] = {}
+
+    for i, line in enumerate(lines, start=1):
+        line_len.append(len(line))
+        stripped = line.lstrip()
+        indent.append(len(line) - len(stripped))
+        spaces += line.count(" ")
+        if stripped == "":
+            blank += 1
+        for ch in line:
+            char_freq[ch] = char_freq.get(ch, 0) + 1
+
+        ids_here = 0
+        id_lens_here = [0]
+        kw_here = num_here = 0
+        for ttype, tstr in by_line.get(i, ()):
+            if ttype == tokenize.NAME:
+                if tstr in _PY_KEYWORDS:
+                    kw_here += 1
+                    if tstr in _BRANCH_KW:
+                        branch += 1
+                    elif tstr in _LOOP_KW:
+                        loop += 1
+                else:
+                    ids_here += 1
+                    id_lens_here.append(len(tstr))
+                    ident_freq[tstr] = ident_freq.get(tstr, 0) + 1
+            elif ttype == tokenize.NUMBER:
+                num_here += 1
+            elif ttype == tokenize.COMMENT:
+                comments += 1
+            elif ttype == tokenize.OP:
+                if tstr == ",":
+                    commas += 1
+                elif tstr == ".":
+                    periods += 1
+                elif tstr in ("(", ")"):
+                    parens += 1
+                if tstr in _ASSIGN_OPS:
+                    assign += 1
+                elif tstr in _COMPARE_OPS:
+                    compare += 1
+                elif tstr in _ARITH_OPS:
+                    arith += 1
+        ident_per_line.append(ids_here)
+        ident_len_per_line.append(max(id_lens_here))
+        kw_per_line.append(kw_here)
+        num_per_line.append(num_here)
+
+    def _avg(xs: List[int]) -> float:
+        return sum(xs) / len(xs) if xs else 0.0
+
+    def _max(xs: List[int]) -> float:
+        return float(max(xs)) if xs else 0.0
+
+    return {
+        "avg_line_length": _avg(line_len),
+        "max_line_length": _max(line_len),
+        "avg_identifiers": _avg(ident_per_line),
+        "max_identifiers": _max(ident_per_line),
+        "avg_identifier_length": _avg(ident_len_per_line),
+        "max_identifier_length": _max(ident_len_per_line),
+        "avg_indentation": _avg(indent),
+        "max_indentation": _max(indent),
+        "avg_keywords": _avg(kw_per_line),
+        "max_keywords": _max(kw_per_line),
+        "avg_numbers": _avg(num_per_line),
+        "max_numbers": _max(num_per_line),
+        "avg_comments": comments / n_lines,
+        "avg_periods": periods / n_lines,
+        "avg_commas": commas / n_lines,
+        "avg_spaces": spaces / n_lines,
+        "avg_parentheses": parens / n_lines,
+        "avg_arithmetic_ops": arith / n_lines,
+        "avg_comparison_ops": compare / n_lines,
+        "avg_assignments": assign / n_lines,
+        "avg_branches": branch / n_lines,
+        "avg_loops": loop / n_lines,
+        "avg_blank_lines": blank / n_lines,
+        "max_char_occurrences": float(max(char_freq.values(), default=0)),
+        "max_identifier_occurrences": float(max(ident_freq.values(), default=0)),
+    }
 
 
 # --------------------------------------------------------------------------- #
@@ -224,6 +425,80 @@ _OUR_LANE = {"cc": "our_cc", "mi": "our_mi", "cognitive": "our_cognitive"}
 
 
 # --------------------------------------------------------------------------- #
+# Buse--Weimer readability anchor: bespoke compute (does not flow through the
+# complexity _PROBES loop, so the radon/lizard/cognitive output is byte-identical
+# with or without this anchor). Always available -- pure stdlib.
+# --------------------------------------------------------------------------- #
+def _bw_aggregate_proxy(rows: List[dict]) -> None:
+    """Attach an in-place ``bw_proxy`` column: the mean of z-scored density/
+    structure features (Fig. 6 subset), oriented so higher = denser = less
+    readable. Standardisation is over the full dev source set so per-feature
+    scale differences do not let one feature dominate. Deterministic; population
+    stdev, with a zero-variance feature contributing 0 (guarded denominator)."""
+    means = {c: statistics.fmean(r[c] for r in rows) for c in _BW_DENSITY_FEATURES}
+    sds = {c: statistics.pstdev(r[c] for r in rows) for c in _BW_DENSITY_FEATURES}
+    for r in rows:
+        zs = [((r[c] - means[c]) / sds[c]) if sds[c] > 0 else 0.0
+              for c in _BW_DENSITY_FEATURES]
+        r["bw_proxy"] = sum(zs) / len(zs)
+
+
+def _compute_bw_readability(rows: List[dict]) -> dict:
+    """Build the ``bw_readability`` anchor record from per-source feature rows.
+
+    ``rows`` must already carry each ``_BW_FEATURE_NAMES`` column plus the
+    ``bw_proxy`` aggregate (see :func:`_bw_aggregate_proxy`) and the standard
+    ``sample``/``family``/``knob``/``rank``/``scale`` metadata.
+    """
+    per_feature: Dict[str, dict] = {}
+    for feat in _BW_FEATURE_NAMES:
+        per_feature[feat] = {
+            "incidental_knob_spearman_mean": _incidental_spearman_mean(rows, feat),
+            "config_resolver_N_spearman": _config_resolver_spearman(rows, feat),
+        }
+    aggregate = {
+        # direction "+" => higher (denser) is expected with more spaghetti.
+        "direction": "+",
+        "incidental_knob_spearman_mean": _incidental_spearman_mean(rows, "bw_proxy"),
+        "config_resolver_N_spearman": _config_resolver_spearman(rows, "bw_proxy"),
+        "definition": "mean of z-scored Buse-Weimer density/structure features "
+                      "(line length, identifiers, keywords, numbers, periods, "
+                      "commas, parentheses, arithmetic/comparison/assignment ops, "
+                      "branches, loops, indentation, and most-frequent "
+                      "char/identifier), standardised over the dev source set; "
+                      "higher = denser surface = less readable.",
+    }
+    # The single strongest feature witness (by |incidental rho|), reported as the
+    # headline so the compact summary does not have to pick a feature by hand.
+    ranked = sorted(
+        ((f, m["incidental_knob_spearman_mean"]) for f, m in per_feature.items()
+         if m["incidental_knob_spearman_mean"] is not None),
+        key=lambda kv: abs(kv[1]), reverse=True,
+    )
+    return {
+        "status": "OK",
+        "tool": "bw_readability",
+        "kind": "feature-reimplementation",
+        "source": "Buse & Weimer, 'Learning a Metric for Code Readability', "
+                  "IEEE TSE 36(4):546-558, 2010 (Fig. 6 feature set).",
+        "honest_note": "Faithful re-implementation of the published Buse-Weimer "
+                       "readability FEATURES (stdlib tokenize/keyword), NOT the "
+                       "original trained Weka classifier (whose coefficients are "
+                       "not available offline; see the separate 'readability' SKIP "
+                       "anchor). We report per-feature and surface-aggregate "
+                       "correlations only. A fresh human readability study "
+                       "calibrated to this benchmark is future work.",
+        "n_features": len(_BW_FEATURE_NAMES),
+        "headline_metric": "aggregate_density_proxy",
+        "strongest_feature": (
+            {"name": ranked[0][0], "incidental_knob_spearman_mean": ranked[0][1]}
+            if ranked else None),
+        "aggregate_density_proxy": aggregate,
+        "features": per_feature,
+    }
+
+
+# --------------------------------------------------------------------------- #
 # main compute
 # --------------------------------------------------------------------------- #
 def compute() -> dict:
@@ -262,11 +537,30 @@ def compute() -> dict:
                 row[col] = spec["fn"](src)
             rows.append(row)
 
+    # 2b) Buse--Weimer readability features over the SAME sources, kept in a
+    #     parallel row set so the serialized ``rows`` (and thus every existing
+    #     complexity number / judge-vs-anchor consumer) is byte-identical whether
+    #     or not this anchor runs. Pure stdlib, so it is always available.
+    bw_rows: List[dict] = []
+    for r in rows:
+        # re-derive the exact source for this (sample, knob) cell deterministically.
+        prog = sp.program(r["sample"])
+        src = (M.clean_baseline_static(prog) if r["knob"] == "clean"
+               else sp.sources(r["sample"], r["knob"])["python"])
+        bw = bw_readability_features(src)
+        bw.update({"sample": r["sample"], "family": r["family"], "knob": r["knob"],
+                   "rank": r["rank"], "scale": r["scale"]})
+        bw_rows.append(bw)
+    _bw_aggregate_proxy(bw_rows)
+
     # 3) per-anchor correlations.
     anchors: Dict[str, dict] = {}
     for anchor in _PROBES:
         info = probed[anchor]
         if not info:
+            # NB: the 'readability' probe is a permanent honest SKIP for the
+            # *trained* Weka models (Buse-Weimer/Scalabrino/Dorn); the runnable
+            # feature re-implementation is published below as 'bw_readability'.
             anchors[anchor] = {"status": "SKIP", "tool": anchor,
                                "reason": _SKIP_REASON[anchor]}
             continue
@@ -286,6 +580,9 @@ def compute() -> dict:
             "headline_metric": info["headline"],
             "metrics": per_metric,
         }
+
+    # 3b) the runnable Buse--Weimer readability FEATURE anchor (always OK; stdlib).
+    anchors["bw_readability"] = _compute_bw_readability(bw_rows)
 
     # 4) per-sample radon view (kept for backward compat / judge-vs-anchor) +
     #    legacy top-level radon correlations that run_bench.py reads.
@@ -315,6 +612,8 @@ def compute() -> dict:
         "anchors_skipped": sorted(a for a, v in anchors.items() if v["status"] == "SKIP"),
         "per_sample": per_sample,
         "rows": rows,  # for judge-vs-anchor correlation in --aggregate
+        # parallel readability-feature rows (kept separate so `rows` is unchanged).
+        "bw_readability_rows": bw_rows,
     }
 
     # Backward-compatible top-level keys for run_bench.py (radon as the primary tool).
@@ -356,6 +655,16 @@ def main() -> int:
     print(f"  available: {ok or '(none)'}   skipped: {skip or '(none)'}")
     for anchor in ok:
         a = rec["anchors"][anchor]
+        if anchor == "bw_readability":
+            # distinct shape: readability feature re-implementation, no crosscheck.
+            agg = a["aggregate_density_proxy"]
+            sf = a.get("strongest_feature") or {}
+            print(f"  {anchor} (BW2010 features, n={a['n_features']}; "
+                  f"NOT the trained classifier): density proxy vs knob "
+                  f"rho={_fmt(agg['incidental_knob_spearman_mean'])} (expect +); "
+                  f"strongest feature {sf.get('name')} "
+                  f"rho={_fmt(sf.get('incidental_knob_spearman_mean'))}")
+            continue
         hm = a["headline_metric"]
         spec = a["metrics"][hm]
         sign = spec["direction"]
