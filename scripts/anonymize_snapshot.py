@@ -89,6 +89,11 @@ EXCLUDE_DIR_NAMES = {
 EXCLUDE_DIR_PATHS = {
     "bench/notes",      # private working notes (carry 'Sunway' + roadmap)
     "bench/data/test",  # PRIVATE held-out split — must never leave the machine
+    # The top-level engine paper targets a DIFFERENT venue (MSR), carries an
+    # author self-citation, and its filename leaks the project name. It is not part
+    # of the EACL benchmark artifact, so it is withheld from the review snapshot.
+    # (NB: this is the top-level "paper/", not "bench/paper/", which is kept.)
+    "paper",
 }
 # Exact relative file paths to drop.
 EXCLUDE_FILE_PATHS = {
