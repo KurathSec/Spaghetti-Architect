@@ -30,6 +30,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from itertools import combinations
 from typing import Dict, List, Optional, Tuple
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
@@ -549,6 +550,71 @@ def grade_judge_pairwise(pairs: List[Tuple[Optional[str], Optional[str], bool]])
             "n_pairs": n, "n_consistent": consistent,
             "position_consistency": (consistent / parsed) if parsed else 0.0,
             "n_unparsed": unparsed}
+
+
+def static_complexity(language: str, src: str) -> Optional[float]:
+    """A single lower-is-better static-complexity scalar for the metric-heuristic
+    judge, reusing the same ``eval.metrics`` lanes the refactor grader uses (no new
+    metric code). Python is rigorous (cyclomatic + AST size, both size facets); the
+    other four reuse the agnostic text proxy (branch-keyword cyclomatic proxy +
+    nesting depth + tokens). The facets are summed on a comparable footing via a fixed
+    additive blend; only the *ordering* matters for the pairwise pick, so the exact
+    weights are immaterial as long as every facet is monotone-worse with mess.
+    ``None`` if the Python source does not parse (caller treats unscored as a tie)."""
+    if language == "python":
+        cc = _py_facet(src, "cyclomatic")
+        nodes = _py_facet(src, "ast_nodes")
+        if cc is None or nodes is None:
+            return None
+        return cc + nodes
+    a = M.agnostic_metrics(src, language)
+    # proxy size facets (all lower = better): branch-keyword CC proxy + nesting + tokens
+    return float(a.get("branch_keywords", 0) + a.get("brace_depth", 0) + a.get("tokens", 0))
+
+
+def metric_heuristic_judge(item) -> dict:
+    """Deterministic, **zero-API** non-LLM judge baseline: for a :class:`JudgeItem`
+    (``levels`` = ``[(label, rank, src), ...]``, rank 0 = cleanest), score each level's
+    source with the static ``eval.metrics`` lane (:func:`static_complexity`, lower =
+    better) and, mirroring :func:`grade_judge_pairwise` / ``tasks.score_judge_item``,
+    pick the **lower-complexity** source of every unordered pair as the predicted
+    cleaner (lower-rank) candidate. It is correct when that pick equals the lower-rank
+    source; an exact complexity **tie counts 0.5** (a coin flip).
+
+    This is the contrast the paper draws: an LLM judge's value *over a trivial static
+    complexity heuristic*. Because complexity is (by construction) monotone with the
+    knob rank, this heuristic should score HIGH on the clean->max ladder.
+
+    Returns ``pairwise_acc`` (+ deterministic bootstrap ``pairwise_acc_ci95``) and, as
+    a secondary number, the pointwise rank-vs-complexity Spearman ``spearman_rank_cc``.
+    ``n_pairs``/``n_scored`` report coverage (pairs where both sources scored)."""
+    levels = list(item.levels)
+    # pointwise complexity per level (None where unparseable)
+    comp = [static_complexity(item.language, src) for (_lab, _rank, src) in levels]
+    ranks = [rank for (_lab, rank, _src) in levels]
+
+    pair_correct: List[float] = []
+    for (ia, (la, ra, sa)), (ib, (lb, rb, sb)) in combinations(enumerate(levels), 2):
+        ca, cb = comp[ia], comp[ib]
+        if ca is None or cb is None:
+            continue                                  # unscored pair -> abstain
+        if ca == cb:
+            pair_correct.append(0.5)                  # complexity tie -> coin flip
+            continue
+        heuristic_lower = ia if ca < cb else ib       # index the heuristic calls cleaner
+        truth_lower = ia if ra < rb else ib           # index that is actually lower-rank
+        pair_correct.append(1.0 if heuristic_lower == truth_lower else 0.0)
+
+    pairwise_acc = mean(pair_correct) if pair_correct else 0.0
+    # pointwise: rank vs complexity should be strongly POSITIVE (mess => higher cc)
+    scored = [(float(r), c) for r, c in zip(ranks, comp) if c is not None]
+    rho = (spearman([r for r, _ in scored], [c for _, c in scored])
+           if len(scored) >= 2 else 0.0)
+    return {"pairwise_acc": pairwise_acc,
+            "pairwise_acc_ci95": ci95_bootstrap(pair_correct),
+            "spearman_rank_cc": rho,
+            "n_pairs": len(list(combinations(levels, 2))),
+            "n_scored": len(pair_correct)}
 
 
 def may_judge(judge_model_family: str, author_family: str) -> bool:

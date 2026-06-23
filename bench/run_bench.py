@@ -272,6 +272,14 @@ def selftest() -> int:
           and jr["position_consistency"] == 1.0)
     checks.append(f"judge monotone(<=0) & pairwise=1 & position-consistent: {c3}")
     ok = ok and c3
+    # non-LLM metric-heuristic judge baseline (deterministic, zero-API): on the
+    # clean->max ladder complexity is monotone with rank, so pairwise_acc is HIGH and
+    # in [0,1]; rank-vs-complexity Spearman is strongly positive.
+    hj = G.metric_heuristic_judge(ji)
+    c3h = (0.0 <= hj["pairwise_acc"] <= 1.0 and hj["pairwise_acc"] >= 0.99
+           and hj["spearman_rank_cc"] > 0.0)
+    checks.append(f"metric-heuristic judge pairwise in [0,1] & high & rho>0: {c3h}")
+    ok = ok and c3h
     # bias-control helpers (pure, testable): self-judge guard + jury majority
     c3b = (G.may_judge("anthropic", "engine") and not G.may_judge("openai", "openai")
            and G.jury_majority(["A", "A", "B"]) == "A"
@@ -377,6 +385,52 @@ def run_baselines(split: str = "dev") -> int:
               f"simpl_q={a['simplification_quality_mean']:.2f} n={a['n_items']}")
     print(f"baseline panel: {written} baselines written over {len(items)} python "
           f"refactor items -> {SUBAGENT_DIR}")
+    run_judge_baseline(split=split)
+    return 0
+
+
+def run_judge_baseline(split: str = "dev") -> int:
+    """Non-LLM **metric-heuristic judge** baseline (paper \\S Benchmark Design): for
+    every judge item, pick the lower static-complexity candidate of each pair
+    (:func:`grade.metric_heuristic_judge`, ``eval.metrics``, zero API). Emits a
+    ``judge`` payload with ``model=baseline_metric_judge`` in the SAME compact per-item
+    shape ``aggregate()``/``build_figures`` already consume for judge (``pairwise_acc``,
+    ``monotonicity``, per-language), so it lands alongside the LLM judges in
+    Fig.~\\ref{fig:judge}. Deterministic; no spend."""
+    cfg = models.load_config()
+    sp = D.load(split)
+    items_in = T.build_judge_items(sp)
+    records: List[dict] = []
+    for it in items_in:
+        h = G.metric_heuristic_judge(it)
+        # Mirror the LLM judge per-item record keys build_figures/headline_aggregate read.
+        # The heuristic is pairwise + pointwise(rank-vs-complexity); it has no rating
+        # ladder, so the monotonicity view is reported as the rank-vs-complexity Spearman
+        # NEGATED (a faithful judge's rating-vs-rank rho is negative, and the heuristic's
+        # complexity rises with rank, so -rho lands on the same "lower is better" axis as
+        # the LLM monotonicity number it is plotted against).
+        records.append({
+            "sample": it.sample, "language": it.language, "snapshot": "baseline",
+            "tier": it.tier, "levels": [lvl[0] for lvl in it.levels],
+            "pairwise_acc": h["pairwise_acc"],
+            "position_consistency": 1.0,          # deterministic: no position bias
+            "n_consistent": h["n_scored"], "n_pairs": h["n_pairs"],
+            "monotonicity": -h["spearman_rank_cc"],
+            "sensitivity": None, "inversions": 0,
+            "rating_by_level": None,
+            "spearman_rank_cc": h["spearman_rank_cc"],
+        })
+    model = "baseline_metric_judge"
+    payload = {"task": "judge", "model": model, "family": None, "split": split,
+               "k": 1, "prompt_version": P.PROMPT_VERSION, "env": env_block(cfg, split),
+               "aggregate": headline_aggregate("judge", records), "items": records}
+    os.makedirs(SUBAGENT_DIR, exist_ok=True)
+    with open(subagent_path("judge", model, None), "w", encoding="utf-8") as f:
+        json.dump(payload, f, indent=2)
+        f.write("\n")
+    a = payload["aggregate"]
+    print(f"  baseline {'metric_judge':14s} pairwise={a['pairwise_acc_mean']:.2f} "
+          f"mono={a['monotonicity_mean']:.2f} n={a['n_items']} -> {SUBAGENT_DIR}")
     return 0
 
 
@@ -720,9 +774,11 @@ is a correctness-preserving ``anti-optimization'' transpiler that compiles a cle
 intermediate representation (IR) into deliberately awful but provably-equivalent code in
 five languages (Python, JavaScript, Go, Java, C++), gated by an oracle validator, along a
 strictly-nested degradation knob. Because that knob \emph{is} a by-construction
-maintainability order at fixed semantics, it yields ground-truth quality labels, which we
-use to measure \textbf{judge faithfulness} --- do LLM judges rank code by the true order?
---- our headline task (pairwise, position-swap, no self-judging, optional jury). Two
+maintainability order at fixed semantics, it yields a by-construction quality ordering ---
+an \emph{operational} ground truth we validate with convergent complexity metrics and
+published human-readability models rather than assert --- which we use to measure
+\textbf{judge faithfulness}: do LLM judges rank code by that order? --- our headline task
+(pairwise, position-swap, no self-judging, optional jury). Two
 companion tasks reuse the same labels: \textbf{refactoring}, auto-graded for semantic
 equivalence by the validator and for simplification toward a \emph{provably-reachable}
 clean-complexity floor (with an optimality band, an over-golf guard, a readability axis,
@@ -755,7 +811,9 @@ composing eleven named anti-patterns under a strength profile. The inversion is 
 because it yields \textbf{labels}: the output is correct by construction (the validator
 compiles and runs all five targets against a reference oracle), the clean IR is a
 \emph{known-optimal} reference, and --- crucially --- the strictly-nested profiles form a
-\emph{known quality ordering} at identical semantics. This is the ``Csmith-for-badness''
+\emph{by-construction quality ordering} at identical semantics --- one we treat as
+\emph{operational} ground truth and corroborate externally (\S\ref{sec:cv}), not an axiom.
+This is the ``Csmith-for-badness''
 framing: where Csmith~\citep{yang-etal-2011-finding} mints random \emph{valid} programs to stress a
 compiler, we mint semantically-labelled \emph{bad} programs with a tunable degradation
 knob to stress --- and to \emph{audit the evaluators of} --- a model.
@@ -789,8 +847,12 @@ a ground-truth \emph{quality} ordering.
 \paragraph{LLM-as-judge and the missing ground truth.} MT-Bench and
 juries~\citep{zheng-etal-2023-judging,verga-etal-2024-replacing} validate judges against human preference or
 model panels, and maintainability-metric critiques~\citep{vandeursen-2014-think}
-warn that automated scores are not quality itself; what is missing is a \emph{controlled
-stimulus with a known order}. The closest prior move is robustness to semantics-preserving
+warn that automated scores are not quality itself. Judge benchmarks with \emph{objective}
+ground truth do exist --- RewardBench~\citep{lambert-etal-2024-rewardbench} and
+JudgeBench~\citep{tan-etal-2025-judgebench} score judges against \emph{verifiable
+correctness} --- but correctness is binary and orthogonal to presentation; what is missing
+is a \emph{graded quality} order at \emph{fixed} correctness, a controlled stimulus whose
+ordering is known. The closest prior move is robustness to semantics-preserving
 code transforms --- ReCode~\citep{wang-etal-2023-recode} perturbs problems and measures
 correctness drop --- but it targets generation, not \emph{judgment}, and carries no graded
 quality label. We supply the label and turn the judge itself into the measured object.
@@ -913,8 +975,10 @@ if equivalent, as distance toward a \emph{provably-reachable clean-complexity fl
 $\mathrm{clamp}((m_{\text{spag}}\!-\!m_{\text{model}})/(m_{\text{spag}}\!-\!
 m_{\text{clean}}),-1,1)$ over a rigorous Python-AST lane (cyclomatic, AST size,
 Halstead effort, and a \emph{readability}/maintainability-index axis so
-terse-but-cryptic code cannot game size) and an agnostic proxy lane for the other
-languages, capped at the floor; $\text{simpl\_q}=\text{semantic\_ok}\cdot
+terse-but-cryptic code cannot game size) and an agnostic \emph{text} proxy lane for the
+other four languages, capped at the floor (so the \textbf{headline refactor numbers are
+Python-rigorous}; the other four are a proxy, reported separately and never pooled);
+$\text{simpl\_q}=\text{semantic\_ok}\cdot
 \mathrm{geomean}(\text{positive recoveries})$. We add an \emph{optimality band}
 (equivalent and within $\varepsilon$ of the reachable clean $\Rightarrow$
 ``recovered''), an \texttt{over\_golfed} guard (undershooting the floor $=$ removed
@@ -922,13 +986,16 @@ structure, flagged not rewarded), and a per-\texttt{SPAGH\_*} \emph{removal} che
 A non-LLM \textbf{baseline panel} --- autoformatter (lower bound), a rule-based AST
 simplifier (non-LLM mid), and the clean baseline ($(1,1)$ ceiling) --- establishes the
 task is non-trivial and the optimum reachable (Fig.~\ref{fig:refactor}).
-\emph{Judge.} The \emph{knob} is ground truth (the by-construction order); external
-complexity metrics are \emph{convergent witnesses}, not the definition of quality
-(\S\ref{sec:cv}), which removes the circularity. We lead with \textbf{pairwise}
+\emph{Judge.} The \emph{knob} is our \emph{operational} ground truth (the by-construction
+order; validated, not asserted, in \S\ref{sec:cv}); external complexity metrics are
+\emph{convergent witnesses}, not the definition of quality. We lead with \textbf{pairwise}
 accuracy against the known order under MT-Bench \textbf{position-swap} (a pair counts
 only if the choice is consistent across both orderings), with no self-judging and an
 optional jury~\citep{zheng-etal-2023-judging,verga-etal-2024-replacing}; pointwise ratings give the
-secondary monotonicity (Spearman) view.
+secondary monotonicity (Spearman) view. Every LLM judge is contrasted with a non-LLM
+\textbf{metric-heuristic judge} --- pick the lower static-complexity candidate
+(\texttt{eval.metrics}) --- so an LLM judge's value \emph{over a trivial complexity
+heuristic} is explicit, not assumed.
 \emph{Comprehend.} Predict the result variables; exact-match vs.\ the oracle over base
 $+$ variants. Matrix sizes (dev): refactor @@NREFAC@@, comprehend @@NCOMP@@, judge
 @@NJUDGE@@ items.
@@ -944,9 +1011,15 @@ between-item components (Fig.~\ref{fig:robust}). The prompt set is content-hashe
 
 \paragraph{Protocol and determinism.} Sample generation and all static metrics are
 byte-deterministic (seeded). LLM outputs are \emph{not}: we pin
-\texttt{temperature=@@TEMP@@}, record the exact model id and parameters, draw $k=$@@K@@
-samples per item, and report mean with bootstrap 95\% CIs. We claim \emph{protocol}
-reproducibility, not byte reproducibility, for model results. Prompts are frozen and
+\texttt{temperature=@@TEMP@@}, record the exact model id and parameters, and draw $k=$@@K@@
+samples per item. At this temperature the $k$ draws capture \emph{serving-side}
+nondeterminism only, so per-item CIs are tight and the reported uncertainty is dominated by
+the \emph{between-item} bootstrap; the pre-registered inferential test is a mixed-effects
+model (judge rating vs.\ knob rank; random intercepts for family, sample, and language)
+with Benjamini--Hochberg FDR and Holm correction across models, implemented in the released
+\texttt{bench/analysis.py} (statsmodels in a quarantined env; an honest \textsc{skip} plus a
+cluster-bootstrap fallback if absent). We claim \emph{protocol} reproducibility, not byte
+reproducibility, for model results. Prompts are frozen and
 versioned (\texttt{@@PROMPTVER@@}); each returns a single parseable artifact (a code
 block / an integer / \texttt{A}|\texttt{B} / a JSON object) so no reasoning leaks into
 the graded output.
@@ -959,9 +1032,10 @@ in Appendix~\ref{app:figs}.
 
 \begin{figure*}[t]\centering @@FIG4@@
 \caption{\textbf{Judge faithfulness (headline).} Pairwise accuracy under MT-Bench
-position-swap and rating-vs-knob monotonicity per model, with the non-LLM
-\texttt{radon}/\texttt{lizard}/cognitive anchors (\S\ref{sec:cv}) as external references
---- the knob, not a metric, is ground truth.}\label{fig:judge}\end{figure*}
+position-swap and rating-vs-knob monotonicity per model, against the non-LLM
+\textbf{metric-heuristic judge} and the \texttt{radon}/\texttt{lizard}/cognitive anchors
+(\S\ref{sec:cv}) --- the knob (our operational ground truth), not a metric, is the
+reference.}\label{fig:judge}\end{figure*}
 
 \begin{figure*}[t]\centering @@FIG1@@
 \caption{\textbf{Incidental-complexity degradation.} Task score vs.\ profile with logic
@@ -974,11 +1048,13 @@ the gap, graded by tier, is a measured memorization axis.}\end{figure*}
 
 \section{Construct Validity (a zero-IRB triad)}\label{sec:cv}
 For a benchmark-\emph{generator} the contribution is the instrument, and we establish
-its validity \textbf{without a new human-subjects study} via three independent layers,
-none touching a participant. \textbf{(i) By-construction ground truth:} the nested
-\texttt{SPAGH\_*} inclusion order is a known maintainability ordering at fixed
-semantics. \textbf{(ii) Automated convergent validity (real, model-independent data):}
-the knob moves several \emph{independent} external complexity metrics monotonically
+its validity \textbf{without a new human-subjects study} via three complementary layers,
+none touching a participant. \textbf{(i) By-construction ordering (an assumption we test):}
+the nested \texttt{SPAGH\_*} inclusion order is a \emph{by-construction} maintainability
+ordering at fixed semantics; that set inclusion $\Rightarrow$ not-better is an
+\emph{assumption} layers (ii)--(iii) exist to corroborate, not an axiom. \textbf{(ii)
+Automated convergent validity (real, model-independent data):}
+the knob moves several external complexity metrics monotonically
 (\texttt{radon}: cyclomatic complexity and the maintainability index; \texttt{lizard}:
 language-agnostic cyclomatic complexity; cognitive complexity: a nesting-aware readability
 proxy). Scoring the @@NANCHOR@@ \texttt{dev} Python sources off the zero-dependency core (a
@@ -987,7 +1063,10 @@ at $\rho=@@ANCINCCC@@$, \texttt{lizard} cyclomatic at $\rho=@@ANCLIZ@@$, and cog
 complexity at $\rho=@@ANCCOG@@$, and inversely with \texttt{radon} maintainability at
 $\rho=@@ANCINCMI@@$; the intrinsic $N$ knob gives $\rho=@@ANCNCC@@$. Our own metric
 lane is tightly anchored to the external ones (our CC vs.\ radon CC $\rho=@@ANCXCC@@$,
-our MI vs.\ radon MI $\rho=@@ANCXMI@@$). \textbf{(iii) External human grounding:} we
+our MI vs.\ radon MI $\rho=@@ANCXMI@@$). These structural metrics are mutually
+\emph{correlated} (overlapping notions of complexity), so they are \emph{consistent}
+convergent evidence rather than statistically independent witnesses; the genuinely
+independent grounding is layer (iii). \textbf{(iii) External human grounding:} we
 anchor to \emph{published} human-validated readability models ---
 Buse--Weimer~\citep{buse-weimer-2010-learning}, Scalabrino et
 al.~\citep{scalabrino-etal-2018-comprehensive}, Dorn~\citep{dorn-2012-general}; using public,
@@ -1033,30 +1112,44 @@ collect human quality ratings on \emph{our} instances, so (i) the by-constructio
 though monotone in every external complexity metric we measured, is not re-confirmed by
 fresh raters on these exact programs, and (ii) judge faithfulness is scored against the
 construction, not against human consensus --- if human notions of ``messy'' diverged from
-\texttt{SPAGH\_*} inclusion, a faithful judge could look unfaithful, or vice versa. A
-pre-registered, IRB-exempt human ranking on a sample of our instances is the single most
-valuable addition and is left as future work; the convergent-metric triad mitigates but
-does not remove this threat.
-\paragraph{Construct.} The IR has a small, fixed operation set --- a deliberate
-\emph{controlled stimulus}, not a generality claim; it is what holds semantics fixed while
-varying mess. Equivalence is established by differential testing over base $+$ variants,
-not by proof; the rigorous simplification and optimality-band lanes are Python-only (the
-other four languages use a text/regex proxy with a language-neutral floor), so
-cross-language scores are a proxy and are \emph{not} pooled without caveat.
+\texttt{SPAGH\_*} inclusion, a faithful judge could look unfaithful, or vice versa. Our
+human grounding is therefore \emph{published, de-identified} readability datasets (layer
+(iii) of \S\ref{sec:cv}) --- a deliberate zero-IRB design, not an oversight; a fresh
+controlled human ranking on our instances would further strengthen (i)--(ii) and remains
+optional future work. The convergent-metric triad mitigates but does not remove this
+threat.
+\paragraph{Construct and external validity.} The IR has a small, fixed operation set ---
+a deliberate \emph{controlled stimulus}, not a generality claim; it is what holds semantics
+fixed while varying mess. Our external validity is therefore \emph{bounded by design}: the
+programs are small and synthetic over four operations, so we claim findings about
+\emph{robustness to incidental complexity} and \emph{judge faithfulness on a controlled
+stimulus}, \emph{not} that absolute scores transfer to real-world repositories --- and
+scaling the item count does not widen this scope. Equivalence is established by differential
+testing over base $+$ variants, not by proof; the rigorous simplification and
+optimality-band lanes are Python-only (the other four languages use a text/regex proxy with
+a language-neutral floor), so cross-language scores are a proxy and are \emph{not} pooled
+without caveat.
 \paragraph{Contamination.} We claim mint-after-cutoff, not contamination-proofing: a public
 generator could synthesize in-distribution training data, which is exactly why we report
-graded A/B/C novelty tiers and keep the held-out seed and Tier B/C structures private. The
-optimum is a provably-reachable \emph{floor}, not a unique best refactoring; ``recovered''
-means reaching that floor's band, and the \texttt{over\_golfed} guard plus the readability
-axis defeat the obvious size-gaming strategy.
+graded A/B/C novelty tiers and keep the held-out seed and Tier B/C structures private. Two
+honest caveats: the tier gap is informative only \emph{if observed}, and releasing the
+public \texttt{dev} split means it will itself be contaminated over time --- so the lasting
+contribution is the \emph{protocol} (re-mint from a fresh private seed), not a permanently
+clean artifact. The optimum is a provably-reachable \emph{floor}, not a unique best
+refactoring; ``recovered'' means reaching that floor's band, and the \texttt{over\_golfed}
+guard plus the readability axis defeat the obvious size-gaming strategy.
 \paragraph{Conclusion validity and scope.} LLM outputs are nondeterministic; we mitigate
 with \texttt{temperature=0}, $k$ samples, and bootstrap CIs, and claim \emph{protocol} ---
 not byte --- reproducibility for model results, recording the exact dated snapshot id per
-call since closed models drift. Prompt sensitivity is \emph{measured} (canonical prompt
-plus a frozen paraphrase sweep and variance decomposition), not assumed. The
-models-under-test are \textbf{cross-vendor} (Anthropic, OpenAI, Google, and open-weights
-via an OpenAI-compatible gateway); a missing toolchain \textsc{skip}s (recorded, never
-counted as a pass).
+call since closed models drift. At temperature~0 the $k$ draws reflect serving-side jitter
+only, so per-item CIs are narrow and the between-item bootstrap and the mixed-effects model
+(\texttt{bench/analysis.py}) carry the inference. Output-prediction \emph{comprehension}
+over small deterministic programs may \emph{saturate} for strong models; we mitigate with
+differential variants and the deeper Tier-C chains and report any ceiling honestly rather
+than masking it. Prompt sensitivity is \emph{measured} (canonical prompt plus a frozen
+paraphrase sweep and variance decomposition), not assumed. The models-under-test are
+\textbf{cross-vendor} (Anthropic, OpenAI, Google, and open-weights via an OpenAI-compatible
+gateway); a missing toolchain \textsc{skip}s (recorded, never counted as a pass).
 
 \section*{Ethics Statement}
 This work introduces a \emph{measurement instrument}, not a deployment artifact. The

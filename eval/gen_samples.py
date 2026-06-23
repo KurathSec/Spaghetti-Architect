@@ -278,7 +278,7 @@ def build(seed: int = SEED, extended: bool = False) -> Tuple[Dict[str, dict], di
     cfg_keys: Dict[str, List[str]] = {}
     cfg_bases: List[str] = []
     cfg_scales: Dict[str, int] = {}
-    cfg_N = (4, 8, 12, 16, 24, 32) if extended else (4, 8, 16, 32)
+    cfg_N = (4, 6, 8, 10, 12, 16, 20, 24, 28, 32, 40, 48, 56, 64) if extended else (4, 8, 16, 32)
     for n in cfg_N:
         ir, keys = _config_resolver(n)
         stem = f"config_resolver_N{n}"
@@ -291,7 +291,7 @@ def build(seed: int = SEED, extended: bool = False) -> Tuple[Dict[str, dict], di
     allow_lists: Dict[str, List[int]] = {}
     allow_bases: List[str] = []
     allow_scales: Dict[str, int] = {}
-    allow_L = (8, 16, 32, 64, 128) if extended else (8, 32, 128)
+    allow_L = (8, 12, 16, 24, 32, 48, 64, 96, 128, 160, 192, 256, 320, 384) if extended else (8, 32, 128)
     for length in allow_L:
         ir, lst = _allowlist(length, rng)
         stem = f"allowlist_L{length}"
@@ -316,14 +316,14 @@ def build(seed: int = SEED, extended: bool = False) -> Tuple[Dict[str, dict], di
     thr_names: Dict[str, List[str]] = {}
     agg_lists: Dict[str, List[int]] = {}
     if extended:
-        for w in (8, 32):
+        for w in (8, 12, 16, 24, 32, 48, 64, 96, 128, 160):
             ir, vals = _agg_stats(w, rng)
             stem = f"agg_stats_W{w}"
             samples[stem] = ir
             agg_lists[stem] = vals
             agg_bases.append(stem)
             agg_scales[stem] = w
-        for t in (2, 4):
+        for t in (2, 3, 4, 5, 6, 7, 8, 10, 12):
             ir, names = _threshold_select(t, rng)
             stem = f"threshold_select_T{t}"
             samples[stem] = ir
@@ -409,6 +409,38 @@ def build(seed: int = SEED, extended: bool = False) -> Tuple[Dict[str, dict], di
             {t4[-1]: 0},                 # far below
             {t4[-1]: 100},               # far above
             {n: 50 for n in t4},         # all at the boundary -> all high
+        ])
+
+        # --- extended-only: 5 more variants each for 3 additional representatives,
+        #     using the same override styles as the unconditional blocks above. ---
+        # config_resolver_N16: first arm / mid arm / last arm / default-miss / another hit
+        k16 = cfg_keys["config_resolver_N16"]
+        add_variants("config_resolver_N16", [
+            {"lookup_key": k16[0]},
+            {"lookup_key": k16[len(k16) // 2]},
+            {"lookup_key": k16[-1]},
+            {"lookup_key": "r99"},        # not a known key -> default
+            {"lookup_key": k16[3]},
+        ])
+
+        # allowlist_L64: present early / mid / last / absent-below / absent-above
+        l64 = allow_lists["allowlist_L64"]
+        add_variants("allowlist_L64", [
+            {"probe": l64[0]},
+            {"probe": l64[len(l64) // 2]},
+            {"probe": l64[-1]},
+            {"probe": 0},                 # below the pool [1, L*5) -> absent
+            {"probe": 64 * 5 + 1},        # above the pool -> absent
+        ])
+
+        # agg_stats_W16: reading distributions that move sum/min/max differentially
+        w16 = agg_lists["agg_stats_W16"]
+        add_variants("agg_stats_W16", [
+            {"readings": list(reversed(w16))},      # same multiset (sum/min/max equal)
+            {"readings": sorted(w16)},              # sorted (same multiset)
+            {"readings": w16 + [max(w16) * 3]},     # a spike -> max & sum jump
+            {"readings": [w16[0]] * len(w16)},      # flat -> min == max == w16[0]
+            {"readings": [v + 1 for v in w16]},     # shifted -> sum/min/max all move
         ])
 
     families = {
