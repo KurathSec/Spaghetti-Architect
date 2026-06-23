@@ -131,6 +131,8 @@
   author    = {Gu, Alex and Rozi\`{e}re, Baptiste and Leather, Hugh and Solar-Lezama, Armando and Synnaeve, Gabriel and Wang, Sida I.},
   title     = {{CRUXEval}: A Benchmark for Code Reasoning, Understanding and Execution},
   booktitle = {Proceedings of the 41st International Conference on Machine Learning (ICML '24)},
+  series    = {Proceedings of Machine Learning Research},
+  volume    = {235},
   year      = {2024},
   publisher = {PMLR},
   note      = {arXiv:2401.03065}
@@ -179,8 +181,11 @@
 @inproceedings{jacovi-etal-2023-stop,
   author    = {Jacovi, Alon and Caciularu, Avi and Goldman, Omer and Goldberg, Yoav},
   title     = {Stop Uploading Test Data in Plain Text: Practical Strategies for Mitigating Data Contamination by Evaluation Benchmarks},
-  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing (EMNLP '23)},
+  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing},
+  pages     = {5075--5084},
+  month     = dec,
   year      = {2023},
+  address   = {Singapore},
   publisher = {Association for Computational Linguistics},
   doi       = {10.18653/v1/2023.emnlp-main.308}
 }
@@ -209,12 +214,12 @@
 % ===========================================================================
 
 % --- Dynamic / templated benchmark regeneration (contamination, problem 4) ---
-@misc{mirzadeh-etal-2024-gsm,
-  author       = {Mirzadeh, Iman and Alizadeh, Keivan and Shahrokhi, Hooman and Tuzel, Oncel and Bengio, Samy and Farajtabar, Mehrdad},
-  title        = {{GSM-Symbolic}: Understanding the Limitations of Mathematical Reasoning in Large Language Models},
-  howpublished = {arXiv:2410.05229},
-  year         = {2024},
-  note         = {Apple; templated re-sampling, robustness drop under value changes}
+@inproceedings{mirzadeh-etal-2024-gsm,
+  author    = {Mirzadeh, Iman and Alizadeh, Keivan and Shahrokhi, Hooman and Tuzel, Oncel and Bengio, Samy and Farajtabar, Mehrdad},
+  title     = {{GSM-Symbolic}: Understanding the Limitations of Mathematical Reasoning in Large Language Models},
+  booktitle = {The Thirteenth International Conference on Learning Representations (ICLR '25)},
+  year      = {2025},
+  note      = {arXiv:2410.05229; Apple; templated re-sampling, robustness drop under value changes}
 }
 
 @inproceedings{zhu-etal-2024-dyval,
@@ -245,7 +250,7 @@
 
 % --- LLM-as-judge: juries / bias mitigation (problem 5) ---
 @misc{verga-etal-2024-replacing,
-  author       = {Verga, Pat and Hofstatter, Sebastian and Althammer, Sophia and Su, Yixuan and Piktus, Aleksandra and Arkhangorodsky, Arkady and Xu, Minjie and White, Naomi and Lewis, Patrick},
+  author       = {Verga, Pat and Hofst\"{a}tter, Sebastian and Althammer, Sophia and Su, Yixuan and Piktus, Aleksandra and Arkhangorodsky, Arkady and Xu, Minjie and White, Naomi and Lewis, Patrick},
   title        = {Replacing Judges with Juries: Evaluating {LLM} Generations with a Panel of Diverse Models},
   howpublished = {arXiv:2404.18796},
   year         = {2024}
@@ -260,12 +265,15 @@
   note      = {FormatSpread; arXiv:2310.11324}
 }
 
-@misc{zhu-etal-2023-promptrobust,
-  author       = {Zhu, Kaijie and Wang, Jindong and Zhou, Jiaheng and Wang, Zichen and Chen, Hao and Wang, Yidong and Yang, Linyi and Ye, Wei and Zhang, Yue and Gong, Neil Zhenqiang and Xie, Xing},
-  title        = {{PromptRobust}: Towards Evaluating the Robustness of Large Language Models on Adversarial Prompts},
-  howpublished = {arXiv:2306.04528},
-  year         = {2023},
-  note         = {Distributed as the {PromptBench} robustness toolkit}
+@inproceedings{zhu-etal-2023-promptrobust,
+  author    = {Zhu, Kaijie and Wang, Jindong and Zhou, Jiaheng and Wang, Zichen and Chen, Hao and Wang, Yidong and Yang, Linyi and Ye, Wei and Zhang, Yue and Gong, Neil Zhenqiang and Xie, Xing},
+  title     = {{PromptRobust}: Towards Evaluating the Robustness of Large Language Models on Adversarial Prompts},
+  booktitle = {Proceedings of the 1st ACM Workshop on Large AI Systems and Models with Privacy and Safety Analysis (LAMPS '24)},
+  pages     = {57--68},
+  year      = {2024},
+  publisher = {ACM},
+  doi       = {10.1145/3689217.3690621},
+  note      = {arXiv:2306.04528; distributed as the {PromptBench} robustness toolkit}
 }
 
 @article{liang-etal-2023-holistic,
@@ -314,39 +322,54 @@
 % ===========================================================================
 % ADDED for the EACL/ARR reframing (v3): an NLP-venue code-LLM benchmark and the
 % semantics-preserving-perturbation robustness line closest to our incidental axis.
-% Author lists trimmed to leads + "others"; the arXiv ids are the primary,
-% verifiable handles. Verify full author lists / final venue at camera-ready.
+% Final venues and author lists verified against the ACL Anthology / OpenReview /
+% ACM DL / publisher DOI on 2026-06-23; the arXiv ids are retained as secondary
+% handles in each note. BigCodeBench keeps a trimmed author list ("others", 33
+% authors total) but its ICLR 2025 venue is confirmed.
 % ===========================================================================
 
 @inproceedings{wang-etal-2023-recode,
-  author    = {Wang, Shiqi and Li, Zheng and Qian, Haifeng and others},
+  author    = {Wang, Shiqi and Li, Zheng and Qian, Haifeng and Yang, Chenghao and Wang, Zijian and Shang, Mingyue and Kumar, Varun and Tan, Samson and Ray, Baishakhi and Bhatia, Parminder and Nallapati, Ramesh and Ramanathan, Murali Krishna and Roth, Dan and Xiang, Bing},
   title     = {{ReCode}: Robustness Evaluation of Code Generation Models},
-  booktitle = {Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (ACL 2023)},
+  booktitle = {Proceedings of the 61st Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers)},
+  pages     = {13818--13843},
+  month     = jul,
   year      = {2023},
+  address   = {Toronto, Canada},
   publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2023.acl-long.773},
   note      = {arXiv:2212.10264}
 }
 
-@misc{zhuo-etal-2024-bigcodebench,
-  author       = {Zhuo, Terry Yue and Vu, Minh Chien and Chim, Jenny and others},
-  title        = {{BigCodeBench}: Benchmarking Code Generation with Diverse Function Calls and Complex Instructions},
-  howpublished = {arXiv:2406.15877},
-  year         = {2024}
+@inproceedings{zhuo-etal-2024-bigcodebench,
+  author    = {Zhuo, Terry Yue and Vu, Minh Chien and Chim, Jenny and others},
+  title     = {{BigCodeBench}: Benchmarking Code Generation with Diverse Function Calls and Complex Instructions},
+  booktitle = {The Thirteenth International Conference on Learning Representations (ICLR '25)},
+  year      = {2025},
+  note      = {arXiv:2406.15877; published at ICLR 2025}
 }
 
 % --- LLM-as-judge benchmarks with OBJECTIVE/verifiable ground truth (the
-%     binary-correctness contrast to our graded quality order). arXiv ids are the
-%     verifiable handles; verify author lists / final venue at camera-ready. ---
-@misc{lambert-etal-2024-rewardbench,
-  author       = {Lambert, Nathan and Pyatkin, Valentina and Morrison, Jacob and others},
-  title        = {{RewardBench}: Evaluating Reward Models for Language Modeling},
-  howpublished = {arXiv:2403.13787},
-  year         = {2024}
+%     binary-correctness contrast to our graded quality order). Final venues and
+%     author lists verified 2026-06-23 (RewardBench: Findings of NAACL 2025;
+%     JudgeBench: ICLR 2025); arXiv ids retained in each note. ---
+@inproceedings{lambert-etal-2024-rewardbench,
+  author    = {Lambert, Nathan and Pyatkin, Valentina and Morrison, Jacob and Miranda, LJ and Lin, Bill Yuchen and Chandu, Khyathi and Dziri, Nouha and Kumar, Sachin and Zick, Tom and Choi, Yejin and Smith, Noah A. and Hajishirzi, Hannaneh},
+  title     = {{RewardBench}: Evaluating Reward Models for Language Modeling},
+  booktitle = {Findings of the Association for Computational Linguistics: NAACL 2025},
+  pages     = {1755--1797},
+  month     = apr,
+  year      = {2025},
+  address   = {Albuquerque, New Mexico},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2025.findings-naacl.96},
+  note      = {arXiv:2403.13787}
 }
 
-@misc{tan-etal-2025-judgebench,
-  author       = {Tan, Sijun and Zhuang, Siyuan and Montgomery, Kyle and others},
-  title        = {{JudgeBench}: A Benchmark for Evaluating {LLM}-Based Judges},
-  howpublished = {arXiv:2410.12784; ICLR 2025},
-  year         = {2025}
+@inproceedings{tan-etal-2025-judgebench,
+  author    = {Tan, Sijun and Zhuang, Siyuan and Montgomery, Kyle and Tang, William Y. and Cuadron, Alejandro and Wang, Chenguang and Popa, Raluca Ada and Stoica, Ion},
+  title     = {{JudgeBench}: A Benchmark for Evaluating {LLM}-Based Judges},
+  booktitle = {The Thirteenth International Conference on Learning Representations (ICLR '25)},
+  year      = {2025},
+  note      = {arXiv:2410.12784}
 }

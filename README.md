@@ -10,7 +10,9 @@ language — then *actually compiles and runs each one* and checks the results
 against a reference oracle.
 
 Built for **code-obfuscation teaching, anti-pattern demonstration, and
-technical-debt engineering research**. Zero third-party dependencies.
+technical-debt engineering research**. Zero-dependency core (Python standard library
+only; the benchmark's optional construct-validity anchors are quarantined — see
+`bench/README.md`).
 
 ---
 
@@ -144,7 +146,8 @@ never has to guess whether its garbage code is correct — the validator answers
 ## Benchmark — measuring LLMs with ground-truth bad code (`bench/`)
 
 Because every generated program is correct *by construction* and the clean IR is a
-*known-optimal* reference, Spaghetti Architect doubles as a **ground-truth,
+known-optimal-by-construction *reference* (a **provably-reachable** complexity floor,
+not a unique optimum), Spaghetti Architect doubles as a **ground-truth,
 contamination-resistant benchmark generator** for evaluating LLMs on code. It mints
 labelled instances along **two orthogonal difficulty axes**:
 

@@ -1450,13 +1450,27 @@ def write_report() -> int:
     os.makedirs(PAPER_DIR, exist_ok=True)
     results = (json.load(open(RESULTS_PATH, encoding="utf-8"))
                if os.path.exists(RESULTS_PATH) else None)
-    with open(PAPER_TEX, "w", encoding="utf-8") as f:
-        f.write(build_tex(results))
-    # ship the real Phase-5 bibliography next to the paper so it is self-contained
+    generated = build_tex(results)
+    # Once benchmark.tex exists it is HAND-MAINTAINED for submission (prose hardening
+    # lives there, not in _PAPER_TEMPLATE). Never clobber it — that would silently
+    # revert hand-edits. Write the regenerated draft to a side file so live-run figure
+    # wiring is still available to diff/merge in by hand.
+    if os.path.exists(PAPER_TEX):
+        side = os.path.join(PAPER_DIR, "benchmark.generated.tex")
+        with open(side, "w", encoding="utf-8") as f:
+            f.write(generated)
+        print(f"{PAPER_TEX} exists (hand-maintained); wrote regenerated draft to "
+              f"{side} instead — diff/merge manually for the auto-wired figures.")
+    else:
+        with open(PAPER_TEX, "w", encoding="utf-8") as f:
+            f.write(generated)
+        print(f"wrote {PAPER_TEX} (NOT compiled)")
+    # ship the bibliography next to the paper (only if absent — paper/refs.bib is
+    # likewise hand-maintained once present; the two are kept in sync deliberately).
+    dst_bib = os.path.join(PAPER_DIR, "refs.bib")
     src_bib = os.path.join(OUT_DIR, "relatedwork", "refs.bib")
-    if os.path.exists(src_bib):
-        shutil.copyfile(src_bib, os.path.join(PAPER_DIR, "refs.bib"))
-    print(f"wrote {PAPER_TEX} (NOT compiled)")
+    if os.path.exists(src_bib) and not os.path.exists(dst_bib):
+        shutil.copyfile(src_bib, dst_bib)
     return 0
 
 

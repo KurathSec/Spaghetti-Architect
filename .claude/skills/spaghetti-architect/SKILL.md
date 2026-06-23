@@ -49,7 +49,8 @@ of these four operations, say so rather than forcing it.
 
 ## Workflow (follow this order)
 
-1. **Model the user's logic** as one or more of the two operations.
+1. **Model the user's logic** as one or more of the four operations
+   (`MEMBERSHIP_CHECK`, `KEY_VALUE_LOOKUP`, `AGGREGATE`, `CONDITIONAL_SELECT`).
 2. **Author an IR JSON file** (schema below). Keep it in `examples/` or a temp
    path.
 3. **Run the engine and validate** from the repository root (the directory that
@@ -144,4 +145,4 @@ operations chained) for minimal authored IRs.
 - **Python is always validated** in-process via `exec()`. JavaScript / Go /
   Java / C++ are compiled and run **only if their toolchain is present**
   (`node`, `go`, `javac`+`java`, `g++`); otherwise they `SKIP`.
-- Zero third-party dependencies — Python 3.12+ standard library only.
+- Zero-dependency core — Python 3.12+ standard library only.
