@@ -29,6 +29,10 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import random
+import socket
+import sys
+import time
 import urllib.error
 import urllib.request
 from dataclasses import dataclass, field
@@ -64,6 +68,10 @@ class Config:
     temperature: float
     max_tokens: int
     request_timeout_s: int
+    # transient-failure retry (exponential backoff w/ jitter; see _post_json).
+    # Defaulted so legacy/back-compat construction without these stays valid.
+    max_retries: int = 5
+    retry_base_s: float = 2.0
     # multi-provider routing (v2 Phase B)
     model_providers: Dict[str, str] = field(default_factory=dict)
     providers: Dict[str, dict] = field(default_factory=dict)
@@ -135,6 +143,8 @@ def load_config(path: str = CONFIG_PATH) -> Config:
         temperature=float(raw.get("temperature", 0)),
         max_tokens=int(raw.get("max_tokens", 2048)),
         request_timeout_s=int(raw.get("request_timeout_s", 120)),
+        max_retries=int(raw.get("max_retries", 5)),
+        retry_base_s=float(raw.get("retry_base_s", 2.0)),
         model_providers=dict(raw.get("model_providers", {})),
         providers=dict(raw.get("providers", {})),
     )
@@ -204,20 +214,98 @@ def sample_k(model: str, system: str, user: str, k: int, *,
 # --------------------------------------------------------------------------- #
 # HTTP plumbing (stdlib urllib; key never leaked into error text)
 # --------------------------------------------------------------------------- #
-def _post_json(url: str, payload: dict, headers: Dict[str, str], timeout: int) -> dict:
-    data = json.dumps(payload).encode("utf-8")
-    req = urllib.request.Request(url, data=data, method="POST")
-    req.add_header("content-type", "application/json")
-    for h, v in headers.items():
-        req.add_header(h, v)
+# Statuses that warrant a retry during a high-volume run: rate-limit (429) and
+# transient server/gateway errors. Everything else (400/401/403/404/422, …) is a
+# permanent error we surface immediately — retrying it only burns time and money.
+RETRYABLE_STATUS = frozenset({429, 500, 502, 503, 504})
+
+
+def _parse_retry_after(value: Optional[str]) -> Optional[float]:
+    """Parse a ``Retry-After`` header into seconds. Supports the integer-seconds
+    form and the HTTP-date form; returns ``None`` if absent/unparseable so the
+    caller falls back to the computed backoff. Never raises."""
+    if not value:
+        return None
+    value = value.strip()
     try:
-        with urllib.request.urlopen(req, timeout=timeout) as resp:
-            return json.loads(resp.read().decode("utf-8"))
-    except urllib.error.HTTPError as ex:  # surface status without leaking the key
-        detail = ex.read().decode("utf-8", "replace")[:500]
-        raise RuntimeError(f"API HTTP {ex.code}: {detail}") from None
-    except urllib.error.URLError as ex:
-        raise RuntimeError(f"API connection error: {ex.reason}") from None
+        return max(0.0, float(value))  # delta-seconds form
+    except ValueError:
+        pass
+    try:  # HTTP-date form (RFC 7231): seconds until that instant, floored at 0
+        from email.utils import parsedate_to_datetime  # noqa: PLC0415 (stdlib, lazy)
+        when = parsedate_to_datetime(value)
+        if when is None:
+            return None
+        return max(0.0, when.timestamp() - time.time())
+    except (TypeError, ValueError, OverflowError):
+        return None
+
+
+def _backoff_seconds(attempt: int, base: float) -> float:
+    """Exponential backoff with full jitter for retry ``attempt`` (0-indexed):
+    ``base * 2**attempt`` plus a random fraction of one base interval, capped so a
+    large ``base``/attempt cannot wedge the run. Deterministic only the cap is."""
+    span = base * (2.0 ** attempt)
+    return min(span + random.uniform(0.0, base), 60.0)
+
+
+def _post_json(url: str, payload: dict, headers: Dict[str, str], timeout: int,
+               *, max_retries: int = 5, retry_base_s: float = 2.0,
+               model: str = "?") -> dict:
+    """POST ``payload`` as JSON and return the decoded response.
+
+    Transient failures (HTTP 429/5xx in :data:`RETRYABLE_STATUS`, connection
+    errors, socket timeouts) are retried with exponential backoff + jitter, up to
+    ``max_retries`` attempts; a ``Retry-After`` header on a 429 overrides the
+    computed sleep. Permanent errors (4xx other than 429) are surfaced at once.
+    The API key lives only in ``headers``/``url`` and is **never** placed into any
+    log line or exception. ``model`` is used solely for the stderr retry trace.
+    """
+    data = json.dumps(payload).encode("utf-8")
+    attempts = max(1, int(max_retries))
+    last_exc: Optional[BaseException] = None
+    for attempt in range(attempts):
+        # Build a fresh Request per attempt (urllib mutates/consumes them).
+        req = urllib.request.Request(url, data=data, method="POST")
+        req.add_header("content-type", "application/json")
+        for h, v in headers.items():
+            req.add_header(h, v)
+        try:
+            with urllib.request.urlopen(req, timeout=timeout) as resp:
+                return json.loads(resp.read().decode("utf-8"))
+        except urllib.error.HTTPError as ex:  # status known; key never in message
+            detail = ex.read().decode("utf-8", "replace")[:500]
+            err = RuntimeError(f"API HTTP {ex.code}: {detail}")
+            if ex.code not in RETRYABLE_STATUS or attempt >= attempts - 1:
+                raise err from None  # permanent, or out of attempts
+            retry_after = (_parse_retry_after(ex.headers.get("Retry-After"))
+                           if ex.code == 429 else None)
+            sleep_s = retry_after if retry_after is not None \
+                else _backoff_seconds(attempt, retry_base_s)
+            _log_retry(model, attempt + 1, attempts, f"HTTP {ex.code}", sleep_s)
+            last_exc = err
+        except (urllib.error.URLError, socket.timeout, TimeoutError) as ex:
+            # Connection reset / DNS / read timeout: transient, retry. URLError
+            # wraps the cause; .reason carries no secret (url/key are elsewhere).
+            reason = getattr(ex, "reason", ex)
+            err = RuntimeError(f"API connection error: {reason}")
+            if attempt >= attempts - 1:
+                raise err from None
+            sleep_s = _backoff_seconds(attempt, retry_base_s)
+            _log_retry(model, attempt + 1, attempts, f"conn:{reason}", sleep_s)
+            last_exc = err
+        time.sleep(sleep_s)
+    # Unreachable in practice (loop returns or raises), but keep the invariant
+    # explicit so a future refactor can't silently fall through to None.
+    raise last_exc or RuntimeError("API request failed after retries")
+
+
+def _log_retry(model: str, attempt: int, total: int, status: str,
+               sleep_s: float) -> None:
+    """One-line stderr trace per retry: model id, attempt, status/reason, sleep.
+    Deliberately carries **no** API key and **no** request/response payload."""
+    print(f"[models] retry model={model} attempt={attempt}/{total} "
+          f"status={status} sleep={sleep_s:.2f}s", file=sys.stderr, flush=True)
 
 
 # --- per-provider request + response parsers -------------------------------- #
@@ -227,7 +315,9 @@ def _anthropic_messages(model, system, user, cfg, spec, key) -> Tuple[str, str]:
                "messages": [{"role": "user", "content": user}]}
     headers = {"x-api-key": key,
                "anthropic-version": spec.get("anthropic_version", cfg.anthropic_version)}
-    body = _post_json(spec["base_url"], payload, headers, cfg.request_timeout_s)
+    body = _post_json(spec["base_url"], payload, headers, cfg.request_timeout_s,
+                      max_retries=cfg.max_retries, retry_base_s=cfg.retry_base_s,
+                      model=model)
     parts = [b.get("text", "") for b in body.get("content", [])
              if isinstance(b, dict) and b.get("type") == "text"]
     return "".join(parts), str(body.get("model", model))
@@ -240,7 +330,9 @@ def _openai_chat(model, system, user, cfg, spec, key) -> Tuple[str, str]:
                "messages": [{"role": "system", "content": system},
                             {"role": "user", "content": user}]}
     headers = {"authorization": f"Bearer {key}"}
-    body = _post_json(spec["base_url"], payload, headers, cfg.request_timeout_s)
+    body = _post_json(spec["base_url"], payload, headers, cfg.request_timeout_s,
+                      max_retries=cfg.max_retries, retry_base_s=cfg.retry_base_s,
+                      model=model)
     choices = body.get("choices") or [{}]
     text = (choices[0].get("message") or {}).get("content", "") or ""
     return text, str(body.get("model", model))
@@ -254,7 +346,9 @@ def _google_generate(model, system, user, cfg, spec, key) -> Tuple[str, str]:
                "contents": [{"role": "user", "parts": [{"text": user}]}],
                "generationConfig": {"temperature": cfg.temperature,
                                     "maxOutputTokens": cfg.max_tokens}}
-    body = _post_json(url, payload, {}, cfg.request_timeout_s)
+    body = _post_json(url, payload, {}, cfg.request_timeout_s,
+                      max_retries=cfg.max_retries, retry_base_s=cfg.retry_base_s,
+                      model=model)
     cands = body.get("candidates") or [{}]
     parts = ((cands[0].get("content") or {}).get("parts")) or []
     text = "".join(p.get("text", "") for p in parts if isinstance(p, dict))

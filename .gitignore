@@ -82,3 +82,6 @@ bench/paper/_build/
 bench/paper/benchmark.generated.tex
 
 # Note: tests/golden/ is intentionally tracked — those are test fixtures.
+
+# live-run per-item checkpoints (transient; resumed from, then retired)
+bench/out/subagent/*.partial.jsonl

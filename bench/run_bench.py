@@ -120,6 +120,88 @@ def subagent_path(task: str, model: str, family: Optional[str]) -> str:
     return os.path.join(SUBAGENT_DIR, subagent_name(task, model, family))
 
 
+# --------------------------------------------------------------------------- #
+# raw-config access (prices / per-task k overrides are OPTIONAL config keys the
+# typed models.Config does not carry; read them straight from the JSON, no API)
+# --------------------------------------------------------------------------- #
+def _raw_config() -> dict:
+    src = (models.CONFIG_PATH if os.path.exists(models.CONFIG_PATH)
+           else models.CONFIG_EXAMPLE_PATH)
+    try:
+        return json.load(open(src, encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def _prices() -> Dict[str, dict]:
+    """Optional per-model price table: ``{"prices": {"<model>": {"per_1k": <usd>,
+    "est_tokens_per_call": <int>}}}``. Absent => cost projection prints call counts only."""
+    p = _raw_config().get("prices", {})
+    return p if isinstance(p, dict) else {}
+
+
+# --------------------------------------------------------------------------- #
+# cost projection — the REAL fan-out, per (task, model, split)
+# --------------------------------------------------------------------------- #
+def _judge_calls_per_item(n_levels: int, k: int) -> int:
+    """Judge fan-out for ONE (sample, language) item: pointwise = levels*k, pairwise =
+    C(levels,2) pairs * 2 orders * k. Levels are the DEDUPED distinct renders for that
+    item (build_judge_items already collapses byte-identical profiles)."""
+    from itertools import combinations
+    n_pairs = len(list(combinations(range(n_levels), 2)))
+    return n_levels * k + n_pairs * 2 * k
+
+
+def project_calls(split: str = "dev") -> dict:
+    """Projected API CALL count for the whole --plan, from the real fan-out:
+    refactor/comprehend = items*k; judge = sum over items of (levels*k + C(levels,2)*2*k).
+    Returns per-(task,model) detail + grand total + (if prices present) an est. $ cost."""
+    cfg = models.load_config()
+    sp = D.load(split)
+    families = list(sp.meta["batches"])
+    prices = _prices()
+    # judge fan-out depends on per-item level counts (deduped); compute once.
+    judge_items = T.build_judge_items(sp)
+    judge_calls_1k = sum(_judge_calls_per_item(len(it.levels), 1) for it in judge_items)
+    # per-family per-instance item counts (one model's worth)
+    ref_items = T.build_refactor_items(sp)
+    comp_items = T.build_comprehend_items(sp)
+    n_ref = len(ref_items)
+    n_comp = len(comp_items)
+
+    per: Dict[str, Dict[str, dict]] = {}
+    total_calls = 0
+    total_cost = 0.0
+    have_cost = bool(prices)
+    for model in cfg.models_under_test:
+        per[model] = {}
+        km = resolve_k(cfg, "refactor")
+        kc = resolve_k(cfg, "comprehend")
+        kj = resolve_k(cfg, "judge")
+        rcalls = n_ref * km
+        ccalls = n_comp * kc
+        jcalls = judge_calls_1k * kj
+        for task, calls, kk, nit in (("refactor", rcalls, km, n_ref),
+                                     ("comprehend", ccalls, kc, n_comp),
+                                     ("judge", jcalls, kj, len(judge_items))):
+            entry = {"calls": calls, "k": kk, "n_items": nit}
+            pr = prices.get(model)
+            if pr:
+                tpc = pr.get("est_tokens_per_call", 0)
+                usd = calls * tpc / 1000.0 * pr.get("per_1k", 0.0)
+                entry["est_usd"] = round(usd, 2)
+                total_cost += usd
+            else:
+                have_cost = False
+            per[model][task] = entry
+            total_calls += calls
+    out = {"split": split, "per_model": per, "total_calls": total_calls,
+           "n_families": len(families)}
+    if have_cost:
+        out["total_est_usd"] = round(total_cost, 2)
+    return out
+
+
 def _means(items: List[dict], key: str) -> List[float]:
     return [it[key] for it in items if it.get(key) is not None]
 
@@ -208,8 +290,98 @@ def headline_aggregate(task: str, items: List[dict]) -> dict:
 # --------------------------------------------------------------------------- #
 # the batch (subagent entry point + dry-run reuse)
 # --------------------------------------------------------------------------- #
+# task-k resolution (#8): the DEFAULT k is the pre-registered cfg.k_samples (8); an
+# optional per-task override may be set in config["task_k"] or via --k, never silently.
+def resolve_k(cfg: models.Config, task: str, k_override: Optional[int] = None) -> int:
+    if k_override is not None:
+        return k_override
+    task_k = _raw_config().get("task_k", {})
+    return int(task_k.get(task, cfg.k_samples))
+
+
+def _checkpoint_path(task: str, model: str, family: Optional[str]) -> str:
+    """Per-item JSONL checkpoint next to the subagent file: every completed item is
+    appended as one line the instant it finishes, so a crash mid-batch loses nothing and
+    a re-run skips the already-written items (keyed by the stable item id)."""
+    return subagent_path(task, model, family)[:-len(".json")] + ".partial.jsonl"
+
+
+def _load_checkpoint(path: str) -> Dict[str, dict]:
+    """Read the JSONL checkpoint into {item_id: record}. Tolerates a torn last line (a
+    crash mid-write): a line that does not parse is dropped, not fatal."""
+    done: Dict[str, dict] = {}
+    if not os.path.exists(path):
+        return done
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                rec = json.loads(line)
+            except json.JSONDecodeError:
+                continue  # torn final line from a crash; ignore
+            iid = rec.get("_item_id")
+            if iid:
+                done[iid] = rec
+    return done
+
+
+def _strip_internal(rec: dict) -> dict:
+    """Drop the run-time-only keys (parse counters + checkpoint id) so the persisted
+    per-item record stays clean; the aggregates/figures never read them."""
+    return {k: v for k, v in rec.items()
+            if k not in ("_parse_ok", "_parse_n", "_item_id")}
+
+
+def _record_item_id(task: str, rec: dict) -> Optional[str]:
+    """Re-derive the stable item id of a STORED record (mirrors tasks.item_id, which keys
+    on the dataset axes the record carries). Used to detect completion on re-run of a
+    finalized batch."""
+    if rec.get("error") and "_item_id" not in rec:
+        return None
+    if "_item_id" in rec:
+        return rec["_item_id"]
+    if task == "judge":
+        return f"judge:{rec.get('sample')}:{rec.get('language')}"
+    return (f"{task}:{rec.get('sample')}:{rec.get('variant', '?')}:"
+            f"{rec.get('profile')}:{rec.get('language')}")
+
+
+def _completed_from_subagent(task: str, model: str, family: Optional[str]) -> Dict[str, dict]:
+    """A previously FINALIZED subagent JSON re-keyed by stable item id, so re-running a
+    fully-completed batch makes ZERO new API calls. Error stubs are NOT treated as
+    complete (they are retried on re-run)."""
+    path = subagent_path(task, model, family)
+    if not os.path.exists(path):
+        return {}
+    try:
+        pl = json.load(open(path, encoding="utf-8"))
+    except (json.JSONDecodeError, OSError):
+        return {}
+    done: Dict[str, dict] = {}
+    for rec in pl.get("items", []):
+        if rec.get("error"):
+            continue
+        iid = _record_item_id(task, rec)
+        if iid:
+            done[iid] = rec
+    return done
+
+
+def _batch_projected_calls(task: str, items_in: list, k: int) -> int:
+    """Projected API calls for a SINGLE batch's item list (the cap is enforced against
+    this before any call is made)."""
+    if task == "judge":
+        return sum(_judge_calls_per_item(len(it.levels), k) for it in items_in)
+    return len(items_in) * k
+
+
 def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
-              k: Optional[int] = None, write: bool = True, echo: bool = True) -> dict:
+              k: Optional[int] = None, write: bool = True, echo: bool = True,
+              allow_skips: bool = False, parse_floor: float = 0.5,
+              resume: bool = True, max_calls: Optional[int] = None,
+              max_cost: Optional[float] = None) -> dict:
     cfg = models.load_config()
     if model != models.MOCK and not cfg.model_is_live(model):
         print(f"configure bench/config.json: no API key for model {model!r} "
@@ -218,30 +390,262 @@ def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
     if task not in T.TASKS:
         raise SystemExit(f"unknown task {task!r}; choose from {T.TASKS}")
     if k is None:
-        k = 1 if model == models.MOCK else cfg.k_samples  # mock is deterministic
+        k = 1 if model == models.MOCK else resolve_k(cfg, task)  # mock is deterministic
 
     sp = D.load(split)
     fam = None if task in GLOBAL_TASKS else family
     items_in = T.build_items(task, sp, fam)
-    records = [T.score_item(task, it, model, cfg, k) for it in items_in]
-    agg = headline_aggregate(task, records)
 
+    # #4 hard cap at the batch level: REFUSE to start a batch that would exceed the cap
+    # (the mock makes 0 paid calls, so it is exempt).
+    if model != models.MOCK and (max_calls is not None or max_cost is not None):
+        bcalls = _batch_projected_calls(task, items_in, k)
+        if max_calls is not None and bcalls > max_calls:
+            print(f"REFUSED {task}/{model}: batch would make {bcalls:,} calls > "
+                  f"--max-calls {max_calls:,}. Restrict --family or lower --k.",
+                  file=sys.stderr)
+            raise SystemExit(4)
+        pr = _prices().get(model)
+        if max_cost is not None:
+            if not pr:
+                print(f"REFUSED {task}/{model}: --max-cost set but no price for "
+                      f"{model!r} in config['prices'].", file=sys.stderr)
+                raise SystemExit(4)
+            usd = bcalls * pr.get("est_tokens_per_call", 0) / 1000.0 * pr.get("per_1k", 0)
+            if usd > max_cost:
+                print(f"REFUSED {task}/{model}: batch est ${usd:,.2f} > --max-cost "
+                      f"${max_cost:,.2f}.", file=sys.stderr)
+                raise SystemExit(4)
+
+    # #6 toolchain pre-flight gate: refuse to PAY then SKIP. refactor/comprehend run the
+    # model's code in the per-item languages; if a required toolchain is absent, abort
+    # (unless --allow-skips). The mock and judge (no compilation) are exempt.
+    if model != models.MOCK and task in PER_FAMILY_TASKS and not allow_skips:
+        needed = sorted({it.language for it in items_in})
+        st = toolchain_status()
+        missing = [lang for lang in needed if not st.get(lang, lang == "python")]
+        if missing:
+            print(f"REFUSING {task}/{model}: required toolchain(s) absent: {missing} "
+                  f"(present: {sorted(k for k, v in st.items() if v)}). A paid batch must "
+                  f"not run then SKIP. Install them, restrict --family, or pass "
+                  f"--allow-skips to score only the runnable languages.", file=sys.stderr)
+            raise SystemExit(3)
+
+    cp_path = _checkpoint_path(task, model, fam) if write else None
+    done: Dict[str, dict] = {}
+    if write and resume:
+        # idempotency comes from TWO sources: (a) the in-progress JSONL checkpoint (a
+        # crashed/aborted batch), and (b) a previously FINALIZED subagent JSON (a fully
+        # completed batch re-run -> ZERO new calls). The checkpoint wins on conflict.
+        done.update(_completed_from_subagent(task, model, fam))
+        done.update(_load_checkpoint(cp_path))
+        if done:
+            print(f"resume: {len(done)} item(s) already completed; only missing items "
+                  f"will call the API", file=sys.stderr)
+
+    records: List[dict] = []
+    parse_ok = parse_n = graded_items = n_errors = n_skipped_cached = new_calls = 0
+    aborted = False
+    if write and cp_path:
+        os.makedirs(SUBAGENT_DIR, exist_ok=True)
+    # append when resuming (preserve prior progress); truncate on a fresh/no-resume run.
+    cp_mode = "a" if resume else "w"
+    cp_fh = open(cp_path, cp_mode, encoding="utf-8") if (write and cp_path) else None
+    try:
+        for it in items_in:
+            iid = T.item_id(task, it)
+            # #2 idempotent resume: a completed item is reused from the checkpoint and
+            # makes ZERO new API calls.
+            if iid in done:
+                records.append(_strip_internal(done[iid]))
+                n_skipped_cached += 1
+                continue
+            # #3 per-item fault isolation: one bad item records an error stub and the
+            # batch CONTINUES; it never aborts the whole run.
+            try:
+                rec = T.score_item(task, it, model, cfg, k)
+                rec["_item_id"] = iid
+                parse_ok += rec.get("_parse_ok", 0)
+                parse_n += rec.get("_parse_n", 0)
+                graded_items += 1
+                new_calls += 1
+            except Exception as ex:  # noqa: BLE001
+                rec = {"_item_id": iid, "error": True,
+                       "error_msg": (type(ex).__name__ + ": " + str(ex))[:300],
+                       "sample": getattr(it, "sample", "?"),
+                       "language": getattr(it, "language", "?"),
+                       "profile": getattr(it, "profile", None)}
+                n_errors += 1
+                print(f"  item {iid} FAILED ({rec['error_msg']}); recorded stub, "
+                      f"continuing", file=sys.stderr)
+            if cp_fh:
+                cp_fh.write(json.dumps(rec, separators=(",", ":")) + "\n")
+                cp_fh.flush()
+                os.fsync(cp_fh.fileno())
+            records.append(_strip_internal(rec))
+            # #7 parse-success early-abort: a systematically mis-formatting model should
+            # not burn the whole batch. After the first ~10 graded items, if the running
+            # parse-success rate is below the floor, abort (real models only).
+            if (model != models.MOCK and graded_items >= 10 and parse_n > 0
+                    and (parse_ok / parse_n) < parse_floor):
+                aborted = True
+                print(f"ABORTING {task}/{model}: parse-success {parse_ok}/{parse_n} = "
+                      f"{parse_ok / parse_n:.2f} < floor {parse_floor:.2f} after "
+                      f"{graded_items} items — model is systematically mis-formatting. "
+                      f"Partial progress saved to {os.path.basename(cp_path)}; fix the "
+                      f"prompt/parser and re-run to resume.", file=sys.stderr)
+                break
+    finally:
+        if cp_fh:
+            cp_fh.close()
+
+    agg = headline_aggregate(task, [r for r in records if not r.get("error")])
+    parse_rate = (parse_ok / parse_n) if parse_n else None
     payload = {
         "task": task, "model": model, "family": fam, "split": split, "k": k,
         "prompt_version": P.PROMPT_VERSION, "env": env_block(cfg, split),
         "aggregate": agg, "items": records,
+        "run_meta": {"n_items": len(records), "n_graded": graded_items,
+                     "n_resumed": n_skipped_cached, "n_errors": n_errors,
+                     "n_new_calls": new_calls, "parse_ok": parse_ok, "parse_n": parse_n,
+                     "parse_success_rate": parse_rate, "aborted": aborted},
     }
-    if write:
-        os.makedirs(SUBAGENT_DIR, exist_ok=True)
+    if write and not aborted:
         with open(subagent_path(task, model, fam), "w", encoding="utf-8") as f:
             json.dump(payload, f, indent=2)
             f.write("\n")
+        # batch finalized: the per-item checkpoint is now redundant with the subagent
+        # JSON, so retire it (a clean re-run of a completed batch reloads the JSON's
+        # items via the checkpoint being gone -> sees them all present? no: we re-detect
+        # completion from the subagent file below). Remove to keep the dir tidy.
+        if cp_path and os.path.exists(cp_path):
+            os.remove(cp_path)
     if echo:
         compact = {"task": task, "model": model, "family": fam, "split": split,
                    "k": k, "n_items": len(records),
+                   "n_errors": n_errors, "n_resumed": n_skipped_cached,
+                   "parse_success_rate": (round(parse_rate, 3)
+                                          if parse_rate is not None else None),
+                   "aborted": aborted,
                    "toolchains": payload["env"]["toolchains"], "aggregate": agg}
         print(json.dumps(compact, separators=(",", ":")))
     return payload
+
+
+# --------------------------------------------------------------------------- #
+# --regrade (re-apply graders to PERSISTED raw outputs; ZERO API)
+# --------------------------------------------------------------------------- #
+def regrade(only_task: Optional[str] = None, only_model: Optional[str] = None) -> int:
+    """Re-read every ``out/subagent/*.json`` batch artifact, re-run the graders on the
+    STORED raw model outputs, and rewrite each file's per-item records + aggregate IN
+    PLACE — making ZERO API calls. This is the payoff of persisting raw outputs: a grading
+    change (e.g. a new uniform_lane, a stricter band) is applied to an EXPENSIVE live run
+    WITHOUT re-paying. Mock/baseline records (sentinel or no raw) and error stubs pass
+    through unchanged; their aggregate is simply recomputed."""
+    if not os.path.isdir(SUBAGENT_DIR):
+        print(f"no subagent dir {SUBAGENT_DIR}; nothing to re-grade", file=sys.stderr)
+        return 1
+    n_files = n_regraded_items = n_passthrough = 0
+    for fn in sorted(os.listdir(SUBAGENT_DIR)):
+        if not fn.endswith(".json"):
+            continue
+        path = os.path.join(SUBAGENT_DIR, fn)
+        pl = json.load(open(path, encoding="utf-8"))
+        task = pl.get("task")
+        if "items" not in pl or task not in T.TASKS:
+            continue  # sweeps / non-batch artifacts have no per-item raw to re-grade
+        if only_task and task != only_task:
+            continue
+        if only_model and pl.get("model") != only_model:
+            continue
+        new_items = []
+        for rec in pl["items"]:
+            rec2 = _strip_internal(T.regrade_record(task, dict(rec)))
+            if rec2 != rec:
+                n_regraded_items += 1
+            else:
+                n_passthrough += 1
+            new_items.append(rec2)
+        pl["items"] = new_items
+        pl["aggregate"] = headline_aggregate(
+            task, [r for r in new_items if not r.get("error")])
+        pl.setdefault("run_meta", {})["regraded"] = True
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(pl, f, indent=2)
+            f.write("\n")
+        n_files += 1
+        print(f"  re-graded {fn:42s} task={task} model={pl.get('model')} "
+              f"items={len(new_items)}")
+    print(f"regrade complete: {n_files} batch files; {n_regraded_items} item(s) "
+          f"re-graded from stored raw, {n_passthrough} passthrough (mock/sentinel/"
+          f"error). ZERO API calls. Re-run --aggregate to refresh results.json.")
+    return 0
+
+
+# --------------------------------------------------------------------------- #
+# --pilot (tiny live smoke run: surface format/saturation/toolchain BEFORE spend)
+# --------------------------------------------------------------------------- #
+def pilot(task: Optional[str], model: Optional[str], family: Optional[str],
+          limit: int = 1, split: str = "dev", k: int = 1,
+          allow_skips: bool = True) -> int:
+    """A tiny slice (default 1 model x 1 family x k=1, ``--limit N`` items) that reports
+    parse-success rate, toolchain-SKIP rate, and the score distribution — so format
+    failures / saturation / missing toolchains surface BEFORE the full spend. With real
+    keys it WOULD call the API for real; with the mock/placeholder it just exercises the
+    path. Writes nothing to out/subagent (it is a probe, not a result)."""
+    cfg = models.load_config()
+    if model is None:
+        live = cfg.live_models()
+        model = live[0] if live else models.MOCK
+    if model != models.MOCK and not cfg.model_is_live(model):
+        print(f"--pilot: model {model!r} not live (no key); using mock instead",
+              file=sys.stderr)
+        model = models.MOCK
+    tasks = [task] if task else T.TASKS
+    sp = D.load(split)
+    families = list(sp.meta["batches"])
+    print(f"PILOT: model={model} k={k} limit={limit} split={split}")
+    overall_ok = True
+    for tk in tasks:
+        if tk in GLOBAL_TASKS:
+            fams = [None]
+        else:
+            fams = [family] if family else families[:1]
+        for fam in fams:
+            items_in = T.build_items(tk, sp, fam)[:limit]
+            if not items_in:
+                continue
+            parse_ok = parse_n = n_skip = n_err = 0
+            scores: List[float] = []
+            for it in items_in:
+                try:
+                    rec = T.score_item(tk, it, model, cfg, k)
+                except Exception as ex:  # noqa: BLE001
+                    n_err += 1
+                    print(f"  {tk}/{fam or '-'} item ERROR: "
+                          f"{type(ex).__name__}: {str(ex)[:120]}", file=sys.stderr)
+                    continue
+                parse_ok += rec.get("_parse_ok", 0)
+                parse_n += rec.get("_parse_n", 0)
+                if rec.get("skip"):
+                    n_skip += 1
+                s = _score_of(tk, _strip_internal(rec))
+                if s is not None:
+                    scores.append(s)
+            pr = (parse_ok / parse_n) if parse_n else None
+            skip_rate = (n_skip / len(items_in)) if items_in else 0.0
+            dist = (f"min={min(scores):.2f} mean={statistics.fmean(scores):.2f} "
+                    f"max={max(scores):.2f}" if scores else "no scores")
+            pr_s = f"{pr:.2f}" if pr is not None else "n/a"
+            print(f"  {tk:10s} fam={str(fam):16s} n={len(items_in)} "
+                  f"parse_success={pr_s} toolchain_skip={skip_rate:.2f} "
+                  f"errors={n_err}  scores[{dist}]")
+            if pr is not None and pr < 0.5:
+                overall_ok = False
+                print(f"    WARNING: parse-success {pr_s} < 0.5 — check the output "
+                      f"format / parser for {model} on {tk}", file=sys.stderr)
+    print("PILOT", "OK" if overall_ok else "WARN (low parse-success on some task)")
+    return 0 if overall_ok else 1
 
 
 # --------------------------------------------------------------------------- #
@@ -261,11 +665,17 @@ def plan(split: str = "dev") -> List[dict]:
     return batches
 
 
-def print_plan(split: str = "dev") -> int:
+def print_plan(split: str = "dev", max_calls: Optional[int] = None,
+               max_cost: Optional[float] = None) -> int:
     cfg = models.load_config()
     batches = plan(split)
     state = "PLACEHOLDER (--batch will refuse)" if cfg.is_placeholder else "LIVE-READY"
-    print(f"config: {len(cfg.models_under_test)} model(s), k={cfg.k_samples}, "
+    proj = project_calls(split)
+    km, kc, kj = (resolve_k(cfg, "refactor"), resolve_k(cfg, "comprehend"),
+                  resolve_k(cfg, "judge"))
+    k_note = (f"k={cfg.k_samples}" if km == kc == kj == cfg.k_samples
+              else f"k(refactor={km},comprehend={kc},judge={kj}); default={cfg.k_samples}")
+    print(f"config: {len(cfg.models_under_test)} model(s), {k_note}, "
           f"temp={cfg.temperature}, state={state}")
     print(f"split={split}; {len(batches)} subagent batches "
           f"(one Opus 4.8 general-purpose subagent each):")
@@ -273,6 +683,45 @@ def print_plan(split: str = "dev") -> int:
         fam = f" --family {b['family']}" if b["family"] else ""
         print(f"  python3 bench/run_bench.py --batch {b['task']} "
               f"--model {b['model']}{fam}")
+
+    # ---- #4 cost projection (the REAL fan-out) ------------------------------ #
+    print(f"\nprojected API CALLS (fan-out: refactor/comprehend = items*k; "
+          f"judge = per-item [levels*k + C(levels,2)*2*k]):")
+    have_cost = "total_est_usd" in proj
+    for model in sorted(proj["per_model"]):
+        td = proj["per_model"][model]
+        parts = []
+        for task in ("refactor", "comprehend", "judge"):
+            e = td[task]
+            seg = f"{task}={e['calls']:,}(k{e['k']})"
+            if "est_usd" in e:
+                seg += f"/${e['est_usd']:,.0f}"
+            parts.append(seg)
+        msub = sum(td[t]["calls"] for t in td)
+        line = f"  {model:28s} {'  '.join(parts)}  -> {msub:,} calls"
+        if have_cost:
+            line += f" / ${sum(td[t].get('est_usd', 0) for t in td):,.0f}"
+        print(line)
+    print(f"  {'TOTAL':28s} {proj['total_calls']:,} API calls"
+          + (f"  /  ${proj['total_est_usd']:,.2f} est." if have_cost else
+             "  (no price table in config['prices'] -> $ cost not estimated)"))
+
+    # ---- #4 hard cap: REFUSE a plan that would exceed the cap -------------- #
+    if max_calls is not None and proj["total_calls"] > max_calls:
+        print(f"\nREFUSED: projected {proj['total_calls']:,} calls exceeds "
+              f"--max-calls {max_calls:,}. Lower the matrix (fewer models/families, "
+              f"smaller k) or raise the cap.", file=sys.stderr)
+        return 4
+    if max_cost is not None:
+        if not have_cost:
+            print(f"\nREFUSED: --max-cost {max_cost} given but config has no "
+                  f"'prices' table to estimate cost against.", file=sys.stderr)
+            return 4
+        if proj["total_est_usd"] > max_cost:
+            print(f"\nREFUSED: projected ${proj['total_est_usd']:,.2f} exceeds "
+                  f"--max-cost ${max_cost:,.2f}.", file=sys.stderr)
+            return 4
+
     if cfg.is_placeholder:
         print("\nNOT fired: fill bench/config.json (api_key + models_under_test), then "
               "dispatch the batches above and run --aggregate && --report.")
@@ -396,8 +845,10 @@ def dry_run(only_task: Optional[str], only_family: Optional[str], split: str = "
         else:
             fams = [only_family] if only_family else families
         for fam in fams:
+            # the mock dry-run always REGENERATES from scratch (it is deterministic and
+            # cheap); resume=False so a stale finalized JSON never shadows fresh records.
             payload = run_batch(task, models.MOCK, fam, split=split, k=1,
-                                write=True, echo=False)
+                                write=True, echo=False, resume=False)
             n += 1
             agg = payload["aggregate"]
             head = next(iter(agg)) if agg else "?"
@@ -1576,10 +2027,27 @@ def main(argv=None) -> int:
                    help="prompt-robustness paraphrase sweep (refactor|comprehend); needs --model")
     g.add_argument("--aggregate", action="store_true", help="merge subagent JSON -> results.json")
     g.add_argument("--report", action="store_true", help="emit paper/benchmark.tex (not compiled)")
-    ap.add_argument("--model", help="model id for --batch")
-    ap.add_argument("--family", help="family for --batch/--dry-run")
-    ap.add_argument("--task", help="restrict --dry-run to one task")
+    g.add_argument("--regrade", action="store_true",
+                   help="re-run graders on STORED raw outputs in out/subagent/*.json (ZERO API)")
+    g.add_argument("--pilot", action="store_true",
+                   help="tiny live smoke run (parse-success/skip/score dist) before full spend")
+    ap.add_argument("--model", help="model id for --batch/--pilot/--regrade")
+    ap.add_argument("--family", help="family for --batch/--dry-run/--pilot")
+    ap.add_argument("--task", help="restrict --dry-run/--regrade/--pilot to one task")
     ap.add_argument("--split", default="dev", choices=["dev", "test"], help="dataset split")
+    ap.add_argument("--k", type=int, default=None,
+                    help="override k for --batch/--pilot (default: pre-registered cfg.k_samples=8)")
+    ap.add_argument("--limit", type=int, default=1, help="items per task for --pilot")
+    ap.add_argument("--max-calls", type=int, default=None,
+                    help="refuse a --plan/--batch projected to exceed N API calls")
+    ap.add_argument("--max-cost", type=float, default=None,
+                    help="refuse a --plan/--batch projected to exceed $X (needs config['prices'])")
+    ap.add_argument("--allow-skips", action="store_true",
+                    help="--batch: proceed even if a required toolchain is absent (else refuse)")
+    ap.add_argument("--parse-floor", type=float, default=0.5,
+                    help="--batch: abort early if running parse-success drops below this")
+    ap.add_argument("--no-resume", action="store_true",
+                    help="--batch: ignore any checkpoint / finalized JSON and re-grade afresh")
     args = ap.parse_args(argv)
 
     if args.selftest:
@@ -1587,9 +2055,15 @@ def main(argv=None) -> int:
     if args.dry_run:
         return dry_run(args.task, args.family, split=args.split)
     if args.plan:
-        return print_plan(split=args.split)
+        return print_plan(split=args.split, max_calls=args.max_calls,
+                          max_cost=args.max_cost)
     if args.baselines:
         return run_baselines(split=args.split)
+    if args.regrade:
+        return regrade(only_task=args.task, only_model=args.model)
+    if args.pilot:
+        return pilot(args.task, args.model, args.family, limit=args.limit,
+                     split=args.split, k=(args.k or 1))
     if args.sweep:
         if not args.model:
             ap.error("--sweep requires --model")
@@ -1601,7 +2075,10 @@ def main(argv=None) -> int:
     if args.batch:
         if not args.model:
             ap.error("--batch requires --model")
-        run_batch(args.batch, args.model, args.family, split=args.split)
+        run_batch(args.batch, args.model, args.family, split=args.split, k=args.k,
+                  allow_skips=args.allow_skips, parse_floor=args.parse_floor,
+                  resume=not args.no_resume, max_calls=args.max_calls,
+                  max_cost=args.max_cost)
         return 0
     return 0
 

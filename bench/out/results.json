@@ -53,7 +53,7 @@
       "qwen3-coder-480b-a35b": "openai_compatible",
       "llama-4-maverick": "openai_compatible"
     },
-    "timestamp_utc": "2026-06-22T13:02:08.540091+00:00",
+    "timestamp_utc": "2026-06-24T08:08:03.636975+00:00",
     "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
   },
   "status": "DRY-RUN (mock model; AWAITING LIVE RUN)",
@@ -167,16 +167,14 @@
         "agg_stats": {
           "n_items": 300,
           "semantic_ok_rate": 1.0,
-          "simplification_quality_mean": 0.22955464644570203,
+          "simplification_quality_mean": 0.9007541005266974,
           "simplification_quality_ci95": [
-            0.18918202984449484,
-            0.26959570986028225
+            0.8884365642489335,
+            0.911838999432425
           ],
-          "uniform_quality_mean": 0.20458658021588577,
-          "uniform_quality_ci95": [
-            0.16908654927866862,
-            0.23915090683723036
-          ],
+          "simplification_quality_n": 60,
+          "uniform_quality_mean": null,
+          "uniform_quality_ci95": null,
           "failure_modes": {
             "broke_equivalence": 0,
             "no_change": 160,
@@ -186,16 +184,14 @@
         "allowlist": {
           "n_items": 360,
           "semantic_ok_rate": 1.0,
-          "simplification_quality_mean": 0.1845118761206249,
+          "simplification_quality_mean": 0.6866555214164273,
           "simplification_quality_ci95": [
-            0.15694760364978555,
-            0.21334487539078306
+            0.6647581275220463,
+            0.7084939131040794
           ],
-          "uniform_quality_mean": 0.12872300053791652,
-          "uniform_quality_ci95": [
-            0.1085244107284833,
-            0.1509720258891426
-          ],
+          "simplification_quality_n": 72,
+          "uniform_quality_mean": null,
+          "uniform_quality_ci95": null,
           "failure_modes": {
             "broke_equivalence": 0,
             "no_change": 192,
@@ -205,16 +201,14 @@
         "config_resolver": {
           "n_items": 360,
           "semantic_ok_rate": 1.0,
-          "simplification_quality_mean": 0.17369166603990374,
+          "simplification_quality_mean": 0.8684583301995187,
           "simplification_quality_ci95": [
-            0.13759810120389696,
-            0.21000077689905663
+            0.8668032979715125,
+            0.8703408858539453
           ],
-          "uniform_quality_mean": 0.15772501751019258,
-          "uniform_quality_ci95": [
-            0.1258923518661798,
-            0.19136616237726073
-          ],
+          "simplification_quality_n": 72,
+          "uniform_quality_mean": null,
+          "uniform_quality_ci95": null,
           "failure_modes": {
             "broke_equivalence": 0,
             "no_change": 288,
@@ -224,16 +218,14 @@
         "discovery_pipeline": {
           "n_items": 90,
           "semantic_ok_rate": 1.0,
-          "simplification_quality_mean": 0.2184163950405793,
+          "simplification_quality_mean": 0.8663966324079918,
           "simplification_quality_ci95": [
-            0.15016220348261497,
-            0.28556091935657296
+            0.8632430279238412,
+            0.8697235737732538
           ],
-          "uniform_quality_mean": 0.22444987302636546,
-          "uniform_quality_ci95": [
-            0.15376928219296304,
-            0.2937818518467629
-          ],
+          "simplification_quality_n": 18,
+          "uniform_quality_mean": null,
+          "uniform_quality_ci95": null,
           "failure_modes": {
             "broke_equivalence": 0,
             "no_change": 48,
@@ -243,16 +235,14 @@
         "fsm_transition": {
           "n_items": 90,
           "semantic_ok_rate": 1.0,
-          "simplification_quality_mean": 0.17773990101132975,
+          "simplification_quality_mean": 0.8886995050566487,
           "simplification_quality_ci95": [
-            0.10855579917127268,
-            0.24692781525224825
+            0.8877206083156385,
+            0.8896689168872162
           ],
-          "uniform_quality_mean": 0.184106167126953,
-          "uniform_quality_ci95": [
-            0.11245885489654929,
-            0.2557608269303054
-          ],
+          "simplification_quality_n": 18,
+          "uniform_quality_mean": null,
+          "uniform_quality_ci95": null,
           "failure_modes": {
             "broke_equivalence": 0,
             "no_change": 72,
@@ -262,16 +252,14 @@
         "status_router": {
           "n_items": 90,
           "semantic_ok_rate": 1.0,
-          "simplification_quality_mean": 0.17484950744913982,
+          "simplification_quality_mean": 0.8742475372456991,
           "simplification_quality_ci95": [
-            0.10684453080766043,
-            0.24285535347920092
+            0.8741004426395073,
+            0.8743902849089826
           ],
-          "uniform_quality_mean": 0.14871754131122575,
-          "uniform_quality_ci95": [
-            0.09085531515432882,
-            0.2065798543404407
-          ],
+          "simplification_quality_n": 18,
+          "uniform_quality_mean": null,
+          "uniform_quality_ci95": null,
           "failure_modes": {
             "broke_equivalence": 0,
             "no_change": 72,
@@ -281,11 +269,14 @@
         "threshold_select": {
           "n_items": 210,
           "semantic_ok_rate": 1.0,
-          "simplification_quality_mean": 0.17384738546981435,
+          "simplification_quality_mean": 0.8692369273490718,
           "simplification_quality_ci95": [
-            0.12799861019752276,
-            0.21992978042921496
+            0.8652334062340105,
+            0.8732543956426715
           ],
+          "simplification_quality_n": 42,
+          "uniform_quality_mean": null,
+          "uniform_quality_ci95": null,
           "failure_modes": {
             "broke_equivalence": 0,
             "no_change": 168,
@@ -325,11 +316,8 @@
             0.8437213614998214
           ],
           "simplification_quality_n": 300,
-          "uniform_quality_mean": 0.945763182290454,
-          "uniform_quality_ci95": [
-            0.9379714372376945,
-            0.9532851208401627
-          ],
+          "uniform_quality_mean": null,
+          "uniform_quality_ci95": null,
           "failure_modes": {
             "broke_equivalence": 0,
             "no_change": 0,
@@ -349,11 +337,8 @@
             0.0
           ],
           "simplification_quality_n": 0,
-          "uniform_quality_mean": 0.0,
-          "uniform_quality_ci95": [
-            0.0,
-            0.0
-          ],
+          "uniform_quality_mean": null,
+          "uniform_quality_ci95": null,
           "failure_modes": {
             "broke_equivalence": 0,
             "no_change": 300,
@@ -373,11 +358,8 @@
             0.0
           ],
           "simplification_quality_n": 300,
-          "uniform_quality_mean": 0.0,
-          "uniform_quality_ci95": [
-            0.0,
-            0.0
-          ],
+          "uniform_quality_mean": null,
+          "uniform_quality_ci95": null,
           "failure_modes": {
             "broke_equivalence": 0,
             "no_change": 300,
@@ -430,24 +412,20 @@
           "max": 1.0
         },
         "refactor": {
-          "minimal": 0.18555607245678818,
-          "standard": 0.18695024524703324,
-          "max": 0.2710030119701793
+          "minimal": 0.8238689617081395,
+          "standard": 0.8300590888968276,
+          "max": 0.8445677538090037
         }
       },
       "baseline_clean_ceiling": {
         "refactor": {
-          "minimal": 0.9647737923416279,
-          "standard": 0.9660118177793655,
-          "max": 0.9689135507618007
+          "minimal": 0.8238689617081395,
+          "standard": 0.8300590888968276,
+          "max": 0.8445677538090037
         }
       },
       "baseline_formatter": {
-        "refactor": {
-          "minimal": 0.0,
-          "standard": 0.0,
-          "max": 0.0
-        }
+        "refactor": {}
       },
       "baseline_rule_based": {
         "refactor": {
@@ -704,7 +682,7 @@
     "refactor_2d": {
       "baseline_clean_ceiling": {
         "semantic_ok_rate": 1.0,
-        "simplification_quality": 0.9665663869609314
+        "simplification_quality": 0.8328319348046569
       },
       "baseline_formatter": {
         "semantic_ok_rate": 1.0,
@@ -716,7 +694,7 @@
       },
       "mock": {
         "semantic_ok_rate": 1.0,
-        "simplification_quality": 0.2145031098913336
+        "simplification_quality": 0.8328319348046569
       }
     },
     "judge_calibration": {
@@ -752,7 +730,7 @@
           "dev": 1.0
         },
         "refactor": {
-          "dev": 0.2145031098913336
+          "dev": 0.8328319348046569
         }
       },
       "baseline_metric_judge": {
@@ -762,7 +740,7 @@
       },
       "baseline_clean_ceiling": {
         "refactor": {
-          "dev": 0.9665663869609314
+          "dev": 0.8328319348046569
         }
       },
       "baseline_formatter": {
@@ -793,11 +771,7 @@
           "cpp": 1.0
         },
         "refactor": {
-          "python": 0.8328319348046569,
-          "javascript": 0.040210811501297385,
-          "go": 0.03207188936130294,
-          "java": 0.03241369178746619,
-          "cpp": 0.0343290412021011
+          "python": 0.8328319348046569
         }
       },
       "baseline_metric_judge": {
@@ -811,17 +785,11 @@
       },
       "baseline_clean_ceiling": {
         "refactor": {
-          "python": 0.8328319348046569,
-          "javascript": 1.0,
-          "go": 1.0,
-          "java": 1.0,
-          "cpp": 1.0
+          "python": 0.8328319348046569
         }
       },
       "baseline_formatter": {
-        "refactor": {
-          "go": 0.0
-        }
+        "refactor": {}
       },
       "baseline_rule_based": {
         "refactor": {

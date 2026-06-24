@@ -59,22 +59,20 @@
       "qwen3-coder-480b-a35b": "openai_compatible",
       "llama-4-maverick": "openai_compatible"
     },
-    "timestamp_utc": "2026-06-24T07:20:00.314159+00:00",
+    "timestamp_utc": "2026-06-24T08:06:23.291360+00:00",
     "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
   },
   "aggregate": {
     "n_items": 90,
     "semantic_ok_rate": 1.0,
-    "simplification_quality_mean": 0.17773990101132975,
+    "simplification_quality_mean": 0.8886995050566487,
     "simplification_quality_ci95": [
-      0.10855579917127268,
-      0.24692781525224825
+      0.8877206083156385,
+      0.8896689168872162
     ],
-    "uniform_quality_mean": 0.184106167126953,
-    "uniform_quality_ci95": [
-      0.11245885489654929,
-      0.2557608269303054
-    ],
+    "simplification_quality_n": 18,
+    "uniform_quality_mean": null,
+    "uniform_quality_ci95": null,
     "failure_modes": {
       "broke_equivalence": 0,
       "no_change": 72,
@@ -93,6 +91,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "04f27b666137ea14",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -102,18 +103,16 @@
         "effort": 0.968468218961692,
         "readability": 0.73614914987351
       },
+      "ast_lane": true,
       "simplification_quality": 0.8858200930299613,
       "simplification_quality_ci95": [
         0.8858200930299613,
         0.8858200930299613
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9179900462336832,
-      "uniform_quality_ci95": [
-        0.9179900462336832,
-        0.9179900462336832
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -136,26 +135,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "ee2fab1e6561514a",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -178,26 +175,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "48f2345edc826de8",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -220,26 +215,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "8a594efe8ab66eea",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -262,26 +255,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "68584e6c669a4d86",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -304,6 +295,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "84bb729bc0421361",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -313,18 +307,16 @@
         "effort": 0.9706172581586846,
         "readability": 0.7408562429757626
       },
+      "ast_lane": true,
       "simplification_quality": 0.8901820314421173,
       "simplification_quality_ci95": [
         0.8901820314421173,
         0.8901820314421173
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9220082586434163,
-      "uniform_quality_ci95": [
-        0.9220082586434163,
-        0.9220082586434163
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -347,26 +339,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "0a99e5630ea7ee46",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03148871036836303,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.045351473922902494
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -389,26 +379,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "fd53422f30ec44d0",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03113599884313207,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.030379746835443037
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -431,26 +419,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "dfdb65b3b86d6ff3",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03069780932106266,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.02962962962962963
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -473,26 +459,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "5963d2d64786b3b5",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03335896495418881,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.04713804713804714
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -515,6 +499,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "84bb729bc0421361",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -524,18 +511,16 @@
         "effort": 0.9706172581586846,
         "readability": 0.7408562429757626
       },
+      "ast_lane": true,
       "simplification_quality": 0.8901820314421173,
       "simplification_quality_ci95": [
         0.8901820314421173,
         0.8901820314421173
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9220082586434163,
-      "uniform_quality_ci95": [
-        0.9220082586434163,
-        0.9220082586434163
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -558,26 +543,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "0a99e5630ea7ee46",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03148871036836303,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.045351473922902494
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -600,26 +583,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "fd53422f30ec44d0",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03113599884313207,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.030379746835443037
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -642,26 +623,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "dfdb65b3b86d6ff3",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03069780932106266,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.02962962962962963
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -684,26 +663,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "5963d2d64786b3b5",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03335896495418881,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.04713804713804714
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -726,6 +703,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "78e79131c50c437d",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -735,18 +715,16 @@
         "effort": 0.968468218961692,
         "readability": 0.73614914987351
       },
+      "ast_lane": true,
       "simplification_quality": 0.8858200930299613,
       "simplification_quality_ci95": [
         0.8858200930299613,
         0.8858200930299613
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9179906317892496,
-      "uniform_quality_ci95": [
-        0.9179906317892496,
-        0.9179906317892496
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -769,26 +747,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "4fca0dd907c9ae3c",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -811,26 +787,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "b36b39c091f091cd",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -853,26 +827,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "912eccd40cedc475",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -895,26 +867,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "85ac2275409429ff",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -937,6 +907,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "b66eae75021b1880",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -946,18 +919,16 @@
         "effort": 0.9706172581586846,
         "readability": 0.7408562429757626
       },
+      "ast_lane": true,
       "simplification_quality": 0.8901820314421173,
       "simplification_quality_ci95": [
         0.8901820314421173,
         0.8901820314421173
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9220087677149591,
-      "uniform_quality_ci95": [
-        0.9220087677149591,
-        0.9220087677149591
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -980,26 +951,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "409ae25a407ab7b7",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03148777602061033,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.045351473922902494
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1022,26 +991,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "a4e3091e0852d87c",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0311352264438273,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.030379746835443037
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1064,26 +1031,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "3e6c81ad78b52578",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.030696955070291836,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.02962962962962963
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1106,26 +1071,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "1e7ef3830db69288",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0333579870984318,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.04713804713804714
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1148,6 +1111,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "b66eae75021b1880",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -1157,18 +1123,16 @@
         "effort": 0.9706172581586846,
         "readability": 0.7408562429757626
       },
+      "ast_lane": true,
       "simplification_quality": 0.8901820314421173,
       "simplification_quality_ci95": [
         0.8901820314421173,
         0.8901820314421173
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9220087677149591,
-      "uniform_quality_ci95": [
-        0.9220087677149591,
-        0.9220087677149591
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -1191,26 +1155,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "409ae25a407ab7b7",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03148777602061033,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.045351473922902494
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1233,26 +1195,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "a4e3091e0852d87c",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0311352264438273,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.030379746835443037
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1275,26 +1235,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "3e6c81ad78b52578",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.030696955070291836,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.02962962962962963
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1317,26 +1275,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "1e7ef3830db69288",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0333579870984318,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.04713804713804714
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1359,6 +1315,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "4c93d38338c840e4",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -1368,18 +1327,16 @@
         "effort": 0.968468218961692,
         "readability": 0.73614914987351
       },
+      "ast_lane": true,
       "simplification_quality": 0.8858200930299613,
       "simplification_quality_ci95": [
         0.8858200930299613,
         0.8858200930299613
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9178555654232032,
-      "uniform_quality_ci95": [
-        0.9178555654232032,
-        0.9178555654232032
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -1402,26 +1359,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "7d0aff053260154d",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1444,26 +1399,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "c0fef8e12f5cc322",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1486,26 +1439,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "83916ae681a1845e",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1528,26 +1479,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "ec5cf8fe55353ca9",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1570,6 +1519,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "a7b6f144a0d37199",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -1579,18 +1531,16 @@
         "effort": 0.9706172581586846,
         "readability": 0.7408562429757626
       },
+      "ast_lane": true,
       "simplification_quality": 0.8901820314421173,
       "simplification_quality_ci95": [
         0.8901820314421173,
         0.8901820314421173
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9218799675433075,
-      "uniform_quality_ci95": [
-        0.9218799675433075,
-        0.9218799675433075
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -1613,26 +1563,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "4cf6ca0dd4d3ff98",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.031486841701527095,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.045351473922902494
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1655,26 +1603,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "baa364952b659900",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.031134454063796935,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.030379746835443037
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1697,26 +1643,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "9cb07b9f9af78747",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.030696527954620932,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.02962962962962963
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1739,26 +1683,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "a6fc1a0f59c70dc3",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.033357009272714296,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.04713804713804714
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1781,6 +1723,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "a7b6f144a0d37199",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -1790,18 +1735,16 @@
         "effort": 0.9706172581586846,
         "readability": 0.7408562429757626
       },
+      "ast_lane": true,
       "simplification_quality": 0.8901820314421173,
       "simplification_quality_ci95": [
         0.8901820314421173,
         0.8901820314421173
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9218799675433075,
-      "uniform_quality_ci95": [
-        0.9218799675433075,
-        0.9218799675433075
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -1824,26 +1767,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "4cf6ca0dd4d3ff98",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.031486841701527095,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.045351473922902494
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1866,26 +1807,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "baa364952b659900",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.031134454063796935,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.030379746835443037
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1908,26 +1847,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "9cb07b9f9af78747",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.030696527954620932,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.02962962962962963
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1950,26 +1887,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "a6fc1a0f59c70dc3",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.033357009272714296,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.04713804713804714
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1992,6 +1927,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "296d2a2386fbf279",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -2001,18 +1939,16 @@
         "effort": 0.968468218961692,
         "readability": 0.73614914987351
       },
+      "ast_lane": true,
       "simplification_quality": 0.8858200930299613,
       "simplification_quality_ci95": [
         0.8858200930299613,
         0.8858200930299613
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.91790059073175,
-      "uniform_quality_ci95": [
-        0.91790059073175,
-        0.91790059073175
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -2035,26 +1971,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "eb463dad7a7ccc4c",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2077,26 +2011,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "121485df81b30bf4",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2119,26 +2051,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "353f79517bcc1b98",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2161,26 +2091,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "572d35ebdaaa9347",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2203,6 +2131,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "5032e17e9abc0332",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -2212,18 +2143,16 @@
         "effort": 0.9706172581586846,
         "readability": 0.7408562429757626
       },
+      "ast_lane": true,
       "simplification_quality": 0.8901820314421173,
       "simplification_quality_ci95": [
         0.8901820314421173,
         0.8901820314421173
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9219229038628298,
-      "uniform_quality_ci95": [
-        0.9219229038628298,
-        0.9219229038628298
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -2246,26 +2175,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "ffd580b0a4aef678",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03148715313803609,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.045351473922902494
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2288,26 +2215,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "9c55755c1500810e",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03113471152166546,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.030379746835443037
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2330,26 +2255,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "231b276cde8f928b",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.030696670325791837,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.02962962962962963
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2372,26 +2295,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "2eaf2f6d548dd718",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.033357335211282445,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.04713804713804714
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2414,6 +2335,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "5032e17e9abc0332",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -2423,18 +2347,16 @@
         "effort": 0.9706172581586846,
         "readability": 0.7408562429757626
       },
+      "ast_lane": true,
       "simplification_quality": 0.8901820314421173,
       "simplification_quality_ci95": [
         0.8901820314421173,
         0.8901820314421173
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9219229038628298,
-      "uniform_quality_ci95": [
-        0.9219229038628298,
-        0.9219229038628298
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -2457,26 +2379,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "ffd580b0a4aef678",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03148715313803609,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.045351473922902494
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2499,26 +2419,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "9c55755c1500810e",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03113471152166546,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.030379746835443037
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2541,26 +2459,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "231b276cde8f928b",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.030696670325791837,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.02962962962962963
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2583,26 +2499,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "2eaf2f6d548dd718",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.033357335211282445,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.04713804713804714
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2625,6 +2539,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "d441518e2f57b4b3",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -2634,18 +2551,16 @@
         "effort": 0.968468218961692,
         "readability": 0.73614914987351
       },
+      "ast_lane": true,
       "simplification_quality": 0.8858200930299613,
       "simplification_quality_ci95": [
         0.8858200930299613,
         0.8858200930299613
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9174483690353435,
-      "uniform_quality_ci95": [
-        0.9174483690353435,
-        0.9174483690353435
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -2668,26 +2583,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "76cf4fedb8314370",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2710,26 +2623,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "2077fe4ce228fc2d",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2752,26 +2663,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "c6a9ff198df7e5f2",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2794,26 +2703,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "7caea2824e429c91",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2836,6 +2743,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "2d8181e585712894",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -2845,18 +2755,16 @@
         "effort": 0.9706172581586846,
         "readability": 0.7408562429757626
       },
+      "ast_lane": true,
       "simplification_quality": 0.8901820314421173,
       "simplification_quality_ci95": [
         0.8901820314421173,
         0.8901820314421173
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9214918221130529,
-      "uniform_quality_ci95": [
-        0.9214918221130529,
-        0.9214918221130529
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -2879,26 +2787,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "05030fbdd88a8afd",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.031486841701527095,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.045351473922902494
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2921,26 +2827,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "762adf4c11c3c5be",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.031134454063796935,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.030379746835443037
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2963,26 +2867,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "b8c0c74c3b3b385d",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.030696527954620932,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.02962962962962963
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3005,26 +2907,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "c214b06ad9f7dd16",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.033357009272714296,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.04713804713804714
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3047,6 +2947,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "2d8181e585712894",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -3056,18 +2959,16 @@
         "effort": 0.9706172581586846,
         "readability": 0.7408562429757626
       },
+      "ast_lane": true,
       "simplification_quality": 0.8901820314421173,
       "simplification_quality_ci95": [
         0.8901820314421173,
         0.8901820314421173
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9214918221130529,
-      "uniform_quality_ci95": [
-        0.9214918221130529,
-        0.9214918221130529
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -3090,26 +2991,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "05030fbdd88a8afd",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.031486841701527095,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.045351473922902494
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3132,26 +3031,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "762adf4c11c3c5be",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.031134454063796935,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.030379746835443037
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3174,26 +3071,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "b8c0c74c3b3b385d",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.030696527954620932,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.02962962962962963
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3216,26 +3111,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "c214b06ad9f7dd16",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.033357009272714296,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.04713804713804714
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3258,6 +3151,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "239b7cb2cb7de4e0",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -3267,18 +3163,16 @@
         "effort": 0.9693631875389763,
         "readability": 0.7348971511896479
       },
+      "ast_lane": true,
       "simplification_quality": 0.8856477053404019,
       "simplification_quality_ci95": [
         0.8856477053404019,
         0.8856477053404019
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.91790059073175,
-      "uniform_quality_ci95": [
-        0.91790059073175,
-        0.91790059073175
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -3301,26 +3195,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "436bd2503e17c01f",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3343,26 +3235,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "16d79cc13152acc7",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3385,26 +3275,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "9dc01fbb1ac76729",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3427,26 +3315,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "bb2d0552551a31fb",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.0,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.0
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.0
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3469,6 +3355,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "f26e323ab3c34699",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -3478,18 +3367,16 @@
         "effort": 0.9715076300529657,
         "readability": 0.7396095872521692
       },
+      "ast_lane": true,
       "simplification_quality": 0.8900113030541477,
       "simplification_quality_ci95": [
         0.8900113030541477,
         0.8900113030541477
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9219229038628298,
-      "uniform_quality_ci95": [
-        0.9219229038628298,
-        0.9219229038628298
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -3512,26 +3399,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "b456435300e95d62",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03148715313803609,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.045351473922902494
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3554,26 +3439,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "1552fdeed7c8887e",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03113471152166546,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.030379746835443037
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3596,26 +3479,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "74a86fb83c35666f",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.030696670325791837,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.02962962962962963
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3638,26 +3519,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "366449a3b08e9665",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.033357335211282445,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.04713804713804714
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3680,6 +3559,9 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "f26e323ab3c34699",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
@@ -3689,18 +3571,16 @@
         "effort": 0.9715076300529657,
         "readability": 0.7396095872521692
       },
+      "ast_lane": true,
       "simplification_quality": 0.8900113030541477,
       "simplification_quality_ci95": [
         0.8900113030541477,
         0.8900113030541477
       ],
       "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.9219229038628298,
-      "uniform_quality_ci95": [
-        0.9219229038628298,
-        0.9219229038628298
-      ],
-      "uniform_lane_available": true,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -3723,26 +3603,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "b456435300e95d62",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03148715313803609,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.045351473922902494
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04219409282700422
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3765,26 +3643,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "1552fdeed7c8887e",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.03113471152166546,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.030379746835443037
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.027149321266968326
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3807,26 +3683,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "74a86fb83c35666f",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.030696670325791837,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.02962962962962963
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.030120481927710843
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3849,26 +3723,24 @@
       "snapshot": "mock",
       "tier": "A",
       "prompt_hash": "366449a3b08e9665",
+      "raw_outputs": [
+        "<mock>"
+      ],
       "skip": false,
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "bw_density": 0.033357335211282445,
-        "liz_cc": 0.0,
-        "liz_tokens": 0.04713804713804714
+        "brace_depth": 0.0,
+        "branch_keywords": 0.0,
+        "tokens": 0.04658901830282862
       },
-      "simplification_quality": 0.0,
-      "simplification_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "simplification_quality_stdev": 0.0,
-      "uniform_quality": 0.0,
-      "uniform_quality_ci95": [
-        0.0,
-        0.0
-      ],
-      "uniform_lane_available": true,
+      "ast_lane": false,
+      "simplification_quality": null,
+      "simplification_quality_ci95": null,
+      "simplification_quality_stdev": null,
+      "uniform_quality": null,
+      "uniform_quality_ci95": null,
+      "uniform_lane_available": false,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3880,5 +3752,17 @@
         "over_golfed": 0
       }
     }
-  ]
+  ],
+  "run_meta": {
+    "n_items": 90,
+    "n_graded": 90,
+    "n_resumed": 0,
+    "n_errors": 0,
+    "n_new_calls": 90,
+    "parse_ok": 90,
+    "parse_n": 90,
+    "parse_success_rate": 1.0,
+    "aborted": false,
+    "regraded": true
+  }
 }

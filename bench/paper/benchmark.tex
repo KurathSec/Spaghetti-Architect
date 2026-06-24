@@ -486,6 +486,13 @@ seed with the released generator, and the public \texttt{dev} split plus the rec
 protocol (frozen prompts \texttt{36b8ffef1f3f7c79}, $k$, temperature, dated model snapshots)
 make every reported number protocol-reproducible. Generator and static metrics are
 byte-deterministic; model results are \emph{protocol}-reproducible, not byte-reproducible.
+Crucially, every live completion is \textbf{persisted verbatim} alongside its grade, so any
+later metric revision is re-applied \emph{offline} to the recorded outputs
+(\texttt{--regrade}) at zero additional API cost --- model results never need re-paying when
+a grader changes. Execution itself is crash-safe and idempotent (per-item checkpointing,
+resume-from-missing, transient-error backoff with \texttt{Retry-After}, and a pre-flight
+call-count projection with a hard spend cap), so the paid run is reproducible as a
+\emph{process}, not only as a recorded number.
 The Responsible NLP / reproducibility checklist is filed with the submission.
 
 \section{Conclusion}

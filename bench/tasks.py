@@ -214,69 +214,194 @@ def build_items(task: str, split: D.Split, family: Optional[str] = None):
 
 
 # --------------------------------------------------------------------------- #
+# stable per-item id (resumability / fault isolation / re-grade keying)
+# --------------------------------------------------------------------------- #
+def item_id(task: str, item) -> str:
+    """A stable, content-free identifier for one benchmark item, used to key the
+    incremental checkpoint (skip already-completed items on re-run) and to label
+    error stubs. Built from the dataset axes that uniquely place the item *within a
+    (task, model, family, split) batch* — deterministic across runs, so a crash +
+    re-run skips exactly the items already written. NOT a hash of the prompt (the
+    prompt is byte-stable for an item anyway); these axes are what the builders fan
+    out over."""
+    if task == "judge":
+        # judge fans out per (sample, language) base; levels are derived
+        return f"judge:{item.sample}:{item.language}"
+    # refactor / comprehend fan out per (sample, variant, profile, language)
+    return (f"{task}:{item.sample}:{getattr(item, 'variant', '?')}:"
+            f"{item.profile}:{item.language}")
+
+
+# --------------------------------------------------------------------------- #
 # scorers (query the model k times, grade locally, emit the compact record)
 # --------------------------------------------------------------------------- #
+def _mock_raw(outs: List[str], model: str) -> List[str]:
+    """Keep committed mock records SMALL: the mock raw output is the gold string, which
+    is large (a whole clean source for refactor). Store a single sentinel for the mock so
+    the committed JSONs stay tiny; the re-grade path treats the mock as non-regradable
+    (it would just re-emit gold). Real-model raw outputs are stored verbatim."""
+    if model == models.MOCK:
+        return ["<mock>"]
+    return list(outs)
+
+
 def score_refactor_item(item: RefactorItem, model: str, cfg, k: int) -> dict:
     system, user = item.prompt()
     outs, snap = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=item.mock_gold)
-    per = [G.grade_refactor_one(item.language, o, item.spaghetti_src, item.program)
-           for o in outs]
-    agg = G.aggregate_refactor(per)
     rec = {"sample": item.sample, "profile": item.profile, "language": item.language,
            "variant": item.variant, "intrinsic": item.intrinsic, "snapshot": snap,
-           "tier": item.tier, "prompt_hash": models.prompt_hash(system, user)}
-    rec.update(agg)
+           "tier": item.tier, "prompt_hash": models.prompt_hash(system, user),
+           # RAW model outputs are PERSISTED so a grading change can be re-applied
+           # offline (--regrade) without re-paying. mock stores a sentinel (gold is
+           # large + deterministic); real models store the k completions verbatim.
+           "raw_outputs": _mock_raw(outs, model)}
+    rec.update(_grade_refactor_outputs(item.language, outs, item.spaghetti_src, item.program))
     return rec
+
+
+def _grade_refactor_outputs(language: str, outs: List[str], spaghetti_src: str,
+                            program) -> dict:
+    """Pure grader: k raw completions -> the aggregated refactor record fields. Shared by
+    the live scorer and the offline re-grade path (no API contact)."""
+    per = [G.grade_refactor_one(language, o, spaghetti_src, program) for o in outs]
+    agg = G.aggregate_refactor(per)
+    # running parse-success signal (semantic gate ran => the code block parsed/compiled
+    # far enough to execute) for the batch early-abort + pilot report.
+    scored = [p for p in per if not p.get("skip")]
+    agg["_parse_ok"] = sum(1 for p in scored if p.get("semantic_ok") == 1)
+    agg["_parse_n"] = len(scored)
+    return agg
+
+
+def regrade_refactor_record(rec: dict) -> dict:
+    """Re-grade a stored refactor record from its persisted ``raw_outputs`` (ZERO API).
+    Rebuilds the (sample, variant, profile, language) item from the dataset to recover
+    the oracle program + spaghetti source, then re-runs the grader. Mock records (sentinel
+    raw) are returned unchanged. Returns a NEW record with the same identity keys."""
+    if not _regradable(rec):
+        return rec
+    it = _rebuild_refactor_item(rec)
+    fresh = {k: rec[k] for k in ("sample", "profile", "language", "variant",
+                                 "intrinsic", "snapshot", "tier", "prompt_hash",
+                                 "raw_outputs") if k in rec}
+    fresh.update(_grade_refactor_outputs(it.language, rec["raw_outputs"],
+                                         it.spaghetti_src, it.program))
+    return fresh
 
 
 def score_judge_item(item: JudgeItem, model: str, cfg, k: int) -> dict:
     L = len(item.levels)
-    # pointwise: k ratings per level
-    ratings_by_level: List[List[Optional[int]]] = []
+    # pointwise: k RAW rating strings per level (persisted; graded below + on --regrade)
+    raw_pointwise: List[List[str]] = []
+    snap = models.MOCK_SNAPSHOT
     for label, rank, src in item.levels:
         system, user = P.judge_pointwise(item.language, src)
         gold = str(_mock_rating(rank, L))
         outs, snap = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=gold)
-        ratings_by_level.append([G.extract_int(o) for o in outs])
-    pointwise = G.grade_judge_pointwise(ratings_by_level, item.ranks())
-    # pairwise (PRIMARY judge metric), with MT-Bench position-swap: present every
-    # unordered pair of levels in BOTH orders and count it only if the model is
-    # position-consistent (see grade.grade_judge_pairwise).
-    pair_data: List[tuple] = []
+        raw_pointwise.append(_mock_raw(outs, model))
+    # pairwise (PRIMARY): every unordered pair in BOTH orders; store the RAW AB/BA label
+    # strings + clean_is_a so the position-swap grading is reproducible offline.
+    raw_pairwise: List[dict] = []
     for (la, ra, sa), (lb, rb, sb) in combinations(item.levels, 2):
         clean_is_a = ra < rb                     # source a (first) cleaner iff lower rank
         sys1, usr1 = P.judge_pairwise(item.language, sa, sb)        # AB order
         o1, snap = models.sample_k(model, sys1, usr1, k, cfg=cfg,
                                    mock_gold=("A" if clean_is_a else "B"))
-        pick_ab = _majority([G.extract_label(o) for o in o1])
         sys2, usr2 = P.judge_pairwise(item.language, sb, sa)        # BA order (swapped)
         o2, snap = models.sample_k(model, sys2, usr2, k, cfg=cfg,
                                    mock_gold=("B" if clean_is_a else "A"))
-        pick_ba = _majority([G.extract_label(o) for o in o2])
-        pair_data.append((pick_ab, pick_ba, clean_is_a))
+        raw_pairwise.append({"ab": _mock_raw(o1, model), "ba": _mock_raw(o2, model),
+                             "clean_is_a": clean_is_a})
+    rec = {"sample": item.sample, "language": item.language, "snapshot": snap,
+           "tier": item.tier, "levels": [lvl[0] for lvl in item.levels],
+           "ranks": item.ranks(),
+           # RAW per-level rating strings and RAW per-pair AB/BA labels are PERSISTED
+           # so a judge grading change re-applies offline (--regrade) with no spend.
+           "raw_pointwise": raw_pointwise, "raw_pairwise": raw_pairwise}
+    rec.update(_grade_judge_outputs(raw_pointwise, raw_pairwise, item.ranks(), model))
+    return rec
+
+
+def _grade_judge_outputs(raw_pointwise, raw_pairwise, ranks, model) -> dict:
+    """Pure grader: raw judge strings -> the aggregated judge record fields. Mock raw is a
+    sentinel; for the mock we re-derive the perfectly-monotone ratings/labels from the
+    ranks so the dry-run record matches the live shape without storing big strings."""
+    L = len(ranks)
+    if model == models.MOCK:
+        ratings_by_level = [[_mock_rating(r, L)] for r in ranks]
+        pair_data = []
+        for (i, ra), (j, rb) in combinations(list(enumerate(ranks)), 2):
+            clean_is_a = ra < rb
+            pair_data.append(("A" if clean_is_a else "B",
+                              "B" if clean_is_a else "A", clean_is_a))
+    else:
+        ratings_by_level = [[G.extract_int(o) for o in lvl] for lvl in raw_pointwise]
+        pair_data = [(_majority([G.extract_label(o) for o in p["ab"]]),
+                      _majority([G.extract_label(o) for o in p["ba"]]),
+                      p["clean_is_a"]) for p in raw_pairwise]
+    pointwise = G.grade_judge_pointwise(ratings_by_level, ranks)
     pairwise = G.grade_judge_pairwise(pair_data)
-    return {"sample": item.sample, "language": item.language, "snapshot": snap,
-            "tier": item.tier, "levels": [lvl[0] for lvl in item.levels],
-            "pairwise_acc": pairwise["pairwise_acc"],            # primary
+    # parse-success signal: a pair is "parsed" when BOTH orders yielded a label.
+    parsed = sum(1 for ab, ba, _ in pair_data if ab is not None and ba is not None)
+    return {"pairwise_acc": pairwise["pairwise_acc"],            # primary
             "position_consistency": pairwise["position_consistency"],
             "n_consistent": pairwise["n_consistent"],
             "n_pairs": pairwise["n_pairs"],
             "monotonicity": pointwise["monotonicity"],          # secondary (Spearman)
             "sensitivity": pointwise["sensitivity"],
             "inversions": pointwise["inversions"],
-            "rating_by_level": pointwise["rating_by_level"]}
+            "rating_by_level": pointwise["rating_by_level"],
+            "_parse_ok": parsed, "_parse_n": len(pair_data)}
+
+
+def regrade_judge_record(rec: dict) -> dict:
+    """Re-grade a stored judge record from its persisted raw strings (ZERO API)."""
+    if "raw_pairwise" not in rec or "ranks" not in rec:
+        return rec
+    model = models.MOCK if _is_mock_judge_raw(rec) else "_real"
+    fresh = {k: rec[k] for k in ("sample", "language", "snapshot", "tier", "levels",
+                                 "ranks", "raw_pointwise", "raw_pairwise") if k in rec}
+    fresh.update(_grade_judge_outputs(rec.get("raw_pointwise", []),
+                                      rec.get("raw_pairwise", []), rec["ranks"], model))
+    return fresh
+
+
+def _is_mock_judge_raw(rec: dict) -> bool:
+    rp = rec.get("raw_pairwise") or []
+    return bool(rp and rp[0].get("ab") == ["<mock>"])
 
 
 def score_comprehend_item(item: ComprehendItem, model: str, cfg, k: int) -> dict:
     system, user = item.prompt()
     outs, snap = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=item.mock_gold)
-    per = [G.grade_comprehend_one(o, item.program) for o in outs]
-    agg = G.aggregate_comprehend(per)
     rec = {"sample": item.sample, "profile": item.profile, "language": item.language,
            "variant": item.variant, "intrinsic": item.intrinsic, "snapshot": snap,
-           "tier": item.tier, "prompt_hash": models.prompt_hash(system, user)}
-    rec.update(agg)
+           "tier": item.tier, "prompt_hash": models.prompt_hash(system, user),
+           # RAW completions PERSISTED (offline --regrade re-applies grading, no spend).
+           "raw_outputs": _mock_raw(outs, model)}
+    rec.update(_grade_comprehend_outputs(outs, item.program))
     return rec
+
+
+def _grade_comprehend_outputs(outs: List[str], program) -> dict:
+    """Pure grader: k raw completions -> the aggregated comprehend record fields."""
+    per = [G.grade_comprehend_one(o, program) for o in outs]
+    agg = G.aggregate_comprehend(per)
+    agg["_parse_ok"] = sum(1 for p in per if p.get("parsed"))
+    agg["_parse_n"] = len(per)
+    return agg
+
+
+def regrade_comprehend_record(rec: dict) -> dict:
+    """Re-grade a stored comprehend record from its persisted ``raw_outputs`` (ZERO API)."""
+    if not _regradable(rec):
+        return rec
+    it = _rebuild_comprehend_item(rec)
+    fresh = {k: rec[k] for k in ("sample", "profile", "language", "variant",
+                                 "intrinsic", "snapshot", "tier", "prompt_hash",
+                                 "raw_outputs") if k in rec}
+    fresh.update(_grade_comprehend_outputs(rec["raw_outputs"], it.program))
+    return fresh
 
 
 def score_item(task: str, item, model: str, cfg, k: int) -> dict:
@@ -286,6 +411,69 @@ def score_item(task: str, item, model: str, cfg, k: int) -> dict:
         return score_judge_item(item, model, cfg, k)
     if task == "comprehend":
         return score_comprehend_item(item, model, cfg, k)
+    raise ValueError(f"unknown task: {task!r}")
+
+
+# --------------------------------------------------------------------------- #
+# offline re-grade (re-apply graders to PERSISTED raw outputs; ZERO API)
+# --------------------------------------------------------------------------- #
+def _regradable(rec: dict) -> bool:
+    """A record is offline-regradable iff it carries real (non-sentinel) raw outputs.
+    Mock records store ``["<mock>"]`` and re-grading would just re-emit gold, so they are
+    passed through unchanged (the dry-run shape is already correct)."""
+    raw = rec.get("raw_outputs")
+    return bool(raw) and raw != ["<mock>"]
+
+
+def _rebuild_refactor_item(rec: dict) -> RefactorItem:
+    """Reconstruct the RefactorItem for a stored record from the dataset (re-derives the
+    oracle program + spaghetti source for its sample/variant/profile/language). No API."""
+    sp = D.load(rec.get("split", "dev"))
+    stem = _stem_for(sp, rec["sample"], rec.get("variant", "base"))
+    ir, prog = sp.ir(stem), sp.program(stem)
+    srcs = _sources(ir, rec["profile"])
+    return RefactorItem(
+        sample=rec["sample"], variant=rec.get("variant", "base"), profile=rec["profile"],
+        language=rec["language"], intrinsic=rec.get("intrinsic", {}),
+        family=rec.get("family", "?"), program=prog, spaghetti_src=srcs[rec["language"]],
+        result_vars=list(oracle(prog)), mock_gold="", tier=rec.get("tier", "A"))
+
+
+def _rebuild_comprehend_item(rec: dict) -> ComprehendItem:
+    sp = D.load(rec.get("split", "dev"))
+    stem = _stem_for(sp, rec["sample"], rec.get("variant", "base"))
+    ir, prog = sp.ir(stem), sp.program(stem)
+    srcs = _sources(ir, rec["profile"])
+    return ComprehendItem(
+        sample=rec["sample"], variant=rec.get("variant", "base"), profile=rec["profile"],
+        language=rec["language"], intrinsic=rec.get("intrinsic", {}),
+        family=rec.get("family", "?"), program=prog, source=srcs[rec["language"]],
+        result_vars=list(oracle(prog)), mock_gold="", tier=rec.get("tier", "A"))
+
+
+def _stem_for(split: D.Split, sample: str, variant: str) -> str:
+    """The dataset stem for a (sample, variant) pair (the records keep them separately)."""
+    for it in split.items:
+        if it.sample == sample and getattr(it, "variant", "base") == variant:
+            return it.stem
+    # fall back to matching by sample alone (records predating variant-keying)
+    for it in split.items:
+        if it.sample == sample:
+            return it.stem
+    raise KeyError(f"no dataset item for sample={sample!r} variant={variant!r}")
+
+
+def regrade_record(task: str, rec: dict) -> dict:
+    """Re-grade ONE stored record from its persisted raw outputs (no API). Error stubs and
+    mock/sentinel records pass through unchanged."""
+    if rec.get("error"):
+        return rec
+    if task == "refactor":
+        return regrade_refactor_record(rec)
+    if task == "judge":
+        return regrade_judge_record(rec)
+    if task == "comprehend":
+        return regrade_comprehend_record(rec)
     raise ValueError(f"unknown task: {task!r}")
 
 
