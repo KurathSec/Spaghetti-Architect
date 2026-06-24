@@ -59,7 +59,7 @@
       "qwen3-coder-480b-a35b": "openai_compatible",
       "llama-4-maverick": "openai_compatible"
     },
-    "timestamp_utc": "2026-06-22T12:59:57.257209+00:00",
+    "timestamp_utc": "2026-06-24T07:19:23.695777+00:00",
     "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
   },
   "aggregate": {
@@ -69,6 +69,11 @@
     "simplification_quality_ci95": [
       0.10684453080766043,
       0.24285535347920092
+    ],
+    "uniform_quality_mean": 0.14871754131122575,
+    "uniform_quality_ci95": [
+      0.09085531515432882,
+      0.2065798543404407
     ],
     "failure_modes": {
       "broke_equivalence": 0,
@@ -103,6 +108,12 @@
         0.8738324663439198
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.742339540974677,
+      "uniform_quality_ci95": [
+        0.742339540974677,
+        0.742339540974677
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -129,9 +140,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -139,6 +150,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -165,9 +182,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -175,6 +192,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -201,9 +224,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -211,6 +234,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -237,9 +266,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -247,6 +276,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -284,6 +319,12 @@
         0.8744742401616402
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7442068611680474,
+      "uniform_quality_ci95": [
+        0.7442068611680474,
+        0.7442068611680474
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -310,9 +351,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008460236886632826
+        "bw_density": 0.004652894551665308,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.01006036217303823
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -320,6 +361,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -346,9 +393,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005703422053231939
+        "bw_density": 0.005797439978245289,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.007407407407407408
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -356,6 +403,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -382,9 +435,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005611672278338945
+        "bw_density": 0.006683140770306872,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.005488474204171241
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -392,6 +445,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -418,9 +477,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008917197452229299
+        "bw_density": 0.004809219165863665,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.009421265141318977
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -428,6 +487,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -465,6 +530,12 @@
         0.8744742401616402
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7442068611680474,
+      "uniform_quality_ci95": [
+        0.7442068611680474,
+        0.7442068611680474
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -491,9 +562,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008460236886632826
+        "bw_density": 0.004652894551665308,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.01006036217303823
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -501,6 +572,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -527,9 +604,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005703422053231939
+        "bw_density": 0.005797439978245289,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.007407407407407408
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -537,6 +614,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -563,9 +646,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005611672278338945
+        "bw_density": 0.006683140770306872,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.005488474204171241
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -573,6 +656,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -599,9 +688,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008917197452229299
+        "bw_density": 0.004809219165863665,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.009421265141318977
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -609,6 +698,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -646,6 +741,12 @@
         0.8738324663439198
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7423435500951898,
+      "uniform_quality_ci95": [
+        0.7423435500951898,
+        0.7423435500951898
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -672,9 +773,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -682,6 +783,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -708,9 +815,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -718,6 +825,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -744,9 +857,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -754,6 +867,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -780,9 +899,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -790,6 +909,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -827,6 +952,12 @@
         0.8744742401616402
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7442107704223596,
+      "uniform_quality_ci95": [
+        0.7442107704223596,
+        0.7442107704223596
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -853,9 +984,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008460236886632826
+        "bw_density": 0.0046527710100066205,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.01006036217303823
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -863,6 +994,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -889,9 +1026,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005703422053231939
+        "bw_density": 0.005797269297098871,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.007407407407407408
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -899,6 +1036,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -925,9 +1068,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005611672278338945
+        "bw_density": 0.006682981224689764,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.005488474204171241
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -935,6 +1078,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -961,9 +1110,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008917197452229299
+        "bw_density": 0.004809103929981707,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.009421265141318977
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -971,6 +1120,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1008,6 +1163,12 @@
         0.8744742401616402
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7442107704223596,
+      "uniform_quality_ci95": [
+        0.7442107704223596,
+        0.7442107704223596
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -1034,9 +1195,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008460236886632826
+        "bw_density": 0.0046527710100066205,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.01006036217303823
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1044,6 +1205,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1070,9 +1237,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005703422053231939
+        "bw_density": 0.005797269297098871,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.007407407407407408
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1080,6 +1247,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1106,9 +1279,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005611672278338945
+        "bw_density": 0.006682981224689764,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.005488474204171241
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1116,6 +1289,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1142,9 +1321,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008917197452229299
+        "bw_density": 0.004809103929981707,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.009421265141318977
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1152,6 +1331,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1189,6 +1374,12 @@
         0.8738324663439198
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7423435500951898,
+      "uniform_quality_ci95": [
+        0.7423435500951898,
+        0.7423435500951898
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -1215,9 +1406,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1225,6 +1416,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1251,9 +1448,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1261,6 +1458,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1287,9 +1490,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1297,6 +1500,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1323,9 +1532,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1333,6 +1542,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1370,6 +1585,12 @@
         0.8744742401616402
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7442107704223596,
+      "uniform_quality_ci95": [
+        0.7442107704223596,
+        0.7442107704223596
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -1396,9 +1617,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008460236886632826
+        "bw_density": 0.0046527710100066205,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.01006036217303823
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1406,6 +1627,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1432,9 +1659,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005703422053231939
+        "bw_density": 0.005797269297098871,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.007407407407407408
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1442,6 +1669,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1468,9 +1701,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005611672278338945
+        "bw_density": 0.006682981224689764,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.005488474204171241
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1478,6 +1711,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1504,9 +1743,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008917197452229299
+        "bw_density": 0.004809103929981707,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.009421265141318977
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1514,6 +1753,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1551,6 +1796,12 @@
         0.8744742401616402
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7442107704223596,
+      "uniform_quality_ci95": [
+        0.7442107704223596,
+        0.7442107704223596
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -1577,9 +1828,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008460236886632826
+        "bw_density": 0.0046527710100066205,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.01006036217303823
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1587,6 +1838,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1613,9 +1870,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005703422053231939
+        "bw_density": 0.005797269297098871,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.007407407407407408
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1623,6 +1880,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1649,9 +1912,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005611672278338945
+        "bw_density": 0.006682981224689764,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.005488474204171241
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1659,6 +1922,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1685,9 +1954,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008917197452229299
+        "bw_density": 0.004809103929981707,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.009421265141318977
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1695,6 +1964,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1732,6 +2007,12 @@
         0.8738324663439198
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7423435500951898,
+      "uniform_quality_ci95": [
+        0.7423435500951898,
+        0.7423435500951898
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -1758,9 +2039,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1768,6 +2049,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1794,9 +2081,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1804,6 +2091,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1830,9 +2123,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1840,6 +2133,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1866,9 +2165,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1876,6 +2175,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1913,6 +2218,12 @@
         0.8744742401616402
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7442107704223596,
+      "uniform_quality_ci95": [
+        0.7442107704223596,
+        0.7442107704223596
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -1939,9 +2250,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008460236886632826
+        "bw_density": 0.0046527710100066205,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.01006036217303823
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1949,6 +2260,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1975,9 +2292,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005703422053231939
+        "bw_density": 0.005797269297098871,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.007407407407407408
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -1985,6 +2302,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2011,9 +2334,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005611672278338945
+        "bw_density": 0.006682981224689764,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.005488474204171241
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2021,6 +2344,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2047,9 +2376,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008917197452229299
+        "bw_density": 0.004809103929981707,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.009421265141318977
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2057,6 +2386,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2094,6 +2429,12 @@
         0.8744742401616402
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7442107704223596,
+      "uniform_quality_ci95": [
+        0.7442107704223596,
+        0.7442107704223596
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -2120,9 +2461,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008460236886632826
+        "bw_density": 0.0046527710100066205,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.01006036217303823
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2130,6 +2471,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2156,9 +2503,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005703422053231939
+        "bw_density": 0.005797269297098871,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.007407407407407408
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2166,6 +2513,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2192,9 +2545,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005611672278338945
+        "bw_density": 0.006682981224689764,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.005488474204171241
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2202,6 +2555,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2228,9 +2587,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008917197452229299
+        "bw_density": 0.004809103929981707,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.009421265141318977
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2238,6 +2597,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2275,6 +2640,12 @@
         0.8737542213715678
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7423435500951898,
+      "uniform_quality_ci95": [
+        0.7423435500951898,
+        0.7423435500951898
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -2301,9 +2672,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2311,6 +2682,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2337,9 +2714,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2347,6 +2724,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2373,9 +2756,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2383,6 +2766,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2409,9 +2798,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2419,6 +2808,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2456,6 +2851,12 @@
         0.8743983578575082
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7442107704223596,
+      "uniform_quality_ci95": [
+        0.7442107704223596,
+        0.7442107704223596
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -2482,9 +2883,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008460236886632826
+        "bw_density": 0.0046527710100066205,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.01006036217303823
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2492,6 +2893,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2518,9 +2925,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005703422053231939
+        "bw_density": 0.005797269297098871,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.007407407407407408
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2528,6 +2935,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2554,9 +2967,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005611672278338945
+        "bw_density": 0.006682981224689764,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.005488474204171241
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2564,6 +2977,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2590,9 +3009,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008917197452229299
+        "bw_density": 0.004809103929981707,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.009421265141318977
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2600,6 +3019,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2637,6 +3062,12 @@
         0.8743983578575082
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7442107704223596,
+      "uniform_quality_ci95": [
+        0.7442107704223596,
+        0.7442107704223596
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -2663,9 +3094,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008460236886632826
+        "bw_density": 0.0046527710100066205,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.01006036217303823
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2673,6 +3104,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2699,9 +3136,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005703422053231939
+        "bw_density": 0.005797269297098871,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.007407407407407408
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2709,6 +3146,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2735,9 +3178,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005611672278338945
+        "bw_density": 0.006682981224689764,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.005488474204171241
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2745,6 +3188,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2771,9 +3220,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008917197452229299
+        "bw_density": 0.004809103929981707,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.009421265141318977
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2781,6 +3230,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2818,6 +3273,12 @@
         0.8738324663439198
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7423435500951898,
+      "uniform_quality_ci95": [
+        0.7423435500951898,
+        0.7423435500951898
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -2844,9 +3305,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2854,6 +3315,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2880,9 +3347,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2890,6 +3357,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2916,9 +3389,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2926,6 +3399,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2952,9 +3431,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.0
+        "bw_density": 0.0,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.0
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -2962,6 +3441,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2999,6 +3484,12 @@
         0.8744742401616402
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7442107704223596,
+      "uniform_quality_ci95": [
+        0.7442107704223596,
+        0.7442107704223596
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -3025,9 +3516,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008460236886632826
+        "bw_density": 0.0046527710100066205,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.01006036217303823
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -3035,6 +3526,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3061,9 +3558,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005703422053231939
+        "bw_density": 0.005797269297098871,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.007407407407407408
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -3071,6 +3568,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3097,9 +3600,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005611672278338945
+        "bw_density": 0.006682981224689764,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.005488474204171241
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -3107,6 +3610,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3133,9 +3642,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008917197452229299
+        "bw_density": 0.004809103929981707,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.009421265141318977
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -3143,6 +3652,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3180,6 +3695,12 @@
         0.8744742401616402
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.7442107704223596,
+      "uniform_quality_ci95": [
+        0.7442107704223596,
+        0.7442107704223596
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 1.0,
       "in_band_rate": 1.0,
       "over_golfed_rate": 0.0,
@@ -3206,9 +3727,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008460236886632826
+        "bw_density": 0.0046527710100066205,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.01006036217303823
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -3216,6 +3737,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3242,9 +3769,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005703422053231939
+        "bw_density": 0.005797269297098871,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.007407407407407408
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -3252,6 +3779,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3278,9 +3811,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.005611672278338945
+        "bw_density": 0.006682981224689764,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.005488474204171241
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -3288,6 +3821,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3314,9 +3853,9 @@
       "k": 1,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.0,
-        "branch_keywords": 0.0,
-        "tokens": 0.008917197452229299
+        "bw_density": 0.004809103929981707,
+        "liz_cc": 0.0,
+        "liz_tokens": 0.009421265141318977
       },
       "simplification_quality": 0.0,
       "simplification_quality_ci95": [
@@ -3324,6 +3863,12 @@
         0.0
       ],
       "simplification_quality_stdev": 0.0,
+      "uniform_quality": 0.0,
+      "uniform_quality_ci95": [
+        0.0,
+        0.0
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,

@@ -124,16 +124,62 @@ def _means(items: List[dict], key: str) -> List[float]:
     return [it[key] for it in items if it.get(key) is not None]
 
 
+def _refactor_headline_score(item: dict) -> Optional[float]:
+    """The per-item refactor headline used by the 2-D figure / sweep: Python's
+    rigorous AST/radon ``simplification_quality`` on the AST lane, and the uniform
+    tool-backed ``uniform_quality`` for the four non-Python (uniform-lane) languages.
+    Keeps the cross-language refactor figure populated while the AST-only *aggregate*
+    mean stays Python-only. ``None`` only when neither lane scored the item."""
+    if item.get("ast_lane", item.get("language") == "python"):
+        sq = item.get("simplification_quality")
+        if sq is not None:
+            return sq
+    return item.get("uniform_quality")
+
+
+def _per_language_simpl(items: List[dict]) -> Dict[str, dict]:
+    """Per-language simplification summary for the refactor panel: the
+    cross-language-poolable ``uniform_quality`` (lizard+BW, commensurable across all
+    five languages) plus the AST headline where present (Python only). Keyed by
+    language so the paper can read commensurable per-language numbers directly."""
+    by_lang: Dict[str, List[dict]] = {}
+    for it in items:
+        by_lang.setdefault(it.get("language", "?"), []).append(it)
+    out: Dict[str, dict] = {}
+    for lang, its in sorted(by_lang.items()):
+        uq = _means(its, "uniform_quality")
+        sq = _means(its, "simplification_quality")
+        out[lang] = {
+            "n": len(its),
+            "uniform_quality": G.mean(uq) if uq else None,
+            "uniform_quality_ci95": G.ci95_bootstrap(uq) if uq else None,
+            "simplification_quality_ast": G.mean(sq) if sq else None,
+        }
+    return out
+
+
 def headline_aggregate(task: str, items: List[dict]) -> dict:
     if task == "refactor":
         sem = _means(items, "semantic_ok_rate")
-        sq = _means(items, "simplification_quality")
+        # AST/radon `simplification_quality` is PYTHON-ONLY by design: average it over
+        # AST-lane items only (`ast_lane` True, set by grade.aggregate_refactor), so the
+        # four uniform-lane languages do not dilute the Python AST headline with 0.0s.
+        ast_items = [it for it in items
+                     if it.get("ast_lane", it.get("language") == "python")]
+        sq = _means(ast_items, "simplification_quality")
+        uq = _means(items, "uniform_quality")  # cross-language-poolable lane (all five)
         fm = {b: sum(it.get("failure_modes", {}).get(b, 0) for it in items)
               for b in ("broke_equivalence", "no_change", "over_complicated")}
         return {"n_items": len(items),
                 "semantic_ok_rate": G.mean(sem),
+                # Python-only AST/radon headline (n = the AST-lane items).
                 "simplification_quality_mean": G.mean(sq),
                 "simplification_quality_ci95": G.ci95_bootstrap(sq),
+                "simplification_quality_n": len(sq),
+                # single-methodology cross-language number (lizard CC + tokens + BW
+                # density), pooled over all five languages; None if lizard absent.
+                "uniform_quality_mean": G.mean(uq) if uq else None,
+                "uniform_quality_ci95": G.ci95_bootstrap(uq) if uq else None,
                 "failure_modes": fm}
     if task == "judge":
         mono = _means(items, "monotonicity")
@@ -264,6 +310,29 @@ def selftest() -> int:
     checks.append(f"baseline panel (clean ceiling recovered, rule-based scored): {c1b}")
     ok = ok and c1b
 
+    # uniform cross-language lane (workflow): Python always carries a poolable
+    # `uniform_quality` alongside its AST headline. For a non-Python language the
+    # tool-backed lane is used when lizard is importable and degrades to the regex
+    # proxy otherwise — either way the panel stays well-formed and commensurable.
+    import bench.uniform_lane as U  # noqa: PLC0415 (optional, quarantined)
+    liz = U.available()
+    go_panel = G.baseline_panel("go", go.spaghetti_src, go.program)
+    if liz:
+        # tool-backed: Python item must expose a poolable uniform_quality, and the
+        # non-Python clean-ceiling must reach the uniform metric optimum (~1).
+        c1u = (rpy.get("uniform_quality") is not None
+               and go_panel["clean_ceiling"].get("uniform_quality", 0) > 0.99)
+        label = f"uniform lane ON (lizard {U.lizard_version()}): py poolable & go ceiling~1"
+    else:
+        # graceful fallback: no uniform_quality anywhere; the non-Python clean-ceiling
+        # honestly SKIPs (no runnable per-language clean + no lizard), and the core
+        # refactor scoring still runs via the regex proxy (rgo above already passed).
+        c1u = (rpy.get("uniform_quality") is None
+               and go_panel["clean_ceiling"].get("skip") is True)
+        label = "uniform lane OFF (lizard absent): graceful regex-proxy fallback"
+    checks.append(f"{label}: {c1u}")
+    ok = ok and c1u
+
     # judge: one Python item -> monotone, perfect pairwise
     ji = next(it for it in T.build_judge_items(sp, family="allowlist")
               if it.sample == "allowlist_L8" and it.language == "python")
@@ -353,12 +422,16 @@ def _one_liner(task: str, agg: dict) -> str:
 # --------------------------------------------------------------------------- #
 def run_baselines(split: str = "dev") -> int:
     """Score the non-LLM baseline panel (formatter lower bound / rule-based mid /
-    clean ceiling) over the Python refactor items and write per-baseline artifacts
-    (``model=baseline_*``) so the panel lands alongside model results in the refactor
-    figure. Proves the task is non-trivial and the optimum reachable. No API spend."""
+    clean ceiling) over the refactor items for ALL FIVE languages and write
+    per-baseline artifacts (``model=baseline_*``) so the panel lands alongside model
+    results in the refactor figure. Proves the task is non-trivial and the optimum
+    reachable. The cross-language number is the tool-backed ``uniform_quality`` lane
+    (lizard CC + tokens + Buse--Weimer density), commensurable across the five
+    languages; Python additionally keeps its rigorous AST ``simplification_quality``
+    headline. No API spend (lizard, if present, is a static analyser)."""
     cfg = models.load_config()
     sp = D.load(split)
-    items = [it for it in T.build_refactor_items(sp) if it.language == "python"]
+    items = T.build_refactor_items(sp)          # all five languages (was python-only)
     by_baseline: Dict[str, List[dict]] = {}
     for it in items:
         for name, g1 in G.baseline_panel(it.language, it.spaghetti_src, it.program).items():
@@ -369,22 +442,32 @@ def run_baselines(split: str = "dev") -> int:
     os.makedirs(SUBAGENT_DIR, exist_ok=True)
     written = 0
     for name, records in sorted(by_baseline.items()):
-        if not any(not r.get("skip") for r in records):  # all SKIP (tool absent) -> omit
+        scored = [r for r in records if not r.get("skip")]
+        if not scored:  # all SKIP (tool absent) -> omit
             print(f"  baseline {name:14s} SKIP (tool unavailable on this host)")
             continue
         model = f"baseline_{name}"
         payload = {"task": "refactor", "model": model, "family": None, "split": split,
                    "k": 1, "prompt_version": P.PROMPT_VERSION, "env": env_block(cfg, split),
-                   "aggregate": headline_aggregate("refactor", records), "items": records}
+                   "aggregate": headline_aggregate("refactor", records), "items": records,
+                   "per_language": _per_language_simpl(scored)}
         with open(subagent_path("refactor", model, None), "w", encoding="utf-8") as f:
             json.dump(payload, f, indent=2)
             f.write("\n")
         written += 1
         a = payload["aggregate"]
+        uq = a.get("uniform_quality_mean")
+        uq_s = f"{uq:.2f}" if uq is not None else "n/a"
         print(f"  baseline {name:14s} sem_ok={a['semantic_ok_rate']:.2f} "
-              f"simpl_q={a['simplification_quality_mean']:.2f} n={a['n_items']}")
-    print(f"baseline panel: {written} baselines written over {len(items)} python "
-          f"refactor items -> {SUBAGENT_DIR}")
+              f"simpl_q(AST)={a['simplification_quality_mean']:.2f} "
+              f"uniform_q={uq_s} n={a['n_items']}")
+        for lang in sorted(payload["per_language"]):
+            pl = payload["per_language"][lang]
+            puq = pl["uniform_quality"]
+            puq_s = f"{puq:.3f}" if puq is not None else "n/a"
+            print(f"      {lang:11s} uniform_q={puq_s} (n={pl['n']})")
+    print(f"baseline panel: {written} baselines written over {len(items)} "
+          f"refactor items (5 languages) -> {SUBAGENT_DIR}")
     run_judge_baseline(split=split)
     return 0
 
@@ -548,7 +631,7 @@ def _load_subagents() -> List[dict]:
 
 def _score_of(task: str, item: dict) -> Optional[float]:
     if task == "refactor":
-        return item.get("simplification_quality")
+        return _refactor_headline_score(item)
     if task == "comprehend":
         return item.get("exact_match_rate")
     if task == "judge":
@@ -623,8 +706,11 @@ def build_figures(payloads: List[dict]) -> dict:
             continue
         sem = G.mean([it["semantic_ok_rate"] for it in items
                       if it.get("semantic_ok_rate") is not None])
-        sq = G.mean([it["simplification_quality"] for it in items
-                     if it.get("simplification_quality") is not None])
+        # lane-aware headline (Python AST + non-Python uniform) so the 2-D figure
+        # spans all five languages without the AST mean being diluted upstream.
+        scores = [s for s in (_refactor_headline_score(it) for it in items)
+                  if s is not None]
+        sq = G.mean(scores)
         fig3[model] = {"semantic_ok_rate": sem, "simplification_quality": sq}
     figures["refactor_2d"] = fig3
 

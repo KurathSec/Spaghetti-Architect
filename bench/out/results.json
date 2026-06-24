@@ -59,6 +59,7 @@
   "status": "DRY-RUN (mock model; AWAITING LIVE RUN)",
   "models": [
     "baseline_clean_ceiling",
+    "baseline_formatter",
     "baseline_metric_judge",
     "baseline_rule_based",
     "mock"
@@ -76,11 +77,14 @@
     "baseline_clean_ceiling": [
       "baseline"
     ],
+    "baseline_formatter": [
+      "baseline"
+    ],
     "baseline_rule_based": [
       "baseline"
     ]
   },
-  "n_subagent_files": 20,
+  "n_subagent_files": 21,
   "per_model": {
     "mock": {
       "comprehend": {
@@ -163,10 +167,15 @@
         "agg_stats": {
           "n_items": 300,
           "semantic_ok_rate": 1.0,
-          "simplification_quality_mean": 0.22768602891492776,
+          "simplification_quality_mean": 0.22955464644570203,
           "simplification_quality_ci95": [
-            0.18723757310382513,
-            0.2677760798732938
+            0.18918202984449484,
+            0.26959570986028225
+          ],
+          "uniform_quality_mean": 0.20458658021588577,
+          "uniform_quality_ci95": [
+            0.16908654927866862,
+            0.23915090683723036
           ],
           "failure_modes": {
             "broke_equivalence": 0,
@@ -177,10 +186,15 @@
         "allowlist": {
           "n_items": 360,
           "semantic_ok_rate": 1.0,
-          "simplification_quality_mean": 0.18714162702728873,
+          "simplification_quality_mean": 0.1845118761206249,
           "simplification_quality_ci95": [
-            0.15965611440213698,
-            0.21589165059573712
+            0.15694760364978555,
+            0.21334487539078306
+          ],
+          "uniform_quality_mean": 0.12872300053791652,
+          "uniform_quality_ci95": [
+            0.1085244107284833,
+            0.1509720258891426
           ],
           "failure_modes": {
             "broke_equivalence": 0,
@@ -196,6 +210,11 @@
             0.13759810120389696,
             0.21000077689905663
           ],
+          "uniform_quality_mean": 0.15772501751019258,
+          "uniform_quality_ci95": [
+            0.1258923518661798,
+            0.19136616237726073
+          ],
           "failure_modes": {
             "broke_equivalence": 0,
             "no_change": 288,
@@ -205,10 +224,15 @@
         "discovery_pipeline": {
           "n_items": 90,
           "semantic_ok_rate": 1.0,
-          "simplification_quality_mean": 0.21647220203950637,
+          "simplification_quality_mean": 0.2184163950405793,
           "simplification_quality_ci95": [
-            0.14816375203120416,
-            0.28352695228390223
+            0.15016220348261497,
+            0.28556091935657296
+          ],
+          "uniform_quality_mean": 0.22444987302636546,
+          "uniform_quality_ci95": [
+            0.15376928219296304,
+            0.2937818518467629
           ],
           "failure_modes": {
             "broke_equivalence": 0,
@@ -224,6 +248,11 @@
             0.10855579917127268,
             0.24692781525224825
           ],
+          "uniform_quality_mean": 0.184106167126953,
+          "uniform_quality_ci95": [
+            0.11245885489654929,
+            0.2557608269303054
+          ],
           "failure_modes": {
             "broke_equivalence": 0,
             "no_change": 72,
@@ -237,6 +266,11 @@
           "simplification_quality_ci95": [
             0.10684453080766043,
             0.24285535347920092
+          ],
+          "uniform_quality_mean": 0.14871754131122575,
+          "uniform_quality_ci95": [
+            0.09085531515432882,
+            0.2065798543404407
           ],
           "failure_modes": {
             "broke_equivalence": 0,
@@ -283,12 +317,18 @@
     "baseline_clean_ceiling": {
       "refactor": {
         "_all": {
-          "n_items": 300,
+          "n_items": 1500,
           "semantic_ok_rate": 1.0,
           "simplification_quality_mean": 0.8328319348046569,
           "simplification_quality_ci95": [
             0.8208888111506139,
             0.8437213614998214
+          ],
+          "simplification_quality_n": 300,
+          "uniform_quality_mean": 0.945763182290454,
+          "uniform_quality_ci95": [
+            0.9379714372376945,
+            0.9532851208401627
           ],
           "failure_modes": {
             "broke_equivalence": 0,
@@ -298,13 +338,43 @@
         }
       }
     },
-    "baseline_rule_based": {
+    "baseline_formatter": {
       "refactor": {
         "_all": {
-          "n_items": 300,
+          "n_items": 1500,
           "semantic_ok_rate": 1.0,
           "simplification_quality_mean": 0.0,
           "simplification_quality_ci95": [
+            0.0,
+            0.0
+          ],
+          "simplification_quality_n": 0,
+          "uniform_quality_mean": 0.0,
+          "uniform_quality_ci95": [
+            0.0,
+            0.0
+          ],
+          "failure_modes": {
+            "broke_equivalence": 0,
+            "no_change": 300,
+            "over_complicated": 0
+          }
+        }
+      }
+    },
+    "baseline_rule_based": {
+      "refactor": {
+        "_all": {
+          "n_items": 1500,
+          "semantic_ok_rate": 1.0,
+          "simplification_quality_mean": 0.0,
+          "simplification_quality_ci95": [
+            0.0,
+            0.0
+          ],
+          "simplification_quality_n": 300,
+          "uniform_quality_mean": 0.0,
+          "uniform_quality_ci95": [
             0.0,
             0.0
           ],
@@ -344,6 +414,7 @@
   "figures": {
     "models": [
       "baseline_clean_ceiling",
+      "baseline_formatter",
       "baseline_metric_judge",
       "baseline_rule_based",
       "mock"
@@ -359,16 +430,23 @@
           "max": 1.0
         },
         "refactor": {
-          "minimal": 0.16477379234162792,
-          "standard": 0.16601181777936552,
-          "max": 0.2410729700236595
+          "minimal": 0.18555607245678818,
+          "standard": 0.18695024524703324,
+          "max": 0.2710030119701793
         }
       },
       "baseline_clean_ceiling": {
         "refactor": {
-          "minimal": 0.8238689617081395,
-          "standard": 0.8300590888968276,
-          "max": 0.8445677538090037
+          "minimal": 0.9647737923416279,
+          "standard": 0.9660118177793655,
+          "max": 0.9689135507618007
+        }
+      },
+      "baseline_formatter": {
+        "refactor": {
+          "minimal": 0.0,
+          "standard": 0.0,
+          "max": 0.0
         }
       },
       "baseline_rule_based": {
@@ -626,7 +704,11 @@
     "refactor_2d": {
       "baseline_clean_ceiling": {
         "semantic_ok_rate": 1.0,
-        "simplification_quality": 0.8328319348046569
+        "simplification_quality": 0.9665663869609314
+      },
+      "baseline_formatter": {
+        "semantic_ok_rate": 1.0,
+        "simplification_quality": 0.0
       },
       "baseline_rule_based": {
         "semantic_ok_rate": 1.0,
@@ -634,7 +716,7 @@
       },
       "mock": {
         "semantic_ok_rate": 1.0,
-        "simplification_quality": 0.1906195267148843
+        "simplification_quality": 0.2145031098913336
       }
     },
     "judge_calibration": {
@@ -670,7 +752,7 @@
           "dev": 1.0
         },
         "refactor": {
-          "dev": 0.1906195267148843
+          "dev": 0.2145031098913336
         }
       },
       "baseline_metric_judge": {
@@ -680,7 +762,12 @@
       },
       "baseline_clean_ceiling": {
         "refactor": {
-          "dev": 0.8328319348046569
+          "dev": 0.9665663869609314
+        }
+      },
+      "baseline_formatter": {
+        "refactor": {
+          "dev": 0.0
         }
       },
       "baseline_rule_based": {
@@ -707,10 +794,10 @@
         },
         "refactor": {
           "python": 0.8328319348046569,
-          "javascript": 0.03396040633546225,
-          "go": 0.02827409937079295,
-          "java": 0.02687871419018415,
-          "cpp": 0.031152478873325246
+          "javascript": 0.040210811501297385,
+          "go": 0.03207188936130294,
+          "java": 0.03241369178746619,
+          "cpp": 0.0343290412021011
         }
       },
       "baseline_metric_judge": {
@@ -724,7 +811,16 @@
       },
       "baseline_clean_ceiling": {
         "refactor": {
-          "python": 0.8328319348046569
+          "python": 0.8328319348046569,
+          "javascript": 1.0,
+          "go": 1.0,
+          "java": 1.0,
+          "cpp": 1.0
+        }
+      },
+      "baseline_formatter": {
+        "refactor": {
+          "go": 0.0
         }
       },
       "baseline_rule_based": {

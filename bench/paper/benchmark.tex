@@ -111,7 +111,12 @@ output-prediction comprehension. (3) Orthogonal \emph{intrinsic} vs.\ \emph{inci
 difficulty knobs that attribute a score change to one cause with the other held fixed.
 (4) A contamination protocol (mint-after-cutoff $+$ graded novelty tiers $+$ canary), a
 cross-vendor evaluation, a measured prompt-robustness axis, and a zero-IRB
-construct-validity triad --- all in a reusable, stdlib-core harness.
+construct-validity triad --- all in a reusable, stdlib-core harness. \emph{Scope of this
+paper:} we deliver the instrument and its \textbf{non-LLM} evidence now --- the
+convergent-validity anchors, a baseline panel that bounds the refactor task, and the
+executed inferential pipeline --- and pre-register the cross-vendor \emph{model} study,
+whose figures populate at the gated live run; we are explicit throughout about which
+claims that run, rather than this paper, settles.
 
 \section{Related Work}
 \paragraph{Code benchmarks and what they fix.} Correctness
@@ -195,7 +200,9 @@ auto-checkable equivalence \emph{and} contamination resistance across five langu
 one IR.}
 \end{table*}
 
-\section{The Generator}
+\section{The Controlled-Stimulus Generator}
+The generator is our \emph{instrument}, not our contribution: its only job is to emit, at
+fixed semantics, the graded stimulus whose quality order we measure judges against.
 Spaghetti Architect is a four-stage pipeline (parser $\to$ planner $\to$ five
 language backends $\to$ validator); see the project's \texttt{architecture.md}. The
 IR supports four composable operations --- \texttt{MEMBERSHIP\_CHECK} ($r = t \in c$),
@@ -253,9 +260,15 @@ if equivalent, as distance toward a \emph{provably-reachable clean-complexity fl
 $\mathrm{clamp}((m_{\text{spag}}\!-\!m_{\text{model}})/(m_{\text{spag}}\!-\!
 m_{\text{clean}}),-1,1)$ over a rigorous Python-AST lane (cyclomatic, AST size,
 Halstead effort, and a \emph{readability}/maintainability-index axis so
-terse-but-cryptic code cannot game size) and an agnostic \emph{text} proxy lane for the
-other four languages, capped at the floor (so the \textbf{headline refactor numbers are
-Python-rigorous}; the other four are a proxy, reported separately and never pooled);
+terse-but-cryptic code cannot game size) \emph{and}, for cross-language comparability, a
+\textbf{uniform tool-backed lane} computed identically for all five languages ---
+\texttt{lizard} cyclomatic complexity (a language-agnostic CC analog for
+Python/JS/Go/Java/C++), a token-count size facet, and the language-agnostic Buse--Weimer
+surface-readability aggregate --- capped at the floor. The uniform lane is commensurable
+and \textbf{pooled} across all five (it is \emph{not} a full per-language AST, so it omits
+Halstead/MI); Python additionally carries the deeper AST lane as its language headline, and
+we report both --- the deeper Python headline and the uniform lane for all five (Python
+included, so pooling is apples-to-apples);
 $\text{simpl\_q}=\text{semantic\_ok}\cdot
 \mathrm{geomean}(\text{positive recoveries})$. We add an \emph{optimality band}
 (equivalent and within $\varepsilon$ of the reachable clean $\Rightarrow$
@@ -322,22 +335,29 @@ decomposition, refactor, cross-language, and robustness panels are in
 Appendix~\ref{app:figs}.
 
 \paragraph{What we can already report (non-LLM, real).} The \textbf{baseline panel}
-(300 refactor items) bounds the refactor task without a model. The \emph{clean-ceiling}
+(300 Python items on the rigorous AST lane; 1500 across the five languages on the uniform
+tool-backed lane) bounds the refactor task without a model. The \emph{clean-ceiling}
 baseline is semantically equivalent on every item and lands in the optimality band
 (\texttt{recovered}$=1.00$) at simplification quality $0.83$ --- so the provably-reachable
 floor \emph{is} reached, confirming the task's optimum is attainable (the $<\!1$ value
 reflects the readability facet, by design not gameable by size alone). The
 \emph{rule-based AST simplifier} is semantics-preserving yet recovers \emph{nothing}
-(simplification quality $0.00$; all 300 items \texttt{no\_change}), so the task is
+(simplification quality $0.00$; every item \texttt{no\_change}), so the task is
 non-trivial and is \emph{not} solved by naive constant-folding/dead-code rewriting --- an
 LLM must do real work. The non-LLM \textbf{metric-heuristic judge} (``pick the lower
-static-complexity candidate'') recovers the by-construction order with pairwise accuracy
-$0.986$ (position consistency $1.00$, rating--knob monotonicity $\rho=-0.99$; 250 items).
-This is a \emph{strong} lower bar: any LLM judge must beat a trivial complexity heuristic
-to show value, and the high ceiling is itself a finding --- the by-construction order is a
-well-posed, complexity-recoverable target. It also sharpens the open empirical question
-the live run answers: do LLM judges \emph{match} this without explicitly computing
-complexity, and do they stay faithful as incidental mess rises?
+static-complexity candidate'') already recovers the by-construction order with pairwise
+accuracy $0.986$ (position consistency $1.00$, rating--knob monotonicity $\rho=-0.99$;
+250 items). We read this two ways and flag the second as a \emph{threat we test, not a
+result we claim}. (i) It is a \emph{strong, non-trivial bar}: an LLM judge that merely
+matches it has shown nothing a one-line complexity heuristic does not. (ii) More
+importantly, because our operational ground truth, the convergent metrics, \emph{and} this
+baseline are all complexity-derived, a high LLM-judge score risks \emph{collapsing} to
+``the judge behaves like a \texttt{radon} heuristic'' rather than ``the judge tracks
+human-meaningful quality.'' The live run's contribution is therefore \emph{not} whether
+judges score high but whether they (a) \emph{exceed} the heuristic precisely on items
+where static complexity and human-perceived quality diverge, and (b) stay faithful as
+incidental mess rises; absent that separation we report the collapse honestly. We
+confront the attendant near-circularity head-on in \S\ref{sec:cv} and the Limitations.
 
 \begin{figure*}[t]\centering \awaiting{Judge monotonicity (Spearman $\rho$ of rating vs.\ knob) per model, with the radon anchor overlaid. From \texttt{figures.judge\_calibration} + anchor.}
 \caption{\textbf{Judge faithfulness (headline).} Pairwise accuracy under MT-Bench
@@ -427,6 +447,24 @@ instances, and --- where licensing permits --- evaluation against the original t
 Buse--Weimer/Scalabrino/Dorn models, would strengthen layer (iii) and remain
 \emph{future work}; the triad stands on its own.
 
+\paragraph{Is the validation circular?} A fair charge: the degradation knob, the
+convergent metrics, and the metric-heuristic judge are all complexity-flavoured, so
+``messier $\Rightarrow$ worse'' is partly checked by the very quantities the mess inflates
+--- adding a branch \emph{mechanically} raises cyclomatic complexity. We neither hide this
+nor argue it away; three things bound it. First, the knob is defined by \emph{named}
+transforms from the obfuscation taxonomy (\texttt{SPAGH\_*}), \emph{not} by any metric ---
+that the metrics then move is a measured consequence, and the \texttt{threshold\_select}
+family, where MI stays flat (Table~\ref{tab:perfamily}), shows the two \emph{can} come
+apart. Second, the genuinely independent witness is layer~(iii): the Buse--Weimer surface
+features were fit to predict \emph{human} readability judgments, not complexity, so their
+agreement with the knob is not definitional. Third, and decisively, only a controlled
+\emph{human} ranking on our instances fully dissolves the circle --- which we do not run
+here and mark as the principal open item (\S Limitations). We therefore offer the
+by-construction order as an \emph{operational} ground truth corroborated by partly-dependent
+witnesses, not as validated human quality, and the judge task is informative exactly to the
+degree an LLM judge \emph{exceeds} the complexity heuristic where static complexity and
+human quality diverge.
+
 \section{Reproducibility and Availability}
 The generator, the public \texttt{dev} split, the metric/grader lanes, and the harness
 (\texttt{--selftest}/\texttt{--dry-run}/\texttt{--plan}/\texttt{--baselines}/%
@@ -474,7 +512,15 @@ human grounding is therefore \emph{published, de-identified} readability dataset
 (iii) of \S\ref{sec:cv}) --- a deliberate zero-IRB design, not an oversight; a fresh
 controlled human ranking on our instances would further strengthen (i)--(ii) and remains
 optional future work. The convergent-metric triad mitigates but does not remove this
-threat.
+threat. Two related risks follow, stated plainly: (a) the knob, the convergent metrics,
+and our metric-heuristic judge are \emph{all} complexity-derived, so the validation is
+\emph{partly circular} --- we confront this directly in \S\ref{sec:cv} (``Is the
+validation circular?''); and (b) because a one-line complexity heuristic already reaches
+$0.986$ pairwise on the by-construction order, a high LLM-judge score may \emph{collapse}
+to ``the judge mimics a complexity metric'' rather than ``tracks human quality.'' Our
+headline judge claim is therefore conditional on LLM judges \emph{exceeding} that heuristic
+where static complexity and human quality diverge --- a separation only the live run, and
+ultimately a human ranking, can establish.
 \paragraph{Construct and external validity.} The IR has a small, fixed operation set ---
 a deliberate \emph{controlled stimulus}, not a generality claim; it is what holds semantics
 fixed while varying mess. Our external validity is therefore \emph{bounded by design}: the
@@ -482,10 +528,13 @@ programs are small and synthetic over four operations, so we claim findings abou
 \emph{robustness to incidental complexity} and \emph{judge faithfulness on a controlled
 stimulus}, \emph{not} that absolute scores transfer to real-world repositories --- and
 scaling the item count does not widen this scope. Equivalence is established by differential
-testing over base $+$ variants, not by proof; the rigorous simplification and
-optimality-band lanes are Python-only (the other four languages use a text/regex proxy with
-a language-neutral floor), so cross-language scores are a proxy and are \emph{not} pooled
-without caveat.
+testing over base $+$ variants, not by proof. The \emph{deepest} simplification lane
+(Halstead effort, maintainability index, optimality band) is Python-only; the other four
+languages are scored on a uniform \texttt{lizard}-CC $+$ size $+$ Buse--Weimer-readability
+lane that \emph{is} tool-backed and pooled (replacing the earlier regex proxy), but is not
+full per-language AST, and their baseline clean-ceiling is a \emph{metric-reachability}
+point (the benchmark has no runnable per-language idiomatic-clean renderer), so absolute
+cross-language magnitudes should be read with that residual asymmetry in mind.
 \paragraph{Contamination.} We claim mint-after-cutoff, not contamination-proofing: a public
 generator could synthesize in-distribution training data, which is exactly why we report
 graded A/B/C novelty tiers and keep the held-out seed and Tier B/C structures private. Two
@@ -564,9 +613,10 @@ quality per model; the real clean baseline sits at $(1.0,0.83)$ --- the reachabl
 lower bound, rule-based AST mid at simplification $0.00$) marks the reachable range.}
 \label{fig:refactor}\end{figure*}
 
-\begin{figure*}[t]\centering \awaiting{Task score per language (same logic) — where a backend is harder for models. From \texttt{figures.cross\_language}.}
-\caption{\textbf{Cross-language.} Task score per language (same logic), exposing harder
-backends (a proxy across lanes; not pooled without caveat).}\end{figure*}
+\begin{figure*}[t]\centering \awaiting{Task score per language (same logic) on the uniform tool-backed lane — where a backend is harder for models. From \texttt{figures.cross\_language}.}
+\caption{\textbf{Cross-language.} Task score per language (same logic) on the uniform
+tool-backed lane (\texttt{lizard} CC $+$ size $+$ Buse--Weimer readability), commensurable
+and pooled across all five; Python additionally carries a deeper AST headline.}\end{figure*}
 
 \begin{figure*}[t]\centering \awaiting{Per-model between-prompt spread over the frozen paraphrase ensemble, plus the within/between-prompt/between-item variance decomposition. From \texttt{results.robustness} (the \texttt{--sweep} artifacts).}
 \caption{\textbf{Prompt robustness.} Per-model between-prompt spread over the frozen

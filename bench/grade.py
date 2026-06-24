@@ -38,17 +38,22 @@ _ROOT = os.path.dirname(_HERE)
 if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
+from bench import uniform_lane as U  # noqa: E402
 from eval import metrics as M  # noqa: E402
 from src.nodes.validator import oracle, validate  # noqa: E402
 
 _TIMEOUT = 20  # seconds, per untrusted run
 
-# Recovery metric facets per lane (workflow Task A): Python-AST rigorous, else proxy.
-# `readability` (Python maintainability index, higher = better) is the anti-gaming
-# axis: terse-but-cryptic code games SIZE but not readability. The recovery formula
-# is direction-agnostic (fraction of the spaghetti->clean gap closed), so a
-# higher-is-better facet works with the same _recovery().
+# Recovery metric facets per lane (workflow Task A). Python keeps the rigorous
+# per-language AST lane as its HEADLINE (`readability` = maintainability index, the
+# anti-gaming axis: terse-but-cryptic code games SIZE but not readability). The
+# recovery formula is direction-agnostic (fraction of the spaghetti->clean gap
+# closed), so a higher-is-better facet works with the same _recovery().
 _PY_FACETS = ("cyclomatic", "ast_nodes", "effort", "readability")
+# Legacy text/regex proxy lane (the zero-dependency fallback for js/go/java/cpp when
+# the tool-backed uniform lane is unavailable). Superseded for cross-language
+# commensurability by `uniform_lane` (lizard CC + tokens + Buse--Weimer density),
+# which is used for all four non-Python languages whenever `lizard` is importable.
 _PROXY_FACETS = ("branch_keywords", "brace_depth", "tokens")
 # Size facets (lower = better): a model can *undershoot* the clean floor on these
 # (fewer nodes than idiomatic) = removed structure = over-golfed, flagged not rewarded.
@@ -291,23 +296,45 @@ def _recovery(spag: float, model: float, clean: float) -> Optional[float]:
     return max(-1.0, min(1.0, (spag - model) / denom))
 
 
+def _uniform_facets(language: str, model_src: str, spaghetti_src: str,
+                    clean_floor: str) -> Optional[Dict[str, Tuple]]:
+    """Per-facet ``(spaghetti, model, clean)`` triples on the tool-backed UNIFORM
+    lane (lizard CC + lizard tokens + Buse--Weimer surface density), usable for all
+    five languages. ``None`` when lizard is unavailable (caller falls back to the
+    regex proxy). The clean reference is measured with the same lizard+BW pipeline as
+    the spaghetti, so the spaghetti->clean gap is internally consistent per facet."""
+    sf = U.facets(language, spaghetti_src)
+    mf = U.facets(language, model_src)
+    cf = U.facets(language, clean_floor)
+    if sf is None or mf is None or cf is None:
+        return None
+    return {f: (sf[f], mf[f], cf[f]) for f in U.UNIFORM_FACETS}
+
+
 def refactor_facets(language: str, model_src: str, spaghetti_src: str,
                     program) -> Dict[str, Tuple[Optional[float], Optional[float], Optional[float]]]:
-    """Per-facet ``(spaghetti, model, clean)`` raw triples. Python uses the rigorous
-    AST lane (incl. the readability/MI axis); the others use the agnostic proxy lane
-    with a language-neutral clean floor (idiomatic code has ~0 branches/nesting)."""
+    """Per-facet ``(spaghetti, model, clean)`` raw triples that drive the HEADLINE
+    ``simplification_quality``. Python uses its rigorous per-language AST lane (incl.
+    the readability/MI axis). The four other languages use the tool-backed UNIFORM
+    lane (lizard CC + tokens + Buse--Weimer density) whenever ``lizard`` is importable
+    — a single commensurable methodology — and degrade to the legacy text/regex proxy
+    only when it is not. Both use the Python idiomatic clean baseline as the
+    language-neutral clean floor (idiomatic code has ~0 branches/nesting)."""
     triples: Dict[str, Tuple] = {}
+    clean_floor = M.clean_baseline_static(program)  # idiomatic minimal (neutral floor)
     if language == "python":
-        clean = M.clean_baseline_static(program)
         for f in _PY_FACETS:
             triples[f] = (_py_facet(spaghetti_src, f), _py_facet(model_src, f),
-                          _py_facet(clean, f))
-    else:
-        clean_floor = M.clean_baseline_static(program)  # idiomatic minimal (neutral floor)
-        for f in _PROXY_FACETS:
-            triples[f] = (_proxy_facet(spaghetti_src, language, f),
-                          _proxy_facet(model_src, language, f),
-                          _proxy_facet(clean_floor, "python", f))
+                          _py_facet(clean_floor, f))
+        return triples
+    uni = _uniform_facets(language, model_src, spaghetti_src, clean_floor)
+    if uni is not None:
+        return uni
+    # zero-dependency fallback: legacy regex proxy (lizard absent on this host).
+    for f in _PROXY_FACETS:
+        triples[f] = (_proxy_facet(spaghetti_src, language, f),
+                      _proxy_facet(model_src, language, f),
+                      _proxy_facet(clean_floor, "python", f))
     return triples
 
 
@@ -372,6 +399,15 @@ def grade_refactor_one(language: str, model_text: str, spaghetti_src: str,
     positives = [max(0.0, v) for v in rec.values() if v is not None]
     geo = M.geomean(positives) if positives else 0.0
     quality = gate * geo
+    # Cross-language-POOLABLE simplification quality on the single tool-backed UNIFORM
+    # methodology (lizard CC + tokens + Buse--Weimer density), computed for ALL five
+    # languages — including Python — so the pooled cross-language number is
+    # apples-to-apples. For Python this is the uniform view *in addition to* the
+    # rigorous AST headline above (the AST `simplification_quality` is unchanged).
+    # `None` when lizard is unavailable (the zero-dependency core stays intact).
+    uq = U.quality(language, model_src, spaghetti_src,
+                   M.clean_baseline_static(program)) if gate else None
+    uniform_quality = (gate * uq) if uq is not None else None
     # mutually-exclusive failure-mode bucketing (within the equivalent case)
     fm = {"broke_equivalence": 0, "no_change": 0, "over_complicated": 0, "over_golfed": 0}
     recovered = 0
@@ -387,7 +423,13 @@ def grade_refactor_one(language: str, model_text: str, spaghetti_src: str,
             fm["no_change"] = 1
         recovered = 1 if (in_band and not over_golfed) else 0
     return {"skip": False, "semantic_ok": gate, "recovery": rec,
-            "simplification_quality": quality, "recovered": recovered,
+            # `simplification_quality` is the lane-specific headline: the rigorous
+            # per-language AST/radon score for Python, the uniform tool-backed score
+            # for the four other languages. `ast_lane` records which one it is, so the
+            # AST-only aggregate mean (Python) is not diluted by the uniform-lane
+            # languages (the AST/radon lane is Python-only by design).
+            "simplification_quality": quality, "ast_lane": (language == "python"),
+            "uniform_quality": uniform_quality, "recovered": recovered,
             "in_band": int(in_band), "over_golfed": int(over_golfed),
             "spagh_removal": spagh_removal, "failure_mode": fm, "detail": detail}
 
@@ -398,11 +440,18 @@ def aggregate_refactor(k_results: List[dict]) -> dict:
     if not scored:
         return {"skip": True, "semantic_ok_rate": None, "simplification_quality": None}
     oks = [r["semantic_ok"] for r in scored]
-    qs = [r["simplification_quality"] for r in scored]
+    # AST/radon `simplification_quality` is PYTHON-ONLY by design. Average it over
+    # AST-lane results only; the uniform-lane languages (js/go/java/cpp) and the
+    # metric-reachability ceiling carry None here so the AST headline mean is never
+    # diluted by 0.0s. Their poolable number is `uniform_quality` (all five langs).
+    qs = [r["simplification_quality"] for r in scored
+          if r.get("ast_lane") and r.get("simplification_quality") is not None]
+    is_ast = any(r.get("ast_lane") for r in scored)
+    uqs = [r["uniform_quality"] for r in scored if r.get("uniform_quality") is not None]
     facets = sorted({f for r in scored for f in r["recovery"]})
     rec_means = {f: mean([r["recovery"][f] for r in scored
                           if r["recovery"].get(f) is not None]) for f in facets}
-    fm = {b: sum(r["failure_mode"][b] for r in scored)
+    fm = {b: sum(r.get("failure_mode", {}).get(b, 0) for r in scored)
           for b in ("broke_equivalence", "no_change", "over_complicated", "over_golfed")}
     removals = [r["spagh_removal"] for r in scored if r.get("spagh_removal") is not None]
     return {
@@ -410,9 +459,18 @@ def aggregate_refactor(k_results: List[dict]) -> dict:
         "k": len(scored),
         "semantic_ok_rate": mean(oks),
         "recovery": rec_means,
-        "simplification_quality": mean(qs),
-        "simplification_quality_ci95": ci95_bootstrap(qs),
-        "simplification_quality_stdev": stdev(qs),
+        # None (not 0.0) for the uniform-lane languages so the downstream AST mean
+        # excludes them; `ast_lane` lets per-item baseline records be filtered too.
+        "ast_lane": is_ast,
+        "simplification_quality": mean(qs) if qs else None,
+        "simplification_quality_ci95": ci95_bootstrap(qs) if qs else None,
+        "simplification_quality_stdev": stdev(qs) if qs else None,
+        # single-methodology cross-language-poolable view (lizard CC + tokens + BW
+        # density); None when lizard absent so the headline number is never silently
+        # replaced. `uniform_lane_available` records which methodology produced it.
+        "uniform_quality": mean(uqs) if uqs else None,
+        "uniform_quality_ci95": ci95_bootstrap(uqs) if uqs else None,
+        "uniform_lane_available": bool(uqs),
         "recovered_rate": mean([r["recovered"] for r in scored]),
         "in_band_rate": mean([r["in_band"] for r in scored]),
         "over_golfed_rate": mean([r["over_golfed"] for r in scored]),
@@ -477,15 +535,53 @@ def format_baseline(language: str, src: str) -> Optional[str]:
         return None
 
 
+def uniform_clean_ceiling(language: str, spaghetti_src: str, program) -> dict:
+    """Cross-language **metric-reachability** ceiling on the tool-backed UNIFORM lane
+    (lizard CC + tokens + Buse--Weimer density), for the four languages that have no
+    runnable per-language idiomatic-clean renderer (js/go/java/cpp).
+
+    There is no semantically-runnable idiomatic clean *source* in these languages
+    (only Python has ``clean_baseline_runnable``), so this is **not** graded through
+    the semantic gate; it instead measures whether the uniform metric's optimum — the
+    neutral Python idiomatic clean floor, measured by lizard+BW — is *reachable*, i.e.
+    a model that simplified all the way to that floor would score ``uniform_quality``
+    ``= 1``. The floor is both the model and the clean reference, so every facet's gap
+    is fully closed. Honest scope: a reachability statement for the metric, not a claim
+    that a runnable clean rewrite was produced. ``None`` (SKIP) when lizard is absent."""
+    clean_floor = M.clean_baseline_static(program)
+    sf = U.facets(language, spaghetti_src)
+    cf = U.facets(language, clean_floor)
+    if sf is None or cf is None:
+        return {"skip": True, "detail": "uniform lane unavailable (lizard absent)"}
+    # model == clean floor: recovery is 1 on every facet whose spaghetti differs.
+    rec = {f: _recovery(sf[f], cf[f], cf[f]) for f in U.UNIFORM_FACETS
+           if sf[f] != cf[f]}
+    positives = [max(0.0, v) for v in rec.values() if v is not None]
+    q = M.geomean(positives) if positives else 0.0
+    return {"skip": False, "semantic_ok": 1, "recovery": rec,
+            "simplification_quality": None, "ast_lane": False,  # AST is Python-only
+            "uniform_quality": q, "recovered": int(q > 1 - _BAND_EPS),
+            "in_band": int(q > 1 - _BAND_EPS), "over_golfed": 0,
+            "spagh_removal": None, "failure_mode": {}, "metric_reachability_only": True,
+            "detail": "uniform-lane metric reachability (no runnable per-language clean)"}
+
+
 def baseline_panel(language: str, spaghetti_src: str, program) -> Dict[str, dict]:
     """Non-LLM reference panel, graded on the same axes as a model:
 
     * ``formatter`` — autoformat only (lower bound: removes no anti-patterns);
     * ``rule_based`` — the conservative AST simplifier (non-LLM mid; Python only);
-    * ``clean_ceiling`` — the known-optimal clean baseline (the reachable (1,1) top).
+    * ``clean_ceiling`` — the reachable optimum. Python grades the runnable idiomatic
+      clean baseline through the full semantic gate (the (1,1) top on the AST lane and
+      the uniform lane). The other four have no runnable per-language clean renderer,
+      so ``clean_ceiling`` is the UNIFORM-lane *metric-reachability* ceiling
+      (:func:`uniform_clean_ceiling`): it shows the cross-language ``uniform_quality``
+      optimum is 1 for every language (commensurable), without claiming a runnable
+      clean rewrite. ``rule_based`` stays Python-only (it is a Python-AST transform).
 
-    Absent tools / non-Python lanes SKIP. Establishes that the task is non-trivial
-    (formatter scores low) and the optimum is reachable (clean scores ~1)."""
+    Establishes that the task is non-trivial (formatter scores low) and the optimum is
+    reachable (clean scores ~1) on a methodology that is now uniform across all five
+    languages."""
     panel: Dict[str, dict] = {}
     fmt = format_baseline(language, spaghetti_src)
     panel["formatter"] = (grade_refactor_one(language, fmt, spaghetti_src, program)
@@ -497,7 +593,7 @@ def baseline_panel(language: str, spaghetti_src: str, program) -> Dict[str, dict
             language, M.clean_baseline_runnable(program), spaghetti_src, program)
     else:
         panel["rule_based"] = {"skip": True, "detail": "rule-based AST lane is Python-only"}
-        panel["clean_ceiling"] = {"skip": True, "detail": "clean rendering rigorous for Python only"}
+        panel["clean_ceiling"] = uniform_clean_ceiling(language, spaghetti_src, program)
     return panel
 
 
@@ -554,12 +650,13 @@ def grade_judge_pairwise(pairs: List[Tuple[Optional[str], Optional[str], bool]])
 
 def static_complexity(language: str, src: str) -> Optional[float]:
     """A single lower-is-better static-complexity scalar for the metric-heuristic
-    judge, reusing the same ``eval.metrics`` lanes the refactor grader uses (no new
-    metric code). Python is rigorous (cyclomatic + AST size, both size facets); the
-    other four reuse the agnostic text proxy (branch-keyword cyclomatic proxy +
-    nesting depth + tokens). The facets are summed on a comparable footing via a fixed
-    additive blend; only the *ordering* matters for the pairwise pick, so the exact
-    weights are immaterial as long as every facet is monotone-worse with mess.
+    judge. Python is rigorous (cyclomatic + AST size, both size facets). The other
+    four use the tool-backed UNIFORM lane (lizard CC + tokens + Buse--Weimer surface
+    density) when ``lizard`` is importable — the same cross-language methodology the
+    refactor lane uses — and degrade to the legacy agnostic text proxy (branch-keyword
+    cyclomatic proxy + nesting depth + tokens) only when it is not. Facets are summed
+    on a comparable footing; only the *ordering* matters for the pairwise pick, so the
+    exact blend is immaterial as long as every facet is monotone-worse with mess.
     ``None`` if the Python source does not parse (caller treats unscored as a tie)."""
     if language == "python":
         cc = _py_facet(src, "cyclomatic")
@@ -567,8 +664,11 @@ def static_complexity(language: str, src: str) -> Optional[float]:
         if cc is None or nodes is None:
             return None
         return cc + nodes
+    uni = U.static_scalar(language, src)
+    if uni is not None:
+        return uni
     a = M.agnostic_metrics(src, language)
-    # proxy size facets (all lower = better): branch-keyword CC proxy + nesting + tokens
+    # zero-dependency fallback (lizard absent): branch-keyword CC proxy + nesting + tokens
     return float(a.get("branch_keywords", 0) + a.get("brace_depth", 0) + a.get("tokens", 0))
 
 
