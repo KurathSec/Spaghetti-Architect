@@ -1,0 +1,81 @@
+%% sections/baselines.tex
+%% GOAL: a "reference baselines" section showing the benchmark is usable and
+%% discriminative, assembled from ZERO/LOW-COST data only:
+%%   - the non-LLM baseline panel: clean-ceiling, rule-based, metric-heuristic judge
+%;        python3 bench/run_bench.py --baselines     (real, no API)
+%%   - ONE real model row from the already-collected DeepSeek partial:
+%;        bench/out/subagent/{comprehend,refactor}__deepseek-v4-flash__*.json
+%% Frame these as REFERENCE baselines for a resource — NOT as the meta-evaluation study
+%% (that is the deferred paper). The model panel is illustrative/partial.
+%% Numbers below are from bench/run_bench.py --baselines (dev split, all 7 families,
+%% 5 languages) and the stored DeepSeek-v4-flash raw outputs (graded offline, no API).
+
+\section{Reference Baselines}
+\label{sec:baselines}
+
+To show the dataset is usable and discriminative we report reference scores from
+non-learned baselines plus one illustrative model. These are \emph{reference points for a
+resource}, not a model evaluation; the full LLM study is separate, deferred work. All
+numbers are on the public \texttt{dev} split (100 instances, 7 families, 5 languages,
+$k{=}8$ samples). The non-learned panel is produced by \texttt{run\_bench.py
+-{}-baselines} (pure standard library, zero API); the model row is computed offline from
+already-collected DeepSeek-v4-flash raw outputs and is therefore \emph{partial and
+illustrative}.
+
+\begin{table}[t]
+\centering
+\caption{Reference baselines on the public \texttt{dev} split. Each cell states the
+metric for the task it applies to; ``---'' marks a (task, baseline) pair for which no
+baseline is defined (e.g.\ there is no rule-based output predictor for comprehension, and
+the metric-heuristic judge is judge-only). \textbf{Refactor} is the semantic-gated
+simplification-quality (fraction of the spaghetti$\rightarrow$clean gap closed, capped at
+the clean floor) on the rigorous Python AST/MI lane ($n{=}300$ Python items; the four
+compiled languages pass the semantic gate but their cross-language \texttt{uniform\_lane}
+quality is unavailable here because the optional \texttt{lizard} analyser was absent).
+\textbf{Judge} is position-swap--controlled pairwise accuracy over $n{=}250$ judge items
+(all families/languages). \textbf{Comprehend} is output-prediction exact match. The
+DeepSeek-v4-flash row is a single open model over a \emph{subset} of families, included
+to show the metrics move on real model outputs --- not a model comparison.}
+\label{tab:baselines}
+\begin{tabular}{@{}lccc@{}}
+\toprule
+Baseline & Refactor & Judge (pairwise acc.) & Comprehend (EM) \\
+\midrule
+Clean-ceiling          & $0.83$ & ---    & ---    \\
+Rule-based             & $0.00$ & ---    & ---    \\
+Metric-heuristic judge & ---    & $0.99$ & ---    \\
+DeepSeek-v4-flash (partial) & $0.61^{\dagger}$ & n/a$^{\ddagger}$ & $1.00^{\S}$ \\
+\bottomrule
+\end{tabular}
+
+\vspace{2pt}
+{\footnotesize
+$^{\dagger}$ Python AST lane, \texttt{discovery\_pipeline} family only ($n{=}12$ graded
+Python items; semantic-equivalence rate $0.76$ over all five languages of that family).
+$^{\ddagger}$ No judge batch was collected for this model.
+$^{\S}$ Pooled over the two collected families (\texttt{discovery\_pipeline},
+\texttt{status\_router}); $160$ graded items.
+\par}
+\end{table}
+
+The non-learned panel brackets the refactor task. The \emph{clean-ceiling} --- the
+engine's own idiomatic clean rendering, graded through the same semantic gate and
+metric as a model --- reaches $0.83$ AST simplification-quality with a $1.00$
+semantic-equivalence rate and lands inside the optimality band on every item, confirming
+the labelled optimum is reachable and the metric is not saturated at $1.0$. At the other
+end, two non-learned references both score $0.00$: a pure autoformatter (lower bound;
+semantics-preserving but removes no anti-patterns) and a conservative AST
+\emph{rule-based} simplifier (constant-folding and literal dead-branch removal). Both stay
+semantically correct yet recover essentially none of the construction gap, so the task is
+non-trivial and demands genuine restructuring rather than reformatting. For the judge
+task, the \emph{metric-heuristic judge} --- picking the lower static-complexity candidate
+of each pair --- attains $0.99$ position-consistent pairwise accuracy (Spearman
+rank-vs-complexity $\rho \approx -0.99$). This is a deliberately strong non-LLM reference:
+because complexity is monotone with the construction knob \emph{by design}, any useful LLM
+judge must be measured \emph{against} this floor, not merely above chance. Finally, the
+DeepSeek-v4-flash row shows the metrics respond to real model outputs --- partial recovery
+on refactoring ($0.61$, with $0.76$ of completions semantically valid) and saturated
+exact-match on these small-output comprehension items ($1.00$) --- without constituting a
+model evaluation. A bounded-cost strengthening (one or two additional cheap models across
+all families, gated behind the live-run cost controls) is left to the deferred study if
+reviewers want cross-model spread.

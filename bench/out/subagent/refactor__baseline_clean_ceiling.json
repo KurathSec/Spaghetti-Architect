@@ -59,7 +59,7 @@
       "qwen3-coder-480b-a35b": "openai_compatible",
       "llama-4-maverick": "openai_compatible"
     },
-    "timestamp_utc": "2026-06-24T08:13:04.462594+00:00",
+    "timestamp_utc": "2026-06-25T12:38:02.127393+00:00",
     "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
   },
   "aggregate": {
@@ -67,8 +67,8 @@
     "semantic_ok_rate": 1.0,
     "simplification_quality_mean": 0.8328319348046569,
     "simplification_quality_ci95": [
-      0.8208888111506139,
-      0.8437213614998214
+      0.8210526483808013,
+      0.8438275356398077
     ],
     "simplification_quality_n": 300,
     "uniform_quality_mean": null,
@@ -28618,8 +28618,5 @@
       "uniform_quality_ci95": null,
       "simplification_quality_ast": 0.8328319348046569
     }
-  },
-  "run_meta": {
-    "regraded": true
   }
 }

@@ -1,0 +1,158 @@
+%% sections/resource.tex
+%% \owner{PROSE}  GOAL: describe the RESOURCE — the generator pipeline, the operation/
+%% anti-pattern model, the two orthogonal difficulty axes, the oracle/validation, and the
+%% contamination protocol. Most prose below is PORTED VERBATIM from the archived MSR draft
+%% (archived/msr-toolshowcase/spaghetti_architect.tex) as a starting point; PROSE should
+%% (a) ML-reframe, (b) fold in the contamination protocol from bench/paper/benchmark.tex,
+%% (c) replace the placeholder figure, (d) add a concrete IR->spaghetti listing.
+
+\section{The Resource}
+\label{sec:resource}
+
+\subsection{Pipeline overview}
+\tool{} is a staged pipeline:
+\[
+\textsf{IR JSON} \rightarrow \textsf{Parser} \rightarrow \textsf{Planner}
+\rightarrow \textsf{Generators ($\times 5$, +safety)} \rightarrow \textsf{Validator}.
+\]
+The \emph{Parser} validates the IR into a typed model (so a malformed IR can never reach
+a generator). The \emph{Planner} reads a data-driven anti-pattern database and selects
+which transforms apply per operation at the chosen \emph{profile}. Each of five
+\emph{Generators} emits source through a \texttt{CodeEmitter} that makes correct
+indentation/bracing \emph{structural} rather than hand-managed, with always-on safety
+(try/catch + guards + a pre-set fallback) injected via hooks. The \emph{Validator}
+compiles and runs each target and compares its output to a reference \emph{oracle}.
+
+\paragraph{Design properties.}
+\begin{itemize}
+  \item \emph{Correctness by construction.} Valid syntax is structural; safety is always
+        on, so output is crash-free regardless of profile strength.
+  \item \emph{Provable correctness.} Every target is compiled, run, and checked against
+        the oracle; a missing toolchain \textsf{SKIP}s (never a silent pass).
+  \item \emph{Deterministic.} The same IR yields byte-identical output (enabling
+        golden-snapshot testing and reproducible datasets).
+  \item \emph{Data-driven.} The anti-patterns and strength profiles live in a JSON
+        database, not in code.
+\end{itemize}
+
+\subsection{Operations and anti-patterns}
+\label{sec:ops}
+The IR composes a sequence of typed \emph{operations} (Table~\ref{tab:ops}); each reads
+validated inputs and writes a fresh result variable.
+
+\begin{table}[t]
+\centering
+\caption{Supported operations (v0.2).}
+\label{tab:ops}
+\begin{tabular}{@{}lll@{}}
+\toprule
+Operation & Semantics & Result \\
+\midrule
+\texttt{MEMBERSHIP\_CHECK}   & \texttt{target in collection}              & bool \\
+\texttt{KEY\_VALUE\_LOOKUP}  & \texttt{map.get(key, default)}             & scalar \\
+\texttt{AGGREGATE}           & \texttt{sum|min|max(int collection)}       & int \\
+\texttt{CONDITIONAL\_SELECT} & \texttt{then if (a$\,\bowtie\,$b) else else}& scalar \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The eleven \texttt{SPAGH\_*} transforms span structural, verbosity, control, and layout
+categories; three are grounded in the Collberg--Thomborson obfuscation
+taxonomy~\citep{collberg1997taxonomy} and classic code smells~\citep{fowler-refactoring}.
+They compose into three strictly-nested profiles
+(\textsf{minimal}~$\subset$~\textsf{standard}~$\subset$~\textsf{max}); the released
+dataset uses a finer six-level knob
+(\textsf{clean}~$\subset$~\textsf{minimal}~$\subset$~\textsf{light}~$\subset$~\textsf{standard}~$\subset$~\textsf{heavy}~$\subset$~\textsf{max})
+in which each level adds transforms without removing any, so that set inclusion is the
+order. The four categories are: \emph{structural} (replace a built-in with a manual
+index loop; reorganize control flow), \emph{verbosity} (introduce intermediate variables
+and redundant assignments), \emph{control} (opaque predicates that are provably constant,
+de-hoisted recomputation, Yoda-style comparisons), and \emph{layout} (indentation and
+bracing changes that the \texttt{CodeEmitter} renders structurally). Each backend lowers
+the same transform idiomatically; only C++ emits genuine pointer arithmetic for the
+manual-index pattern.
+
+Listings~\Cref{lst:ir} and~\Cref{lst:spag} show the contrast for a single \texttt{MEMBERSHIP\_CHECK}: a
+six-line IR fragment and an excerpt of the Python the \textsf{max} profile emits from it.
+The clean reference is the membership test \texttt{search\_val in data\_list}; the
+\textsf{max} render computes the same boolean through a manual index loop, a de-hoisted
+\texttt{len()} call, an always-true opaque predicate, and an always-on
+\texttt{try}/\texttt{except} fallback. The semantics are identical; only the incidental
+complexity differs.
+
+\begin{lstlisting}[caption={IR fragment for one \texttt{MEMBERSHIP\_CHECK} operation.},label={lst:ir},basicstyle=\ttfamily\footnotesize]
+{"operation": "MEMBERSHIP_CHECK",
+ "collection_name": "data_list",
+ "target_var": "search_val",
+ "result_var": "is_found"}
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python,caption={The \textsf{max}-profile Python emitted from Listing~\ref{lst:ir} (verbatim; comments are the tool's own anti-pattern annotations).},label={lst:spag},basicstyle=\ttfamily\footnotesize]
+is_found = False
+try:
+    if data_list is not None:
+        # SPAGH_001/006/008: manual index loop instead of `in`
+        _idx = 0
+        # SPAGH_010: recompute len() every iteration (de-hoisted)
+        _match_flag = False
+        while _idx < len(data_list):
+            _current = data_list[_idx]
+            # SPAGH_009: opaque predicate (always true: n*(n+1) is even)
+            if (_idx * (_idx + 1)) % 2 == 0:
+                if search_val == _current:
+                    _match_flag = True
+                else:
+                    _match_flag = _match_flag
+            _idx = _idx + 1
+        is_found = _match_flag == True
+    else:
+        is_found = False
+except Exception:
+    is_found = False
+\end{lstlisting}
+
+\subsection{Two orthogonal difficulty axes}
+\label{sec:axes}
+A dataset can vary \emph{intrinsic} complexity (the problem genuinely grows: cascade
+arms, list length, operation count) independently of \emph{incidental} complexity (the
+\textsf{clean}$\rightarrow$\textsf{max} profile adds mess at \emph{zero} semantic change).
+This separation --- which no fixed mined corpus offers --- lets a study ask whether a
+method fails because the \emph{problem} got bigger or because the \emph{presentation} got
+messier. The incidental axis is the dataset's by-construction quality order: a strict
+nesting that holds independently of any rater.
+
+\subsection{Contamination protocol}
+\label{sec:contam}
+A public generator is defensible for contamination-aware evaluation provided every
+\emph{scored} instance is minted \emph{after} a model's training cutoff. The defense is
+the \emph{protocol}, not the artifact, so we make no ``contamination-proof'' claim; what
+we provide is a structural asymmetry that keeps the scored data fresh.
+
+\paragraph{Public \texttt{dev} versus private held-out \texttt{test}.} The dataset ships
+in two splits minted from one generator. The \texttt{dev} split is \emph{public}: it is
+committed to the repository so that the format, the labels, and the pipeline are fully
+inspectable and reproducible. Precisely because a public split can itself leak into
+future training sets over time, the scored \texttt{test} split is \emph{private}: it is
+minted from a secret seed (\texttt{BENCH\_HELDOUT\_SEED}, an environment variable that is
+never committed) by re-drawing every numeric literal and salting string literals, and is
+excluded from version control. Anyone with the released generator can regenerate an
+equivalent private split from their own fresh secret seed --- so the
+\emph{mint-after-cutoff} guarantee survives even after the public split is fully
+absorbed. The asymmetry is the mitigation: the inspectable half is allowed to be
+trainable so that the scored half does not have to be.
+
+\paragraph{Canary.} A canary GUID is embedded in the public release
+(\texttt{spaghetti-architect-bench:canary:9f1d4e7a-\dots}). A model that reproduces it has
+demonstrably ingested the public split, turning training-set inclusion into something an
+auditor can probe rather than assume.
+
+\paragraph{Graded novelty tiers.} Freshness is not binary, so we report three tiers that
+turn ``how memorized is this?'' into a measured axis. \textbf{Tier A} (literal-novel)
+re-mints numeric literals and salts strings, defeating verbatim memorization. \textbf{Tier
+B} (structural held-out) keeps the operation-chain \emph{shapes} private, defeating
+memorization of structure. \textbf{Tier C} (distribution shift) uses deeper chains and
+out-of-range scales, defeating models that learned the training distribution. A model's
+degradation across A$\rightarrow$B$\rightarrow$C is therefore a quantity the benchmark
+measures, not a property it merely hopes for. The held-out seed and the Tier B/C
+structures are deliberately withheld; this is a contamination trade-off, not an omission,
+and every minted IR --- public or held-out --- is re-validated by the parser before use.

@@ -1,6 +1,7 @@
-%% Starter bibliography for the Spaghetti Architect tool paper.
-%% Verify/complete every entry before submission; add your companion study.
+%% Bibliography for the Spaghetti Architect DMLR (data-centric resource) paper.
+%% Verify/complete every entry before submission.
 
+%% --- controlled code transformation: obfuscation, smells, readability ---
 @techreport{collberg1997taxonomy,
   title       = {A Taxonomy of Obfuscating Transformations},
   author      = {Collberg, Christian and Thomborson, Clark and Low, Douglas},
@@ -17,6 +18,17 @@
   publisher = {Addison-Wesley},
 }
 
+@article{buse2010readability,
+  title   = {Learning a Metric for Code Readability},
+  author  = {Buse, Raymond P. L. and Weimer, Westley R.},
+  journal = {IEEE Transactions on Software Engineering},
+  volume  = {36},
+  number  = {4},
+  pages   = {546--558},
+  year    = {2010},
+}
+
+%% --- code/LLM benchmarks and contamination ---
 @article{chen2021evaluating,
   title   = {Evaluating Large Language Models Trained on Code},
   author  = {Chen, Mark and Tworek, Jerry and others},
@@ -24,8 +36,7 @@
   year    = {2021},
 }
 
-% Context on data contamination in code/LLM evaluation. TODO: replace with the
-% specific reference(s) you cite.
+% TODO: replace with the specific contamination/data-leakage reference(s) you cite.
 @misc{contamination-placeholder,
   title        = {TODO: a data-contamination-in-LLM-evaluation reference},
   author       = {TODO},
@@ -34,21 +45,33 @@
   note         = {Replace before submission},
 }
 
-% Evidence that the MSR community values reusable, well-documented data/tool
-% artifacts (motivates the showcase framing).
-@article{msr-data-papers-usage,
-  title   = {Standing on Shoulders or Feet? An Extended Study on the Usage of the MSR Data Papers},
-  author  = {TODO: verify author list},
-  journal = {arXiv preprint arXiv:2111.14583},
+%% --- data documentation norms (DMLR cares about these) ---
+@article{gebru2021datasheets,
+  title   = {Datasheets for Datasets},
+  author  = {Gebru, Timnit and Morgenstern, Jamie and Vecchione, Briana and
+             Vaughan, Jennifer Wortman and Wallach, Hanna and Daum{\'e} III, Hal and
+             Crawford, Kate},
+  journal = {Communications of the ACM},
+  volume  = {64},
+  number  = {12},
+  pages   = {86--92},
   year    = {2021},
 }
 
-% Your own empirical study that USES this tool (cite as evidence of use; do not
-% report its findings in this tool paper).
+@inproceedings{pushkarna2022datacards,
+  title     = {Data Cards: Purposeful and Transparent Dataset Documentation for
+               Responsible AI},
+  author    = {Pushkarna, Mahima and Zaldivar, Andrew and Kjartansson, Oddur},
+  booktitle = {ACM Conference on Fairness, Accountability, and Transparency (FAccT)},
+  year      = {2022},
+}
+
+%% --- the deferred companion empirical study (cite as evidence of use ONLY) ---
 @misc{TODO-companion-study,
-  title        = {TODO: companion empirical study using Spaghetti Architect},
+  title        = {TODO: companion empirical study using Spaghetti Architect
+                  (LLM-as-judge meta-evaluation)},
   author       = {Kurath},
   year         = {2026},
-  howpublished = {Under submission / preprint},
-  note         = {Replace with the real reference},
+  howpublished = {In preparation},
+  note         = {Replace with the real reference; do NOT report its findings here},
 }

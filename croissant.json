@@ -1,0 +1,254 @@
+{
+  "@context": {
+    "@language": "en",
+    "@vocab": "https://schema.org/",
+    "cr": "http://mlcommons.org/croissant/",
+    "sc": "https://schema.org/",
+    "data": {
+      "@id": "cr:data",
+      "@type": "@json"
+    },
+    "dataType": {
+      "@id": "cr:dataType",
+      "@type": "@vocab"
+    },
+    "field": "cr:field",
+    "fileSet": "cr:fileSet",
+    "format": "cr:format",
+    "includes": "cr:includes",
+    "isLiveDataset": "cr:isLiveDataset",
+    "key": "cr:key",
+    "recordSet": "cr:recordSet",
+    "references": "cr:references",
+    "source": "cr:source"
+  },
+  "@type": "sc:Dataset",
+  "conformsTo": "http://mlcommons.org/croissant/1.0",
+  "name": "spaghetti-architect-bench-dev",
+  "description": "Public 'dev' split of the Spaghetti Architect benchmark: 100 by-construction-labelled code instances (50 base + 50 variant) across seven families. Each instance is a program rendered from a clean JSON intermediate representation (IR) of four operation primitives (KEY_VALUE_LOOKUP, MEMBERSHIP_CHECK, AGGREGATE, CONDITIONAL_SELECT), located on four axes: incidental complexity (a strictly-nested 6-level messiness knob at identical semantics: clean < minimal < light < standard < heavy < max), intrinsic complexity (per-family scale knobs N/L/W/T and operation count), language (python, javascript, go, java, cpp), and input variant (v0..v4). Labels (oracle output, the known-optimal clean baseline, knob coordinates, the enabled SPAGH_* anti-pattern set) are correct by construction, computed deterministically from the IR with seed 20260619. A separate held-out 'test' split is private and not included here. Dataset version 2.0.",
+  "license": "https://spdx.org/licenses/MIT.html",
+  "url": "https://github.com/KurathSec/Spaghetti-Architect",
+  "version": "2.0",
+  "isLiveDataset": false,
+  "keywords": [
+    "data-centric",
+    "code dataset",
+    "contamination",
+    "anti-patterns",
+    "program comprehension",
+    "LLM benchmark",
+    "code refactoring"
+  ],
+  "citeAs": "TODO: cite via CITATION.cff; replace with the Zenodo DOI once minted.",
+  "distribution": [
+    {
+      "@type": "cr:FileObject",
+      "@id": "github-repository",
+      "name": "github-repository",
+      "description": "The Spaghetti Architect source repository hosting the dataset. TODO: replace with the Zenodo archival DOI distribution once minted.",
+      "contentUrl": "https://github.com/KurathSec/Spaghetti-Architect",
+      "encodingFormat": "git+https",
+      "sha256": "TODO: pin the archived release checksum (Zenodo) before camera-ready."
+    },
+    {
+      "@type": "cr:FileSet",
+      "@id": "dev-instances",
+      "name": "dev-instances",
+      "description": "One JSON record per public dev instance (IR + rendered sources for all five languages at every profile + by-construction ground truth), under bench/data/dev/.",
+      "containedIn": {
+        "@id": "github-repository"
+      },
+      "encodingFormat": "application/json",
+      "includes": "bench/data/dev/*.json"
+    },
+    {
+      "@type": "cr:FileObject",
+      "@id": "manifest",
+      "name": "manifest",
+      "description": "Dataset manifest: axes, knob ranks, families, splits, canary GUID, and per-item dev ground-truth index.",
+      "containedIn": {
+        "@id": "github-repository"
+      },
+      "contentUrl": "bench/data/manifest.json",
+      "encodingFormat": "application/json"
+    }
+  ],
+  "recordSet": [
+    {
+      "@type": "cr:RecordSet",
+      "@id": "instances",
+      "name": "instances",
+      "description": "The 100 public dev instances and their by-construction labels and axis coordinates. One record corresponds to one bench/data/dev/<stem>.json file.",
+      "key": {
+        "@id": "instances/stem"
+      },
+      "field": [
+        {
+          "@type": "cr:Field",
+          "@id": "instances/stem",
+          "name": "stem",
+          "description": "Unique instance id / file stem, e.g. 'allowlist_L32' or 'config_resolver_N8_v3'.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "dev-instances"
+            },
+            "extract": {
+              "fileProperty": "filename"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "instances/family",
+          "name": "family",
+          "description": "Task family: one of config_resolver, allowlist, status_router, discovery_pipeline, fsm_transition, agg_stats, threshold_select.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "dev-instances"
+            },
+            "extract": {
+              "jsonPath": "$.family"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "instances/variant",
+          "name": "variant",
+          "description": "Input variant label: 'base' or one of v0..v4 (input perturbations for differential grading).",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "dev-instances"
+            },
+            "extract": {
+              "jsonPath": "$.variant"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "instances/knob",
+          "name": "intrinsic_knob",
+          "description": "Intrinsic scale knob name for the family (N/L/W/T), or null for the fixed-shape composed families.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "dev-instances"
+            },
+            "extract": {
+              "jsonPath": "$.knob"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "instances/scale",
+          "name": "intrinsic_scale",
+          "description": "Intrinsic scale value for the knob (e.g. N=8, L=32), or null when the family has no scale knob.",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "dev-instances"
+            },
+            "extract": {
+              "jsonPath": "$.scale"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "instances/n_operations",
+          "name": "n_operations",
+          "description": "Number of IR operations (an intrinsic-complexity coordinate).",
+          "dataType": "sc:Integer",
+          "source": {
+            "fileSet": {
+              "@id": "dev-instances"
+            },
+            "extract": {
+              "jsonPath": "$.ground_truth.n_operations"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "instances/ir",
+          "name": "ir",
+          "description": "The clean JSON intermediate representation (module_name, inputs, and the operations chain over KEY_VALUE_LOOKUP / MEMBERSHIP_CHECK / AGGREGATE / CONDITIONAL_SELECT) from which all language renderings are produced.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "dev-instances"
+            },
+            "extract": {
+              "jsonPath": "$.ir"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "instances/oracle",
+          "name": "oracle_output",
+          "description": "By-construction ground-truth output computed from the IR by the reference oracle (label for the comprehension task and the equivalence gate).",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "dev-instances"
+            },
+            "extract": {
+              "jsonPath": "$.ground_truth.oracle"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "instances/clean_baseline_runnable",
+          "name": "clean_baseline_runnable",
+          "description": "The known-optimal clean (zero-spaghetti) reference rendering — the target/ceiling for the refactoring task.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "dev-instances"
+            },
+            "extract": {
+              "jsonPath": "$.ground_truth.clean_baseline_runnable"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "instances/enabled_spagh",
+          "name": "enabled_spagh",
+          "description": "Per-profile set of enabled SPAGH_* anti-pattern ids. The strictly-nested inclusion chain across profiles (clean < minimal < light < standard < heavy < max) is the by-construction incidental-complexity / maintainability label.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "dev-instances"
+            },
+            "extract": {
+              "jsonPath": "$.ground_truth.enabled_spagh"
+            }
+          }
+        },
+        {
+          "@type": "cr:Field",
+          "@id": "instances/sources",
+          "name": "rendered_sources",
+          "description": "Rendered program sources keyed by incidental profile (minimal/light/standard/heavy/max) and then by language (python/javascript/go/java/cpp). Each is semantically equivalent to the clean baseline.",
+          "dataType": "sc:Text",
+          "source": {
+            "fileSet": {
+              "@id": "dev-instances"
+            },
+            "extract": {
+              "jsonPath": "$.sources"
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

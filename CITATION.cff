@@ -1,34 +1,40 @@
 # Citation metadata (https://citation-file-format.github.io/).
 # Authors/affiliations are placeholders for the human maintainer to fill in.
 cff-version: 1.2.0
-message: "If you use Spaghetti Architect or its benchmark, please cite it as below."
-title: "Spaghetti Architect: an anti-optimization transpiler and a ground-truth, contamination-resistant LLM code benchmark"
+message: "If you use Spaghetti Architect or its dataset, please cite it as below."
+title: "Spaghetti Architect: a by-construction-labelled, contamination-resistant, multi-language code dataset generator"
 abstract: >-
   Spaghetti Architect maps a clean JSON intermediate representation to deliberately
   redundant, fully-flattened, yet provably-correct code in Python, JavaScript, Go,
-  Java and C++, gated by an oracle validator. On top of it, a benchmark generator
-  produces ground-truth, tunable, contamination-resistant code tasks (refactoring,
-  LLM-as-judge quality, and comprehension) with two orthogonal difficulty axes:
-  intrinsic complexity (problem size) and incidental complexity (presentation mess
-  at fixed semantics).
+  Java and C++, gated by an oracle validator. It mints code datasets with
+  by-construction labels along two orthogonal difficulty axes -- intrinsic complexity
+  (problem size) and incidental complexity (presentation mess at fixed semantics) --
+  and resists contamination by minting fresh variants from a private held-out seed.
+  The public dev split and the generator support contamination-controlled LLM
+  evaluation, training/probing of code models, and robustness studies (refactoring,
+  LLM-as-judge quality, and output-prediction comprehension tasks).
 type: software
 version: "0.2.0"
 date-released: "2026-06-21"
 license: "MIT"
 repository-code: "https://github.com/KurathSec/Spaghetti-Architect"
+# TODO (release): mint a Zenodo archival DOI for the tagged release and set it here,
+# e.g.  doi: "10.5281/zenodo.XXXXXXX"  (also add an `identifiers:` block if desired).
 authors:
-  # TODO (camera-ready): MSR is single-anonymous, so real identity is required.
-  # Replace the entity name below with your person details, e.g.:
+  # TODO (camera-ready): if the venue is single-anonymous, real identity is required.
+  # Replace the entity name below with your person details and a real affiliation, e.g.:
   #   - given-names: "First"
   #     family-names: "Last"
-  #     affiliation: "Your Institution"
+  #     affiliation: "Your Institution"   # TODO: affiliation
   #     orcid: "https://orcid.org/0000-0000-0000-0000"
   - name: "Kurath"
+    # affiliation: "TODO: affiliation"
 keywords:
-  - "anti-optimization"
-  - "code generation"
-  - "LLM benchmark"
-  - "data contamination"
+  - "data-centric"
+  - "code dataset"
+  - "contamination"
+  - "anti-patterns"
+  - "program comprehension"
   - "code refactoring"
   - "LLM-as-judge"
-  - "program comprehension"
+  - "LLM benchmark"

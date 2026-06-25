@@ -1,47 +1,41 @@
-# Paper — MSR Data and Tool Showcase (Reusable Tool)
+# `paper/` — the DMLR data-centric resource paper
 
-This directory holds the **tool paper** for Spaghetti Architect, targeting the
-**MSR Data and Tool Showcase** track (Reusable Tool submission).
+This is the **current target paper**: a data-centric *resource* paper for
+**DMLR — the Journal of Data-centric Machine Learning Research** (`data.mlr.press`), the
+**rolling, no-deadline archival journal** in the JMLR family. (Do **not** confuse it with
+the `dmlr.ai` ICLR/ICML *workshops*, which are deadline-based.)
 
-- `spaghetti_architect.tex` — the paper (acmart / `sigconf`), a working skeleton
-  with section scaffolding and clearly-marked `TODO`s.
-- `refs.bib` — starter bibliography (verify/complete every entry).
+> The prior-venue drafts are archived, not deleted:
+> - `archived/msr-toolshowcase/` — the MSR Data & Tool Showcase engine/tool paper (superseded here).
+> - `bench/paper/benchmark.tex` — the EACL benchmark paper, **kept in place** as the seed of the
+>   *deferred* empirical / EMSE paper (the LLM-as-judge meta-evaluation). It is wired to
+>   `run_bench.py --report`; do not move it.
 
-> This is the **tool** paper. The empirical LLM-evaluation results belong in a
-> separate paper; here, cite that study only as evidence of use.
+## Scope (important)
+This paper covers the **generator + the dataset + label-validity + reference baselines**.
+It must **not** report the LLM-as-judge meta-evaluation *findings* — that is the separate,
+deferred paper. Cite it only as a motivating use case.
 
-## Track rules (verify against the current CFP)
-
-- **Length:** max **4 pages + 1 page references**.
-- **Template:** ACM **Primary Article Template**, `\documentclass[sigconf]{acmart}`.
-- **Anonymity:** **single-anonymous** — author names *are* shown.
-- **Review criteria:** value, usefulness, reusability.
-- **Availability:** artifact available at submission; archive a **DOI** (e.g.
-  Zenodo) and cite it in the camera-ready (FAIR).
-
-MSR 2026's deadline (10 Nov 2025) has passed; the realistic target is **MSR 2027**
-(Dublin). Confirm dates and the page limit on the current call before submitting.
-
-## Building
-
-`acmart.cls` is **not** bundled (track the upstream version). Get the ACM
-"Primary Article Template" and place `acmart.cls` here (or use the Overleaf
-template), then:
-
-```bash
-pdflatex spaghetti_architect
-bibtex   spaghetti_architect
-pdflatex spaghetti_architect
-pdflatex spaghetti_architect
+## Build
 ```
+pdflatex dmlr && bibtex dmlr && pdflatex dmlr && pdflatex dmlr
+```
+**TEMPLATE TODO:** `dmlr.tex` ships a self-contained `article` preamble so it compiles now.
+Before submission, swap in the official DMLR/JMLR style and confirm on `data.mlr.press`:
+(1) length norm (JMLR-family = flexible, not the workshop 8pp cap), (2) double-blind policy,
+(3) whether a Croissant record / reproducibility statement is wanted in-band.
 
-## Before submitting — checklist
+## Structure (one owner per file → parallel-safe)
+| File | Owner | Content |
+|------|-------|---------|
+| `dmlr.tex` | (main) | preamble, title, abstract, `\input` glue, bib |
+| `sections/intro.tex` | PROSE | ML-data-centric motivation + contributions |
+| `sections/resource.tex` | PROSE | generator, ops/anti-patterns, two axes, contamination protocol |
+| `sections/validity.tex` | ANCHOR | real radon/lizard/cognitive/BW numbers + honest reading |
+| `sections/baselines.tex` | BASELINES | non-LLM panel + DeepSeek partial, reference framing |
+| `sections/related.tex` | PROSE | datasheets, contamination, obfuscation/smells/readability |
+| `sections/limitations.tex` | PROSE | scope, validity caveat, contamination asymmetry, dual-use |
+| `sections/datasheet.tex` | DOCS | Gebru datasheet (appendix) |
 
-- [ ] Fill the author block + `\email` (single-anonymous: real identity).
-- [ ] Replace every `TODO` in the `.tex` and `.bib`.
-- [ ] Add CCS concepts (https://dl.acm.org/ccs) and the ACM reference format.
-- [ ] Mint the **Zenodo DOI** (`.zenodo.json` is ready) and insert it in `\S`Availability.
-- [ ] Fill the preliminary-evaluation numbers (test count, toolchain versions,
-      instance-space size) from a clean run of the test suite.
-- [ ] Replace the pipeline prose in `\S`Tool Overview with a real figure.
-- [ ] Keep it within 4 pages + 1 of references.
+Editorial macros `\todo{}` / `\owner{}` / `\port{}` mark open work; strip before camera-ready.
+The workflow that fills these is in `bench/notes/dmlr-resource-paper-workflow.md` (private).

@@ -2,22 +2,24 @@
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
   "name": "Spaghetti Architect",
-  "description": "An anti-optimization transpiler that maps a clean JSON intermediate representation to deliberately redundant, fully-flattened, yet provably-correct code in Python, JavaScript, Go, Java, and C++, with every target compiled, run, and checked against a reference oracle. Generates controllable, ground-truth, contamination-resistant code datasets for software-engineering research.",
+  "description": "A by-construction-labelled, contamination-resistant, multi-language code dataset generator. An anti-optimization transpiler maps a clean JSON intermediate representation to deliberately redundant, fully-flattened, yet provably-correct code in Python, JavaScript, Go, Java, and C++, with every target compiled, run, and checked against a reference oracle. It labels each instance along two orthogonal difficulty axes -- intrinsic complexity (problem size) and incidental complexity (presentation mess at fixed semantics) -- and ships a public dev split plus a private held-out test split for contamination-controlled LLM evaluation, training/probing of code models, and robustness studies.",
   "version": "0.2.0",
   "license": "https://spdx.org/licenses/MIT.html",
   "codeRepository": "https://github.com/KurathSec/Spaghetti-Architect",
   "programmingLanguage": "Python",
   "runtimePlatform": "Python 3.12+",
   "operatingSystem": "OS Independent",
+  "comment": "TODO (release): add an archival DOI via an 'identifier' (e.g. https://doi.org/10.5281/zenodo.XXXXXXX) once the Zenodo deposit is minted.",
   "keywords": [
-    "anti-optimization",
-    "code generation",
-    "transpiler",
+    "data-centric",
+    "code dataset",
+    "contamination",
     "anti-patterns",
+    "program comprehension",
+    "code refactoring",
+    "LLM-as-judge",
     "LLM benchmark",
-    "data contamination",
-    "ground-truth dataset",
-    "mining software repositories"
+    "transpiler"
   ],
   "author": [
     {

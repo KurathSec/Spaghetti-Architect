@@ -1,0 +1,74 @@
+%% sections/related.tex
+%% Data-centric (DMLR) related work. Land the four differentiators.
+
+\section{Related Work}
+\label{sec:related}
+
+We position \tool{} as a \emph{data resource} against four neighboring lines of work:
+data-documentation norms, code/LLM benchmarks and the contamination problem, and the
+controlled-transformation literature (obfuscation, code smells, readability) from which
+the generator borrows its primitives.
+
+\paragraph{Data documentation.} The data-centric ML community has converged on
+structured documentation of provenance, composition, and intended use: Datasheets for
+Datasets~\citep{gebru2021datasheets} and Data
+Cards~\citep{pushkarna2022datacards} ask a dataset's authors to make its construction and
+limitations legible. We follow that norm rather than extend it: the dataset ships with a
+datasheet (Appendix~\Cref{app:datasheet}). What is unusual here is that, because the data is
+\emph{synthesized} from a documented generator rather than collected, the answers to
+many datasheet questions (how instances were labelled, whether they were preprocessed,
+whether they can be regenerated) are exact and machine-checkable rather than
+best-effort recollections.
+
+\paragraph{Code and LLM benchmarks, and contamination.} Functional-correctness
+benchmarks such as those built around \textsc{HumanEval}-style
+suites~\citep{chen2021evaluating} grade \emph{what} a model produces but fix
+\emph{presentation} and, being static and public, are exposed to training-set
+contamination~\citep{contamination-placeholder}: a model may score well because it has
+seen the items. Two structural responses exist in the data-resource literature. One is to
+gate on time and protect the scored portion of a release; the other is to make instances
+\emph{regenerable} so that a fresh, never-seen draw is always available. \tool{} adopts
+both --- a private held-out split minted after the cutoff plus a public canary
+(Section~\Cref{sec:contam}) --- but, unlike a static suite, it is a \emph{generator}: the scored
+data is not a fixed file to be protected but a fresh sample to be minted, which is the
+only durable defense once a public split inevitably leaks.
+
+\paragraph{Controlled code transformation.} The moves \tool{} composes are not new in
+isolation. Source obfuscation deliberately degrades readability while preserving
+behavior; the eleven \texttt{SPAGH\_*} transforms descend from the Collberg--Thomborson
+taxonomy of obfuscating transformations~\citep{collberg1997taxonomy} (opaque predicates,
+redundant computation) and from classic code smells~\citep{fowler-refactoring}. Code
+readability has its own measurement tradition, most influentially the learned
+surface-feature metric of Buse and Weimer~\citep{buse2010readability}, which we re-use as
+an external validity witness (Section~\Cref{sec:validity}). The defining difference is one of
+\emph{purpose and labelling}. An obfuscator emits degraded code but no quality
+\emph{order} and no known-optimal target; a code-smell injector or a mutation tool
+perturbs a program but (in the mutation case) deliberately \emph{breaks} semantics rather
+than preserving them; a readability metric scores existing code but does not generate a
+graded corpus. \tool{} reuses these primitives as a \emph{maintainability-degradation
+knob with ground truth}: a strictly-nested ladder that is, by construction, a quality
+order at fixed semantics.
+
+\paragraph{The four differentiators.} Each neighbor supplies some of the affordances a
+data-centric study needs; none supplies all four at once.
+\begin{itemize}
+  \item \emph{Oracle-verified semantic equivalence.} Every instance --- and, for the
+        refactoring use case, every candidate rewrite --- is compiled, run, and checked
+        against a reference oracle, so equivalence is established by execution rather than
+        assumed from provenance. Obfuscators and smell injectors typically assert
+        equivalence; mutation tools invert it.
+  \item \emph{By-construction graded quality order.} The incidental knob is a
+        strictly-nested anti-pattern inclusion chain, so the messy$\rightarrow$clean order
+        is known \emph{independently of any rater}. Obfuscators give a binary
+        clean/obfuscated contrast; readability metrics give a rater-dependent score, not a
+        ground-truth order.
+  \item \emph{Multi-language parallel corpus.} One IR emits the same logic in five
+        languages, yielding aligned cross-language instances. Obfuscation and mutation
+        tools are typically single-language.
+  \item \emph{Contamination control.} Mint-after-cutoff generation with a private
+        held-out split, a canary, and graded novelty tiers (Section~\Cref{sec:contam}). Static
+        benchmarks and the transformation tools carry no contamination protocol.
+\end{itemize}
+\noindent To our knowledge no prior generator combines oracle-verified equivalence, a
+by-construction graded quality order, a multi-language parallel corpus, and a
+contamination protocol in a single artifact; that combination is the resource's novelty.

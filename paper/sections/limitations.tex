@@ -1,0 +1,58 @@
+%% sections/limitations.tex
+%% Honest Limitations & Ethics (ML-venue norm).
+
+\section{Limitations and Ethics}
+\label{sec:limits}
+
+\paragraph{Scope of the generator.} The IR targets composable sequences of the four
+operations in Table~\Cref{tab:ops}, not arbitrary control flow, and
+\texttt{AGGREGATE}/\texttt{CONDITIONAL\_SELECT} are restricted to integer operands. This
+is a deliberate trade rather than an accident: integer-only results format
+byte-identically across all five backends, which is what lets a single oracle check
+equivalence across Python, JavaScript, Go, Java, and C++. Generated artifacts are
+single-file programs, not repository-scale projects. Consequently the dataset is a
+\emph{controlled stimulus}, and we claim findings about behavior on that stimulus ---
+robustness to incidental complexity, equivalence-preserving transformation --- not that
+absolute results transfer to real-world codebases. Scaling the instance count does not
+widen this scope; broadening the operation set, the operand types, and the program
+granularity is future work.
+
+\paragraph{The readability leg of construct validity is weak.} The label order is
+validated, not asserted (Section~\Cref{sec:validity}), but the legs of that validation are
+uneven. The complexity metrics move strongly with the knob, yet that is partly
+\emph{by construction}: the same transforms that define a higher knob level (e.g.\ adding
+a branch) mechanically inflate cyclomatic complexity, so those metrics are convergent but
+not independent witnesses. The genuinely more independent leg is readability, and it is
+weak: the surface-feature aggregate correlates with the knob at only $\approx0.39$
+(Section~\Cref{sec:validity}), and it is a faithful re-implementation of the published
+Buse--Weimer \emph{features}~\citep{buse2010readability}, \emph{not} the original
+human-calibrated trained model (whose coefficients we could not obtain offline), so we
+report feature correlations rather than a calibrated readability score. A fresh,
+controlled human ranking on these exact instances --- the one experiment that would fully
+dissolve the residual circularity between the knob and the complexity metrics --- is
+\emph{not} run here and is the principal open item; we mark it as future work and do not
+overclaim the by-construction order as validated human quality.
+
+\paragraph{Contamination is mitigated by asymmetry, not eliminated.} We claim
+mint-after-cutoff, not contamination-proofing. A public generator can synthesize
+in-distribution data, and the public \texttt{dev} split will itself be absorbed into
+future training sets over time. That is exactly why the scored \texttt{test} split is
+minted from a private, never-committed seed and why we report graded A/B/C novelty tiers
+and embed a canary (Section~\Cref{sec:contam}): the durable contribution is the protocol --- a
+fresh draw from a private seed --- not a permanently clean file. Two honest caveats
+follow: the tier gap is informative only \emph{if} a study actually observes it, and the
+held-out seed and Tier B/C structures are deliberately withheld, which is a freshness
+trade-off, not an oversight.
+
+\paragraph{Dual use.} \tool{} is, literally, a bad-code generator: its transforms overlap
+with source obfuscation, and a tool that emits deliberately unmaintainable code invites
+the obvious misuse concern. Two properties bound that risk. First, the intended use is
+\emph{research} --- building contamination-controlled, equivalence-verified, labelled data
+for evaluating and probing code models --- and the generator changes presentation at zero
+semantic cost; it does not introduce vulnerabilities or alter behavior. Second, and more
+to the point, every output is \emph{clearly labelled} (each anti-pattern is annotated in
+the emitted source) and \emph{oracle-verified}, which makes the output a poor instrument
+for passing degraded code off as legitimate: the messiness is documented by construction.
+We judge the research value --- a class of controlled code data that mining cannot
+supply --- to outweigh a dual-use surface that obfuscation toolkits already occupy, and
+note that the artifact ships under an open license with this discussion attached.

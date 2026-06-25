@@ -1,0 +1,95 @@
+%% Spaghetti Architect — DMLR (Journal of Data-centric Machine Learning Research).
+%% Target: data.mlr.press — the ROLLING ARCHIVAL JOURNAL (NOT the dmlr.ai ICLR/ICML
+%% workshops, which are deadline-based). This is the fast, no-deadline resource paper.
+%%
+%% TEMPLATE TODO: data.mlr.press was unreachable at drafting time. Before submission,
+%% swap this self-contained `article` preamble for the OFFICIAL DMLR/JMLR style
+%% (jmlr/jmlr2e from the DMLR GitHub) and CONFIRM on the journal site:
+%%   (1) exact length norm  — JMLR-family is flexible/paper-length, NOT the workshop's 8pp cap;
+%%   (2) double-blind anonymization policy (anonymize author + the GitHub URL for review if so);
+%%   (3) whether a reproducibility statement / Croissant record is wanted in-band.
+%%
+%% BUILD:  pdflatex dmlr -> bibtex dmlr -> pdflatex dmlr -> pdflatex dmlr
+%%
+%% SCOPE (read before editing): this is the DATA-CENTRIC RESOURCE paper — the generator
+%% + the contamination-resistant, by-construction-labelled, multi-language code dataset
+%% + label-validity evidence + reference baselines. It MUST NOT report the LLM-as-judge
+%% meta-evaluation FINDINGS: that empirical study is the SEPARATE, deferred paper
+%% (seed: bench/paper/benchmark.tex). Cite it only as a motivating use case; never put
+%% its (unrun) numbers here.
+
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage[hidelinks]{hyperref}
+\usepackage{url}
+\usepackage{natbib}        % JMLR/DMLR uses natbib
+\usepackage{geometry}
+\geometry{margin=1in}
+
+\lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single,columns=fullflexible}
+
+% editorial markup — STRIP before camera-ready (a single \renewcommand to {} hides them)
+\newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
+\newcommand{\owner}[1]{\textcolor{blue}{\textsf{[\textbf{owner:} #1]}}}
+\newcommand{\port}[1]{\textcolor{orange}{\textsf{[port: #1]}}}
+
+% cleveref is unavailable on this TeX install (and CTAN is unreachable here), so provide a
+% minimal fallback: \Cref/\cref expand to a bare \ref. Section prose supplies the noun
+% ("Section~", "Table~", "Listing~", "Appendix~") manually. If cleveref is vendored at
+% camera-ready, delete this shim AND the manual nouns (cleveref names references itself).
+\providecommand{\Cref}[1]{\ref{#1}}
+\providecommand{\cref}[1]{\ref{#1}}
+
+\newcommand{\tool}{\textsc{Spaghetti Architect}}
+
+\title{\tool: A Contamination-Resistant, By-Construction-Labelled,\\
+       Multi-Language Code Dataset Generator}
+
+\author{Kurath\\ \todo{affiliation / email --- confirm DMLR anonymity policy first}}
+\date{}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\owner{PROSE --- refine this draft to $\sim$180 words, data-centric framing}
+Mining-based code corpora are abundant but \emph{uncontrolled}: a snippet's semantics,
+its surface ``messiness,'' and its difficulty are whatever the wild happened to
+contain, there is no known-optimal reference to grade against, and any public sample
+may already sit in a model's training set. We present \tool, a tool that mints code
+datasets with exactly the control such corpora lack. An \emph{anti-optimization
+transpiler} maps a clean, language-agnostic JSON intermediate representation to
+deliberately redundant, fully-flattened programs in five languages
+(Python, JavaScript, Go, Java, C++); every emitted program is compiled, run, and
+checked against a reference oracle, so each instance is correct \emph{by construction}.
+Because the clean IR is a known-optimal reference and ``messiness'' is dialed by
+composable, strictly-nested anti-pattern profiles, the tool labels each instance along
+two \emph{orthogonal} difficulty axes --- intrinsic (problem size) and incidental
+(presentation at fixed semantics) --- and resists contamination by minting fresh
+variants from a private held-out seed. We document the generator and the dataset it
+produces, give construct-validity evidence that the by-construction quality order moves
+established complexity and readability metrics, and report reference baselines. The
+artifact is open source (MIT), dependency-free, and archived with a DOI.
+\end{abstract}
+
+\input{sections/intro}
+\input{sections/resource}
+\input{sections/validity}
+\input{sections/baselines}
+\input{sections/related}
+\input{sections/limitations}
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\appendix
+\input{sections/datasheet}
+
+\end{document}
