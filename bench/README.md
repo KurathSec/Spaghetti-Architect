@@ -57,9 +57,18 @@ benchmark say whether a model failed because *the problem got bigger* or because
   `cognitive_complexity`, and `bench/analysis.py` (inferential stats) wants
   `statsmodels`. Each is imported defensively: if absent the module records an honest
   `SKIP` (anchor) or falls back to a stdlib cluster-bootstrap (analysis) — it never
-  crashes and never silently fabricates. Install them in a throwaway venv so the core
-  stays clean (recipe below). The Buse–Weimer readability-feature anchor is pure
-  stdlib and always runs.
+  crashes and never silently fabricates. Install them in a venv so the core stays clean
+  (recipe below). The Buse–Weimer readability-feature anchor is pure stdlib and always runs.
+- **⚠️ Run metric-dependent steps with that venv's `python`, not the base `python3`.**
+  `bench/anchor.py` *and* `bench/run_bench.py --baselines` (plus any refactor grading that uses the
+  cross-language `uniform_lane`) need `lizard`/`radon`/`cognitive_complexity` **at run time**; with
+  the base interpreter the anchors `SKIP` and `uniform_quality` comes back `null`. Use one
+  **persistent** venv instead of recreating throwaway ones:
+  ```
+  python3 -m venv ~/.venvs/spaghetti-metrics
+  ~/.venvs/spaghetti-metrics/bin/pip install radon lizard cognitive_complexity statsmodels
+  ```
+  then call those steps as `~/.venvs/spaghetti-metrics/bin/python bench/...` (see commands below).
 
 ## Modules (what each part *is*)
 
@@ -87,11 +96,11 @@ python3 bench/dataset.py --summary         # human-readable axis/family summary
 python3 bench/run_bench.py --selftest      # fast mock plumbing check
 python3 bench/run_bench.py --dry-run       # mock over the real dataset (optionally --task / --family)
 
-# 3. Non-LLM results that need no API
-python3 bench/run_bench.py --baselines     # clean-ceiling / rule-based / metric-heuristic-judge panel
-#   construct-validity anchors (quarantined venv keeps the core dependency-free):
-python3 -m venv /tmp/anchorvenv && /tmp/anchorvenv/bin/pip install radon lizard cognitive_complexity
-/tmp/anchorvenv/bin/python bench/anchor.py # -> bench/out/anchor.json
+# 3. Non-LLM results that need no API — RUN WITH THE METRICS VENV (see Dependency model above).
+VENV=~/.venvs/spaghetti-metrics/bin/python  # created once; has lizard/radon/cognitive/statsmodels
+$VENV bench/run_bench.py --baselines        # clean-ceiling / rule-based / metric-judge panel
+                                            #   lizard => cross-language uniform_quality (base python => null)
+$VENV bench/anchor.py                       # -> bench/out/anchor.json (radon/lizard/cognitive; else SKIP)
 
 # 4. The live run (PAID; gated on filling bench/config.json — holds API keys, gitignored)
 python3 bench/run_bench.py --plan                              # prints the (task × model × family) fan-out
@@ -104,9 +113,8 @@ python3 bench/run_bench.py --sweep refactor   --model <id>     # prompt-robustne
 # 5. Merge + write up
 python3 bench/run_bench.py --aggregate     # out/subagent/*.json -> bench/out/results.json
 python3 bench/run_bench.py --report        # -> bench/paper/benchmark.tex (NOT auto-compiled)
-#   pre-registered inference (quarantined venv):
-python3 -m venv /tmp/statsvenv && /tmp/statsvenv/bin/pip install statsmodels
-/tmp/statsvenv/bin/python bench/analysis.py # -> bench/out/analysis.json
+#   pre-registered inference (same metrics venv; statsmodels installed there):
+$VENV bench/analysis.py                     # -> bench/out/analysis.json
 ```
 
 `--batch` refuses to run for a model whose provider key is unresolved, so an

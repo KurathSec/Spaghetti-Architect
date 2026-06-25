@@ -62,6 +62,19 @@ the environment variable it names. Without a resolved key the client is in
 *placeholder state*: `--selftest`/`--dry-run` still work (mock model, zero spend),
 `--batch` refuses.
 
-The Phase-6 construct-validity anchor may use an external non-LLM complexity tool
-(e.g. `radon`). It is **optional and quarantined** in a throwaway virtualenv so it
-never enters the engine or the metric lanes.
+The construct-validity anchor (`bench/anchor.py`) and the **cross-language refactor
+metric** (`bench/uniform_lane.py`, used by `--baselines` and grading) use external non-LLM
+complexity tools — `radon`, `lizard`, `cognitive_complexity`. They are **optional and
+quarantined**: never imported by the engine or the stdlib metric lanes, and if absent the
+code records an honest `SKIP`/`null`. Install them once in a **persistent** venv and run
+those steps with that interpreter:
+
+```bash
+python3 -m venv ~/.venvs/spaghetti-metrics
+~/.venvs/spaghetti-metrics/bin/pip install radon lizard cognitive_complexity statsmodels
+~/.venvs/spaghetti-metrics/bin/python bench/run_bench.py --baselines  # uniform_quality needs lizard
+~/.venvs/spaghetti-metrics/bin/python bench/anchor.py
+```
+
+Running these with the base `python3` instead silently yields `SKIP`ped anchors and a
+`null` `uniform_quality` — always use the venv's `python` for metric-dependent steps.
