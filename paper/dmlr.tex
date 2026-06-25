@@ -32,6 +32,11 @@
 \usepackage{natbib}        % JMLR/DMLR uses natbib
 \usepackage{geometry}
 \geometry{margin=1in}
+\usepackage{cleveref}  % load after hyperref; names references ("Section", "Table", ...) itself
+\crefname{lstlisting}{Listing}{Listings}
+\Crefname{lstlisting}{Listing}{Listings}
+\crefname{appendix}{Appendix}{Appendices}
+\Crefname{appendix}{Appendix}{Appendices}
 
 \lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single,columns=fullflexible}
 
@@ -39,13 +44,6 @@
 \newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
 \newcommand{\owner}[1]{\textcolor{blue}{\textsf{[\textbf{owner:} #1]}}}
 \newcommand{\port}[1]{\textcolor{orange}{\textsf{[port: #1]}}}
-
-% cleveref is unavailable on this TeX install (and CTAN is unreachable here), so provide a
-% minimal fallback: \Cref/\cref expand to a bare \ref. Section prose supplies the noun
-% ("Section~", "Table~", "Listing~", "Appendix~") manually. If cleveref is vendored at
-% camera-ready, delete this shim AND the manual nouns (cleveref names references itself).
-\providecommand{\Cref}[1]{\ref{#1}}
-\providecommand{\cref}[1]{\ref{#1}}
 
 \newcommand{\tool}{\textsc{Spaghetti Architect}}
 
@@ -90,6 +88,7 @@ artifact is open source (MIT), dependency-free, and archived with a DOI.
 \bibliography{refs}
 
 \appendix
+\crefalias{section}{appendix}
 \input{sections/datasheet}
 
 \end{document}

@@ -14,7 +14,7 @@ structured documentation of provenance, composition, and intended use: Datasheet
 Datasets~\citep{gebru2021datasheets} and Data
 Cards~\citep{pushkarna2022datacards} ask a dataset's authors to make its construction and
 limitations legible. We follow that norm rather than extend it: the dataset ships with a
-datasheet (Appendix~\Cref{app:datasheet}). What is unusual here is that, because the data is
+datasheet (\Cref{app:datasheet}). What is unusual here is that, because the data is
 \emph{synthesized} from a documented generator rather than collected, the answers to
 many datasheet questions (how instances were labelled, whether they were preprocessed,
 whether they can be regenerated) are exact and machine-checkable rather than
@@ -29,7 +29,7 @@ seen the items. Two structural responses exist in the data-resource literature. 
 gate on time and protect the scored portion of a release; the other is to make instances
 \emph{regenerable} so that a fresh, never-seen draw is always available. \tool{} adopts
 both --- a private held-out split minted after the cutoff plus a public canary
-(Section~\Cref{sec:contam}) --- but, unlike a static suite, it is a \emph{generator}: the scored
+(\Cref{sec:contam}) --- but, unlike a static suite, it is a \emph{generator}: the scored
 data is not a fixed file to be protected but a fresh sample to be minted, which is the
 only durable defense once a public split inevitably leaks.
 
@@ -40,7 +40,7 @@ taxonomy of obfuscating transformations~\citep{collberg1997taxonomy} (opaque pre
 redundant computation) and from classic code smells~\citep{fowler-refactoring}. Code
 readability has its own measurement tradition, most influentially the learned
 surface-feature metric of Buse and Weimer~\citep{buse2010readability}, which we re-use as
-an external validity witness (Section~\Cref{sec:validity}). The defining difference is one of
+an external validity witness (\Cref{sec:validity}). The defining difference is one of
 \emph{purpose and labelling}. An obfuscator emits degraded code but no quality
 \emph{order} and no known-optimal target; a code-smell injector or a mutation tool
 perturbs a program but (in the mutation case) deliberately \emph{breaks} semantics rather
@@ -66,7 +66,7 @@ data-centric study needs; none supplies all four at once.
         languages, yielding aligned cross-language instances. Obfuscation and mutation
         tools are typically single-language.
   \item \emph{Contamination control.} Mint-after-cutoff generation with a private
-        held-out split, a canary, and graded novelty tiers (Section~\Cref{sec:contam}). Static
+        held-out split, a canary, and graded novelty tiers (\Cref{sec:contam}). Static
         benchmarks and the transformation tools carry no contamination protocol.
 \end{itemize}
 \noindent To our knowledge no prior generator combines oracle-verified equivalence, a

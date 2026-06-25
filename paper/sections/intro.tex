@@ -52,23 +52,23 @@ separate, deferred study~\citep{TODO-companion-study}; here we deliver and docum
 \paragraph{Contributions.} This paper contributes:
 \begin{itemize}
   \item \textbf{The generator and its correctness-by-construction design}
-        (Section~\Cref{sec:resource}): a staged IR$\rightarrow$five-language pipeline in which
+        (\Cref{sec:resource}): a staged IR$\rightarrow$five-language pipeline in which
         valid syntax is structural and runtime safety is always-on, gated by an oracle
         validator so that every released instance provably builds and computes the
         intended result.
   \item \textbf{Two orthogonal, by-construction difficulty labels}
-        (Section~\Cref{sec:axes}): an \emph{incidental} messiness knob (a strictly-nested
+        (\Cref{sec:axes}): an \emph{incidental} messiness knob (a strictly-nested
         anti-pattern ladder) crossed with an \emph{intrinsic} problem-size knob, so a
         score change can be attributed to one cause with the other held fixed --- a
         decomposition no mined corpus offers.
-  \item \textbf{A contamination protocol} (Section~\Cref{sec:contam}): mint-after-cutoff
+  \item \textbf{A contamination protocol} (\Cref{sec:contam}): mint-after-cutoff
         generation, a public \texttt{dev} split versus a private held-out \texttt{test}
         split, an embedded canary, and graded A/B/C novelty tiers --- with the
         public/private asymmetry as the mitigation, not an apology.
-  \item \textbf{Construct-validity evidence} (Section~\Cref{sec:validity}) that the
+  \item \textbf{Construct-validity evidence} (\Cref{sec:validity}) that the
         by-construction quality order moves established complexity and readability
         metrics, reported with its weaknesses stated plainly.
-  \item \textbf{Reference baselines} (Section~\Cref{sec:baselines}) that establish the
+  \item \textbf{Reference baselines} (\Cref{sec:baselines}) that establish the
         dataset is usable and discriminative, and a reusable, FAIR, DOI-archived,
         dependency-free open-source artifact.
 \end{itemize}
@@ -76,4 +76,4 @@ separate, deferred study~\citep{TODO-companion-study}; here we deliver and docum
 \paragraph{Artifact.} \tool{} is open source under the MIT license, depends only on the
 Python standard library, ships runnable examples, a test suite, and a documented
 extension contract, and is archived with a DOI; a ``Datasheet for Datasets''
-(Appendix~\Cref{app:datasheet}) accompanies the dataset.
+(\Cref{app:datasheet}) accompanies the dataset.

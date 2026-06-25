@@ -72,7 +72,7 @@ bracing changes that the \texttt{CodeEmitter} renders structurally). Each backen
 the same transform idiomatically; only C++ emits genuine pointer arithmetic for the
 manual-index pattern.
 
-Listings~\Cref{lst:ir} and~\Cref{lst:spag} show the contrast for a single \texttt{MEMBERSHIP\_CHECK}: a
+\Cref{lst:ir} and~\Cref{lst:spag} show the contrast for a single \texttt{MEMBERSHIP\_CHECK}: a
 six-line IR fragment and an excerpt of the Python the \textsf{max} profile emits from it.
 The clean reference is the membership test \texttt{search\_val in data\_list}; the
 \textsf{max} render computes the same boolean through a manual index loop, a de-hoisted

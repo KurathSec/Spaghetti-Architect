@@ -5,7 +5,7 @@
 \label{sec:limits}
 
 \paragraph{Scope of the generator.} The IR targets composable sequences of the four
-operations in Table~\Cref{tab:ops}, not arbitrary control flow, and
+operations in \Cref{tab:ops}, not arbitrary control flow, and
 \texttt{AGGREGATE}/\texttt{CONDITIONAL\_SELECT} are restricted to integer operands. This
 is a deliberate trade rather than an accident: integer-only results format
 byte-identically across all five backends, which is what lets a single oracle check
@@ -18,13 +18,13 @@ widen this scope; broadening the operation set, the operand types, and the progr
 granularity is future work.
 
 \paragraph{The readability leg of construct validity is weak.} The label order is
-validated, not asserted (Section~\Cref{sec:validity}), but the legs of that validation are
+validated, not asserted (\Cref{sec:validity}), but the legs of that validation are
 uneven. The complexity metrics move strongly with the knob, yet that is partly
 \emph{by construction}: the same transforms that define a higher knob level (e.g.\ adding
 a branch) mechanically inflate cyclomatic complexity, so those metrics are convergent but
 not independent witnesses. The genuinely more independent leg is readability, and it is
 weak: the surface-feature aggregate correlates with the knob at only $\approx0.39$
-(Section~\Cref{sec:validity}), and it is a faithful re-implementation of the published
+(\Cref{sec:validity}), and it is a faithful re-implementation of the published
 Buse--Weimer \emph{features}~\citep{buse2010readability}, \emph{not} the original
 human-calibrated trained model (whose coefficients we could not obtain offline), so we
 report feature correlations rather than a calibrated readability score. A fresh,
@@ -38,7 +38,7 @@ mint-after-cutoff, not contamination-proofing. A public generator can synthesize
 in-distribution data, and the public \texttt{dev} split will itself be absorbed into
 future training sets over time. That is exactly why the scored \texttt{test} split is
 minted from a private, never-committed seed and why we report graded A/B/C novelty tiers
-and embed a canary (Section~\Cref{sec:contam}): the durable contribution is the protocol --- a
+and embed a canary (\Cref{sec:contam}): the durable contribution is the protocol --- a
 fresh draw from a private seed --- not a permanently clean file. Two honest caveats
 follow: the tier gap is informative only \emph{if} a study actually observes it, and the
 held-out seed and Tier B/C structures are deliberately withheld, which is a freshness

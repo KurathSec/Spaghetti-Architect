@@ -29,9 +29,9 @@ metric for the task it applies to; ``---'' marks a (task, baseline) pair for whi
 baseline is defined (e.g.\ there is no rule-based output predictor for comprehension, and
 the metric-heuristic judge is judge-only). \textbf{Refactor} is the semantic-gated
 simplification-quality (fraction of the spaghetti$\rightarrow$clean gap closed, capped at
-the clean floor) on the rigorous Python AST/MI lane ($n{=}300$ Python items; the four
-compiled languages pass the semantic gate but their cross-language \texttt{uniform\_lane}
-quality is unavailable here because the optional \texttt{lizard} analyser was absent).
+the clean floor) on the rigorous Python AST/MI lane ($n{=}300$ Python items); the
+language-agnostic \texttt{uniform\_lane} (lizard cyclomatic complexity + token size +
+Buse--Weimer surface density) gives $0.95$ across all five languages for the clean-ceiling.
 \textbf{Judge} is position-swap--controlled pairwise accuracy over $n{=}250$ judge items
 (all families/languages). \textbf{Comprehend} is output-prediction exact match. The
 DeepSeek-v4-flash row is a single open model over a \emph{subset} of families, included
@@ -60,9 +60,10 @@ $^{\S}$ Pooled over the two collected families (\texttt{discovery\_pipeline},
 
 The non-learned panel brackets the refactor task. The \emph{clean-ceiling} --- the
 engine's own idiomatic clean rendering, graded through the same semantic gate and
-metric as a model --- reaches $0.83$ AST simplification-quality with a $1.00$
-semantic-equivalence rate and lands inside the optimality band on every item, confirming
-the labelled optimum is reachable and the metric is not saturated at $1.0$. At the other
+metric as a model --- reaches $0.83$ AST simplification-quality (Python) and $0.946$ on
+the language-agnostic uniform lane across all five languages, with a $1.00$
+semantic-equivalence rate, and lands inside the optimality band on every item, confirming
+the labelled optimum is reachable in every backend and the metric is not saturated at $1.0$. At the other
 end, two non-learned references both score $0.00$: a pure autoformatter (lower bound;
 semantics-preserving but removes no anti-patterns) and a conservative AST
 \emph{rule-based} simplifier (constant-folding and literal dead-branch removal). Both stay
