@@ -46,7 +46,7 @@ seed that is never committed, a public canary GUID enables training-set audits, 
 graded novelty tiers turn ``how memorized is this?'' into a measured quantity rather than
 a hope. A motivating downstream use case --- a meta-evaluation of whether LLM judges
 track a code-quality order known independently of any rater --- is the subject of a
-separate, deferred study~\citep{TODO-companion-study}; here we deliver and document the
+separate, deferred study; here we deliver and document the
 \emph{instrument} and the dataset it produces.
 
 \paragraph{Contributions.} This paper contributes:
@@ -69,11 +69,11 @@ separate, deferred study~\citep{TODO-companion-study}; here we deliver and docum
         by-construction quality order moves established complexity and readability
         metrics, reported with its weaknesses stated plainly.
   \item \textbf{Reference baselines} (\Cref{sec:baselines}) that establish the
-        dataset is usable and discriminative, and a reusable, FAIR, DOI-archived,
-        dependency-free open-source artifact.
+        dataset is usable and discriminative, and a reusable, FAIR,
+        dependency-free open-source artifact (to be archived under a DOI at release).
 \end{itemize}
 
 \paragraph{Artifact.} \tool{} is open source under the MIT license, depends only on the
 Python standard library, ships runnable examples, a test suite, and a documented
-extension contract, and is archived with a DOI; a ``Datasheet for Datasets''
+extension contract, and will be archived under a DOI; a ``Datasheet for Datasets''
 (\Cref{app:datasheet}) accompanies the dataset.

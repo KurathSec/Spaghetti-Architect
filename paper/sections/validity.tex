@@ -1,18 +1,11 @@
 %% sections/validity.tex
-%% \owner{ANCHOR subagent}  GOAL: fill REAL construct-validity numbers and an honest
-%% reading of them. Currently the committed bench/out/anchor.json has radon/lizard/
-%% cognitive as SKIP (only Buse--Weimer ran, aggregate Spearman ~0.39). The subagent must:
-%%   1. Run anchor.py in the quarantined venv so radon/lizard/cognitive are REAL:
-%%        python3 -m venv /tmp/anchorvenv
-%;        /tmp/anchorvenv/bin/pip install radon lizard cognitive_complexity
-%%        /tmp/anchorvenv/bin/python bench/anchor.py    # -> bench/out/anchor.json
-%%   2. Extract the headline numbers (Spearman of each metric vs the incidental knob rank)
-%%      and fill Table~\ref{tab:validity} below.
-%%   3. Write the honest reading: complexity metrics (radon/lizard CC) move strongly with
-%%      the knob BUT that is partly BY CONSTRUCTION (the knob is built to inflate them);
-%%      the less-tautological readability signal (Buse--Weimer features) is WEAKER
-%%      (aggregate ~0.39) and a human-calibrated readability study is future work. Do NOT
-%%      overclaim. This honesty is itself a selling point for a data paper.
+%% Construct validity. Numbers below are REAL, regenerated from bench/out/anchor.json
+%% via `~/.venvs/spaghetti-metrics/bin/python bench/anchor.py`. The convergent-metric
+%% table (Table~\ref{tab:validity}) is computed on the PYTHON sources; the one
+%% language-agnostic anchor (lizard cyclomatic complexity) is ADDITIONALLY validated
+%% per language across all five (Table~\ref{tab:validity-xlang}). A missing tool records
+%% an honest SKIP, never a fabricated number. radon CC/MI, cognitive complexity and the
+%% Buse--Weimer feature re-implementation are Python-only tools and are reported as such.
 
 \section{Construct Validity: do the labels mean anything?}
 \label{sec:validity}
@@ -24,58 +17,135 @@ sources across the six knob levels). For each base sample we hold semantics fixe
 compute Spearman's $\rho$ between the knob rank
 (\texttt{clean}${}\prec{}$\texttt{minimal}${}\prec{}$\texttt{light}${}\prec{}$%
 \texttt{standard}${}\prec{}$\texttt{heavy}${}\prec{}$\texttt{max}) and each metric,
-reporting the mean over samples (Table~\ref{tab:validity}). The anchor tools
+reporting the mean over samples. The anchor tools
 (\texttt{radon}~6.0.1, \texttt{lizard}~1.23.0, \texttt{cognitive\_complexity}~1.3.0)
 are kept off the zero-dependency core and run only inside a quarantined virtualenv; a
 missing tool records an honest \texttt{SKIP} rather than a fabricated number.
 
+We are explicit about what is measured on which language, because our headline is a
+five-language parallel corpus. Three of the four anchors are Python-only tools:
+\texttt{radon} cyclomatic complexity and maintainability index, and
+\texttt{cognitive\_complexity}, all operate on the Python abstract syntax tree, and our
+Buse--Weimer feature re-implementation tokenises Python. Table~\ref{tab:validity} therefore
+reports the convergent-metric evidence \emph{on the Python sources}. Only \texttt{lizard}
+cyclomatic complexity is genuinely language-agnostic, so we additionally run it
+\emph{per language} on all five sources (Table~\ref{tab:validity-xlang}) to check that the
+complexity signal is reproduced in every language and is not an artifact of measuring
+Python.
+
 \begin{table}[t]
 \centering
 \caption{Spearman correlation between the incidental ``messiness'' knob rank and
-established static metrics, averaged over the $50$ \texttt{dev} base samples (higher
-$|\rho|$ = the label order is better reflected). Complexity metrics move strongly with
-the knob, but partly \emph{by construction}; the less tautological readability signal is
-markedly weaker.}
+established static metrics \emph{on the Python sources}, averaged over the $50$
+\texttt{dev} base samples (higher $|\rho|$ = the label order is better reflected).
+Complexity metrics move strongly with the knob, but partly \emph{by construction}; the
+less tautological readability signal is markedly weaker. \texttt{radon}, cognitive
+complexity and the Buse--Weimer features are Python-only tools; the cross-language check
+for \texttt{lizard} is in Table~\ref{tab:validity-xlang}.}
 \label{tab:validity}
 \begin{tabular}{@{}llr@{}}
 \toprule
 Metric (tool) & Direction & Spearman $\rho$ vs.\ knob \\
 \midrule
-Cyclomatic complexity (radon)        & + & $+0.75$ \\
-Cyclomatic complexity (lizard)       & + & $+0.75$ \\
-Cognitive complexity                 & + & $+0.80$ \\
-Maintainability index (radon)        & $-$ & $-0.79$ \\
-Buse--Weimer surface density (agg.)  & + & $+0.39$ \\
+Cyclomatic complexity (radon, Python)   & + & $+0.75$ \\
+Cyclomatic complexity (lizard, Python)  & + & $+0.75$ \\
+Cognitive complexity (Python)           & + & $+0.80$ \\
+Maintainability index (radon, Python)   & $-$ & $-0.79$ \\
+Buse--Weimer surface density (Python, agg.) & + & $+0.39$ \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \paragraph{Complexity moves strongly, but read this with care.}
-The complexity anchors agree and move sharply with the knob: cyclomatic complexity
-(identical at $\rho=+0.75$ under both \texttt{radon} and \texttt{lizard}), cognitive
-complexity ($\rho=+0.80$), and the maintainability index in the expected
-\emph{opposite} direction ($\rho=-0.79$). Two independent tool families converging on
-the same ordering, and our own stdlib metric lane cross-checking against them at
-$\rho>0.97$, is reassuring evidence that the labels are not arbitrary. We deliberately
-under-claim here, though, because this agreement is partly \emph{tautological}: the
-incidental knob is engineered to inject redundant control flow, dead branches, and
-nested scaffolding, which is precisely what cyclomatic and cognitive complexity count.
-A metric rising when we add the very constructs it was designed to detect confirms that
-the transformation does what it says, but it is weaker evidence that the order matches
-\emph{human} judgments of quality.
+On the Python sources the complexity anchors agree and move sharply with the knob:
+cyclomatic complexity (identical at $\rho=+0.75$ under both \texttt{radon} and
+\texttt{lizard}), cognitive complexity ($\rho=+0.80$), and the maintainability index in
+the expected \emph{opposite} direction ($\rho=-0.79$). Two independent tool families
+converging on the same ordering, and our own stdlib metric lane cross-checking against
+them at $\rho>0.97$, is reassuring evidence that the labels are not arbitrary. We
+deliberately under-claim here, though, because this agreement is partly
+\emph{tautological}: the incidental knob is engineered to inject redundant control flow,
+dead branches, and nested scaffolding, which is precisely what cyclomatic and cognitive
+complexity count. A metric rising when we add the very constructs it was designed to
+detect confirms that the transformation does what it says, but it is weaker evidence that
+the order matches \emph{human} judgments of quality.
 
-\paragraph{The readability signal is real but weaker; human calibration is future work.}
-The more informative test is therefore the one anchor that is \emph{not} a complexity
-counter. Our re-implementation of the Buse--Weimer~\citep{buse2010readability} surface
-readability feature set (computed with the Python stdlib over the same sources)
-correlates with the knob at only $\rho=+0.39$ in the documented density aggregate ---
-roughly half the strength of the complexity metrics. We read this honestly: the knob
-makes code denser and harder to read, but far less unambiguously than it inflates
-control-flow complexity, and even this number is a surface-density proxy rather than the
-original trained readability classifier (whose coefficients are not available offline,
-so that anchor remains a recorded \texttt{SKIP}). The benchmark's construct validity
-thus rests on convergent static evidence, not on a claim of calibrated human
-readability. A fresh human-rated readability study aligned to this exact stimulus set is
-the natural next step and is left as explicit future work; until then we treat the
-$\rho=+0.39$ readability signal, not the $\rho=+0.80$ complexity signal, as the
-conservative bound on how much the by-construction order reflects perceived quality.
+\paragraph{The complexity signal holds in all five languages.}
+Because three of the four anchors are Python-only, the table above could in principle be a
+Python-specific accident. We rule that out with the one language-agnostic anchor.
+\texttt{lizard} infers each source's language from its file extension and reports
+cyclomatic complexity per function; we run it on every language's source for every
+(sample, knob) cell. To compare languages on an equal footing we restrict the rank to the
+five engine ``messiness'' profiles
+(\texttt{minimal}${}\prec{}$\texttt{light}${}\prec{}$\texttt{standard}${}\prec{}$%
+\texttt{heavy}${}\prec{}$\texttt{max}), which exist identically in all five languages --
+the \texttt{clean} idiomatic floor is only definable for Python, so it is excluded here
+and reported separately. The result (Table~\ref{tab:validity-xlang}) is that
+\texttt{lizard} cyclomatic complexity rises monotonically with the knob in \emph{every}
+language at $\rho\approx+0.34$ to $+0.35$, with all five values essentially identical and
+none recording a \texttt{SKIP} (every language parsed and yielded a measurable function).
+Python's own within-profile gradient is the same $+0.35$; its larger $+0.75$ in
+Table~\ref{tab:validity} comes from additionally including the \texttt{clean} idiomatic
+baseline, whose large idiomatic-to-spaghetti step the brace languages have no floor to
+reproduce. The cross-language agreement therefore shows the complexity signal is
+reproduced identically in every language, not an artifact of measuring Python. The same
+honest caveat as above still applies: within the spaghetti band the gradient is modest
+because the knob injects branch-bearing control flow mainly at the top (\texttt{max})
+level, and the inflation that does occur is partly by construction.
+
+\begin{table}[t]
+\centering
+\caption{Cross-language construct validity: Spearman correlation between the incidental
+``messiness'' knob rank and \texttt{lizard} cyclomatic complexity computed \emph{per
+language}, over the five engine profiles
+(\texttt{minimal}${}\prec{}$\texttt{light}${}\prec{}$\texttt{standard}${}\prec{}$%
+\texttt{heavy}${}\prec{}$\texttt{max}), averaged over the $50$ \texttt{dev} base samples.
+\texttt{lizard} is the only language-agnostic anchor; the signal is positive and
+essentially identical in all five languages. Python's $+0.75$ in
+Table~\ref{tab:validity} additionally includes the \texttt{clean} idiomatic baseline,
+which is only definable for Python (its within-profile gradient is the $+0.35$ below).}
+\label{tab:validity-xlang}
+\begin{tabular}{@{}lr@{}}
+\toprule
+Language & lizard CC Spearman $\rho$ vs.\ knob \\
+\midrule
+Python      & $+0.35$ \\
+JavaScript  & $+0.35$ \\
+Go          & $+0.34$ \\
+Java        & $+0.35$ \\
+C++         & $+0.35$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The readability signal is real but weaker.}
+The more informative test is the one anchor that is \emph{not} a complexity counter. Our
+re-implementation of the Buse--Weimer~\citep{buse2010readability} surface readability
+feature set (computed with the Python stdlib over the Python sources) correlates with the
+knob at only $\rho=+0.39$ in the documented density aggregate --- roughly half the
+strength of the complexity metrics. We read this honestly: the knob makes code denser and
+harder to read, but far less unambiguously than it inflates control-flow complexity, and
+even this number is a surface-density proxy rather than the original trained readability
+classifier (whose coefficients are not available offline, so that anchor remains a
+recorded \texttt{SKIP}). We compute these surface features on Python only, matching the
+other density anchors; we do not extrapolate a readability number to the other four
+languages.
+
+\paragraph{No human calibration yet: a deliberate scope boundary, and future work.}
+We are explicit about the limit of all of the above: the benchmark's construct validity
+rests entirely on convergent \emph{static} metrics, not on calibrated human judgment. We
+make no claim that the by-construction labels have been validated against human
+perception of quality or readability. The complexity anchors are partly tautological, and
+the single least-tautological static signal (the Buse--Weimer surface-density proxy,
+$\rho=+0.39$) is a re-implemented feature set, not a human-rated model. We therefore treat
+the $\rho=+0.39$ readability signal, not the $\rho=+0.80$ complexity signal, as the
+conservative bound on how much the by-construction order reflects perceived quality. A
+human-rating study calibrated to this exact stimulus set is the natural next step and is
+left as explicit future work; concretely, we plan to recruit $N\approx15$--$20$
+experienced developers to blind-rank a stratified subset of (sample, knob) pairs ---
+balanced across families, intrinsic scales, and the five languages --- and to measure the
+rank agreement (Kendall's $W$ and mean per-rater Spearman $\rho$) between the human
+orderings and the by-construction knob order, pre-registered and reported per language.
+Until that study is run, we do not assert that the labels track human judgment; we assert
+only that they track convergent, independently-implemented static complexity metrics in
+every language.

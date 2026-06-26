@@ -43,6 +43,57 @@
           "config_resolver_N_spearman": 1.0,
           "crosscheck_vs_our_lane_spearman": 0.9799332276992158
         }
+      },
+      "cross_language": {
+        "metric": "cyclomatic_complexity",
+        "aggregation": "max cyclomatic_complexity over lizard function_list per source",
+        "version": "1.23.0",
+        "knob_levels": [
+          "minimal",
+          "light",
+          "standard",
+          "heavy",
+          "max"
+        ],
+        "note": "lizard is the only genuinely language-agnostic anchor, so it is run per language over the five engine messiness profiles (minimal..max), which exist identically in all five languages. Python/JS flat scripts are wrapped in a single function so lizard exposes the body; Go/Java/C++ already define functions. The `clean` idiomatic floor exists only for Python, so the cross-language lane omits it and reports Python's clean..max value separately. radon/cognitive/MI stay Python-only (Python-AST tools); Buse-Weimer features stay Python-only (stdlib tokenize re-implementation).",
+        "per_language": {
+          "python": {
+            "status": "OK",
+            "direction": "+",
+            "incidental_knob_spearman_mean": 0.35355339059327373,
+            "n_base_samples": 50,
+            "n_levels": 5
+          },
+          "javascript": {
+            "status": "OK",
+            "direction": "+",
+            "incidental_knob_spearman_mean": 0.35355339059327373,
+            "n_base_samples": 50,
+            "n_levels": 5
+          },
+          "go": {
+            "status": "OK",
+            "direction": "+",
+            "incidental_knob_spearman_mean": 0.3394112549695428,
+            "n_base_samples": 50,
+            "n_levels": 5
+          },
+          "java": {
+            "status": "OK",
+            "direction": "+",
+            "incidental_knob_spearman_mean": 0.35355339059327373,
+            "n_base_samples": 50,
+            "n_levels": 5
+          },
+          "cpp": {
+            "status": "OK",
+            "direction": "+",
+            "incidental_knob_spearman_mean": 0.35355339059327373,
+            "n_base_samples": 50,
+            "n_levels": 5
+          }
+        },
+        "python_clean_to_max_spearman_mean": 0.7499039627182468
       }
     },
     "cognitive": {

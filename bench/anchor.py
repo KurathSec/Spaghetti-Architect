@@ -96,6 +96,28 @@ def _wrap_for_cc(src: str) -> str:
 
 
 # --------------------------------------------------------------------------- #
+# Per-language lizard analysis (Finding 7: cross-language construct validity).
+# lizard infers the source language from the filename extension and reports
+# cyclomatic complexity per *function*. The Python and JavaScript sources we emit
+# are flat top-level scripts, so we wrap each in a single function so lizard has a
+# measurable unit; Go/Java/C++ already define functions (``main`` + helpers) and
+# are passed through verbatim. This wrapper is the ONLY change needed to run the
+# (genuinely language-agnostic) lizard CC anchor on every language, not just
+# Python -- radon/cognitive/MI remain Python-only (they are Python-AST tools).
+# --------------------------------------------------------------------------- #
+_LANG_EXT = {"python": ".py", "javascript": ".js", "go": ".go",
+             "java": ".java", "cpp": ".cpp"}
+
+
+def _wrap_for_cc_lang(lang: str, src: str) -> str:
+    if lang == "python":
+        return _wrap_for_cc(src)
+    if lang == "javascript":
+        return "function _spaghetti() {\n" + (src if src.strip() else "return;") + "\n}\n"
+    return src  # go/java/cpp already define functions lizard can measure
+
+
+# --------------------------------------------------------------------------- #
 # Buse--Weimer (2010) readability FEATURE SET (Fig. 6).
 #
 # Source: R. P. L. Buse and W. R. Weimer, "Learning a Metric for Code
@@ -499,6 +521,93 @@ def _compute_bw_readability(rows: List[dict]) -> dict:
 
 
 # --------------------------------------------------------------------------- #
+# Cross-language lizard cyclomatic complexity (Finding 7).
+#
+# lizard is the only anchor here that is genuinely language-agnostic, so we run it
+# on EACH language's source -- not just Python -- to test whether the incidental
+# "messiness" knob moves cyclomatic complexity monotonically in every language.
+#
+# Knob levels: the five engine messiness profiles (minimal < light < standard <
+# heavy < max), which exist identically in all five languages. The ``clean``
+# idiomatic floor is defined ONLY for Python (``eval.metrics.clean_baseline_static``;
+# there is no idiomatic-floor generator for the brace languages), so for an
+# apples-to-apples cross-language comparison we use the five engine profiles in
+# every language and report Python's ``clean..max`` figure separately as a
+# reference. A language whose source lizard cannot expose as a function records an
+# honest SKIP for that language -- never a fabricated number.
+# --------------------------------------------------------------------------- #
+def _compute_cross_language_lizard(sp, lizard_mod, version: str) -> dict:
+    def cc(lang: str, src: str) -> Optional[float]:
+        res = lizard_mod.analyze_file.analyze_source_code(
+            "_spaghetti" + _LANG_EXT[lang], _wrap_for_cc_lang(lang, src))
+        vals = [f.cyclomatic_complexity for f in res.function_list]
+        return float(max(vals)) if vals else None
+
+    profiles = D.PROFILES                       # minimal..max (5 levels)
+    ranks = list(range(len(profiles)))
+    per_lang_rhos: Dict[str, List[float]] = {L: [] for L in D.LANGS}
+    failed_cells: Dict[str, int] = {L: 0 for L in D.LANGS}
+    py_clean_rhos: List[float] = []
+    for it in sp.items:
+        if it.is_variant:
+            continue
+        prog = sp.program(it.stem)
+        srcs = {p: sp.sources(it.stem, p) for p in profiles}
+        for L in D.LANGS:
+            vals: List[float] = []
+            ok = True
+            for p in profiles:
+                v = cc(L, srcs[p][L])
+                if v is None:
+                    failed_cells[L] += 1
+                    ok = False
+                    v = 1.0
+                vals.append(v)
+            if ok:
+                per_lang_rhos[L].append(G.spearman(ranks, vals))
+        # Python clean..max reference (the idiomatic floor is Python-only).
+        clean_v = cc("python", M.clean_baseline_static(prog))
+        py_vals = [clean_v if clean_v is not None else 1.0]
+        py_vals += [cc("python", srcs[p]["python"]) or 1.0 for p in profiles]
+        py_clean_rhos.append(G.spearman(list(range(len(py_vals))), py_vals))
+
+    per_language: Dict[str, dict] = {}
+    for L in D.LANGS:
+        rhos = per_lang_rhos[L]
+        if rhos and failed_cells[L] == 0:
+            per_language[L] = {
+                "status": "OK", "direction": "+",
+                "incidental_knob_spearman_mean": G.mean(rhos),
+                "n_base_samples": len(rhos), "n_levels": len(profiles),
+            }
+        else:
+            per_language[L] = {
+                "status": "SKIP", "direction": "+",
+                "reason": f"lizard exposed no measurable function for "
+                          f"{failed_cells[L]} {L} source cell(s) "
+                          f"({len(rhos)} usable samples); no number fabricated.",
+            }
+    return {
+        "metric": "cyclomatic_complexity",
+        "aggregation": "max cyclomatic_complexity over lizard function_list per source",
+        "version": version,
+        "knob_levels": list(profiles),
+        "note": "lizard is the only genuinely language-agnostic anchor, so it is run "
+                "per language over the five engine messiness profiles (minimal..max), "
+                "which exist identically in all five languages. Python/JS flat scripts "
+                "are wrapped in a single function so lizard exposes the body; "
+                "Go/Java/C++ already define functions. The `clean` idiomatic floor "
+                "exists only for Python, so the cross-language lane omits it and "
+                "reports Python's clean..max value separately. radon/cognitive/MI "
+                "stay Python-only (Python-AST tools); Buse-Weimer features stay "
+                "Python-only (stdlib tokenize re-implementation).",
+        "per_language": per_language,
+        "python_clean_to_max_spearman_mean": (
+            G.mean(py_clean_rhos) if py_clean_rhos else None),
+    }
+
+
+# --------------------------------------------------------------------------- #
 # main compute
 # --------------------------------------------------------------------------- #
 def compute() -> dict:
@@ -583,6 +692,14 @@ def compute() -> dict:
 
     # 3b) the runnable Buse--Weimer readability FEATURE anchor (always OK; stdlib).
     anchors["bw_readability"] = _compute_bw_readability(bw_rows)
+
+    # 3c) cross-language lizard CC (Finding 7): the one language-agnostic anchor,
+    #     run on every language's source (not just Python). Additive: it does not
+    #     touch the Python-only per-anchor numbers computed above.
+    if probed["lizard"] is not None:
+        import lizard as _lizard_mod  # noqa: F401 (probe already confirmed import)
+        anchors["lizard"]["cross_language"] = _compute_cross_language_lizard(
+            sp, _lizard_mod, anchors["lizard"]["version"])
 
     # 4) per-sample radon view (kept for backward compat / judge-vs-anchor) +
     #    legacy top-level radon correlations that run_bench.py reads.
@@ -671,6 +788,14 @@ def main() -> int:
         print(f"  {anchor} ({a['version']}): {hm} vs knob "
               f"rho={_fmt(spec['incidental_knob_spearman_mean'])} (expect {sign}1); "
               f"crosscheck rho={_fmt(spec['crosscheck_vs_our_lane_spearman'])}")
+        xl = a.get("cross_language")
+        if xl:
+            cells = "  ".join(
+                f"{L}={_fmt(pl.get('incidental_knob_spearman_mean')) if pl['status']=='OK' else 'SKIP'}"
+                for L, pl in xl["per_language"].items())
+            print(f"    cross-language CC vs knob (minimal..max): {cells}")
+            print(f"    [python clean..max ref rho="
+                  f"{_fmt(xl['python_clean_to_max_spearman_mean'])}]")
     for anchor in skip:
         print(f"  {anchor}: SKIP")
     return 0
