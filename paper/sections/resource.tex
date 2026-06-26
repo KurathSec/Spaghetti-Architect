@@ -10,11 +10,81 @@
 \label{sec:resource}
 
 \subsection{Pipeline overview}
-\tool{} is a staged pipeline:
-\[
-\textsf{IR JSON} \rightarrow \textsf{Parser} \rightarrow \textsf{Planner}
-\rightarrow \textsf{Generators ($\times 5$, +safety)} \rightarrow \textsf{Validator}.
-\]
+\tool{} is a staged pipeline that turns a clean, language-agnostic JSON IR into an
+oracle-validated, two-axis-labelled multi-language dataset (\Cref{fig:pipeline}).
+
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[
+  font=\footnotesize,
+  node distance=5mm and 6mm,
+  every node/.style={align=center},
+  stage/.style={draw, rounded corners, fill=blue!7, inner sep=3pt, minimum height=8.5mm, text width=14mm},
+  store/.style={draw, cylinder, shape border rotate=90, aspect=0.16, fill=gray!12, inner sep=3pt, minimum height=9mm, text width=14mm},
+  chip/.style={draw, rounded corners=1.5pt, fill=white, inner xsep=3pt, inner ysep=1.8pt, font=\scriptsize, minimum width=14mm},
+  note/.style={font=\scriptsize, inner sep=1.5pt, text width=20mm},
+  flow/.style={->, semithick},
+]
+% input
+\node[store] (ir) {JSON IR};
+\node[note, below=1pt of ir, text width=22mm] (ops) {known-optimal reference; 4 op primitives};
+% parser
+\node[stage, right=of ir] (parser) {Parser};
+\node[note, below=1pt of parser, text width=17mm] {validate IR $\to$ typed model};
+% planner
+\node[stage, right=8mm of parser] (planner) {Planner};
+% generators
+\node[chip, right=10mm of planner] (g3) {Go};
+\node[chip, above=1.6pt of g3] (g2) {JavaScript};
+\node[chip, above=1.6pt of g2] (g1) {Python};
+\node[chip, below=1.6pt of g3] (g4) {Java};
+\node[chip, below=1.6pt of g4] (g5) {C++};
+\node[note, above=1.4pt of g1] (genlbl) {Generators ($\times5$)};
+\node[draw, rounded corners, dashed, fill=none, inner sep=3pt, fit=(genlbl)(g5)] (gen) {};
+% validator
+\node[stage, right=8mm of gen] (val) {Validator\\+ Oracle};
+\node[note, below=1pt of val, text width=23mm] {compile, run, compare to oracle (missing $\to$ SKIP)};
+% anti-pattern database / messiness knob feeding the planner
+\node[store, below=11mm of planner, text width=36mm, font=\scriptsize] (db)
+  {Anti-pattern database \& messiness knob:\\clean\,$\subset$\,minimal\,$\subset$\,light\\$\subset$\,standard\,$\subset$\,heavy\,$\subset$\,max\\\textit{(fixed semantics)}};
+% output splits
+\node[chip, right=9mm of val, text width=30mm] (dev) {\textbf{dev} split:\\public, committed};
+\node[chip, below=2pt of dev, text width=30mm] (test) {\textbf{test} split:\\private, held-out};
+\node[note, above=1.4pt of dev] (datalbl) {Labelled dataset};
+% background fills (drawn behind node contents so labels stay visible)
+\begin{scope}[on background layer]
+\node[draw, rounded corners, fill=green!7, inner sep=3pt, fit=(datalbl)(dev)(test)] (data) {};
+\node[draw, rounded corners, fill=gray!5, inner sep=6pt, fit=(parser)(planner)(gen)(val)(db)] (tool) {};
+\end{scope}
+% flow
+\draw[flow] (ir) -- (parser);
+\draw[flow] (parser) -- (planner);
+\draw[flow] (planner) -- (gen);
+\draw[flow] (gen) -- (val);
+\draw[flow] (val) -- (data);
+\draw[flow] (db) -- (planner);
+% annotations
+\node[note, text width=40mm] at ([yshift=2.3mm]tool.north) {\tool{} (anti-optimization transpiler)};
+\node[note, below=1pt of data, text width=34mm] (axes) {2 orthogonal axes: \emph{intrinsic} size (N/L/W/T) $\times$ \emph{incidental} messiness};
+\end{tikzpicture}
+\caption{The \tool{} pipeline. A clean, language-agnostic JSON IR---built from four
+operation primitives (\texttt{MEMBERSHIP\_CHECK}, \texttt{KEY\_VALUE\_LOOKUP},
+\texttt{AGGREGATE}, \texttt{CONDITIONAL\_SELECT}) and serving as the known-optimal
+reference---is validated by the \emph{Parser} into a typed model, so a malformed IR can
+never reach a generator. The \emph{Planner} then selects an anti-pattern profile from a
+data-driven database via the strictly-nested six-level messiness knob
+(\textsf{clean}\,$\subset$\,\textsf{minimal}\,$\subset$\,\textsf{light}\,$\subset$\,\textsf{standard}\,$\subset$\,\textsf{heavy}\,$\subset$\,\textsf{max})
+\emph{at fixed semantics}; five \emph{Generators} emit the deliberately redundant,
+fully-flattened programs (Python, JavaScript, Go, Java, C++); and the \emph{Validator}
+compiles and runs each target against a reference \emph{oracle} (a missing toolchain
+\textsf{SKIP}s, never a silent pass). The output is a dataset labelled along two
+orthogonal difficulty axes---\emph{intrinsic} problem size ($N$/$L$/$W$/$T$) and
+\emph{incidental} presentation (the messiness knob at fixed semantics)---split into a
+public, committed \texttt{dev} split and a private \texttt{test} split minted from a
+never-committed held-out seed.}
+\label{fig:pipeline}
+\end{figure}
+
 The \emph{Parser} validates the IR into a typed model (so a malformed IR can never reach
 a generator). The \emph{Planner} reads a data-driven anti-pattern database and selects
 which transforms apply per operation at the chosen \emph{profile}. Each of five
@@ -142,7 +212,7 @@ absorbed. The asymmetry is the mitigation: the inspectable half is allowed to be
 trainable so that the scored half does not have to be.
 
 \paragraph{Canary.} A canary GUID is embedded in the public release
-(\texttt{spaghetti-architect-bench:canary:9f1d4e7a-\dots}). A model that reproduces it has
+(\texttt{spaghetti-architect-bench:\allowbreak canary:\allowbreak 9f1d4e7a-\dots}). A model that reproduces it has
 demonstrably ingested the public split, turning training-set inclusion into something an
 auditor can probe rather than assume.
 

@@ -51,7 +51,9 @@ DeepSeek-v4-flash (partial) & $0.61^{\dagger}$ & n/a$^{\ddagger}$ & $1.00^{\S}$ 
 \vspace{2pt}
 {\footnotesize
 $^{\dagger}$ Python AST lane, \texttt{discovery\_pipeline} family only ($n{=}12$ graded
-Python items; semantic-equivalence rate $0.76$ over all five languages of that family).
+Python items; semantic-equivalence rate $0.76$ over all five languages of that family);
+the language-agnostic \texttt{uniform\_lane} gives $0.78$ across all five languages, just
+below the clean-ceiling's $0.95$.
 $^{\ddagger}$ No judge batch was collected for this model.
 $^{\S}$ Pooled over the two collected families (\texttt{discovery\_pipeline},
 \texttt{status\_router}); $160$ graded items.
@@ -75,7 +77,8 @@ rank-vs-complexity $\rho \approx -0.99$). This is a deliberately strong non-LLM 
 because complexity is monotone with the construction knob \emph{by design}, any useful LLM
 judge must be measured \emph{against} this floor, not merely above chance. Finally, the
 DeepSeek-v4-flash row shows the metrics respond to real model outputs --- partial recovery
-on refactoring ($0.61$, with $0.76$ of completions semantically valid) and saturated
+on refactoring ($0.61$ on the Python AST lane and $0.78$ on the cross-language uniform
+lane, with $0.76$ of completions semantically valid) and saturated
 exact-match on these small-output comprehension items ($1.00$) --- without constituting a
 model evaluation. A bounded-cost strengthening (one or two additional cheap models across
 all families, gated behind the live-run cost controls) is left to the deferred study if

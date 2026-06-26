@@ -71,8 +71,11 @@
       0.6668234599391439
     ],
     "simplification_quality_n": 12,
-    "uniform_quality_mean": null,
-    "uniform_quality_ci95": null,
+    "uniform_quality_mean": 0.776846809549887,
+    "uniform_quality_ci95": [
+      0.7626431262946173,
+      0.7908821936179692
+    ],
     "failure_modes": {
       "broke_equivalence": 139,
       "no_change": 0,
@@ -105,17 +108,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.5,
-        "branch_keywords": 0.9499072356215212,
-        "tokens": 0.614362210747753
+        "bw_density": 0.8320118803384454,
+        "liz_cc": 0.9005102040816327,
+        "liz_tokens": 0.6099930603747398
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7701612626775399,
+      "uniform_quality_ci95": [
+        0.7555360214290504,
+        0.7856391294913111
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -152,17 +158,20 @@
       "k": 8,
       "semantic_ok_rate": 0.25,
       "recovery": {
-        "brace_depth": 0.5,
-        "branch_keywords": 0.78,
-        "tokens": 0.6322274881516587
+        "bw_density": 0.8715188203894741,
+        "liz_cc": 0.819672131147541,
+        "liz_tokens": 0.6849240780911063
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7877746718604648,
+      "uniform_quality_ci95": [
+        0.7732708501426264,
+        0.8022784935783033
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -199,17 +208,20 @@
       "k": 8,
       "semantic_ok_rate": 0.625,
       "recovery": {
-        "brace_depth": 0.45714285714285713,
-        "branch_keywords": 0.8708860759493671,
-        "tokens": 0.601558073654391
+        "bw_density": 0.8047450458679452,
+        "liz_cc": 0.7568627450980392,
+        "liz_tokens": 0.597772828507795
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7138577210301417,
+      "uniform_quality_ci95": [
+        0.692122466155712,
+        0.7312626314093422
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -246,17 +258,20 @@
       "k": 8,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.8,
-        "branch_keywords": 0.9253472222222222,
-        "tokens": 0.7382713440405748
+        "bw_density": 0.9026408447529992,
+        "liz_cc": 0.8981481481481481,
+        "liz_tokens": 0.7518691588785047
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8475439927280697,
+      "uniform_quality_ci95": [
+        0.8303824619232247,
+        0.864214885416535
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -305,9 +320,12 @@
         0.8764215528514085
       ],
       "simplification_quality_stdev": 0.30986181159963755,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.9111138894801004,
+      "uniform_quality_ci95": [
+        0.9108938897420564,
+        0.9112345788515456
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.875,
       "in_band_rate": 0.875,
       "over_golfed_rate": 0.0,
@@ -344,17 +362,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.9156908665105387,
-        "tokens": 0.5469291867099229
+        "bw_density": 0.7632591638462997,
+        "liz_cc": 0.8601190476190476,
+        "liz_tokens": 0.5296830652790918
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.703052107547979,
+      "uniform_quality_ci95": [
+        0.6893653581469505,
+        0.7161422911701721
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -398,17 +419,20 @@
       "k": 8,
       "semantic_ok_rate": 0.75,
       "recovery": {
-        "brace_depth": 0.3333333333333333,
-        "branch_keywords": 0.8518518518518517,
-        "tokens": 0.5396952686447474
+        "bw_density": 0.7281497108620897,
+        "liz_cc": 0.6976744186046512,
+        "liz_tokens": 0.5297212741751991
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.6450302990282522,
+      "uniform_quality_ci95": [
+        0.619105309583342,
+        0.6714172997789035
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -445,17 +469,20 @@
       "k": 8,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.75,
-        "branch_keywords": 0.9308035714285714,
-        "tokens": 0.7143382352941177
+        "bw_density": 0.8778151094147301,
+        "liz_cc": 0.9048913043478262,
+        "liz_tokens": 0.7254189944134078
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8318435187880462,
+      "uniform_quality_ci95": [
+        0.8166146501130256,
+        0.8434148402882126
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -504,9 +531,12 @@
         0.8409418940184276
       ],
       "simplification_quality_stdev": 0.3847567307178745,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8343303693740954,
+      "uniform_quality_ci95": [
+        0.7949894129302111,
+        0.8708704088885613
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.375,
       "in_band_rate": 0.375,
       "over_golfed_rate": 0.0,
@@ -550,17 +580,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.37142857142857144,
-        "branch_keywords": 0.7585034013605443,
-        "tokens": 0.59436913451512
+        "bw_density": 0.9136647370777288,
+        "liz_cc": 0.8005390835579514,
+        "liz_tokens": 0.6459854014598541
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7787323120858646,
+      "uniform_quality_ci95": [
+        0.7766891258906546,
+        0.7812956241044067
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -597,17 +630,20 @@
       "k": 8,
       "semantic_ok_rate": 0.375,
       "recovery": {
-        "brace_depth": 0.3333333333333333,
-        "branch_keywords": 0.9312169312169312,
-        "tokens": 0.6078125
+        "bw_density": 0.8007486885881142,
+        "liz_cc": 0.8759689922480619,
+        "liz_tokens": 0.5981772990886496
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.748242025206476,
+      "uniform_quality_ci95": [
+        0.7382949498305195,
+        0.7571876327785562
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -644,17 +680,20 @@
       "k": 8,
       "semantic_ok_rate": 0.625,
       "recovery": {
-        "brace_depth": 0.7,
-        "branch_keywords": 0.9428571428571428,
-        "tokens": 0.7090390104662226
+        "bw_density": 0.8770704869879733,
+        "liz_cc": 0.8869565217391304,
+        "liz_tokens": 0.7191397849462365
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8235749459386159,
+      "uniform_quality_ci95": [
+        0.7992987730243832,
+        0.848055483302517
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -703,9 +742,12 @@
         0.774839723435959
       ],
       "simplification_quality_stdev": 0.4237856338026835,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8150786133093153,
+      "uniform_quality_ci95": [
+        0.7494437918738772,
+        0.875945449883256
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.25,
       "in_band_rate": 0.25,
       "over_golfed_rate": 0.0,
@@ -742,17 +784,20 @@
       "k": 8,
       "semantic_ok_rate": 0.75,
       "recovery": {
-        "brace_depth": 0.5,
-        "branch_keywords": 0.9675324675324676,
-        "tokens": 0.6147925033467202
+        "bw_density": 0.8278008953041209,
+        "liz_cc": 0.8898809523809524,
+        "liz_tokens": 0.6073328706916493
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7646968301424758,
+      "uniform_quality_ci95": [
+        0.7503769532924025,
+        0.7808675708746303
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -817,17 +862,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.9508196721311475,
-        "tokens": 0.5413357198791812
+        "bw_density": 0.7541000123164502,
+        "liz_cc": 0.8869047619047619,
+        "liz_tokens": 0.522469252601703
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.704113325221152,
+      "uniform_quality_ci95": [
+        0.6860864960977506,
+        0.7247843981319673
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -864,17 +912,20 @@
       "k": 8,
       "semantic_ok_rate": 0.625,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.7380952380952381,
-        "tokens": 0.5861407249466951
+        "bw_density": 0.8581887974671407,
+        "liz_cc": 0.7924528301886793,
+        "liz_tokens": 0.6367041198501873
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7561332378274258,
+      "uniform_quality_ci95": [
+        0.7398406732864862,
+        0.7724258023683657
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -911,17 +962,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.38095238095238093,
-        "branch_keywords": 0.9002267573696144,
-        "tokens": 0.5666170237140565
+        "bw_density": 0.7759272308474907,
+        "liz_cc": 0.7807308970099668,
+        "liz_tokens": 0.5557045343734763
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.694777837299643,
+      "uniform_quality_ci95": [
+        0.6719241997229036,
+        0.7156427932593745
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -958,17 +1012,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.75,
-        "branch_keywords": 0.9464285714285714,
-        "tokens": 0.7145658263305322
+        "bw_density": 0.8767697430307122,
+        "liz_cc": 0.9130434782608695,
+        "liz_tokens": 0.72609736632083
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8342810337449765,
+      "uniform_quality_ci95": [
+        0.8168766139209734,
+        0.8444964161255646
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1012,17 +1069,20 @@
       "k": 8,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.9323770491803278,
-        "tokens": 0.5625
+        "bw_density": 0.7747060090095721,
+        "liz_cc": 0.8645833333333333,
+        "liz_tokens": 0.5488826815642458
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7162599300740999,
+      "uniform_quality_ci95": [
+        0.7086399989161605,
+        0.7247108506256474
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1059,17 +1119,20 @@
       "k": 8,
       "semantic_ok_rate": 0.375,
       "recovery": {
-        "brace_depth": 0.4000000000000001,
-        "branch_keywords": 0.7380952380952381,
-        "tokens": 0.5981925616962114
+        "bw_density": 0.9044854851131513,
+        "liz_cc": 0.7924528301886792,
+        "liz_tokens": 0.6504460665044607
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.775378458163959,
+      "uniform_quality_ci95": [
+        0.7696200698267317,
+        0.7805057815873049
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1113,17 +1176,20 @@
       "k": 8,
       "semantic_ok_rate": 0.75,
       "recovery": {
-        "brace_depth": 0.75,
-        "branch_keywords": 0.9136904761904762,
-        "tokens": 0.7099587694259436
+        "bw_density": 0.874365071746681,
+        "liz_cc": 0.8949275362318841,
+        "liz_tokens": 0.7227598566308244
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8262476021341348,
+      "uniform_quality_ci95": [
+        0.8027122039348048,
+        0.8491008101298686
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1172,9 +1238,12 @@
         0.8358640056584937
       ],
       "simplification_quality_stdev": 0.3850346622812076,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8222979230016053,
+      "uniform_quality_ci95": [
+        0.7854388011063641,
+        0.8591570448968464
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.25,
       "in_band_rate": 0.25,
       "over_golfed_rate": 0.0,
@@ -1211,17 +1280,20 @@
       "k": 8,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.5,
-        "branch_keywords": 0.9464285714285714,
-        "tokens": 0.6097826086956522
+        "bw_density": 0.8236268086488318,
+        "liz_cc": 0.8883928571428571,
+        "liz_tokens": 0.602635228848821
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7610443685986964,
+      "uniform_quality_ci95": [
+        0.7502482276756635,
+        0.774307563811135
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1258,17 +1330,20 @@
       "k": 8,
       "semantic_ok_rate": 0.625,
       "recovery": {
-        "brace_depth": 0.4666666666666667,
-        "branch_keywords": 0.796,
-        "tokens": 0.6295454545454546
+        "bw_density": 0.9119932406011774,
+        "liz_cc": 0.8262295081967214,
+        "liz_tokens": 0.6806067172264355
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8003926799958829,
+      "uniform_quality_ci95": [
+        0.7948436475242147,
+        0.8073777201463107
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1305,17 +1380,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.4489795918367347,
-        "branch_keywords": 0.9005424954792043,
-        "tokens": 0.6226872914771003
+        "bw_density": 0.810842551250372,
+        "liz_cc": 0.8151260504201681,
+        "liz_tokens": 0.6177405680373039
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.741560168245205,
+      "uniform_quality_ci95": [
+        0.7225981250923317,
+        0.7624615692073505
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1352,17 +1430,20 @@
       "k": 8,
       "semantic_ok_rate": 0.75,
       "recovery": {
-        "brace_depth": 0.8000000000000002,
-        "branch_keywords": 0.9467592592592592,
-        "tokens": 0.7421171171171171
+        "bw_density": 0.9030780536818558,
+        "liz_cc": 0.9290123456790124,
+        "liz_tokens": 0.7575474634298164
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8594258502545998,
+      "uniform_quality_ci95": [
+        0.8409022186580358,
+        0.8714170278895482
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1406,17 +1487,20 @@
       "k": 8,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.9262295081967213,
-        "tokens": 0.5453834115805947
+        "bw_density": 0.7702151046317708,
+        "liz_cc": 0.8645833333333333,
+        "liz_tokens": 0.5294665012406948
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.706325810854093,
+      "uniform_quality_ci95": [
+        0.6962078994314324,
+        0.7133048359761455
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1453,17 +1537,20 @@
       "k": 8,
       "semantic_ok_rate": 0.5,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.7380952380952381,
-        "tokens": 0.5862619808306709
+        "bw_density": 0.9118631940546371,
+        "liz_cc": 0.7924528301886793,
+        "liz_tokens": 0.6362219451371571
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7717639896929512,
+      "uniform_quality_ci95": [
+        0.7647209222612096,
+        0.7755031801079317
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1500,17 +1587,20 @@
       "k": 8,
       "semantic_ok_rate": 0.625,
       "recovery": {
-        "brace_depth": 0.3333333333333333,
-        "branch_keywords": 0.9523809523809523,
-        "tokens": 0.5927884615384615
+        "bw_density": 0.7922227518278866,
+        "liz_cc": 0.9069767441860466,
+        "liz_tokens": 0.5802216538789429
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7470343782880418,
+      "uniform_quality_ci95": [
+        0.7444543251577601,
+        0.7497866955328524
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1547,17 +1637,20 @@
       "k": 8,
       "semantic_ok_rate": 0.75,
       "recovery": {
-        "brace_depth": 0.75,
-        "branch_keywords": 0.9434523809523809,
-        "tokens": 0.6980084884100556
+        "bw_density": 0.872224052886835,
+        "liz_cc": 0.8695652173913043,
+        "liz_tokens": 0.7088913690476191
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8123674147770412,
+      "uniform_quality_ci95": [
+        0.7757232302734854,
+        0.8432167897458854
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1606,9 +1699,12 @@
         0.8463710805207548
       ],
       "simplification_quality_stdev": 0.2975025841489536,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8276822173880145,
+      "uniform_quality_ci95": [
+        0.797321372591252,
+        0.8680025338994584
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.375,
       "in_band_rate": 0.375,
       "over_golfed_rate": 0.0,
@@ -1645,17 +1741,20 @@
       "k": 8,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.9262295081967213,
-        "tokens": 0.5523431594860166
+        "bw_density": 0.7681418858535938,
+        "liz_cc": 0.859375,
+        "liz_tokens": 0.5345893141945773
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7065100945791124,
+      "uniform_quality_ci95": [
+        0.6946595904022158,
+        0.7165847982363417
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1699,17 +1798,20 @@
       "k": 8,
       "semantic_ok_rate": 0.5,
       "recovery": {
-        "brace_depth": 0.3333333333333333,
-        "branch_keywords": 0.9206349206349206,
-        "tokens": 0.5724043715846995
+        "bw_density": 0.7946001364259873,
+        "liz_cc": 0.8430232558139534,
+        "liz_tokens": 0.5658112582781457
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7227970880996311,
+      "uniform_quality_ci95": [
+        0.7066772525831861,
+        0.7445640556384948
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1746,17 +1848,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.75,
-        "branch_keywords": 0.9183673469387755,
-        "tokens": 0.7126561651276481
+        "bw_density": 0.8759830624729151,
+        "liz_cc": 0.8944099378881988,
+        "liz_tokens": 0.7237992941537517
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8270439272748559,
+      "uniform_quality_ci95": [
+        0.7988205740820291,
+        0.844457711300539
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1805,9 +1910,12 @@
         0.8581940685758669
       ],
       "simplification_quality_stdev": 0.3968345030678496,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8738154118097613,
+      "uniform_quality_ci95": [
+        0.8406453163428372,
+        0.891769730008252
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.625,
       "in_band_rate": 0.625,
       "over_golfed_rate": 0.0,
@@ -1851,17 +1959,20 @@
       "k": 8,
       "semantic_ok_rate": 0.625,
       "recovery": {
-        "brace_depth": 0.5,
-        "branch_keywords": 0.78,
-        "tokens": 0.6348815165876778
+        "bw_density": 0.8975827713917461,
+        "liz_cc": 0.8196721311475411,
+        "liz_tokens": 0.6889370932754881
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7971389070247621,
+      "uniform_quality_ci95": [
+        0.7830926560695167,
+        0.808306661226912
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1898,17 +2009,20 @@
       "k": 8,
       "semantic_ok_rate": 0.5,
       "recovery": {
-        "brace_depth": 0.42857142857142855,
-        "branch_keywords": 0.8987341772151899,
-        "tokens": 0.618271954674221
+        "bw_density": 0.826270420890059,
+        "liz_cc": 0.7990196078431373,
+        "liz_tokens": 0.6159985152190052
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7407835149380697,
+      "uniform_quality_ci95": [
+        0.727980333196686,
+        0.7535866966794535
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1945,17 +2059,20 @@
       "k": 8,
       "semantic_ok_rate": 0.75,
       "recovery": {
-        "brace_depth": 0.8000000000000002,
-        "branch_keywords": 0.9421296296296297,
-        "tokens": 0.7566920259227952
+        "bw_density": 0.9088171359466174,
+        "liz_cc": 0.941358024691358,
+        "liz_tokens": 0.7735202492211838
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8714300980190673,
+      "uniform_quality_ci95": [
+        0.8665777569294183,
+        0.8738728911852292
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -1999,17 +2116,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.9437939110070257,
-        "tokens": 0.5407763731961069
+        "bw_density": 0.7731813189531419,
+        "liz_cc": 0.8720238095238095,
+        "liz_tokens": 0.5247161778618732
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.707123375989682,
+      "uniform_quality_ci95": [
+        0.7012653678421128,
+        0.713090345397035
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2046,17 +2166,20 @@
       "k": 8,
       "semantic_ok_rate": 0.5,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.7380952380952381,
-        "tokens": 0.585820895522388
+        "bw_density": 0.889891252736191,
+        "liz_cc": 0.7924528301886793,
+        "liz_tokens": 0.6351435705368289
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7650757888834653,
+      "uniform_quality_ci95": [
+        0.7607693915080761,
+        0.7725869568324856
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2093,17 +2216,20 @@
       "k": 8,
       "semantic_ok_rate": 0.625,
       "recovery": {
-        "brace_depth": 0.3333333333333333,
-        "branch_keywords": 0.9015873015873016,
-        "tokens": 0.57514033680834
+        "bw_density": 0.7731107770077218,
+        "liz_cc": 0.7953488372093023,
+        "liz_tokens": 0.5621160409556314
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7015920043127142,
+      "uniform_quality_ci95": [
+        0.6844326933882343,
+        0.7292862311720526
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2140,17 +2266,20 @@
       "k": 8,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.75,
-        "branch_keywords": 0.9330357142857143,
-        "tokens": 0.7058823529411764
+        "bw_density": 0.8793803159198149,
+        "liz_cc": 0.8858695652173914,
+        "liz_tokens": 0.7162011173184357
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8223922703300908,
+      "uniform_quality_ci95": [
+        0.7967359032460418,
+        0.8423857862396488
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2199,9 +2328,12 @@
         0.8424027146581178
       ],
       "simplification_quality_stdev": 0.2949185048603678,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8260235413576659,
+      "uniform_quality_ci95": [
+        0.7643703466296647,
+        0.8733082712482497
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.5,
       "in_band_rate": 0.5,
       "over_golfed_rate": 0.0,
@@ -2238,17 +2370,20 @@
       "k": 8,
       "semantic_ok_rate": 0.625,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.9311475409836065,
-        "tokens": 0.5556732223903177
+        "bw_density": 0.7705099135806694,
+        "liz_cc": 0.8708333333333333,
+        "liz_tokens": 0.5399840383080606
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7128073189910878,
+      "uniform_quality_ci95": [
+        0.6997832301787255,
+        0.7215530890902352
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2285,17 +2420,20 @@
       "k": 8,
       "semantic_ok_rate": 0.75,
       "recovery": {
-        "brace_depth": 0.4000000000000001,
-        "branch_keywords": 0.7380952380952381,
-        "tokens": 0.5964546402502607
+        "bw_density": 0.9081986618875227,
+        "liz_cc": 0.7924528301886792,
+        "liz_tokens": 0.648418491484185
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.775633797852804,
+      "uniform_quality_ci95": [
+        0.770518967609323,
+        0.7809237193132823
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2332,17 +2470,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.3095238095238095,
-        "branch_keywords": 0.8639455782312925,
-        "tokens": 0.5659598214285715
+        "bw_density": 0.7406474367207715,
+        "liz_cc": 0.7408637873754154,
+        "liz_tokens": 0.5553319919517102
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.6718262354493924,
+      "uniform_quality_ci95": [
+        0.6268887631760968,
+        0.7156836976995462
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2379,17 +2520,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.75,
-        "branch_keywords": 0.923469387755102,
-        "tokens": 0.7153731140410493
+        "bw_density": 0.8795644810769959,
+        "liz_cc": 0.8788819875776398,
+        "liz_tokens": 0.7291858678955453
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8252309524063843,
+      "uniform_quality_ci95": [
+        0.7945848087898517,
+        0.8485483465389712
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2438,9 +2582,12 @@
         0.7450309123978083
       ],
       "simplification_quality_stdev": 0.45415749246631815,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8409518229365437,
+      "uniform_quality_ci95": [
+        0.7896573236848832,
+        0.8922463221882043
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.25,
       "in_band_rate": 0.25,
       "over_golfed_rate": 0.0,
@@ -2477,17 +2624,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.5,
-        "branch_keywords": 0.9387755102040816,
-        "tokens": 0.6082424937846626
+        "bw_density": 0.8231151439396118,
+        "liz_cc": 0.8801020408163265,
+        "liz_tokens": 0.6020620600773272
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7583070519025342,
+      "uniform_quality_ci95": [
+        0.750080370182237,
+        0.7663225861660636
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2524,17 +2674,20 @@
       "k": 8,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.5,
-        "branch_keywords": 0.78,
-        "tokens": 0.6327014218009479
+        "bw_density": 0.9107735762370204,
+        "liz_cc": 0.819672131147541,
+        "liz_tokens": 0.6858731019522777
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7998133443803738,
+      "uniform_quality_ci95": [
+        0.7888217690243005,
+        0.8079599390589601
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2571,17 +2724,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.4081632653061224,
-        "branch_keywords": 0.9005424954792043,
-        "tokens": 0.6145285309591259
+        "bw_density": 0.8001019223775874,
+        "liz_cc": 0.8011204481792716,
+        "liz_tokens": 0.6111994909322302
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7311070559049849,
+      "uniform_quality_ci95": [
+        0.694136790363008,
+        0.7634965116495549
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2632,17 +2788,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.9156908665105387,
-        "tokens": 0.5366372077413581
+        "bw_density": 0.7496337045802388,
+        "liz_cc": 0.8601190476190476,
+        "liz_tokens": 0.5165562913907285
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.6930322028900177,
+      "uniform_quality_ci95": [
+        0.6810716437316626,
+        0.703984280479858
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2679,17 +2838,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.7380952380952381,
-        "tokens": 0.5855924459335974
+        "bw_density": 0.903108228261089,
+        "liz_cc": 0.7924528301886793,
+        "liz_tokens": 0.6347422864276797
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7687057624009261,
+      "uniform_quality_ci95": [
+        0.7661816317848746,
+        0.7718417159097838
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2726,17 +2888,20 @@
       "k": 8,
       "semantic_ok_rate": 0.5,
       "recovery": {
-        "brace_depth": 0.3333333333333333,
-        "branch_keywords": 0.8492063492063492,
-        "tokens": 0.5489174017642342
+        "bw_density": 0.7492605171321722,
+        "liz_cc": 0.6918604651162791,
+        "liz_tokens": 0.5411689419795221
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.6537380260013317,
+      "uniform_quality_ci95": [
+        0.6150990996887369,
+        0.6923984869783782
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2773,17 +2938,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.75,
-        "branch_keywords": 0.9260204081632653,
-        "tokens": 0.6987394957983194
+        "bw_density": 0.8717690543883602,
+        "liz_cc": 0.8478260869565217,
+        "liz_tokens": 0.7080606544293696
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8053953325187335,
+      "uniform_quality_ci95": [
+        0.7844513245482937,
+        0.8345642108696499
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2832,9 +3000,12 @@
         0.8599062766369215
       ],
       "simplification_quality_stdev": 0.3958540582355627,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8706796499540231,
+      "uniform_quality_ci95": [
+        0.8369757191224453,
+        0.8877149477154577
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.625,
       "in_band_rate": 0.625,
       "over_golfed_rate": 0.0,
@@ -2871,17 +3042,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.9508196721311475,
-        "tokens": 0.5565161011454506
+        "bw_density": 0.7809818425156283,
+        "liz_cc": 0.8779761904761905,
+        "liz_tokens": 0.5413293809143769
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7185815087314916,
+      "uniform_quality_ci95": [
+        0.713785012448479,
+        0.7221963379484703
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2925,17 +3099,20 @@
       "k": 8,
       "semantic_ok_rate": 0.625,
       "recovery": {
-        "brace_depth": 0.3333333333333333,
-        "branch_keywords": 0.8634920634920634,
-        "tokens": 0.565625
+        "bw_density": 0.7646474974777495,
+        "liz_cc": 0.7488372093023256,
+        "liz_tokens": 0.5489643744821873
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.6787506171446329,
+      "uniform_quality_ci95": [
+        0.6565651426119001,
+        0.7034527836939051
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -2972,17 +3149,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.75,
-        "branch_keywords": 0.9464285714285714,
-        "tokens": 0.7288296860133207
+        "bw_density": 0.8817841058604278,
+        "liz_cc": 0.9347826086956522,
+        "liz_tokens": 0.7430107526881721
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8492198223283355,
+      "uniform_quality_ci95": [
+        0.8475384744475701,
+        0.8500698584499077
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3031,9 +3211,12 @@
         0.7505171994686288
       ],
       "simplification_quality_stdev": 0.4308073839319247,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8461491716253391,
+      "uniform_quality_ci95": [
+        0.8004217769257543,
+        0.890457818983309
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.375,
       "in_band_rate": 0.375,
       "over_golfed_rate": 0.0,
@@ -3070,17 +3253,20 @@
       "k": 8,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.5,
-        "branch_keywords": 0.9415584415584415,
-        "tokens": 0.6078480589022758
+        "bw_density": 0.8259383361074232,
+        "liz_cc": 0.8839285714285714,
+        "liz_tokens": 0.6005378209576683
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7596353473621724,
+      "uniform_quality_ci95": [
+        0.7558497867776331,
+        0.7631627025223617
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3117,17 +3303,20 @@
       "k": 8,
       "semantic_ok_rate": 0.75,
       "recovery": {
-        "brace_depth": 0.5,
-        "branch_keywords": 0.7799999999999999,
-        "tokens": 0.631911532385466
+        "bw_density": 0.9268089614997986,
+        "liz_cc": 0.819672131147541,
+        "liz_tokens": 0.6840202458423716
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8039451763947557,
+      "uniform_quality_ci95": [
+        0.8007003702513621,
+        0.8063334305198868
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3164,17 +3353,20 @@
       "k": 8,
       "semantic_ok_rate": 0.75,
       "recovery": {
-        "brace_depth": 0.4047619047619047,
-        "branch_keywords": 0.8797468354430379,
-        "tokens": 0.6083569405099151
+        "bw_density": 0.789243789462046,
+        "liz_cc": 0.7777777777777777,
+        "liz_tokens": 0.6036872061370947
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7178016871129719,
+      "uniform_quality_ci95": [
+        0.6876652868369528,
+        0.7491986982713882
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3211,17 +3403,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.8,
-        "branch_keywords": 0.9563492063492064,
-        "tokens": 0.7459244052650646
+        "bw_density": 0.9099258840878156,
+        "liz_cc": 0.8968253968253969,
+        "liz_tokens": 0.7632843791722296
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8534563438681976,
+      "uniform_quality_ci95": [
+        0.827414144586462,
+        0.8753184176404277
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3270,9 +3465,12 @@
         0.8689810470757339
       ],
       "simplification_quality_stdev": 0.40123701189024785,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8808420181197717,
+      "uniform_quality_ci95": [
+        0.8521062679181685,
+        0.9089449833154668
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.5,
       "in_band_rate": 0.5,
       "over_golfed_rate": 0.0,
@@ -3309,17 +3507,20 @@
       "k": 8,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.9323770491803278,
-        "tokens": 0.5403288958496476
+        "bw_density": 0.7636919152935294,
+        "liz_cc": 0.8671875,
+        "liz_tokens": 0.5239031456953642
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.702599497801295,
+      "uniform_quality_ci95": [
+        0.6909638855553126,
+        0.7128177397180815
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3356,17 +3557,20 @@
       "k": 8,
       "semantic_ok_rate": 0.625,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.7380952380952381,
-        "tokens": 0.5805970149253732
+        "bw_density": 0.8921043096837437,
+        "liz_cc": 0.7924528301886793,
+        "liz_tokens": 0.6309612983770287
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7639375943149331,
+      "uniform_quality_ci95": [
+        0.7512902748956524,
+        0.7752902683064615
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3403,17 +3607,20 @@
       "k": 8,
       "semantic_ok_rate": 0.75,
       "recovery": {
-        "brace_depth": 0.3333333333333333,
-        "branch_keywords": 0.9047619047619047,
-        "tokens": 0.5808607324244854
+        "bw_density": 0.7596897799101363,
+        "liz_cc": 0.8333333333333334,
+        "liz_tokens": 0.5698236632536974
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7115811573623617,
+      "uniform_quality_ci95": [
+        0.688277273579947,
+        0.7324999422498307
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3450,17 +3657,20 @@
       "k": 8,
       "semantic_ok_rate": 0.75,
       "recovery": {
-        "brace_depth": 0.75,
-        "branch_keywords": 0.9285714285714285,
-        "tokens": 0.7024509803921569
+        "bw_density": 0.8788703140964307,
+        "liz_cc": 0.8695652173913043,
+        "liz_tokens": 0.7139664804469273
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.816139154799791,
+      "uniform_quality_ci95": [
+        0.7837293239465017,
+        0.8417318201692431
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3504,17 +3714,20 @@
       "k": 8,
       "semantic_ok_rate": 1.0,
       "recovery": {
-        "brace_depth": 0.4,
-        "branch_keywords": 0.9323770491803278,
-        "tokens": 0.5581505295007564
+        "bw_density": 0.7648818282799099,
+        "liz_cc": 0.8854166666666666,
+        "liz_tokens": 0.5438946528332003
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7167301521448517,
+      "uniform_quality_ci95": [
+        0.7025911458465373,
+        0.7340435198871729
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3551,17 +3764,20 @@
       "k": 8,
       "semantic_ok_rate": 0.375,
       "recovery": {
-        "brace_depth": 0.4000000000000001,
-        "branch_keywords": 0.7380952380952381,
-        "tokens": 0.5995828988529719
+        "bw_density": 0.9258876326220672,
+        "liz_cc": 0.7924528301886792,
+        "liz_tokens": 0.6536901865369019
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.7827650756395029,
+      "uniform_quality_ci95": [
+        0.7802481485893619,
+        0.7868165972724489
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3605,17 +3821,20 @@
       "k": 8,
       "semantic_ok_rate": 0.875,
       "recovery": {
-        "brace_depth": 0.75,
-        "branch_keywords": 0.9285714285714286,
-        "tokens": 0.7152371890716325
+        "bw_density": 0.878434536105012,
+        "liz_cc": 0.8695652173913044,
+        "liz_tokens": 0.7276497695852535
       },
       "ast_lane": false,
       "simplification_quality": null,
       "simplification_quality_ci95": null,
       "simplification_quality_stdev": null,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8217142781096508,
+      "uniform_quality_ci95": [
+        0.7963179093096154,
+        0.8413998911723406
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.0,
       "in_band_rate": 0.0,
       "over_golfed_rate": 0.0,
@@ -3664,9 +3883,12 @@
         0.7542572151084712
       ],
       "simplification_quality_stdev": 0.44446124756327937,
-      "uniform_quality": null,
-      "uniform_quality_ci95": null,
-      "uniform_lane_available": false,
+      "uniform_quality": 0.8848951333147278,
+      "uniform_quality_ci95": [
+        0.8799275251064816,
+        0.8897771530530243
+      ],
+      "uniform_lane_available": true,
       "recovered_rate": 0.625,
       "in_band_rate": 0.625,
       "over_golfed_rate": 0.0,
@@ -3696,6 +3918,7 @@
       "completion_tokens": 980765,
       "reasoning_tokens": 595992,
       "n_usage_calls": 642
-    }
+    },
+    "regraded": true
   }
 }

@@ -8,6 +8,13 @@ project name (``Spaghetti Architect``) whose mere string is googleable back to
 the public repo. ARR desk-rejects anonymity violations, so a reviewer-facing
 copy must be scrubbed.
 
+NOTE — venue: this anonymizer was built for ARR/EACL double-blind review. The
+near-term target has since pivoted to the DMLR data-centric resource paper
+(``paper/dmlr.tex``, data.mlr.press); DMLR's exact anonymity policy is UNCONFIRMED
+(data.mlr.press was unreachable at drafting). Confirm whether double-blind
+anonymization is actually required for DMLR before relying on this script for that
+submission.
+
 This script NEVER mutates the working tree. It copies the repo into an output
 directory (default: a scratch dir outside the repo), redacts the identity-
 bearing files there, optionally rewrites the project display name to a neutral
@@ -89,10 +96,15 @@ EXCLUDE_DIR_NAMES = {
 EXCLUDE_DIR_PATHS = {
     "bench/notes",      # private working notes (carry 'Sunway' + roadmap)
     "bench/data/test",  # PRIVATE held-out split — must never leave the machine
-    # The top-level engine paper targets a DIFFERENT venue (MSR), carries an
-    # author self-citation, and its filename leaks the project name. It is not part
-    # of the EACL benchmark artifact, so it is withheld from the review snapshot.
-    # (NB: this is the top-level "paper/", not "bench/paper/", which is kept.)
+    # The archived MSR tool-showcase draft carries an author self-citation and its
+    # filename (`spaghetti_architect.tex`) leaks the project name, so it must never
+    # appear in an anonymized snapshot. (It used to be the top-level "paper/"; the MSR
+    # draft was archived here when "paper/" was repurposed for the DMLR paper.)
+    "archived/msr-toolshowcase",
+    # The top-level "paper/" is now the DMLR data-centric resource submission. The
+    # paper source/PDF is submitted to the venue (data.mlr.press) separately, not
+    # shipped inside the anonymized code/data artifact, so it is withheld from the
+    # snapshot. (NB: this is the top-level "paper/", not "bench/paper/", which is kept.)
     "paper",
 }
 # Exact relative file paths to drop.

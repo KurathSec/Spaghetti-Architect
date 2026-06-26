@@ -79,7 +79,7 @@ The repo is a **layered monorepo** — one published library and two research la
   eval/   METRIC LANE  deterministic seeded sample set + static complexity metrics
    ^
    |  imports both of the above
-  bench/  BENCHMARK    LLM-eval harness (refactor / judge / comprehend) + the paper
+  bench/  BENCHMARK    LLM-eval harness (refactor / judge / comprehend) + the deferred companion paper
 ```
 
 - **One-way dependency:** `bench -> {eval, src, config}` and `eval -> src`. The engine
@@ -93,9 +93,10 @@ The repo is a **layered monorepo** — one published library and two research la
   small bootstrap shim at the top of each `bench/` module — an intentional choice, not
   an accident, so the published tool stays dependency-free while the layers above carry
   their own optional deps: the LLM client and the anchor tools).
-- The benchmark layer has its own design document — the paper
-  `bench/paper/benchmark.tex` (targeting **EACL via ACL Rolling Review**); *this*
-  document covers the engine it stands on.
+- The benchmark layer has its own design document — the **deferred companion** paper
+  `bench/paper/benchmark.tex` (an LLM-as-judge meta-evaluation that needs the paid live
+  run); the near-term write-up is the data-centric resource paper `paper/dmlr.tex`.
+  *This* document covers the engine both stand on.
 
 ---
 
@@ -221,9 +222,10 @@ bench/                             # BENCHMARK LAYER (LLM-eval harness — impor
 ├── grade.py                       # graders (reuse oracle/validate + eval.metrics)
 ├── anchor.py                      # quarantined construct-validity anchors (radon/lizard/cognitive)
 ├── run_bench.py                   # CLI: --selftest/--dry-run/--plan/--batch/--aggregate/--report
-└── paper/benchmark.tex            # the benchmark paper (EACL via ARR) — emitted by --report
+└── paper/benchmark.tex            # deferred companion paper (LLM-as-judge study) — emitted by --report
 
-paper/                             # the engine / metric-lane write-up (separate from bench/paper)
+paper/                             # the DMLR data-centric resource paper (near-term primary; separate from bench/paper)
+archived/msr-toolshowcase/         # the old MSR tool-showcase engine paper (superseded)
 pyproject.toml · requirements.txt · REQUIREMENTS.md   # packaging + per-layer deps
 CITATION.cff · codemeta.json · LICENSE                # citation metadata + MIT
 ```
@@ -1252,8 +1254,9 @@ scope here — the same `Engine`/`main` surface would back either if needed.
 The engine that backs the CLI (§17) and the agent skill (§22) also backs a **benchmark
 generator** (`bench/`) that turns the transpiler into a scientific instrument: a source
 of **ground-truth, contamination-resistant** code tasks for evaluating LLMs. It is a
-distinct layer with its own design document — the paper `bench/paper/benchmark.tex` — so
-this section is only a navigational bridge.
+distinct layer with its own design document — the **deferred companion** paper
+`bench/paper/benchmark.tex` (an LLM-as-judge meta-evaluation that needs the paid live
+run) — so this section is only a navigational bridge.
 
 **Reuse, not re-implementation.** `bench/` adds no second generator or grader; it imports
 the existing surface:
@@ -1278,11 +1281,15 @@ committed.
 > `gen_samples.py`) that `bench/` reuses; a separate de-optimization study that also lives
 > under `eval/` is kept private.
 
-> **Publication.** The benchmark targets **EACL (main or Findings) via ACL Rolling
-> Review (ARR)**; the paper now *leads* with the LLM-as-judge result — whether judges
-> track the by-construction ground-truth quality order — with the refactor and
-> comprehension tasks and the contamination protocol alongside. It is emitted (never
-> compiled) by `python3 bench/run_bench.py --report`.
+> **Publication.** The near-term primary write-up is the data-centric **resource paper**
+> `paper/dmlr.tex` (a rolling JMLR-family journal, data.mlr.press): the generator, the
+> by-construction-labelled multi-language dataset, label-validity evidence, and reference
+> baselines — publishable **without** the paid live run. The LLM-as-judge meta-evaluation
+> — whether judges track the by-construction ground-truth quality order, with the refactor
+> and comprehension tasks and the contamination protocol alongside — is **deferred** to the
+> companion paper `bench/paper/benchmark.tex`, which needs the paid live run; that companion
+> is emitted (never compiled) by `python3 bench/run_bench.py --report`. The old MSR
+> tool-showcase engine paper now lives in `archived/msr-toolshowcase/`.
 
 ---
 

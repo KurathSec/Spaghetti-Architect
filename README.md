@@ -178,9 +178,12 @@ python3 bench/run_bench.py --plan          # the (task × model × family) fan-o
 
 The benchmark now *leads* with the **LLM-as-judge** question — do judges track the
 by-construction ground-truth quality order? — alongside the refactor and comprehend
-tasks. The full design, figures, and bibliography live in
-[`bench/paper/benchmark.tex`](bench/paper/benchmark.tex) (targeting **EACL via ACL
-Rolling Review**); see [`bench/`](bench/) and [`REQUIREMENTS.md`](REQUIREMENTS.md).
+tasks. The near-term write-up is the data-centric **resource paper**
+[`paper/dmlr.tex`](paper/dmlr.tex) (a rolling JMLR-family journal, data.mlr.press),
+covering the generator + by-construction-labelled dataset and publishable **without**
+the paid live run; the full LLM-as-judge design, figures, and bibliography live in
+[`bench/paper/benchmark.tex`](bench/paper/benchmark.tex), a **deferred companion study**
+that needs that run. See [`bench/`](bench/) and [`REQUIREMENTS.md`](REQUIREMENTS.md).
 
 ---
 
@@ -256,7 +259,7 @@ src/nodes/{parser,planner,safety,validator}.py
 src/generators/{base,python,javascript,go,java,cpp}_gen.py
 tests/                         # golden + equivalency + parser + profiles
 eval/{metrics,gen_samples}.py  # metric lanes + seeded sample set (reused by bench/)
-bench/                         # LLM benchmark generator (refactor/judge/comprehend) + paper
+bench/                         # LLM benchmark generator (refactor/judge/comprehend) + companion paper
 ```
 
 A **layered monorepo**: one published engine (`src/`) plus two research layers that
