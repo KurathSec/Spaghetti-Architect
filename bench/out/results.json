@@ -53,7 +53,7 @@
       "qwen3-coder-480b-a35b": "openai_compatible",
       "llama-4-maverick": "openai_compatible"
     },
-    "timestamp_utc": "2026-06-24T08:08:03.636975+00:00",
+    "timestamp_utc": "2026-06-24T10:31:58.943412+00:00",
     "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
   },
   "status": "DRY-RUN (mock model; AWAITING LIVE RUN)",
@@ -169,8 +169,8 @@
           "semantic_ok_rate": 1.0,
           "simplification_quality_mean": 0.9007541005266974,
           "simplification_quality_ci95": [
-            0.8884365642489335,
-            0.911838999432425
+            0.888697956024708,
+            0.9123898934935364
           ],
           "simplification_quality_n": 60,
           "uniform_quality_mean": null,
@@ -186,8 +186,8 @@
           "semantic_ok_rate": 1.0,
           "simplification_quality_mean": 0.6866555214164273,
           "simplification_quality_ci95": [
-            0.6647581275220463,
-            0.7084939131040794
+            0.6634960637537213,
+            0.7075188285551437
           ],
           "simplification_quality_n": 72,
           "uniform_quality_mean": null,
@@ -203,8 +203,8 @@
           "semantic_ok_rate": 1.0,
           "simplification_quality_mean": 0.8684583301995187,
           "simplification_quality_ci95": [
-            0.8668032979715125,
-            0.8703408858539453
+            0.8666727076682289,
+            0.8702014817050702
           ],
           "simplification_quality_n": 72,
           "uniform_quality_mean": null,
@@ -220,8 +220,8 @@
           "semantic_ok_rate": 1.0,
           "simplification_quality_mean": 0.8663966324079918,
           "simplification_quality_ci95": [
-            0.8632430279238412,
-            0.8697235737732538
+            0.8631903876025826,
+            0.8695685186867652
           ],
           "simplification_quality_n": 18,
           "uniform_quality_mean": null,
@@ -238,7 +238,7 @@
           "simplification_quality_mean": 0.8886995050566487,
           "simplification_quality_ci95": [
             0.8877206083156385,
-            0.8896689168872162
+            0.8896499470663307
           ],
           "simplification_quality_n": 18,
           "uniform_quality_mean": null,
@@ -254,8 +254,8 @@
           "semantic_ok_rate": 1.0,
           "simplification_quality_mean": 0.8742475372456991,
           "simplification_quality_ci95": [
-            0.8741004426395073,
-            0.8743902849089826
+            0.8741005738988528,
+            0.8743818535418568
           ],
           "simplification_quality_n": 18,
           "uniform_quality_mean": null,
@@ -271,8 +271,8 @@
           "semantic_ok_rate": 1.0,
           "simplification_quality_mean": 0.8692369273490718,
           "simplification_quality_ci95": [
-            0.8652334062340105,
-            0.8732543956426715
+            0.8651877157461043,
+            0.8731195221358754
           ],
           "simplification_quality_n": 42,
           "uniform_quality_mean": null,
@@ -407,14 +407,14 @@
     "incidental_degradation": {
       "mock": {
         "comprehend": {
+          "max": 1.0,
           "minimal": 1.0,
-          "standard": 1.0,
-          "max": 1.0
+          "standard": 1.0
         },
         "refactor": {
+          "max": 0.8445677538090037,
           "minimal": 0.8238689617081395,
-          "standard": 0.8300590888968276,
-          "max": 0.8445677538090037
+          "standard": 0.8300590888968276
         }
       },
       "baseline_clean_ceiling": {
@@ -712,11 +712,11 @@
       "mock": {
         "monotonicity_mean": -0.9999999999999998,
         "by_language": {
-          "python": -0.9999999999999997,
-          "javascript": -0.9999999999999997,
+          "cpp": -0.9999999999999997,
           "go": -0.9999999999999997,
           "java": -0.9999999999999997,
-          "cpp": -0.9999999999999997
+          "javascript": -0.9999999999999997,
+          "python": -0.9999999999999997
         },
         "pairwise_acc": 1.0
       }
@@ -757,18 +757,18 @@
     "cross_language": {
       "mock": {
         "comprehend": {
-          "python": 1.0,
-          "javascript": 1.0,
+          "cpp": 1.0,
           "go": 1.0,
           "java": 1.0,
-          "cpp": 1.0
+          "javascript": 1.0,
+          "python": 1.0
         },
         "judge": {
-          "python": 1.0,
-          "javascript": 1.0,
+          "cpp": 1.0,
           "go": 1.0,
           "java": 1.0,
-          "cpp": 1.0
+          "javascript": 1.0,
+          "python": 1.0
         },
         "refactor": {
           "python": 0.8328319348046569

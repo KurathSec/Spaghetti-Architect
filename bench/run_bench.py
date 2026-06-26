@@ -32,6 +32,8 @@ import os
 import shutil
 import statistics
 import sys
+import threading
+from concurrent.futures import ThreadPoolExecutor, as_completed
 from typing import Dict, List, Optional
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
@@ -203,7 +205,12 @@ def project_calls(split: str = "dev") -> dict:
 
 
 def _means(items: List[dict], key: str) -> List[float]:
-    return [it[key] for it in items if it.get(key) is not None]
+    # SORT the extracted values: the seeded bootstrap CI (grade.ci95_bootstrap) indexes
+    # into this list with an RNG, so an unsorted, order-varying input would yield a
+    # different CI under concurrency. Sorting makes every aggregate (mean, stdev, CI)
+    # byte-identical regardless of the order items were graded/written in. The mean and
+    # stdev are order-invariant anyway, and no caller pairs two _means lists positionally.
+    return sorted(it[key] for it in items if it.get(key) is not None)
 
 
 def _refactor_headline_score(item: dict) -> Optional[float]:
@@ -328,10 +335,12 @@ def _load_checkpoint(path: str) -> Dict[str, dict]:
 
 
 def _strip_internal(rec: dict) -> dict:
-    """Drop the run-time-only keys (parse counters + checkpoint id) so the persisted
-    per-item record stays clean; the aggregates/figures never read them."""
+    """Drop the run-time-only keys (parse counters + checkpoint id + the Phase-A cheap
+    format-parse signal) so the persisted per-item record stays clean; the aggregates/
+    figures never read them."""
     return {k: v for k, v in rec.items()
-            if k not in ("_parse_ok", "_parse_n", "_item_id")}
+            if k not in ("_parse_ok", "_parse_n", "_item_id",
+                         "format_parse_ok", "format_parse_n")}
 
 
 def _record_item_id(task: str, rec: dict) -> Optional[str]:
@@ -377,11 +386,59 @@ def _batch_projected_calls(task: str, items_in: list, k: int) -> int:
     return len(items_in) * k
 
 
+def _item_calls(task: str, it, k: int) -> int:
+    """API calls a SINGLE item costs (judge fans out over levels + pairs; the others
+    are k flat). Used by the thread-safe Phase-A cap counter."""
+    if task == "judge":
+        return _judge_calls_per_item(len(it.levels), k)
+    return k
+
+
+# concurrency resolution (#1): network fan-out width = config["concurrency"][provider]
+# (or ["default"]), overridable by --concurrency. GRADING is bounded separately (#2).
+GRADE_WORKERS_CAP = 16
+
+
+def _net_concurrency(cfg: models.Config, model: str,
+                     override: Optional[int]) -> int:
+    """Phase-A (network) worker count for THIS batch's single provider. ``--concurrency``
+    wins; else config['concurrency'][provider] / ['default']; mock is forced to 1 so the
+    deterministic mock path keeps its exact sequential ordering/output."""
+    if model == models.MOCK:
+        return 1
+    if override is not None:
+        return max(1, int(override))
+    conc = _raw_config().get("concurrency", {})
+    if not isinstance(conc, dict):
+        return 8
+    prov = cfg.provider_of(model)
+    return max(1, int(conc.get(prov, conc.get("default", 8))))
+
+
+def _grade_concurrency() -> int:
+    """Phase-B (sandbox-subprocess grading) worker count: bounded by CPU count and a
+    hard ceiling so a 2000-wide NETWORK fan-out never becomes 2000 concurrent
+    ``unshare -rn`` grader subprocesses (the fork-storm guard)."""
+    return min(os.cpu_count() or 4, GRADE_WORKERS_CAP)
+
+
+def _usage_cost(model: str, usage: dict) -> Optional[float]:
+    """ACTUAL $ for a batch from the returned token usage and config['prices'][model].
+    Reasoning tokens are billed as completion/output, so prompt+completion already
+    includes them; cost = (prompt+completion)/1000 * per_1k. None if no price set."""
+    pr = _prices().get(model)
+    if not pr:
+        return None
+    billable = usage.get("prompt_tokens", 0) + usage.get("completion_tokens", 0)
+    return round(billable / 1000.0 * pr.get("per_1k", 0.0), 4)
+
+
 def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
               k: Optional[int] = None, write: bool = True, echo: bool = True,
               allow_skips: bool = False, parse_floor: float = 0.5,
               resume: bool = True, max_calls: Optional[int] = None,
-              max_cost: Optional[float] = None) -> dict:
+              max_cost: Optional[float] = None,
+              concurrency: Optional[int] = None) -> dict:
     cfg = models.load_config()
     if model != models.MOCK and not cfg.model_is_live(model):
         print(f"configure bench/config.json: no API key for model {model!r} "
@@ -443,81 +500,210 @@ def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
             print(f"resume: {len(done)} item(s) already completed; only missing items "
                   f"will call the API", file=sys.stderr)
 
-    records: List[dict] = []
-    parse_ok = parse_n = graded_items = n_errors = n_skipped_cached = new_calls = 0
-    aborted = False
+    # Split the work up front (#3 idempotency): cached items make ZERO calls; only the
+    # PENDING set is fetched. A fully-completed batch -> pending == [] -> 0 calls.
+    cached: Dict[str, dict] = {}
+    pending: List[tuple] = []   # (item_id, item)
+    for it in items_in:
+        iid = T.item_id(task, it)
+        if iid in done:
+            cached[iid] = _strip_internal(done[iid])
+        else:
+            pending.append((iid, it))
+
     if write and cp_path:
         os.makedirs(SUBAGENT_DIR, exist_ok=True)
-    # append when resuming (preserve prior progress); truncate on a fresh/no-resume run.
-    cp_mode = "a" if resume else "w"
-    cp_fh = open(cp_path, cp_mode, encoding="utf-8") if (write and cp_path) else None
+
+    # --------------------------------------------------------------------- #
+    # PHASE A — network fan-out (high concurrency = provider/--concurrency). Each
+    # worker FETCHES one item's raw outputs (no grading -> no sandbox subprocess) and
+    # the result is persisted to the JSONL checkpoint under a lock (thread-safe append
+    # + flush + fsync). A thread-safe call counter enforces --max-calls (stop SUBMITTING
+    # once the cap is hit); a thread-safe format-parse signal drives the early-abort.
+    # --------------------------------------------------------------------- #
+    net_workers = _net_concurrency(cfg, model, concurrency)
+    models.reset_usage()  # clear any stale usage so this batch's token totals are clean
+    cp_lock = threading.Lock()
+    cnt_lock = threading.Lock()
+    state = {"calls": 0, "fmt_ok": 0, "fmt_n": 0, "graded_seen": 0,
+             "errors": 0, "abort": False, "cap_hit": False}
+    cp_fh = (open(cp_path, "a" if resume else "w", encoding="utf-8")
+             if (write and cp_path) else None)
+
+    def _persist(rec: dict) -> None:
+        if not cp_fh:
+            return
+        with cp_lock:
+            cp_fh.write(json.dumps(rec, separators=(",", ":")) + "\n")
+            cp_fh.flush()
+            os.fsync(cp_fh.fileno())
+
+    def _reserve_calls(n: int) -> bool:
+        """Thread-safe cap gate: claim ``n`` calls for an item iff that keeps the batch
+        within --max-calls. Returns False (and trips ``cap_hit``) when it would exceed."""
+        with cnt_lock:
+            if state["abort"] or state["cap_hit"]:
+                return False
+            if max_calls is not None and state["calls"] + n > max_calls:
+                state["cap_hit"] = True
+                return False
+            state["calls"] += n
+            return True
+
+    is_mock = (model == models.MOCK)
+
+    def _fetch_one(iid: str, it) -> Optional[dict]:
+        # honor an in-flight abort/cap before spending more (#4/#7): may overshoot
+        # slightly by in-flight calls, which the spec accepts.
+        n_calls = _item_calls(task, it, k)
+        if not _reserve_calls(n_calls):
+            return None
+        try:
+            # MOCK is deterministic + instant: grade INLINE (exactly the pre-concurrency
+            # path) so --selftest/--dry-run stay byte-identical; the regrade path skips
+            # mock sentinels by design, so Phase B must not re-touch a mock record.
+            rec = (T.score_item(task, it, model, cfg, k) if is_mock
+                   else T.fetch_item(task, it, model, cfg, k))
+            rec["_item_id"] = iid
+        except Exception as ex:  # noqa: BLE001  (#3 per-item fault isolation)
+            rec = {"_item_id": iid, "error": True,
+                   "error_msg": (type(ex).__name__ + ": " + str(ex))[:300],
+                   "sample": getattr(it, "sample", "?"),
+                   "language": getattr(it, "language", "?"),
+                   "profile": getattr(it, "profile", None)}
+            with cnt_lock:
+                state["errors"] += 1
+            print(f"  item {iid} FAILED ({rec['error_msg']}); recorded stub, "
+                  f"continuing", file=sys.stderr)
+            _persist(rec)
+            return rec
+        # cheap (no-subprocess) running format-parse signal for the early-abort gate.
+        with cnt_lock:
+            state["fmt_ok"] += rec.get("format_parse_ok", 0)
+            state["fmt_n"] += rec.get("format_parse_n", 0)
+            state["graded_seen"] += 1
+            if (model != models.MOCK and state["graded_seen"] >= 10
+                    and state["fmt_n"] > 0
+                    and (state["fmt_ok"] / state["fmt_n"]) < parse_floor
+                    and not state["abort"]):
+                state["abort"] = True
+                where = (f"Partial progress saved to {os.path.basename(cp_path)}; "
+                         if cp_path else "")
+                print(f"ABORTING {task}/{model}: format parse-success {state['fmt_ok']}/"
+                      f"{state['fmt_n']} = {state['fmt_ok'] / state['fmt_n']:.2f} < floor "
+                      f"{parse_floor:.2f} after {state['graded_seen']} items — model is "
+                      f"systematically mis-formatting. {where}fix the prompt/parser and "
+                      f"re-run to resume.", file=sys.stderr)
+        _persist(rec)
+        return rec
+
+    fetched: Dict[str, dict] = {}
     try:
-        for it in items_in:
-            iid = T.item_id(task, it)
-            # #2 idempotent resume: a completed item is reused from the checkpoint and
-            # makes ZERO new API calls.
-            if iid in done:
-                records.append(_strip_internal(done[iid]))
-                n_skipped_cached += 1
-                continue
-            # #3 per-item fault isolation: one bad item records an error stub and the
-            # batch CONTINUES; it never aborts the whole run.
-            try:
-                rec = T.score_item(task, it, model, cfg, k)
-                rec["_item_id"] = iid
-                parse_ok += rec.get("_parse_ok", 0)
-                parse_n += rec.get("_parse_n", 0)
-                graded_items += 1
-                new_calls += 1
-            except Exception as ex:  # noqa: BLE001
-                rec = {"_item_id": iid, "error": True,
-                       "error_msg": (type(ex).__name__ + ": " + str(ex))[:300],
-                       "sample": getattr(it, "sample", "?"),
-                       "language": getattr(it, "language", "?"),
-                       "profile": getattr(it, "profile", None)}
-                n_errors += 1
-                print(f"  item {iid} FAILED ({rec['error_msg']}); recorded stub, "
-                      f"continuing", file=sys.stderr)
-            if cp_fh:
-                cp_fh.write(json.dumps(rec, separators=(",", ":")) + "\n")
-                cp_fh.flush()
-                os.fsync(cp_fh.fileno())
-            records.append(_strip_internal(rec))
-            # #7 parse-success early-abort: a systematically mis-formatting model should
-            # not burn the whole batch. After the first ~10 graded items, if the running
-            # parse-success rate is below the floor, abort (real models only).
-            if (model != models.MOCK and graded_items >= 10 and parse_n > 0
-                    and (parse_ok / parse_n) < parse_floor):
-                aborted = True
-                print(f"ABORTING {task}/{model}: parse-success {parse_ok}/{parse_n} = "
-                      f"{parse_ok / parse_n:.2f} < floor {parse_floor:.2f} after "
-                      f"{graded_items} items — model is systematically mis-formatting. "
-                      f"Partial progress saved to {os.path.basename(cp_path)}; fix the "
-                      f"prompt/parser and re-run to resume.", file=sys.stderr)
-                break
+        if net_workers <= 1:
+            # deterministic sequential path (mock / concurrency=1): preserves exact order.
+            for iid, it in pending:
+                if state["abort"] or state["cap_hit"]:
+                    break
+                rec = _fetch_one(iid, it)
+                if rec is not None:
+                    fetched[iid] = rec
+        else:
+            with ThreadPoolExecutor(max_workers=net_workers) as ex:
+                futs = {}
+                for iid, it in pending:
+                    # stop SUBMITTING once an abort/cap has tripped (in-flight finish).
+                    if state["abort"] or state["cap_hit"]:
+                        break
+                    futs[ex.submit(_fetch_one, iid, it)] = iid
+                for fut in as_completed(futs):
+                    rec = fut.result()
+                    if rec is not None:
+                        fetched[futs[fut]] = rec
     finally:
         if cp_fh:
             cp_fh.close()
 
+    aborted = state["abort"]
+    new_calls = state["calls"]
+
+    # --------------------------------------------------------------------- #
+    # PHASE B — grade from STORED raw (bounded concurrency = min(cpu, 16)). This is
+    # exactly the --regrade path (T.regrade_record over the just-fetched records), so
+    # the sandbox subprocess count is bounded REGARDLESS of the network width above.
+    # Cached items were already graded on a prior run -> reused as-is (no re-grade).
+    # --------------------------------------------------------------------- #
+    def _grade(rec: dict) -> dict:
+        """Grade one stored-raw record via the --regrade path. The grader embeds the
+        authoritative parse counters (``_parse_ok``/``_parse_n``); keep them on the
+        returned record transiently (stripped before the record is persisted) so the
+        run_meta parse-success matches the pre-concurrency semantics exactly. MOCK
+        records are already graded inline in Phase A (regrade skips mock sentinels), so
+        they pass straight through."""
+        if rec.get("error") or is_mock:
+            return rec
+        return T.regrade_record(task, dict(rec))  # carries _parse_ok/_parse_n
+
+    graded_raw: Dict[str, dict] = {}
+    fetched_list = [(iid, fetched[iid]) for iid, _ in pending if iid in fetched]
+    gw = _grade_concurrency()
+    if is_mock or gw <= 1 or len(fetched_list) <= 1:
+        # mock grades inline (sequential, deterministic); real bounded-sequential when
+        # there is <=1 item or a single grading worker.
+        for iid, rec in fetched_list:
+            graded_raw[iid] = _grade(rec)
+    else:
+        with ThreadPoolExecutor(max_workers=gw) as ex:
+            futs = {ex.submit(_grade, rec): iid for iid, rec in fetched_list}
+            for fut in as_completed(futs):
+                graded_raw[futs[fut]] = fut.result()
+
+    # parse-success (authoritative): the grader's own _parse_ok/_parse_n, mirroring the
+    # pre-concurrency run_meta semantics exactly; then strip the internal keys. Error
+    # records originate ONLY in Phase A (fetch failures) and pass through grading
+    # unchanged, so counting them here once is authoritative (no separate fetch tally).
+    parse_ok = parse_n = graded_items = n_errors = 0
+    graded: Dict[str, dict] = {}
+    for iid, rec in graded_raw.items():
+        if rec.get("error"):
+            n_errors += 1
+        else:
+            graded_items += 1
+            parse_ok += rec.get("_parse_ok", 0)
+            parse_n += rec.get("_parse_n", 0)
+        graded[iid] = _strip_internal(rec)
+
+    # #4 DETERMINISM: assemble the final item list sorted by stable item_id so the
+    # subagent JSON is byte-identical regardless of the (nondeterministic) completion
+    # order of the thread pool. Cached + freshly-graded items both key by item_id.
+    by_id: Dict[str, dict] = dict(cached)
+    by_id.update(graded)
+    n_skipped_cached = len(cached)
+    records = [by_id[iid] for iid in sorted(by_id)]
+
+    usage = models.reset_usage()
+    est_usd = _usage_cost(model, usage)
+
     agg = headline_aggregate(task, [r for r in records if not r.get("error")])
     parse_rate = (parse_ok / parse_n) if parse_n else None
+    run_meta = {"n_items": len(records), "n_graded": graded_items,
+                "n_resumed": n_skipped_cached, "n_errors": n_errors,
+                "n_new_calls": new_calls, "parse_ok": parse_ok, "parse_n": parse_n,
+                "parse_success_rate": parse_rate, "aborted": aborted,
+                "net_concurrency": net_workers, "grade_concurrency": _grade_concurrency(),
+                "usage": usage}
+    if est_usd is not None:
+        run_meta["est_usd"] = est_usd
     payload = {
         "task": task, "model": model, "family": fam, "split": split, "k": k,
         "prompt_version": P.PROMPT_VERSION, "env": env_block(cfg, split),
-        "aggregate": agg, "items": records,
-        "run_meta": {"n_items": len(records), "n_graded": graded_items,
-                     "n_resumed": n_skipped_cached, "n_errors": n_errors,
-                     "n_new_calls": new_calls, "parse_ok": parse_ok, "parse_n": parse_n,
-                     "parse_success_rate": parse_rate, "aborted": aborted},
+        "aggregate": agg, "items": records, "run_meta": run_meta,
     }
     if write and not aborted:
         with open(subagent_path(task, model, fam), "w", encoding="utf-8") as f:
             json.dump(payload, f, indent=2)
             f.write("\n")
         # batch finalized: the per-item checkpoint is now redundant with the subagent
-        # JSON, so retire it (a clean re-run of a completed batch reloads the JSON's
-        # items via the checkpoint being gone -> sees them all present? no: we re-detect
-        # completion from the subagent file below). Remove to keep the dir tidy.
+        # JSON, so retire it. A clean re-run re-detects completion from the subagent file.
         if cp_path and os.path.exists(cp_path):
             os.remove(cp_path)
     if echo:
@@ -527,7 +713,10 @@ def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
                    "parse_success_rate": (round(parse_rate, 3)
                                           if parse_rate is not None else None),
                    "aborted": aborted,
+                   "usage": usage,
                    "toolchains": payload["env"]["toolchains"], "aggregate": agg}
+        if est_usd is not None:
+            compact["est_usd"] = est_usd
         print(json.dumps(compact, separators=(",", ":")))
     return payload
 
@@ -2048,6 +2237,9 @@ def main(argv=None) -> int:
                     help="--batch: abort early if running parse-success drops below this")
     ap.add_argument("--no-resume", action="store_true",
                     help="--batch: ignore any checkpoint / finalized JSON and re-grade afresh")
+    ap.add_argument("--concurrency", type=int, default=None,
+                    help="--batch: network fan-out width (overrides config['concurrency']"
+                         "[provider]); grading stays bounded at min(cpu,16) regardless")
     args = ap.parse_args(argv)
 
     if args.selftest:
@@ -2078,7 +2270,7 @@ def main(argv=None) -> int:
         run_batch(args.batch, args.model, args.family, split=args.split, k=args.k,
                   allow_skips=args.allow_skips, parse_floor=args.parse_floor,
                   resume=not args.no_resume, max_calls=args.max_calls,
-                  max_cost=args.max_cost)
+                  max_cost=args.max_cost, concurrency=args.concurrency)
         return 0
     return 0
 

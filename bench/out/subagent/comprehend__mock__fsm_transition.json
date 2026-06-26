@@ -59,7 +59,7 @@
       "qwen3-coder-480b-a35b": "openai_compatible",
       "llama-4-maverick": "openai_compatible"
     },
-    "timestamp_utc": "2026-06-24T08:08:02.556738+00:00",
+    "timestamp_utc": "2026-06-24T10:31:57.836824+00:00",
     "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
   },
   "aggregate": {
@@ -73,7 +73,95 @@
   "items": [
     {
       "sample": "fsm_transition",
-      "profile": "minimal",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "a57d7ef2c1da67b1",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "b85c2f088adf2914",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "9375860d079e8484",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "4be1e2e31632c51e",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
       "language": "python",
       "variant": "base",
       "intrinsic": {
@@ -81,7 +169,7 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "0a0983160e825aec",
+      "prompt_hash": "d599863cd9b67380",
       "raw_outputs": [
         "<mock>"
       ],
@@ -96,14 +184,14 @@
     {
       "sample": "fsm_transition",
       "profile": "minimal",
-      "language": "javascript",
+      "language": "cpp",
       "variant": "base",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "71b9449cbe3aa75c",
+      "prompt_hash": "12499e2dcbdd5a7a",
       "raw_outputs": [
         "<mock>"
       ],
@@ -162,50 +250,6 @@
     {
       "sample": "fsm_transition",
       "profile": "minimal",
-      "language": "cpp",
-      "variant": "base",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "12499e2dcbdd5a7a",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "standard",
-      "language": "python",
-      "variant": "base",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "d599863cd9b67380",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "standard",
       "language": "javascript",
       "variant": "base",
       "intrinsic": {
@@ -213,7 +257,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "4be1e2e31632c51e",
+      "prompt_hash": "71b9449cbe3aa75c",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "0a0983160e825aec",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "a57d7ef2c1da67b1",
       "raw_outputs": [
         "<mock>"
       ],
@@ -272,14 +360,14 @@
     {
       "sample": "fsm_transition",
       "profile": "standard",
-      "language": "cpp",
+      "language": "javascript",
       "variant": "base",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "a57d7ef2c1da67b1",
+      "prompt_hash": "4be1e2e31632c51e",
       "raw_outputs": [
         "<mock>"
       ],
@@ -293,7 +381,7 @@
     },
     {
       "sample": "fsm_transition",
-      "profile": "max",
+      "profile": "standard",
       "language": "python",
       "variant": "base",
       "intrinsic": {
@@ -316,14 +404,14 @@
     {
       "sample": "fsm_transition",
       "profile": "max",
-      "language": "javascript",
-      "variant": "base",
+      "language": "cpp",
+      "variant": "v0",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "4be1e2e31632c51e",
+      "prompt_hash": "c8c03ff415c5fa61",
       "raw_outputs": [
         "<mock>"
       ],
@@ -339,13 +427,13 @@
       "sample": "fsm_transition",
       "profile": "max",
       "language": "go",
-      "variant": "base",
+      "variant": "v0",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "b85c2f088adf2914",
+      "prompt_hash": "b01594bc2fe30c9a",
       "raw_outputs": [
         "<mock>"
       ],
@@ -361,13 +449,13 @@
       "sample": "fsm_transition",
       "profile": "max",
       "language": "java",
-      "variant": "base",
+      "variant": "v0",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "9375860d079e8484",
+      "prompt_hash": "5a620ea0a8e0f7c3",
       "raw_outputs": [
         "<mock>"
       ],
@@ -382,50 +470,6 @@
     {
       "sample": "fsm_transition",
       "profile": "max",
-      "language": "cpp",
-      "variant": "base",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "a57d7ef2c1da67b1",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "minimal",
-      "language": "python",
-      "variant": "v0",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "140050da8b8f4929",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "minimal",
       "language": "javascript",
       "variant": "v0",
       "intrinsic": {
@@ -433,7 +477,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "2d7c87b4f63c828c",
+      "prompt_hash": "401be37f1f315956",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "92d40d66762c216e",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "fe3447d95f59b18c",
       "raw_outputs": [
         "<mock>"
       ],
@@ -492,50 +580,6 @@
     {
       "sample": "fsm_transition",
       "profile": "minimal",
-      "language": "cpp",
-      "variant": "v0",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "fe3447d95f59b18c",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "standard",
-      "language": "python",
-      "variant": "v0",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "92d40d66762c216e",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "standard",
       "language": "javascript",
       "variant": "v0",
       "intrinsic": {
@@ -543,7 +587,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "401be37f1f315956",
+      "prompt_hash": "2d7c87b4f63c828c",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "140050da8b8f4929",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "c8c03ff415c5fa61",
       "raw_outputs": [
         "<mock>"
       ],
@@ -602,14 +690,14 @@
     {
       "sample": "fsm_transition",
       "profile": "standard",
-      "language": "cpp",
+      "language": "javascript",
       "variant": "v0",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "c8c03ff415c5fa61",
+      "prompt_hash": "401be37f1f315956",
       "raw_outputs": [
         "<mock>"
       ],
@@ -623,7 +711,7 @@
     },
     {
       "sample": "fsm_transition",
-      "profile": "max",
+      "profile": "standard",
       "language": "python",
       "variant": "v0",
       "intrinsic": {
@@ -646,14 +734,14 @@
     {
       "sample": "fsm_transition",
       "profile": "max",
-      "language": "javascript",
-      "variant": "v0",
+      "language": "cpp",
+      "variant": "v1",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "401be37f1f315956",
+      "prompt_hash": "af9e7547f7e6b429",
       "raw_outputs": [
         "<mock>"
       ],
@@ -669,13 +757,13 @@
       "sample": "fsm_transition",
       "profile": "max",
       "language": "go",
-      "variant": "v0",
+      "variant": "v1",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "b01594bc2fe30c9a",
+      "prompt_hash": "c5f9af1a763d76a3",
       "raw_outputs": [
         "<mock>"
       ],
@@ -691,13 +779,13 @@
       "sample": "fsm_transition",
       "profile": "max",
       "language": "java",
-      "variant": "v0",
+      "variant": "v1",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "5a620ea0a8e0f7c3",
+      "prompt_hash": "f6d9f38ca4cd989b",
       "raw_outputs": [
         "<mock>"
       ],
@@ -712,50 +800,6 @@
     {
       "sample": "fsm_transition",
       "profile": "max",
-      "language": "cpp",
-      "variant": "v0",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "c8c03ff415c5fa61",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "minimal",
-      "language": "python",
-      "variant": "v1",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "46826617eeed9b44",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "minimal",
       "language": "javascript",
       "variant": "v1",
       "intrinsic": {
@@ -763,7 +807,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "68344059d9a560be",
+      "prompt_hash": "254a8b05b4613a14",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "9f587c11bded9272",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "ad46ac1ab3ac94ba",
       "raw_outputs": [
         "<mock>"
       ],
@@ -822,50 +910,6 @@
     {
       "sample": "fsm_transition",
       "profile": "minimal",
-      "language": "cpp",
-      "variant": "v1",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "ad46ac1ab3ac94ba",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "standard",
-      "language": "python",
-      "variant": "v1",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "9f587c11bded9272",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "standard",
       "language": "javascript",
       "variant": "v1",
       "intrinsic": {
@@ -873,7 +917,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "254a8b05b4613a14",
+      "prompt_hash": "68344059d9a560be",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "46826617eeed9b44",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "af9e7547f7e6b429",
       "raw_outputs": [
         "<mock>"
       ],
@@ -932,14 +1020,14 @@
     {
       "sample": "fsm_transition",
       "profile": "standard",
-      "language": "cpp",
+      "language": "javascript",
       "variant": "v1",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "af9e7547f7e6b429",
+      "prompt_hash": "254a8b05b4613a14",
       "raw_outputs": [
         "<mock>"
       ],
@@ -953,7 +1041,7 @@
     },
     {
       "sample": "fsm_transition",
-      "profile": "max",
+      "profile": "standard",
       "language": "python",
       "variant": "v1",
       "intrinsic": {
@@ -976,14 +1064,14 @@
     {
       "sample": "fsm_transition",
       "profile": "max",
-      "language": "javascript",
-      "variant": "v1",
+      "language": "cpp",
+      "variant": "v2",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "254a8b05b4613a14",
+      "prompt_hash": "aef377fb3cbeb997",
       "raw_outputs": [
         "<mock>"
       ],
@@ -999,13 +1087,13 @@
       "sample": "fsm_transition",
       "profile": "max",
       "language": "go",
-      "variant": "v1",
+      "variant": "v2",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "c5f9af1a763d76a3",
+      "prompt_hash": "17d1cec87e83806d",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1021,13 +1109,13 @@
       "sample": "fsm_transition",
       "profile": "max",
       "language": "java",
-      "variant": "v1",
+      "variant": "v2",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "f6d9f38ca4cd989b",
+      "prompt_hash": "da98a4f1c30da41c",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1042,50 +1130,6 @@
     {
       "sample": "fsm_transition",
       "profile": "max",
-      "language": "cpp",
-      "variant": "v1",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "af9e7547f7e6b429",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "minimal",
-      "language": "python",
-      "variant": "v2",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "0caeaf58efec4e65",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "minimal",
       "language": "javascript",
       "variant": "v2",
       "intrinsic": {
@@ -1093,7 +1137,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "c57f9957b11117d9",
+      "prompt_hash": "b93a06ab015708c2",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "d2ea6dd3b6536fe6",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "194404192cedb220",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1152,50 +1240,6 @@
     {
       "sample": "fsm_transition",
       "profile": "minimal",
-      "language": "cpp",
-      "variant": "v2",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "194404192cedb220",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "standard",
-      "language": "python",
-      "variant": "v2",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "d2ea6dd3b6536fe6",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "standard",
       "language": "javascript",
       "variant": "v2",
       "intrinsic": {
@@ -1203,7 +1247,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "b93a06ab015708c2",
+      "prompt_hash": "c57f9957b11117d9",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "0caeaf58efec4e65",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "aef377fb3cbeb997",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1262,14 +1350,14 @@
     {
       "sample": "fsm_transition",
       "profile": "standard",
-      "language": "cpp",
+      "language": "javascript",
       "variant": "v2",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "aef377fb3cbeb997",
+      "prompt_hash": "b93a06ab015708c2",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1283,7 +1371,7 @@
     },
     {
       "sample": "fsm_transition",
-      "profile": "max",
+      "profile": "standard",
       "language": "python",
       "variant": "v2",
       "intrinsic": {
@@ -1306,14 +1394,14 @@
     {
       "sample": "fsm_transition",
       "profile": "max",
-      "language": "javascript",
-      "variant": "v2",
+      "language": "cpp",
+      "variant": "v3",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "b93a06ab015708c2",
+      "prompt_hash": "1f78ecbea1b43d62",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1329,13 +1417,13 @@
       "sample": "fsm_transition",
       "profile": "max",
       "language": "go",
-      "variant": "v2",
+      "variant": "v3",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "17d1cec87e83806d",
+      "prompt_hash": "500a0967db7eab43",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1351,13 +1439,13 @@
       "sample": "fsm_transition",
       "profile": "max",
       "language": "java",
-      "variant": "v2",
+      "variant": "v3",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "da98a4f1c30da41c",
+      "prompt_hash": "5ebd9150a6c7a6dc",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1372,50 +1460,6 @@
     {
       "sample": "fsm_transition",
       "profile": "max",
-      "language": "cpp",
-      "variant": "v2",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "aef377fb3cbeb997",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "minimal",
-      "language": "python",
-      "variant": "v3",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "1c7d4162ee5701f6",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "minimal",
       "language": "javascript",
       "variant": "v3",
       "intrinsic": {
@@ -1423,7 +1467,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "c4240eb42fea2131",
+      "prompt_hash": "09726c3e95898f0e",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "3adb1b2f0dcfa049",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "175c4d10f186d3fc",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1482,50 +1570,6 @@
     {
       "sample": "fsm_transition",
       "profile": "minimal",
-      "language": "cpp",
-      "variant": "v3",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "175c4d10f186d3fc",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "standard",
-      "language": "python",
-      "variant": "v3",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "3adb1b2f0dcfa049",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "standard",
       "language": "javascript",
       "variant": "v3",
       "intrinsic": {
@@ -1533,7 +1577,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "09726c3e95898f0e",
+      "prompt_hash": "c4240eb42fea2131",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "1c7d4162ee5701f6",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "1f78ecbea1b43d62",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1592,14 +1680,14 @@
     {
       "sample": "fsm_transition",
       "profile": "standard",
-      "language": "cpp",
+      "language": "javascript",
       "variant": "v3",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "1f78ecbea1b43d62",
+      "prompt_hash": "09726c3e95898f0e",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1613,7 +1701,7 @@
     },
     {
       "sample": "fsm_transition",
-      "profile": "max",
+      "profile": "standard",
       "language": "python",
       "variant": "v3",
       "intrinsic": {
@@ -1636,14 +1724,14 @@
     {
       "sample": "fsm_transition",
       "profile": "max",
-      "language": "javascript",
-      "variant": "v3",
+      "language": "cpp",
+      "variant": "v4",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "09726c3e95898f0e",
+      "prompt_hash": "715da17180a09ac3",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1659,13 +1747,13 @@
       "sample": "fsm_transition",
       "profile": "max",
       "language": "go",
-      "variant": "v3",
+      "variant": "v4",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "500a0967db7eab43",
+      "prompt_hash": "896bd616bd943b52",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1681,13 +1769,13 @@
       "sample": "fsm_transition",
       "profile": "max",
       "language": "java",
-      "variant": "v3",
+      "variant": "v4",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "5ebd9150a6c7a6dc",
+      "prompt_hash": "aafea3117148aa50",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1702,50 +1790,6 @@
     {
       "sample": "fsm_transition",
       "profile": "max",
-      "language": "cpp",
-      "variant": "v3",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "1f78ecbea1b43d62",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "minimal",
-      "language": "python",
-      "variant": "v4",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "169ae5bae5bbe5c4",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "minimal",
       "language": "javascript",
       "variant": "v4",
       "intrinsic": {
@@ -1753,7 +1797,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "0d28e90e0bcb2447",
+      "prompt_hash": "df5db8742dc947e9",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "max",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "62f5fee3068672d9",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "a26b29ae2ee625da",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1812,50 +1900,6 @@
     {
       "sample": "fsm_transition",
       "profile": "minimal",
-      "language": "cpp",
-      "variant": "v4",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "a26b29ae2ee625da",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "standard",
-      "language": "python",
-      "variant": "v4",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "62f5fee3068672d9",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "standard",
       "language": "javascript",
       "variant": "v4",
       "intrinsic": {
@@ -1863,7 +1907,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "df5db8742dc947e9",
+      "prompt_hash": "0d28e90e0bcb2447",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "169ae5bae5bbe5c4",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "fsm_transition",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 4
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "715da17180a09ac3",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1922,50 +2010,6 @@
     {
       "sample": "fsm_transition",
       "profile": "standard",
-      "language": "cpp",
-      "variant": "v4",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "715da17180a09ac3",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "max",
-      "language": "python",
-      "variant": "v4",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "62f5fee3068672d9",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "max",
       "language": "javascript",
       "variant": "v4",
       "intrinsic": {
@@ -1987,59 +2031,15 @@
     },
     {
       "sample": "fsm_transition",
-      "profile": "max",
-      "language": "go",
+      "profile": "standard",
+      "language": "python",
       "variant": "v4",
       "intrinsic": {
         "n_ops": 4
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "896bd616bd943b52",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "max",
-      "language": "java",
-      "variant": "v4",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "aafea3117148aa50",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "fsm_transition",
-      "profile": "max",
-      "language": "cpp",
-      "variant": "v4",
-      "intrinsic": {
-        "n_ops": 4
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "715da17180a09ac3",
+      "prompt_hash": "62f5fee3068672d9",
       "raw_outputs": [
         "<mock>"
       ],
@@ -2062,6 +2062,14 @@
     "parse_n": 90,
     "parse_success_rate": 1.0,
     "aborted": false,
+    "net_concurrency": 1,
+    "grade_concurrency": 16,
+    "usage": {
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "reasoning_tokens": 0,
+      "n_usage_calls": 0
+    },
     "regraded": true
   }
 }

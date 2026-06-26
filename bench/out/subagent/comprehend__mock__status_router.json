@@ -59,7 +59,7 @@
       "qwen3-coder-480b-a35b": "openai_compatible",
       "llama-4-maverick": "openai_compatible"
     },
-    "timestamp_utc": "2026-06-24T08:08:01.686166+00:00",
+    "timestamp_utc": "2026-06-24T10:31:57.013998+00:00",
     "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
   },
   "aggregate": {
@@ -73,7 +73,95 @@
   "items": [
     {
       "sample": "status_router",
-      "profile": "minimal",
+      "profile": "max",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "b9ac591133e018ae",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "go",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "a24c7e9a721f0430",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "java",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "d98f0d0b2c8f73fb",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "javascript",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "45c9b3e769992fa4",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
       "language": "python",
       "variant": "base",
       "intrinsic": {
@@ -81,7 +169,7 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "17a4c98111f9d3c4",
+      "prompt_hash": "2dd381b5b43523cc",
       "raw_outputs": [
         "<mock>"
       ],
@@ -96,14 +184,14 @@
     {
       "sample": "status_router",
       "profile": "minimal",
-      "language": "javascript",
+      "language": "cpp",
       "variant": "base",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "f2ced5754a2f7434",
+      "prompt_hash": "63b87e45de39db72",
       "raw_outputs": [
         "<mock>"
       ],
@@ -162,50 +250,6 @@
     {
       "sample": "status_router",
       "profile": "minimal",
-      "language": "cpp",
-      "variant": "base",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "63b87e45de39db72",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "standard",
-      "language": "python",
-      "variant": "base",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "2dd381b5b43523cc",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "standard",
       "language": "javascript",
       "variant": "base",
       "intrinsic": {
@@ -213,7 +257,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "45c9b3e769992fa4",
+      "prompt_hash": "f2ced5754a2f7434",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "17a4c98111f9d3c4",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "base",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "b9ac591133e018ae",
       "raw_outputs": [
         "<mock>"
       ],
@@ -272,14 +360,14 @@
     {
       "sample": "status_router",
       "profile": "standard",
-      "language": "cpp",
+      "language": "javascript",
       "variant": "base",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "b9ac591133e018ae",
+      "prompt_hash": "45c9b3e769992fa4",
       "raw_outputs": [
         "<mock>"
       ],
@@ -293,7 +381,7 @@
     },
     {
       "sample": "status_router",
-      "profile": "max",
+      "profile": "standard",
       "language": "python",
       "variant": "base",
       "intrinsic": {
@@ -316,14 +404,14 @@
     {
       "sample": "status_router",
       "profile": "max",
-      "language": "javascript",
-      "variant": "base",
+      "language": "cpp",
+      "variant": "v0",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "45c9b3e769992fa4",
+      "prompt_hash": "2ad6308616a81fff",
       "raw_outputs": [
         "<mock>"
       ],
@@ -339,13 +427,13 @@
       "sample": "status_router",
       "profile": "max",
       "language": "go",
-      "variant": "base",
+      "variant": "v0",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "a24c7e9a721f0430",
+      "prompt_hash": "8eab58a397fb9e9b",
       "raw_outputs": [
         "<mock>"
       ],
@@ -361,13 +449,13 @@
       "sample": "status_router",
       "profile": "max",
       "language": "java",
-      "variant": "base",
+      "variant": "v0",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "d98f0d0b2c8f73fb",
+      "prompt_hash": "c7660091a010d22a",
       "raw_outputs": [
         "<mock>"
       ],
@@ -382,50 +470,6 @@
     {
       "sample": "status_router",
       "profile": "max",
-      "language": "cpp",
-      "variant": "base",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "b9ac591133e018ae",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "minimal",
-      "language": "python",
-      "variant": "v0",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "b05bf55d7f2f23ee",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "minimal",
       "language": "javascript",
       "variant": "v0",
       "intrinsic": {
@@ -433,7 +477,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "5e396d33df22bbe5",
+      "prompt_hash": "786f82fed7d8b9fb",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "7dbf74520554dcc9",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "aab17b1c8b3756c7",
       "raw_outputs": [
         "<mock>"
       ],
@@ -492,50 +580,6 @@
     {
       "sample": "status_router",
       "profile": "minimal",
-      "language": "cpp",
-      "variant": "v0",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "aab17b1c8b3756c7",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "standard",
-      "language": "python",
-      "variant": "v0",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "7dbf74520554dcc9",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "standard",
       "language": "javascript",
       "variant": "v0",
       "intrinsic": {
@@ -543,7 +587,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "786f82fed7d8b9fb",
+      "prompt_hash": "5e396d33df22bbe5",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "b05bf55d7f2f23ee",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v0",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "2ad6308616a81fff",
       "raw_outputs": [
         "<mock>"
       ],
@@ -602,14 +690,14 @@
     {
       "sample": "status_router",
       "profile": "standard",
-      "language": "cpp",
+      "language": "javascript",
       "variant": "v0",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "2ad6308616a81fff",
+      "prompt_hash": "786f82fed7d8b9fb",
       "raw_outputs": [
         "<mock>"
       ],
@@ -623,7 +711,7 @@
     },
     {
       "sample": "status_router",
-      "profile": "max",
+      "profile": "standard",
       "language": "python",
       "variant": "v0",
       "intrinsic": {
@@ -646,14 +734,14 @@
     {
       "sample": "status_router",
       "profile": "max",
-      "language": "javascript",
-      "variant": "v0",
+      "language": "cpp",
+      "variant": "v1",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "786f82fed7d8b9fb",
+      "prompt_hash": "8be089736c717621",
       "raw_outputs": [
         "<mock>"
       ],
@@ -669,13 +757,13 @@
       "sample": "status_router",
       "profile": "max",
       "language": "go",
-      "variant": "v0",
+      "variant": "v1",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "8eab58a397fb9e9b",
+      "prompt_hash": "7b2ea7ae823c495f",
       "raw_outputs": [
         "<mock>"
       ],
@@ -691,13 +779,13 @@
       "sample": "status_router",
       "profile": "max",
       "language": "java",
-      "variant": "v0",
+      "variant": "v1",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "c7660091a010d22a",
+      "prompt_hash": "eaadf7d4024c1480",
       "raw_outputs": [
         "<mock>"
       ],
@@ -712,50 +800,6 @@
     {
       "sample": "status_router",
       "profile": "max",
-      "language": "cpp",
-      "variant": "v0",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "2ad6308616a81fff",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "minimal",
-      "language": "python",
-      "variant": "v1",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "6d1585f566cd1824",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "minimal",
       "language": "javascript",
       "variant": "v1",
       "intrinsic": {
@@ -763,7 +807,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "d0d5ed0c287ae572",
+      "prompt_hash": "93b3dbcb7cb65b76",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "9983d458a1b35bb0",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "627c5ec908fc7b7c",
       "raw_outputs": [
         "<mock>"
       ],
@@ -822,50 +910,6 @@
     {
       "sample": "status_router",
       "profile": "minimal",
-      "language": "cpp",
-      "variant": "v1",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "627c5ec908fc7b7c",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "standard",
-      "language": "python",
-      "variant": "v1",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "9983d458a1b35bb0",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "standard",
       "language": "javascript",
       "variant": "v1",
       "intrinsic": {
@@ -873,7 +917,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "93b3dbcb7cb65b76",
+      "prompt_hash": "d0d5ed0c287ae572",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "6d1585f566cd1824",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v1",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "8be089736c717621",
       "raw_outputs": [
         "<mock>"
       ],
@@ -932,14 +1020,14 @@
     {
       "sample": "status_router",
       "profile": "standard",
-      "language": "cpp",
+      "language": "javascript",
       "variant": "v1",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "8be089736c717621",
+      "prompt_hash": "93b3dbcb7cb65b76",
       "raw_outputs": [
         "<mock>"
       ],
@@ -953,7 +1041,7 @@
     },
     {
       "sample": "status_router",
-      "profile": "max",
+      "profile": "standard",
       "language": "python",
       "variant": "v1",
       "intrinsic": {
@@ -976,14 +1064,14 @@
     {
       "sample": "status_router",
       "profile": "max",
-      "language": "javascript",
-      "variant": "v1",
+      "language": "cpp",
+      "variant": "v2",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "93b3dbcb7cb65b76",
+      "prompt_hash": "95c06a079dea9b65",
       "raw_outputs": [
         "<mock>"
       ],
@@ -999,13 +1087,13 @@
       "sample": "status_router",
       "profile": "max",
       "language": "go",
-      "variant": "v1",
+      "variant": "v2",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "7b2ea7ae823c495f",
+      "prompt_hash": "ffe3ffb06ced485c",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1021,13 +1109,13 @@
       "sample": "status_router",
       "profile": "max",
       "language": "java",
-      "variant": "v1",
+      "variant": "v2",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "eaadf7d4024c1480",
+      "prompt_hash": "ef746223ea4affb8",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1042,50 +1130,6 @@
     {
       "sample": "status_router",
       "profile": "max",
-      "language": "cpp",
-      "variant": "v1",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "8be089736c717621",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "minimal",
-      "language": "python",
-      "variant": "v2",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "bd1e74b73ae484be",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "minimal",
       "language": "javascript",
       "variant": "v2",
       "intrinsic": {
@@ -1093,7 +1137,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "6dbef24e4f6b1b70",
+      "prompt_hash": "ebfb4981348f7991",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "df35ce1511b1b999",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "484ff725bb281b94",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1152,50 +1240,6 @@
     {
       "sample": "status_router",
       "profile": "minimal",
-      "language": "cpp",
-      "variant": "v2",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "484ff725bb281b94",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "standard",
-      "language": "python",
-      "variant": "v2",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "df35ce1511b1b999",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "standard",
       "language": "javascript",
       "variant": "v2",
       "intrinsic": {
@@ -1203,7 +1247,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "ebfb4981348f7991",
+      "prompt_hash": "6dbef24e4f6b1b70",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "bd1e74b73ae484be",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v2",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "95c06a079dea9b65",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1262,14 +1350,14 @@
     {
       "sample": "status_router",
       "profile": "standard",
-      "language": "cpp",
+      "language": "javascript",
       "variant": "v2",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "95c06a079dea9b65",
+      "prompt_hash": "ebfb4981348f7991",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1283,7 +1371,7 @@
     },
     {
       "sample": "status_router",
-      "profile": "max",
+      "profile": "standard",
       "language": "python",
       "variant": "v2",
       "intrinsic": {
@@ -1306,14 +1394,14 @@
     {
       "sample": "status_router",
       "profile": "max",
-      "language": "javascript",
-      "variant": "v2",
+      "language": "cpp",
+      "variant": "v3",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "ebfb4981348f7991",
+      "prompt_hash": "f245a244be8e6db2",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1329,13 +1417,13 @@
       "sample": "status_router",
       "profile": "max",
       "language": "go",
-      "variant": "v2",
+      "variant": "v3",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "ffe3ffb06ced485c",
+      "prompt_hash": "17c4bf141685fec5",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1351,13 +1439,13 @@
       "sample": "status_router",
       "profile": "max",
       "language": "java",
-      "variant": "v2",
+      "variant": "v3",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "ef746223ea4affb8",
+      "prompt_hash": "bfbf47392fc207c2",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1372,50 +1460,6 @@
     {
       "sample": "status_router",
       "profile": "max",
-      "language": "cpp",
-      "variant": "v2",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "95c06a079dea9b65",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "minimal",
-      "language": "python",
-      "variant": "v3",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "2cefb547a0abf284",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "minimal",
       "language": "javascript",
       "variant": "v3",
       "intrinsic": {
@@ -1423,7 +1467,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "b7126b288ee0f605",
+      "prompt_hash": "c9e8548e9618cf44",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "542b774cde6df5cb",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "3c26dd124b7fe24f",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1482,50 +1570,6 @@
     {
       "sample": "status_router",
       "profile": "minimal",
-      "language": "cpp",
-      "variant": "v3",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "3c26dd124b7fe24f",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "standard",
-      "language": "python",
-      "variant": "v3",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "542b774cde6df5cb",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "standard",
       "language": "javascript",
       "variant": "v3",
       "intrinsic": {
@@ -1533,7 +1577,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "c9e8548e9618cf44",
+      "prompt_hash": "b7126b288ee0f605",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "2cefb547a0abf284",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v3",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "f245a244be8e6db2",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1592,14 +1680,14 @@
     {
       "sample": "status_router",
       "profile": "standard",
-      "language": "cpp",
+      "language": "javascript",
       "variant": "v3",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "f245a244be8e6db2",
+      "prompt_hash": "c9e8548e9618cf44",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1613,7 +1701,7 @@
     },
     {
       "sample": "status_router",
-      "profile": "max",
+      "profile": "standard",
       "language": "python",
       "variant": "v3",
       "intrinsic": {
@@ -1636,14 +1724,14 @@
     {
       "sample": "status_router",
       "profile": "max",
-      "language": "javascript",
-      "variant": "v3",
+      "language": "cpp",
+      "variant": "v4",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "c9e8548e9618cf44",
+      "prompt_hash": "24b6610eb4fbc2ed",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1659,13 +1747,13 @@
       "sample": "status_router",
       "profile": "max",
       "language": "go",
-      "variant": "v3",
+      "variant": "v4",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "17c4bf141685fec5",
+      "prompt_hash": "fb6b97a5014b8264",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1681,13 +1769,13 @@
       "sample": "status_router",
       "profile": "max",
       "language": "java",
-      "variant": "v3",
+      "variant": "v4",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "bfbf47392fc207c2",
+      "prompt_hash": "77d92318d62dd137",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1702,50 +1790,6 @@
     {
       "sample": "status_router",
       "profile": "max",
-      "language": "cpp",
-      "variant": "v3",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "f245a244be8e6db2",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "minimal",
-      "language": "python",
-      "variant": "v4",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "f0588ae750803c16",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "minimal",
       "language": "javascript",
       "variant": "v4",
       "intrinsic": {
@@ -1753,7 +1797,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "81f30d011135924d",
+      "prompt_hash": "254c18b0c8c09e01",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "max",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "f75152c5677be2fa",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "735c3319c8423599",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1812,50 +1900,6 @@
     {
       "sample": "status_router",
       "profile": "minimal",
-      "language": "cpp",
-      "variant": "v4",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "735c3319c8423599",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "standard",
-      "language": "python",
-      "variant": "v4",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "f75152c5677be2fa",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "standard",
       "language": "javascript",
       "variant": "v4",
       "intrinsic": {
@@ -1863,7 +1907,51 @@
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "254c18b0c8c09e01",
+      "prompt_hash": "81f30d011135924d",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "minimal",
+      "language": "python",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "f0588ae750803c16",
+      "raw_outputs": [
+        "<mock>"
+      ],
+      "k": 1,
+      "exact_match_rate": 1.0,
+      "exact_match_ci95": [
+        1.0,
+        1.0
+      ],
+      "unparsed": 0
+    },
+    {
+      "sample": "status_router",
+      "profile": "standard",
+      "language": "cpp",
+      "variant": "v4",
+      "intrinsic": {
+        "n_ops": 1
+      },
+      "snapshot": "mock",
+      "tier": "A",
+      "prompt_hash": "24b6610eb4fbc2ed",
       "raw_outputs": [
         "<mock>"
       ],
@@ -1922,50 +2010,6 @@
     {
       "sample": "status_router",
       "profile": "standard",
-      "language": "cpp",
-      "variant": "v4",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "24b6610eb4fbc2ed",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "max",
-      "language": "python",
-      "variant": "v4",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "f75152c5677be2fa",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "max",
       "language": "javascript",
       "variant": "v4",
       "intrinsic": {
@@ -1987,59 +2031,15 @@
     },
     {
       "sample": "status_router",
-      "profile": "max",
-      "language": "go",
+      "profile": "standard",
+      "language": "python",
       "variant": "v4",
       "intrinsic": {
         "n_ops": 1
       },
       "snapshot": "mock",
       "tier": "A",
-      "prompt_hash": "fb6b97a5014b8264",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "max",
-      "language": "java",
-      "variant": "v4",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "77d92318d62dd137",
-      "raw_outputs": [
-        "<mock>"
-      ],
-      "k": 1,
-      "exact_match_rate": 1.0,
-      "exact_match_ci95": [
-        1.0,
-        1.0
-      ],
-      "unparsed": 0
-    },
-    {
-      "sample": "status_router",
-      "profile": "max",
-      "language": "cpp",
-      "variant": "v4",
-      "intrinsic": {
-        "n_ops": 1
-      },
-      "snapshot": "mock",
-      "tier": "A",
-      "prompt_hash": "24b6610eb4fbc2ed",
+      "prompt_hash": "f75152c5677be2fa",
       "raw_outputs": [
         "<mock>"
       ],
@@ -2062,6 +2062,14 @@
     "parse_n": 90,
     "parse_success_rate": 1.0,
     "aborted": false,
+    "net_concurrency": 1,
+    "grade_concurrency": 16,
+    "usage": {
+      "prompt_tokens": 0,
+      "completion_tokens": 0,
+      "reasoning_tokens": 0,
+      "n_usage_calls": 0
+    },
     "regraded": true
   }
 }

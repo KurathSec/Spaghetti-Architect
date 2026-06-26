@@ -415,6 +415,90 @@ def score_item(task: str, item, model: str, cfg, k: int) -> dict:
 
 
 # --------------------------------------------------------------------------- #
+# fetch-only scorers (Phase A of the concurrent runner): query the model k times
+# and emit the SAME compact record MINUS the graded metrics — i.e. only the identity
+# keys + the persisted ``raw_*`` outputs that the offline ``regrade_*_record`` graders
+# consume. This cleanly separates NETWORK fan-out (here, high concurrency) from the
+# sandboxed GRADING (the --regrade path, bounded concurrency), with no duplicated
+# grading logic: a record produced here, fed to ``regrade_record``, is byte-identical
+# to what ``score_item`` would have returned for the same raw outputs.
+# ``format_parse_ok``/``format_parse_n`` are a CHEAP (no-subprocess) running
+# format-parseable signal used solely to drive the parse-success early-abort during
+# Phase A; the authoritative ``_parse_ok``/``_parse_n`` are recomputed by the grader.
+# --------------------------------------------------------------------------- #
+def fetch_refactor_item(item: RefactorItem, model: str, cfg, k: int) -> dict:
+    system, user = item.prompt()
+    outs, snap = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=item.mock_gold)
+    raw = _mock_raw(outs, model)
+    fp = sum(1 for o in outs if G.extract_code(o)) if model != models.MOCK else k
+    return {"sample": item.sample, "profile": item.profile, "language": item.language,
+            "variant": item.variant, "intrinsic": item.intrinsic, "snapshot": snap,
+            "tier": item.tier, "prompt_hash": models.prompt_hash(system, user),
+            "raw_outputs": raw,
+            "format_parse_ok": fp, "format_parse_n": len(outs)}
+
+
+def fetch_comprehend_item(item: ComprehendItem, model: str, cfg, k: int) -> dict:
+    system, user = item.prompt()
+    outs, snap = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=item.mock_gold)
+    raw = _mock_raw(outs, model)
+    fp = (sum(1 for o in outs if G.extract_json_obj(o) is not None)
+          if model != models.MOCK else k)
+    return {"sample": item.sample, "profile": item.profile, "language": item.language,
+            "variant": item.variant, "intrinsic": item.intrinsic, "snapshot": snap,
+            "tier": item.tier, "prompt_hash": models.prompt_hash(system, user),
+            "raw_outputs": raw,
+            "format_parse_ok": fp, "format_parse_n": len(outs)}
+
+
+def fetch_judge_item(item: JudgeItem, model: str, cfg, k: int) -> dict:
+    L = len(item.levels)
+    raw_pointwise: List[List[str]] = []
+    snap = models.MOCK_SNAPSHOT
+    for label, rank, src in item.levels:
+        system, user = P.judge_pointwise(item.language, src)
+        gold = str(_mock_rating(rank, L))
+        outs, snap = models.sample_k(model, system, user, k, cfg=cfg, mock_gold=gold)
+        raw_pointwise.append(_mock_raw(outs, model))
+    raw_pairwise: List[dict] = []
+    fp = fn = 0
+    for (la, ra, sa), (lb, rb, sb) in combinations(item.levels, 2):
+        clean_is_a = ra < rb
+        sys1, usr1 = P.judge_pairwise(item.language, sa, sb)
+        o1, snap = models.sample_k(model, sys1, usr1, k, cfg=cfg,
+                                   mock_gold=("A" if clean_is_a else "B"))
+        sys2, usr2 = P.judge_pairwise(item.language, sb, sa)
+        o2, snap = models.sample_k(model, sys2, usr2, k, cfg=cfg,
+                                   mock_gold=("B" if clean_is_a else "A"))
+        raw_pairwise.append({"ab": _mock_raw(o1, model), "ba": _mock_raw(o2, model),
+                             "clean_is_a": clean_is_a})
+        # cheap format signal: a pair "parses" when BOTH orders' majority label resolves.
+        if model != models.MOCK:
+            fn += 1
+            if (_majority([G.extract_label(o) for o in o1]) is not None
+                    and _majority([G.extract_label(o) for o in o2]) is not None):
+                fp += 1
+    if model == models.MOCK:
+        fp = fn = len(raw_pairwise)
+    return {"sample": item.sample, "language": item.language, "snapshot": snap,
+            "tier": item.tier, "levels": [lvl[0] for lvl in item.levels],
+            "ranks": item.ranks(),
+            "raw_pointwise": raw_pointwise, "raw_pairwise": raw_pairwise,
+            "format_parse_ok": fp, "format_parse_n": fn}
+
+
+def fetch_item(task: str, item, model: str, cfg, k: int) -> dict:
+    """Phase-A network fetch: returns the raw (ungraded) record for one item."""
+    if task == "refactor":
+        return fetch_refactor_item(item, model, cfg, k)
+    if task == "judge":
+        return fetch_judge_item(item, model, cfg, k)
+    if task == "comprehend":
+        return fetch_comprehend_item(item, model, cfg, k)
+    raise ValueError(f"unknown task: {task!r}")
+
+
+# --------------------------------------------------------------------------- #
 # offline re-grade (re-apply graders to PERSISTED raw outputs; ZERO API)
 # --------------------------------------------------------------------------- #
 def _regradable(rec: dict) -> bool:

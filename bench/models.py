@@ -32,6 +32,7 @@ import os
 import random
 import socket
 import sys
+import threading
 import time
 import urllib.error
 import urllib.request
@@ -48,6 +49,70 @@ MOCK_SNAPSHOT = "mock"  # snapshot id recorded for mock completions
 # Provider ids the client speaks.
 ANTHROPIC, OPENAI, GOOGLE, OAI_COMPAT = "anthropic", "openai", "google", "openai_compatible"
 SUPPORTED_PROVIDERS = (ANTHROPIC, OPENAI, GOOGLE, OAI_COMPAT)
+
+
+# --------------------------------------------------------------------------- #
+# token-usage accumulator (thread-safe; concurrency-ready actual-$ accounting)
+# --------------------------------------------------------------------------- #
+# A real run fans out across a ThreadPoolExecutor, so the per-call ``usage`` blocks
+# the providers return are summed into ONE lock-guarded module-level dict instead of
+# threading a return value through every call site. The mock never reaches a provider
+# parser, so it contributes nothing. ``run_batch`` snapshots+resets this once per
+# batch and turns it into a true ``est_usd`` (the model under test is a REASONING model
+# whose hidden reasoning tokens dominate cost, so projected per-call cost is unreliable
+# and only the returned usage tells the truth).
+_USAGE_LOCK = threading.Lock()
+
+
+def _zero_usage() -> Dict[str, int]:
+    return {"prompt_tokens": 0, "completion_tokens": 0,
+            "reasoning_tokens": 0, "n_usage_calls": 0}
+
+
+_USAGE: Dict[str, int] = _zero_usage()
+
+
+def _accumulate_usage(prompt: int, completion: int, reasoning: int) -> None:
+    """Add one call's token counts to the shared accumulator (thread-safe)."""
+    with _USAGE_LOCK:
+        _USAGE["prompt_tokens"] += int(prompt or 0)
+        _USAGE["completion_tokens"] += int(completion or 0)
+        _USAGE["reasoning_tokens"] += int(reasoning or 0)
+        _USAGE["n_usage_calls"] += 1
+
+
+def reset_usage() -> Dict[str, int]:
+    """Atomically read the accumulated usage and reset it to zero. ``run_batch`` calls
+    this once at the end of a batch to record that batch's true token totals."""
+    with _USAGE_LOCK:
+        snap = dict(_USAGE)
+        _USAGE.update(_zero_usage())
+    return snap
+
+
+def _record_anthropic_usage(body: dict) -> None:
+    u = body.get("usage") or {}
+    # Anthropic counts input/output; extended-thinking tokens are billed as output and
+    # are included in output_tokens (no separate reasoning field), so reasoning=0 here.
+    _accumulate_usage(u.get("input_tokens", 0), u.get("output_tokens", 0), 0)
+
+
+def _record_openai_usage(body: dict) -> None:
+    u = body.get("usage") or {}
+    details = u.get("completion_tokens_details") or {}
+    _accumulate_usage(u.get("prompt_tokens", 0), u.get("completion_tokens", 0),
+                      details.get("reasoning_tokens", 0))
+
+
+def _record_google_usage(body: dict) -> None:
+    u = body.get("usageMetadata") or {}
+    # Gemini reports prompt/candidates/total + (for thinking models) thoughtsTokenCount.
+    # candidatesTokenCount excludes thoughts, so completion = candidates + thoughts to
+    # keep the "all generated tokens" sense consistent with the OpenAI lane.
+    thoughts = u.get("thoughtsTokenCount", 0)
+    cand = u.get("candidatesTokenCount", 0)
+    _accumulate_usage(u.get("promptTokenCount", 0), (cand or 0) + (thoughts or 0),
+                      thoughts)
 
 
 class PlaceholderConfigError(RuntimeError):
@@ -318,6 +383,7 @@ def _anthropic_messages(model, system, user, cfg, spec, key) -> Tuple[str, str]:
     body = _post_json(spec["base_url"], payload, headers, cfg.request_timeout_s,
                       max_retries=cfg.max_retries, retry_base_s=cfg.retry_base_s,
                       model=model)
+    _record_anthropic_usage(body)
     parts = [b.get("text", "") for b in body.get("content", [])
              if isinstance(b, dict) and b.get("type") == "text"]
     return "".join(parts), str(body.get("model", model))
@@ -333,6 +399,7 @@ def _openai_chat(model, system, user, cfg, spec, key) -> Tuple[str, str]:
     body = _post_json(spec["base_url"], payload, headers, cfg.request_timeout_s,
                       max_retries=cfg.max_retries, retry_base_s=cfg.retry_base_s,
                       model=model)
+    _record_openai_usage(body)
     choices = body.get("choices") or [{}]
     text = (choices[0].get("message") or {}).get("content", "") or ""
     return text, str(body.get("model", model))
@@ -349,6 +416,7 @@ def _google_generate(model, system, user, cfg, spec, key) -> Tuple[str, str]:
     body = _post_json(url, payload, {}, cfg.request_timeout_s,
                       max_retries=cfg.max_retries, retry_base_s=cfg.retry_base_s,
                       model=model)
+    _record_google_usage(body)
     cands = body.get("candidates") or [{}]
     parts = ((cands[0].get("content") or {}).get("parts")) or []
     text = "".join(p.get("text", "") for p in parts if isinstance(p, dict))
