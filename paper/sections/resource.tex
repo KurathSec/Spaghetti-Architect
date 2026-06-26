@@ -15,6 +15,7 @@ oracle-validated, two-axis-labelled multi-language dataset (\Cref{fig:pipeline})
 
 \begin{figure}[t]
 \centering
+\resizebox{\linewidth}{!}{%  scale the picture to fit the (narrower) DMLR column width
 \begin{tikzpicture}[
   font=\footnotesize,
   node distance=5mm and 6mm,
@@ -66,14 +67,15 @@ oracle-validated, two-axis-labelled multi-language dataset (\Cref{fig:pipeline})
 % annotations
 \node[note, text width=40mm] at ([yshift=2.3mm]tool.north) {\tool{} (anti-optimization transpiler)};
 \node[note, below=1pt of data, text width=34mm] (axes) {2 orthogonal axes: \emph{intrinsic} size (N/L/W/T) $\times$ \emph{incidental} messiness};
-\end{tikzpicture}
+\end{tikzpicture}%
+}% end \resizebox
 \caption{The \tool{} pipeline. A clean, language-agnostic JSON IR---built from four
 operation primitives (\texttt{MEMBERSHIP\_CHECK}, \texttt{KEY\_VALUE\_LOOKUP},
 \texttt{AGGREGATE}, \texttt{CONDITIONAL\_SELECT}) and serving as the known-optimal
 reference---is validated by the \emph{Parser} into a typed model, so a malformed IR can
 never reach a generator. The \emph{Planner} then selects an anti-pattern profile from a
 data-driven database via the strictly-nested six-level messiness knob
-(\textsf{clean}\,$\subset$\,\textsf{minimal}\,$\subset$\,\textsf{light}\,$\subset$\,\textsf{standard}\,$\subset$\,\textsf{heavy}\,$\subset$\,\textsf{max})
+(\textsf{clean} $\subset$ \textsf{minimal} $\subset$ \textsf{light} $\subset$ \textsf{standard} $\subset$ \textsf{heavy} $\subset$ \textsf{max})
 \emph{at fixed semantics}; five \emph{Generators} emit the deliberately redundant,
 fully-flattened programs (Python, JavaScript, Go, Java, C++); and the \emph{Validator}
 compiles and runs each target against a reference \emph{oracle} (a missing toolchain

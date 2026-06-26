@@ -1,46 +1,61 @@
-%% Spaghetti Architect — DMLR (Journal of Data-centric Machine Learning Research).
-%% Target: data.mlr.press — the ROLLING ARCHIVAL JOURNAL (NOT the dmlr.ai ICLR/ICML
-%% workshops, which are deadline-based). This is the fast, no-deadline resource paper.
+%% Spaghetti Architect — DMLR (Journal of Data-centric Machine Learning Research),
+%% data.mlr.press: the rolling JMLR-family archival journal (NOT the dmlr.ai workshops).
 %%
-%% TEMPLATE TODO: data.mlr.press was unreachable at drafting time. Before submission,
-%% swap this self-contained `article` preamble for the OFFICIAL DMLR/JMLR style
-%% (jmlr/jmlr2e from the DMLR GitHub) and CONFIRM on the journal site:
-%%   (1) exact length norm  — JMLR-family is flexible/paper-length, NOT the workshop's 8pp cap;
-%%   (2) double-blind anonymization policy (anonymize author + the GitHub URL for review if so);
-%%   (3) whether a reproducibility statement / Croissant record is wanted in-band.
+%% SUBMISSION REQUIREMENTS — confirmed 2026-06-26 from data.mlr.press/submissions.html:
+%%   - NO page limit (longer papers simply take longer to review); we are ~12pp.
+%%   - SINGLE-BLIND + open review: authors are NOT anonymized (name/affiliation shown).
+%%   - MUST use this official dmlr2e style (failure to adhere may be desk-rejected).
+%%   - Submit via OpenReview: https://openreview.net/group?id=DMLR
+%%   - A Broader Impact Statement is REQUIRED  -> see \impact{} below.
+%%   - Funding + competing-interests disclosure is REQUIRED -> see \acks{} below.
+%%   - Dataset papers: supplementary must include a datasheet (Appendix + DATASHEET.md),
+%%     a reviewer-accessible download URL (the public GitHub repo), an author-liability +
+%%     data-license statement (datasheet "Author statement"), and a hosting/licensing/
+%%     maintenance plan (datasheet "Maintenance").
+%%
+%% STILL TODO (maintainer action): author email + affiliation; Zenodo archival DOI; the
+%%   funding/competing-interests text in \acks; finalize \dmlrheading once a paper id is
+%%   assigned at acceptance.
 %%
 %% BUILD:  pdflatex dmlr -> bibtex dmlr -> pdflatex dmlr -> pdflatex dmlr
+%%   (requires dmlr2e.sty in this directory — vendored from
+%%    github.com/JmlrOrg/dmlr-style-file; sample.tex/sample.bib are the upstream sample.)
 %%
-%% SCOPE (read before editing): this is the DATA-CENTRIC RESOURCE paper — the generator
-%% + the contamination-resistant, by-construction-labelled, multi-language code dataset
-%% + label-validity evidence + reference baselines. It MUST NOT report the LLM-as-judge
-%% meta-evaluation FINDINGS: that empirical study is the SEPARATE, deferred paper
-%% (seed: bench/paper/benchmark.tex). Cite it only as a motivating use case; never put
-%% its (unrun) numbers here.
+%% SCOPE: this is the DATA-CENTRIC RESOURCE paper — the generator + the contamination-
+%% resistant, by-construction-labelled, multi-language code dataset + label-validity
+%% evidence + reference baselines. It MUST NOT report the LLM-as-judge meta-evaluation
+%% FINDINGS: that empirical study is the SEPARATE, deferred paper (seed:
+%% bench/paper/benchmark.tex). Cite it only as a motivating use case; never put its
+%% (unrun) numbers here.
 
-\documentclass[11pt]{article}
+\documentclass[twoside,11pt]{article}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
-\usepackage{amsmath,amssymb}
+\usepackage{amsmath}              % load before hyperref (which dmlr2e pulls in)
+
+% Official DMLR style — vendored from github.com/JmlrOrg/dmlr-style-file.
+% Provides epsfig, amssymb, natbib, graphicx, hyperref; sets bib style to plainnat.
+% Any additional packages must be loaded AFTER it.
+\usepackage{dmlr2e}
+
 \usepackage{booktabs}
-\usepackage{graphicx}
 \usepackage{xcolor}
 \usepackage{tikz}
 \usetikzlibrary{positioning,fit,backgrounds,shapes.geometric}
 \usepackage{listings}
-\usepackage[hidelinks]{hyperref}
-\usepackage{url}
-\usepackage{natbib}        % JMLR/DMLR uses natbib
-\usepackage{geometry}
-\geometry{margin=1in}
-\usepackage{cleveref}  % load after hyperref; names references ("Section", "Table", ...) itself
+\usepackage{cleveref}             % after hyperref; names references ("Section", ...) itself
 \crefname{lstlisting}{Listing}{Listings}
 \Crefname{lstlisting}{Listing}{Listings}
 \crefname{appendix}{Appendix}{Appendices}
 \Crefname{appendix}{Appendix}{Appendices}
 
 \lstset{basicstyle=\ttfamily\small,breaklines=true,frame=single,columns=fullflexible}
+
+% The datasheet appendix is dense with \texttt identifiers/paths; let TeX stretch a line
+% as a last resort (only when it cannot otherwise be set) to absorb small overfulls in
+% the narrower DMLR column without loosening normal paragraphs.
+\setlength{\emergencystretch}{3em}
 
 % editorial markup — STRIP before camera-ready (a single \renewcommand to {} hides them)
 \newcommand{\todo}[1]{\textcolor{red}{\textbf{[TODO: #1]}}}
@@ -49,16 +64,28 @@
 
 \newcommand{\tool}{\textsc{Spaghetti Architect}}
 
+% DMLR running-head metadata — placeholders until acceptance/camera-ready.
+% args: {volume}{year}{pages}{submitted}{published}{paper id}{author full names}
+% (volume/pages/id are assigned at acceptance; lastpage.sty is absent here, so pages are
+%  left blank rather than auto-computed.)
+\dmlrheading{}{2026}{}{Submitted 6/2026}{}{}{Kurath}
+\ShortHeadings{Spaghetti Architect}{Kurath}
+\firstpageno{1}
+\def\openreview{\url{https://openreview.net/forum?id=XXXX}} % camera-ready: real OpenReview forum id
+
+\begin{document}
+
 \title{\tool: A Contamination-Resistant, By-Construction-Labelled,\\
        Multi-Language Code Dataset Generator}
 
-\author{Kurath\\ \todo{affiliation / email --- confirm DMLR anonymity policy first}}
-\date{}
+\author{\name Kurath \email \todo{email}\\
+       \addr \todo{affiliation --- DMLR is single-blind, so name and affiliation are shown}}
 
-\begin{document}
+\editor{}
+
 \maketitle
 
-\begin{abstract}
+\begin{abstract}%
 \owner{PROSE --- refine this draft to $\sim$180 words, data-centric framing}
 Mining-based code corpora are abundant but \emph{uncontrolled}: a snippet's semantics,
 its surface ``messiness,'' and its difficulty are whatever the wild happened to
@@ -79,6 +106,11 @@ established complexity and readability metrics, and report reference baselines. 
 artifact is open source (MIT), dependency-free, and archived with a DOI.
 \end{abstract}
 
+\begin{keywords}
+  data-centric machine learning, code dataset generation, data contamination,
+  by-construction labels, multi-language code, benchmark resource, dataset documentation
+\end{keywords}
+
 \input{sections/intro}
 \input{sections/resource}
 \input{sections/validity}
@@ -86,7 +118,29 @@ artifact is open source (MIT), dependency-free, and archived with a DOI.
 \input{sections/related}
 \input{sections/limitations}
 
-\bibliographystyle{plainnat}
+\impact{%
+\tool{} is research infrastructure for \emph{evaluation}, not a model or a deployed
+system, and its intended impact is methodological: contamination-resistant,
+by-construction-labelled data lets the community measure code-model behaviour --- code
+quality, robustness to incidental complexity, and output comprehension --- with controls
+that mined corpora cannot supply, while the held-out, regenerable design reduces the
+benchmark leakage that inflates reported progress. The most direct risk is dual use: the
+generator deliberately emits degraded-but-correct programs, which could in principle be
+repurposed to obfuscate software or to manufacture low-quality training data. We judge
+this risk low --- the outputs are intentionally verbose, oracle-checked transformations
+of a public IR rather than novel capabilities --- but we state it plainly, release the
+tool under a permissive licence with an explicit research framing, and document the
+canary and held-out protocol so that misuse for contamination is detectable rather than
+silent. The generated data are wholly synthetic and contain no personal, sensitive, or
+human-subject content.
+}
+
+\acks{%
+\todo{Acknowledgements, if any.} As required by DMLR, we disclose funding and competing
+interests: \todo{list the funding sources supporting this work (or state ``none''), and
+any competing financial interests (or state ``none'').}
+}
+
 \bibliography{refs}
 
 \appendix

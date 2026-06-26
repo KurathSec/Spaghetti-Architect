@@ -10,10 +10,11 @@ copy must be scrubbed.
 
 NOTE — venue: this anonymizer was built for ARR/EACL double-blind review. The
 near-term target has since pivoted to the DMLR data-centric resource paper
-(``paper/dmlr.tex``, data.mlr.press); DMLR's exact anonymity policy is UNCONFIRMED
-(data.mlr.press was unreachable at drafting). Confirm whether double-blind
-anonymization is actually required for DMLR before relying on this script for that
-submission.
+(``paper/dmlr.tex``, data.mlr.press). DMLR's policy is now CONFIRMED (2026-06-26,
+data.mlr.press/submissions.html): SINGLE-BLIND with open review — authors are NOT
+anonymized. So this script is NOT required for a DMLR submission; it is retained only
+in case the deferred companion study (``bench/paper/benchmark.tex``, an ARR/EACL-style
+double-blind venue) needs a scrubbed snapshot.
 
 This script NEVER mutates the working tree. It copies the repo into an output
 directory (default: a scratch dir outside the repo), redacts the identity-
