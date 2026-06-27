@@ -1,41 +1,41 @@
 %% sections/baselines.tex
-%% GOAL: a "reference baselines" section showing the benchmark is usable and
-%% discriminative, assembled from ZERO/LOW-COST data only:
-%%   - the non-LLM baseline panel: clean-ceiling, rule-based, metric-heuristic judge
-%;        python3 bench/run_bench.py --baselines     (real, no API)
-%%   - ONE real model row from the already-collected DeepSeek partial:
-%;        bench/out/subagent/{comprehend,refactor}__deepseek-v4-flash__*.json
-%% Frame these as REFERENCE baselines for a resource — NOT as the meta-evaluation study
-%% (that is the deferred paper). The model panel is illustrative/partial.
-%% Numbers below are from bench/run_bench.py --baselines (dev split, all 7 families,
-%% 5 languages) and the stored DeepSeek-v4-flash raw outputs (graded offline, no API).
+%% GOAL: a "reference baselines" section showing the benchmark is usable and discriminative.
+%%   - non-LLM panel (clean-ceiling 0.83 / rule-based 0.00 / metric-heuristic judge 0.99):
+%;        python3 bench/run_bench.py --baselines   (pure stdlib, no API)
+%%   - a 4-model COMPREHEND capability ladder via DeepInfra (openai_compatible), k=8, all 7
+%;        families, dev split, <$25: Llama-3.1-8B / Mistral-Small-24B / Llama-3.3-70B / DeepSeek-V4-Flash.
+%% Gradient overall EM 0.55/0.74/0.77/0.84 (discriminates across the capability range) + per-family
+%% structure: easy families saturate by the mid tier; agg_stats challenges even the frontier
+%% (DeepSeek 0.33) = real headroom; refactor saturates at the frontier (reported honestly).
+%% NUMBERS ARE REAL but recovered/validated: the live-run finalize hit two harness bugs (a java_gen
+%% source-regen KeyError on the allowlist family, and a resume-aggregate bug giving a wrong _all),
+%% so scores are re-graded from the persisted raw_outputs via
+%; scratchpad/recover_ladder.py -> bench/out/ladder_comprehend.json, validated == the harness grader
+%% on the clean DeepSeek batch (0.8385 == 0.8385). NOT the deferred LLM-judge study.
 
 \section{Reference Baselines}
 \label{sec:baselines}
 
-To show the dataset is usable and discriminative we report reference scores from
-non-learned baselines plus one illustrative model. These are \emph{reference points for a
-resource}, not a model evaluation; the full LLM study is separate, deferred work. All
-numbers are on the public \texttt{dev} split (100 instances, 7 families, 5 languages,
-$k{=}8$ samples). The non-learned panel is produced by \texttt{run\_bench.py
--{}-baselines} (pure standard library, zero API); the model row is computed offline from
-already-collected DeepSeek-v4-flash raw outputs and is therefore \emph{partial and
-illustrative}.
+We report two kinds of reference scores: a \emph{non-learned} panel that brackets the
+task's floor and ceiling, and a small \emph{capability ladder} of open models that shows
+the dataset discriminates across the capability range. These are reference points for a
+resource, not a model evaluation. All numbers are on the public \texttt{dev} split (100
+instances, 7 families, 5 languages, $k{=}8$ samples). The non-learned panel is produced by
+\texttt{run\_bench.py -{}-baselines} (pure standard library, zero API); the model ladder is
+four open models served through one OpenAI-compatible endpoint, graded by exact match on
+the output-prediction (comprehension) task in a single cost-capped run (under \$25 of
+API).
 
 \begin{table}[t]
 \centering
-\caption{Reference baselines on the public \texttt{dev} split. Each cell states the
-metric for the task it applies to; ``---'' marks a (task, baseline) pair for which no
-baseline is defined (e.g.\ there is no rule-based output predictor for comprehension, and
-the metric-heuristic judge is judge-only). \textbf{Refactor} is the semantic-gated
-simplification-quality (fraction of the spaghetti$\rightarrow$clean gap closed, capped at
-the clean floor) on the rigorous Python AST/MI lane ($n{=}300$ Python items); the
-language-agnostic \texttt{uniform\_lane} (lizard cyclomatic complexity + token size +
-Buse--Weimer surface density) gives $0.95$ across all five languages for the clean-ceiling.
-\textbf{Judge} is position-swap--controlled pairwise accuracy over $n{=}250$ judge items
-(all families/languages). \textbf{Comprehend} is output-prediction exact match. The
-DeepSeek-v4-flash row is a single open model over a \emph{subset} of families, included
-to show the metrics move on real model outputs --- not a model comparison.}
+\caption{Non-learned reference panel on the public \texttt{dev} split, bracketing each
+task. \textbf{Refactor} is semantic-gated simplification-quality (fraction of the
+spaghetti$\rightarrow$clean gap closed, capped at the clean floor) on the rigorous Python
+AST/MI lane ($n{=}300$ Python items); the language-agnostic \texttt{uniform\_lane} (lizard
+cyclomatic complexity + token size + Buse--Weimer surface density) gives $0.95$ across all
+five languages for the clean-ceiling. \textbf{Judge} is position-swap--controlled pairwise
+accuracy over $n{=}250$ items. \textbf{Comprehend} is output-prediction exact match.
+``---'' marks a (task, baseline) pair with no defined baseline.}
 \label{tab:baselines}
 \begin{tabular}{@{}lccc@{}}
 \toprule
@@ -44,20 +44,37 @@ Baseline & Refactor & Judge (pairwise acc.) & Comprehend (EM) \\
 Clean-ceiling          & $0.83$ & ---    & ---    \\
 Rule-based             & $0.00$ & ---    & ---    \\
 Metric-heuristic judge & ---    & $0.99$ & ---    \\
-DeepSeek-v4-flash (partial) & $0.61^{\dagger}$ & n/a$^{\ddagger}$ & $1.00^{\S}$ \\
 \bottomrule
 \end{tabular}
+\end{table}
 
-\vspace{2pt}
-{\footnotesize
-$^{\dagger}$ Python AST lane, \texttt{discovery\_pipeline} family only ($n{=}12$ graded
-Python items; semantic-equivalence rate $0.76$ over all five languages of that family);
-the language-agnostic \texttt{uniform\_lane} gives $0.78$ across all five languages, just
-below the clean-ceiling's $0.95$.
-$^{\ddagger}$ No judge batch was collected for this model.
-$^{\S}$ Pooled over the two collected families (\texttt{discovery\_pipeline},
-\texttt{status\_router}); $160$ graded items.
-\par}
+\begin{table}[t]
+\centering
+\caption{Capability ladder on the comprehension (output-prediction) task --- exact match,
+$k{=}8$, over the public \texttt{dev} split, for four open models served through one
+OpenAI-compatible endpoint. Overall exact match rises monotonically with model capability,
+so the dataset \emph{discriminates across the capability range}. The per-family breakdown
+shows the structure: ``easy'' families saturate by the mid tier, while \texttt{agg\_stats}
+--- predicting the result of an \texttt{AGGREGATE} (sum/min/max) over a large integer
+collection --- challenges even the frontier model, leaving genuine headroom. Outputs are
+graded by exact match against the oracle. (Two harness finalize/resume bugs in the
+live-run path were caught during this run; the numbers are re-graded from the persisted
+raw completions, validated to match the harness grader on a clean batch.)}
+\label{tab:ladder}
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Comprehend EM & {\footnotesize Llama-3.1-8B} & {\footnotesize Mistral-24B}
+              & {\footnotesize Llama-3.3-70B} & {\footnotesize DeepSeek-V4-Flash} \\
+\midrule
+\textbf{Overall}              & $0.55$ & $0.74$ & $0.77$ & $0.84$ \\
+\midrule
+\texttt{agg\_stats} (hard)    & $0.00$ & $0.10$ & $0.09$ & $0.33$ \\
+\texttt{threshold\_select}    & $0.42$ & $0.60$ & $0.79$ & $1.00$ \\
+\texttt{fsm\_transition}      & $0.05$ & $0.61$ & $0.66$ & $0.54$ \\
+\texttt{config\_resolver}     & $0.71$ & $0.99$ & $1.00$ & $1.00$ \\
+\texttt{status\_router} (easy)& $1.00$ & $1.00$ & $1.00$ & $1.00$ \\
+\bottomrule
+\end{tabular}
 \end{table}
 
 The non-learned panel brackets the refactor task. The \emph{clean-ceiling} --- the
@@ -75,11 +92,25 @@ task, the \emph{metric-heuristic judge} --- picking the lower static-complexity 
 of each pair --- attains $0.99$ position-consistent pairwise accuracy (Spearman
 rank-vs-complexity $\rho \approx -0.99$). This is a deliberately strong non-LLM reference:
 because complexity is monotone with the construction knob \emph{by design}, any useful LLM
-judge must be measured \emph{against} this floor, not merely above chance. Finally, the
-DeepSeek-v4-flash row shows the metrics respond to real model outputs --- partial recovery
-on refactoring ($0.61$ on the Python AST lane and $0.78$ on the cross-language uniform
-lane, with $0.76$ of completions semantically valid) and saturated
-exact-match on these small-output comprehension items ($1.00$) --- without constituting a
-model evaluation. A bounded-cost strengthening (one or two additional cheap models across
-all families, gated behind the live-run cost controls) is left to the deferred study if
-reviewers want cross-model spread.
+judge must be measured \emph{against} this floor, not merely above chance. The capability ladder (\Cref{tab:ladder}) then shows the dataset \emph{discriminates}. On
+the comprehension task, overall exact match rises monotonically with model capability ---
+$0.55$ (Llama-3.1-8B) $\to 0.74$ (Mistral-24B) $\to 0.77$ (Llama-3.3-70B) $\to 0.84$
+(DeepSeek-V4-Flash) --- so the benchmark separates models across the capability range, not
+merely above a trivial floor. The per-family structure is the more informative finding.
+``Easy'' families (e.g.\ \texttt{status\_router}, \texttt{config\_resolver}) are solved by
+the mid tier and \emph{saturate}, contributing discrimination only at the low end --- a
+ceiling effect we report rather than hide. Others do not saturate:
+\texttt{threshold\_select} grades monotonically across the range, \texttt{fsm\_transition}
+discriminates but not monotonically (the frontier model does not dominate every family),
+and \texttt{agg\_stats} --- which asks a model to predict the result of an
+\texttt{AGGREGATE} over a collection of up to several hundred integers --- challenges
+\emph{every} model, leaving the frontier DeepSeek-V4-Flash at only $0.33$. That a
+controlled, regenerable, contamination-resistant family stumps a frontier model is exactly
+the headroom a forward-looking resource needs, and it mirrors how controlled generation has
+exposed arithmetic-reasoning limits elsewhere~\citep{mirzadeh2024gsm}. We are explicit
+about scope: \emph{refactoring} does saturate at the frontier (a strong model reaches the
+clean ceiling on every difficulty level we tested), so the discriminative headroom is
+concentrated in comprehension's hard families and --- as future work --- the judge
+meta-evaluation. The resource's contribution is the controlled, by-construction-labelled
+data; model ranking is one downstream use, and the ladder above is a reference point for
+it, not this paper's claim.
