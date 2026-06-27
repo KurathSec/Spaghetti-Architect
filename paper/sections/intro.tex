@@ -44,10 +44,15 @@ semantics) --- and a single IR yields a parallel corpus across all five language
 resist contamination, scored instances are minted fresh from a \emph{private} held-out
 seed that is never committed, a public canary GUID enables training-set audits, and
 graded novelty tiers turn ``how memorized is this?'' into a measured quantity rather than
-a hope. A motivating downstream use case --- a meta-evaluation of whether LLM judges
-track a code-quality order known independently of any rater --- is the subject of a
-separate, deferred study; here we deliver and document the
-\emph{instrument} and the dataset it produces.
+a hope. A meta-evaluation of whether LLM judges track a code-quality order known independently of
+any rater is \emph{one} application this resource enables, and we use it to motivate the
+design; this paper delivers and documents the \emph{instrument} and the dataset it
+produces, which stand on their own as a contribution. Because the deliverable is a
+\emph{generator}, the resource's value is its regenerability, not the size of any one
+frozen download: the public \texttt{dev} split is a compact, fully-inspectable reference
+($100$ instances), while an unbounded stream of fresh, equivalently-labelled instances
+--- including the private scored split --- is available on demand from the same
+contract. We therefore treat instance count as a tunable output, not a headline number.
 
 \paragraph{Contributions.} This paper contributes:
 \begin{itemize}

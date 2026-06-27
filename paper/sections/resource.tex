@@ -193,6 +193,19 @@ method fails because the \emph{problem} got bigger or because the \emph{presenta
 messier. The incidental axis is the dataset's by-construction quality order: a strict
 nesting that holds independently of any rater.
 
+We make the orthogonality concrete rather than asserted. In mined corpora the two axes
+are \emph{confounded}: a longer program is usually also a messier one, so size and
+presentation cannot be moved independently. \tool{} instead crosses them fully --- every
+base sample is rendered at every messiness level --- so the incidental knob carries no
+information about problem size. Over the public \texttt{dev} split this is exact: the
+Spearman correlation between the messiness-knob rank and two presentation-independent
+intrinsic-size measures --- the IR operation count and the per-family scale knob
+($N/L/W/T$) --- is $\rho = 0.00$ across all $250$ (base sample, profile) cells, and
+$\rho = 0.00$ within each family whose scale knob varies (computed in
+\texttt{bench/anchor.py}, recorded in \texttt{anchor.json}). The two difficulty axes are
+therefore orthogonal by construction \emph{and} verified balanced in the release, not
+merely claimed.
+
 \subsection{Contamination protocol}
 \label{sec:contam}
 A public generator is defensible for contamination-aware evaluation provided every
@@ -213,10 +226,11 @@ equivalent private split from their own fresh secret seed --- so the
 absorbed. The asymmetry is the mitigation: the inspectable half is allowed to be
 trainable so that the scored half does not have to be.
 
-\paragraph{Canary.} A canary GUID is embedded in the public release
-(\texttt{spaghetti-architect-bench:\allowbreak canary:\allowbreak 9f1d4e7a-\dots}). A model that reproduces it has
-demonstrably ingested the public split, turning training-set inclusion into something an
-auditor can probe rather than assume.
+\paragraph{Canary.} A canary GUID --- a unique, memorizable string in the spirit of the
+unintended-memorization probes of \citet{carlini2019secret} --- is embedded in the public
+release (\texttt{spaghetti-architect-bench:\allowbreak canary:\allowbreak 9f1d4e7a-\dots}).
+A model that reproduces it has demonstrably ingested the public split, turning training-set
+inclusion into something an auditor can probe rather than assume.
 
 \paragraph{Graded novelty tiers.} Freshness is not binary, so we report three tiers that
 turn ``how memorized is this?'' into a measured axis. \textbf{Tier A} (literal-novel)

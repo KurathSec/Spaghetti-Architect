@@ -20,12 +20,22 @@
         "cc": {
           "direction": "+",
           "incidental_knob_spearman_mean": 0.7499039627182468,
+          "incidental_knob_spearman_ci95": [
+            0.7232338809553712,
+            0.7765740444811223
+          ],
+          "incidental_knob_spearman_n": 50,
           "config_resolver_N_spearman": 1.0,
           "crosscheck_vs_our_lane_spearman": 0.9799332276992158
         },
         "mi": {
           "direction": "-",
           "incidental_knob_spearman_mean": -0.788734183943857,
+          "incidental_knob_spearman_ci95": [
+            -0.8621707542028599,
+            -0.7029691283669061
+          ],
+          "incidental_knob_spearman_n": 50,
           "config_resolver_N_spearman": -1.0,
           "crosscheck_vs_our_lane_spearman": 0.9177740590821423
         }
@@ -40,6 +50,11 @@
         "cc": {
           "direction": "+",
           "incidental_knob_spearman_mean": 0.7499039627182468,
+          "incidental_knob_spearman_ci95": [
+            0.7232338809553712,
+            0.7765740444811223
+          ],
+          "incidental_knob_spearman_n": 50,
           "config_resolver_N_spearman": 1.0,
           "crosscheck_vs_our_lane_spearman": 0.9799332276992158
         }
@@ -61,6 +76,10 @@
             "status": "OK",
             "direction": "+",
             "incidental_knob_spearman_mean": 0.35355339059327373,
+            "incidental_knob_spearman_ci95": [
+              0.2545584412271571,
+              0.45254833995939037
+            ],
             "n_base_samples": 50,
             "n_levels": 5
           },
@@ -68,6 +87,10 @@
             "status": "OK",
             "direction": "+",
             "incidental_knob_spearman_mean": 0.35355339059327373,
+            "incidental_knob_spearman_ci95": [
+              0.2545584412271571,
+              0.45254833995939037
+            ],
             "n_base_samples": 50,
             "n_levels": 5
           },
@@ -75,6 +98,10 @@
             "status": "OK",
             "direction": "+",
             "incidental_knob_spearman_mean": 0.3394112549695428,
+            "incidental_knob_spearman_ci95": [
+              0.24041630560342614,
+              0.43840620433565947
+            ],
             "n_base_samples": 50,
             "n_levels": 5
           },
@@ -82,6 +109,10 @@
             "status": "OK",
             "direction": "+",
             "incidental_knob_spearman_mean": 0.35355339059327373,
+            "incidental_knob_spearman_ci95": [
+              0.2545584412271571,
+              0.45254833995939037
+            ],
             "n_base_samples": 50,
             "n_levels": 5
           },
@@ -89,11 +120,77 @@
             "status": "OK",
             "direction": "+",
             "incidental_knob_spearman_mean": 0.35355339059327373,
+            "incidental_knob_spearman_ci95": [
+              0.2545584412271571,
+              0.45254833995939037
+            ],
             "n_base_samples": 50,
             "n_levels": 5
           }
         },
-        "python_clean_to_max_spearman_mean": 0.7499039627182468
+        "per_language_tokens": {
+          "python": {
+            "status": "OK",
+            "direction": "+",
+            "incidental_knob_spearman_mean": 0.8843768808692358,
+            "incidental_knob_spearman_ci95": [
+              0.850036245779673,
+              0.9170055219931654
+            ],
+            "n_base_samples": 50,
+            "n_levels": 5
+          },
+          "javascript": {
+            "status": "OK",
+            "direction": "+",
+            "incidental_knob_spearman_mean": 0.8843768808692358,
+            "incidental_knob_spearman_ci95": [
+              0.850036245779673,
+              0.9170055219931654
+            ],
+            "n_base_samples": 50,
+            "n_levels": 5
+          },
+          "go": {
+            "status": "OK",
+            "direction": "+",
+            "incidental_knob_spearman_mean": 0.8843768808692358,
+            "incidental_knob_spearman_ci95": [
+              0.850036245779673,
+              0.9170055219931654
+            ],
+            "n_base_samples": 50,
+            "n_levels": 5
+          },
+          "java": {
+            "status": "OK",
+            "direction": "+",
+            "incidental_knob_spearman_mean": 0.8843768808692358,
+            "incidental_knob_spearman_ci95": [
+              0.850036245779673,
+              0.9170055219931654
+            ],
+            "n_base_samples": 50,
+            "n_levels": 5
+          },
+          "cpp": {
+            "status": "OK",
+            "direction": "+",
+            "incidental_knob_spearman_mean": 0.8843768808692358,
+            "incidental_knob_spearman_ci95": [
+              0.850036245779673,
+              0.9170055219931654
+            ],
+            "n_base_samples": 50,
+            "n_levels": 5
+          }
+        },
+        "tokens_note": "Second language-agnostic facet: lizard's own per-language token count (lexical size) vs the knob. lizard lexes each language natively, so this is a genuine cross-language size/verbosity convergent signal, distinct from cyclomatic complexity; like CC it is partly mechanical (messier code is longer), and is reported with a bootstrap CI.",
+        "python_clean_to_max_spearman_mean": 0.7499039627182468,
+        "python_clean_to_max_spearman_ci95": [
+          0.7232338809553712,
+          0.7765740444811223
+        ]
       }
     },
     "cognitive": {
@@ -105,6 +202,11 @@
         "cognitive": {
           "direction": "+",
           "incidental_knob_spearman_mean": 0.7978888094111487,
+          "incidental_knob_spearman_ci95": [
+            0.7577829705742606,
+            0.8379946482480366
+          ],
+          "incidental_knob_spearman_n": 50,
           "config_resolver_N_spearman": 1.0,
           "crosscheck_vs_our_lane_spearman": 0.9551587270052242
         }
@@ -130,6 +232,11 @@
       "aggregate_density_proxy": {
         "direction": "+",
         "incidental_knob_spearman_mean": 0.39444491984785884,
+        "incidental_knob_spearman_ci95": [
+          0.2937217092509188,
+          0.4942237936244674
+        ],
+        "incidental_knob_spearman_n": 50,
         "config_resolver_N_spearman": 1.0,
         "definition": "mean of z-scored Buse-Weimer density/structure features (line length, identifiers, keywords, numbers, periods, commas, parentheses, arithmetic/comparison/assignment ops, branches, loops, indentation, and most-frequent char/identifier), standardised over the dev source set; higher = denser surface = less readable."
       },
@@ -246,6 +353,19 @@
   "anchors_skipped": [
     "readability"
   ],
+  "orthogonality": {
+    "n_cells": 250,
+    "n_base_samples": 50,
+    "knob_vs_n_ops_spearman": 0.0,
+    "knob_vs_scale_spearman": 0.0,
+    "knob_vs_scale_spearman_by_family": {
+      "agg_stats": 0.0,
+      "allowlist": 0.0,
+      "config_resolver": 0.0,
+      "threshold_select": 0.0
+    },
+    "note": "intrinsic size (n_ops, per-family scale) is set independently of the incidental messiness knob; ~0 correlation confirms the released dev split is a balanced crossing of the two axes (orthogonal by design)."
+  },
   "per_sample": {
     "config_resolver_N10": {
       "cc_vs_knob_spearman": 0.6546536707079771,

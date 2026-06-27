@@ -408,8 +408,9 @@ _SKIP_REASON = {
 # --------------------------------------------------------------------------- #
 # correlation helpers (shared with grade.py)
 # --------------------------------------------------------------------------- #
-def _incidental_spearman_mean(rows: List[dict], col: str) -> Optional[float]:
-    """Mean over base samples of Spearman(knob rank, metric column)."""
+def _incidental_spearman_rhos(rows: List[dict], col: str) -> List[float]:
+    """Per-base-sample Spearman(knob rank, metric column) values (one rho per
+    sample), the distribution that the mean and its bootstrap CI summarise."""
     by_sample: Dict[str, List[dict]] = {}
     for r in rows:
         by_sample.setdefault(r["sample"], []).append(r)
@@ -419,7 +420,27 @@ def _incidental_spearman_mean(rows: List[dict], col: str) -> Optional[float]:
         if len(rs) < 2:
             continue
         rhos.append(G.spearman([r["rank"] for r in rs], [r[col] for r in rs]))
+    return rhos
+
+
+def _incidental_spearman_mean(rows: List[dict], col: str) -> Optional[float]:
+    """Mean over base samples of Spearman(knob rank, metric column)."""
+    rhos = _incidental_spearman_rhos(rows, col)
     return G.mean(rhos) if rhos else None
+
+
+def _incidental_spearman_stats(rows: List[dict], col: str) -> dict:
+    """Mean + bootstrap 95% CI + n of the per-sample knob-vs-metric Spearman, so
+    the validity tables carry a confidence interval and a sample count rather than
+    a bare point estimate."""
+    rhos = _incidental_spearman_rhos(rows, col)
+    if not rhos:
+        return {"mean": None, "ci95": None, "n_base_samples": 0}
+    return {
+        "mean": G.mean(rhos),
+        "ci95": (G.ci95_bootstrap(rhos) if len(rhos) > 1 else None),
+        "n_base_samples": len(rhos),
+    }
 
 
 def _config_resolver_spearman(rows: List[dict], col: str, knob: str = "max") -> Optional[float]:
@@ -478,10 +499,13 @@ def _compute_bw_readability(rows: List[dict]) -> dict:
             "incidental_knob_spearman_mean": _incidental_spearman_mean(rows, feat),
             "config_resolver_N_spearman": _config_resolver_spearman(rows, feat),
         }
+    _agg_stats = _incidental_spearman_stats(rows, "bw_proxy")
     aggregate = {
         # direction "+" => higher (denser) is expected with more spaghetti.
         "direction": "+",
-        "incidental_knob_spearman_mean": _incidental_spearman_mean(rows, "bw_proxy"),
+        "incidental_knob_spearman_mean": _agg_stats["mean"],
+        "incidental_knob_spearman_ci95": _agg_stats["ci95"],
+        "incidental_knob_spearman_n": _agg_stats["n_base_samples"],
         "config_resolver_N_spearman": _config_resolver_spearman(rows, "bw_proxy"),
         "definition": "mean of z-scored Buse-Weimer density/structure features "
                       "(line length, identifiers, keywords, numbers, periods, "
@@ -537,15 +561,22 @@ def _compute_bw_readability(rows: List[dict]) -> dict:
 # honest SKIP for that language -- never a fabricated number.
 # --------------------------------------------------------------------------- #
 def _compute_cross_language_lizard(sp, lizard_mod, version: str) -> dict:
-    def cc(lang: str, src: str) -> Optional[float]:
+    def metrics_of(lang: str, src: str):
+        """(max cyclomatic complexity, file token count) for a source, or
+        (None, None) if lizard exposes no function. lizard lexes each language
+        natively, so the token count is a genuine per-language size measure."""
         res = lizard_mod.analyze_file.analyze_source_code(
             "_spaghetti" + _LANG_EXT[lang], _wrap_for_cc_lang(lang, src))
-        vals = [f.cyclomatic_complexity for f in res.function_list]
-        return float(max(vals)) if vals else None
+        ccs = [f.cyclomatic_complexity for f in res.function_list]
+        if not ccs:
+            return None, None
+        tok = getattr(res, "token_count", None)
+        return float(max(ccs)), (float(tok) if tok else None)
 
     profiles = D.PROFILES                       # minimal..max (5 levels)
     ranks = list(range(len(profiles)))
     per_lang_rhos: Dict[str, List[float]] = {L: [] for L in D.LANGS}
+    per_lang_tok_rhos: Dict[str, List[float]] = {L: [] for L in D.LANGS}
     failed_cells: Dict[str, int] = {L: 0 for L in D.LANGS}
     py_clean_rhos: List[float] = []
     for it in sp.items:
@@ -554,39 +585,50 @@ def _compute_cross_language_lizard(sp, lizard_mod, version: str) -> dict:
         prog = sp.program(it.stem)
         srcs = {p: sp.sources(it.stem, p) for p in profiles}
         for L in D.LANGS:
-            vals: List[float] = []
+            ccs: List[float] = []
+            toks: List[float] = []
             ok = True
+            tok_ok = True
             for p in profiles:
-                v = cc(L, srcs[p][L])
-                if v is None:
+                c, t = metrics_of(L, srcs[p][L])
+                if c is None:
                     failed_cells[L] += 1
                     ok = False
-                    v = 1.0
-                vals.append(v)
+                    c = 1.0
+                if t is None:
+                    tok_ok = False
+                    t = 1.0
+                ccs.append(c)
+                toks.append(t)
             if ok:
-                per_lang_rhos[L].append(G.spearman(ranks, vals))
+                per_lang_rhos[L].append(G.spearman(ranks, ccs))
+                if tok_ok:
+                    per_lang_tok_rhos[L].append(G.spearman(ranks, toks))
         # Python clean..max reference (the idiomatic floor is Python-only).
-        clean_v = cc("python", M.clean_baseline_static(prog))
+        clean_v, _ = metrics_of("python", M.clean_baseline_static(prog))
         py_vals = [clean_v if clean_v is not None else 1.0]
-        py_vals += [cc("python", srcs[p]["python"]) or 1.0 for p in profiles]
+        py_vals += [(metrics_of("python", srcs[p]["python"])[0] or 1.0) for p in profiles]
         py_clean_rhos.append(G.spearman(list(range(len(py_vals))), py_vals))
 
-    per_language: Dict[str, dict] = {}
-    for L in D.LANGS:
-        rhos = per_lang_rhos[L]
-        if rhos and failed_cells[L] == 0:
-            per_language[L] = {
+    def _entry(rhos: List[float], failed: int, label: str) -> dict:
+        if rhos and failed == 0:
+            return {
                 "status": "OK", "direction": "+",
                 "incidental_knob_spearman_mean": G.mean(rhos),
+                "incidental_knob_spearman_ci95": (
+                    G.ci95_bootstrap(rhos) if len(rhos) > 1 else None),
                 "n_base_samples": len(rhos), "n_levels": len(profiles),
             }
-        else:
-            per_language[L] = {
-                "status": "SKIP", "direction": "+",
-                "reason": f"lizard exposed no measurable function for "
-                          f"{failed_cells[L]} {L} source cell(s) "
-                          f"({len(rhos)} usable samples); no number fabricated.",
-            }
+        return {
+            "status": "SKIP", "direction": "+",
+            "reason": f"lizard exposed no measurable {label} for {failed} source "
+                      f"cell(s) ({len(rhos)} usable samples); no number fabricated.",
+        }
+
+    per_language = {L: _entry(per_lang_rhos[L], failed_cells[L], "function")
+                    for L in D.LANGS}
+    per_language_tokens = {L: _entry(per_lang_tok_rhos[L], failed_cells[L], "token count")
+                           for L in D.LANGS}
     return {
         "metric": "cyclomatic_complexity",
         "aggregation": "max cyclomatic_complexity over lizard function_list per source",
@@ -602,8 +644,62 @@ def _compute_cross_language_lizard(sp, lizard_mod, version: str) -> dict:
                 "stay Python-only (Python-AST tools); Buse-Weimer features stay "
                 "Python-only (stdlib tokenize re-implementation).",
         "per_language": per_language,
+        "per_language_tokens": per_language_tokens,
+        "tokens_note": "Second language-agnostic facet: lizard's own per-language "
+                       "token count (lexical size) vs the knob. lizard lexes each "
+                       "language natively, so this is a genuine cross-language "
+                       "size/verbosity convergent signal, distinct from cyclomatic "
+                       "complexity; like CC it is partly mechanical (messier code is "
+                       "longer), and is reported with a bootstrap CI.",
         "python_clean_to_max_spearman_mean": (
             G.mean(py_clean_rhos) if py_clean_rhos else None),
+        "python_clean_to_max_spearman_ci95": (
+            G.ci95_bootstrap(py_clean_rhos) if len(py_clean_rhos) > 1 else None),
+    }
+
+
+# --------------------------------------------------------------------------- #
+# Finding 12: are the two difficulty axes actually orthogonal?
+# --------------------------------------------------------------------------- #
+def _orthogonality(sp) -> dict:
+    """The generator sets the intrinsic size (operation count ``n_ops`` and the
+    per-family scale knob) independently of the incidental ``messiness`` knob, fully
+    crossing the two factors. We verify the *released* split is balanced -- not merely
+    asserted orthogonal -- by correlating the knob rank against two presentation-
+    independent intrinsic-size measures over every (base sample, profile) cell. Both
+    correlations are ~0, in deliberate contrast to mined corpora, where a longer
+    program is usually also a messier one (size and messiness confounded)."""
+    rank: List[int] = []
+    nops: List[int] = []
+    scale_pairs: List[tuple] = []
+    by_fam: Dict[str, List[tuple]] = {}
+    for it in sp.items:
+        if it.is_variant:
+            continue
+        for p in D.PROFILES:
+            r = KNOB_RANK[p]
+            rank.append(r)
+            nops.append(it.n_operations)
+            if it.scale is not None:
+                scale_pairs.append((r, it.scale))
+                by_fam.setdefault(it.family, []).append((r, it.scale))
+
+    def _rho(pairs: List[tuple]) -> Optional[float]:
+        if len({s for _, s in pairs}) < 2:
+            return None  # a family with a single scale: correlation undefined
+        return G.spearman([a for a, _ in pairs], [b for _, b in pairs])
+
+    return {
+        "n_cells": len(rank),
+        "n_base_samples": len({it.stem for it in sp.items if not it.is_variant}),
+        "knob_vs_n_ops_spearman": (
+            G.spearman(rank, nops) if len(set(nops)) > 1 else None),
+        "knob_vs_scale_spearman": _rho(scale_pairs),
+        "knob_vs_scale_spearman_by_family": {
+            fam: _rho(pairs) for fam, pairs in sorted(by_fam.items())},
+        "note": "intrinsic size (n_ops, per-family scale) is set independently of the "
+                "incidental messiness knob; ~0 correlation confirms the released dev "
+                "split is a balanced crossing of the two axes (orthogonal by design).",
     }
 
 
@@ -677,9 +773,12 @@ def compute() -> dict:
         for metric, spec in info["metrics"].items():
             col = f"{anchor}_{metric}"
             our_col = _OUR_LANE.get(metric)
+            stats = _incidental_spearman_stats(rows, col)
             per_metric[metric] = {
                 "direction": spec["direction"],  # expected knob sign (+ worse, - better)
-                "incidental_knob_spearman_mean": _incidental_spearman_mean(rows, col),
+                "incidental_knob_spearman_mean": stats["mean"],
+                "incidental_knob_spearman_ci95": stats["ci95"],
+                "incidental_knob_spearman_n": stats["n_base_samples"],
                 "config_resolver_N_spearman": _config_resolver_spearman(rows, col),
                 "crosscheck_vs_our_lane_spearman":
                     (_crosscheck_spearman(rows, col, our_col) if our_col else None),
@@ -727,6 +826,7 @@ def compute() -> dict:
         "anchors": anchors,
         "anchors_ok": sorted(a for a, v in anchors.items() if v["status"] == "OK"),
         "anchors_skipped": sorted(a for a, v in anchors.items() if v["status"] == "SKIP"),
+        "orthogonality": _orthogonality(sp),
         "per_sample": per_sample,
         "rows": rows,  # for judge-vs-anchor correlation in --aggregate
         # parallel readability-feature rows (kept separate so `rows` is unchanged).

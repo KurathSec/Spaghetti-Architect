@@ -4,47 +4,80 @@
 \section{Related Work}
 \label{sec:related}
 
-We position \tool{} as a \emph{data resource} against four neighboring lines of work:
-data-documentation norms, code/LLM benchmarks and the contamination problem, and the
-controlled-transformation literature (obfuscation, code smells, readability) from which
-the generator borrows its primitives.
+We position \tool{} as a \emph{data resource} against five neighboring lines of work:
+data-documentation norms; code/LLM benchmarks and the contamination problem;
+contamination-\emph{detection} methods; procedurally-generated and diagnostic benchmarks
+(in code and other modalities); and the controlled-transformation literature (obfuscation,
+mutation, code smells, readability) from which the generator borrows its primitives.
 
 \paragraph{Data documentation.} The data-centric ML community has converged on
 structured documentation of provenance, composition, and intended use: Datasheets for
-Datasets~\citep{gebru2021datasheets} and Data
-Cards~\citep{pushkarna2022datacards} ask a dataset's authors to make its construction and
-limitations legible. We follow that norm rather than extend it: the dataset ships with a
+Datasets~\citep{gebru2021datasheets}, Model Cards~\citep{mitchell2019model}, and Data
+Cards~\citep{pushkarna2022datacards} ask a dataset's (or model's) authors to make its
+construction and limitations legible. We follow that norm rather than extend it: the dataset ships with a
 datasheet (\Cref{app:datasheet}). What is unusual here is that, because the data is
 \emph{synthesized} from a documented generator rather than collected, the answers to
 many datasheet questions (how instances were labelled, whether they were preprocessed,
 whether they can be regenerated) are exact and machine-checkable rather than
 best-effort recollections.
 
-\paragraph{Code and LLM benchmarks, and contamination.} Functional-correctness
-benchmarks such as those built around \textsc{HumanEval}-style
-suites~\citep{chen2021evaluating} grade \emph{what} a model produces but fix
+\paragraph{Code and LLM benchmarks, and contamination.} Functional-correctness benchmarks
+--- \textsc{HumanEval}~\citep{chen2021evaluating}, \textsc{MBPP}~\citep{austin2021program},
+\textsc{APPS}~\citep{hendrycks2021apps}, the multi-task
+\textsc{CodeXGLUE}~\citep{lu2021codexglue}, and rigorous re-tests that catch silently-wrong
+solutions~\citep{liu2023evalplus} --- grade \emph{what} a model produces but fix
 \emph{presentation} and, being static and public, are exposed to training-set
-contamination~\citep{riddell2024quantifying,jacovi2023stop}: a model may score well because it has
-seen the items. Two structural responses exist in the data-resource literature. One is to
-gate on time and protect the scored portion of a release; the other is to make instances
-\emph{regenerable} so that a fresh, never-seen draw is always available. \tool{} adopts
-both --- a private held-out split minted after the cutoff plus a public canary
-(\Cref{sec:contam}) --- but, unlike a static suite, it is a \emph{generator}: the scored
-data is not a fixed file to be protected but a fresh sample to be minted, which is the
-only durable defense once a public split inevitably leaks.
+contamination~\citep{sainz2023nlp,riddell2024quantifying,jacovi2023stop}: a model may
+score well because it has seen the items. A parallel line develops \emph{detectors} for
+this leakage --- membership-inference probes such as Min-K\%~\citep{shi2024detecting},
+exchangeability tests with false-positive guarantees~\citep{oren2024proving}, and the
+training-data-extraction and memorization analyses that motivate canaries in the first
+place~\citep{carlini2021extracting} --- a-posteriori tools that complement, rather than
+replace, a generator that can simply mint uncontaminated data on demand. Two structural
+responses have emerged. One gates
+on \emph{time}, scoring only items released after a model's training cutoff, as in the
+continuously-updated \textsc{LiveCodeBench}~\citep{jain2024livecodebench} and
+\textsc{LiveBench}~\citep{white2024livebench}; the other makes instances
+\emph{regenerable} so a fresh, never-seen draw is always available. \tool{} adopts both
+--- a private held-out split minted after the cutoff plus a public canary
+(\Cref{sec:contam}) --- but differs from time-gated suites in a way that suits a data
+\emph{resource}: where a living benchmark \emph{harvests} new real-world problems over
+time (and so cannot supply a known-optimal label or hold semantics fixed along a
+difficulty axis), \tool{} \emph{synthesizes} its scored data, so every fresh draw still
+carries by-construction labels and the two orthogonal axes. The scored data is thus not a
+fixed file to be protected but a fresh, fully-labelled sample to be minted --- the only
+durable defense once a public split inevitably leaks.
+
+\paragraph{Procedurally generated and diagnostic benchmarks.} Synthesizing evaluation data
+from a controlled generator is well established \emph{outside} code, precisely because it
+buys control that scraping cannot: bAbI generates reasoning tasks from
+templates~\citep{weston2015babi}, CLEVR renders visual-reasoning questions from a scene
+grammar~\citep{johnson2017clevr}, SCAN emits compositional command/action pairs from a
+small grammar~\citep{lake2018scan}, and \textsc{GSM-Symbolic} instantiates grade-school
+math problems from symbolic templates to expose memorization and brittle
+variance~\citep{mirzadeh2024gsm}. The same controllability now drives \emph{training}-data
+synthesis for code: textbook-style synthetic corpora~\citep{gunasekar2023textbooks} and
+open-source-seeded instruction data~\citep{wei2024magicoder} trade raw scale for control.
+\tool{} brings this procedural-generation stance to a \emph{multi-language,
+oracle-verified, by-construction-labelled} code resource: like these generators it
+controls the stimulus, but unlike them it additionally guarantees semantic equivalence by
+execution and carries a known-optimal reference for every instance.
 
 \paragraph{Controlled code transformation.} The moves \tool{} composes are not new in
 isolation. Source obfuscation deliberately degrades readability while preserving
 behavior; the eleven \texttt{SPAGH\_*} transforms descend from the Collberg--Thomborson
 taxonomy of obfuscating transformations~\citep{collberg1997taxonomy} (opaque predicates,
 redundant computation) and from classic code smells~\citep{fowler-refactoring}. Code
-readability has its own measurement tradition, most influentially the learned
-surface-feature metric of Buse and Weimer~\citep{buse2010readability}, which we re-use as
-an external validity witness (\Cref{sec:validity}). The defining difference is one of
+readability and complexity have their own measurement traditions --- from Halstead's
+software-science measures~\citep{halstead1977elements} through the learned surface-feature
+readability metric of Buse and Weimer~\citep{buse2010readability} and its textual-feature
+successor~\citep{scalabrino2018comprehensive} --- which we re-use as external validity
+witnesses (\Cref{sec:validity}) rather than as generators. The defining difference is one of
 \emph{purpose and labelling}. An obfuscator emits degraded code but no quality
-\emph{order} and no known-optimal target; a code-smell injector or a mutation tool
-perturbs a program but (in the mutation case) deliberately \emph{breaks} semantics rather
-than preserving them; a readability metric scores existing code but does not generate a
+\emph{order} and no known-optimal target; a code-smell injector or a mutation
+tool~\citep{demillo1978hints,jia2011analysis} perturbs a program but (in the mutation case)
+deliberately \emph{breaks} semantics to test a suite --- the inverse of our
+equivalence-preserving goal; a readability metric scores existing code but does not generate a
 graded corpus. \tool{} reuses these primitives as a \emph{maintainability-degradation
 knob with ground truth}: a strictly-nested ladder that is, by construction, a quality
 order at fixed semantics.

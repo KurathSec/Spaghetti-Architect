@@ -17,6 +17,22 @@ absolute results transfer to real-world codebases. Scaling the instance count do
 widen this scope; broadening the operation set, the operand types, and the program
 granularity is future work.
 
+\paragraph{Why a narrow controlled stimulus still yields valid conclusions.} Narrowness
+here buys \emph{internal} validity, and that is the point. A mined corpus maximizes surface
+realism but confounds the factors a study wants to separate (size, mess, semantics), so an
+observed failure cannot be attributed to a cause. A controlled stimulus inverts this trade:
+by holding semantics fixed and moving one labelled axis at a time, it licenses \emph{causal}
+statements --- ``model $M$ degrades under incidental complexity at fixed problem size'' ---
+that no confounded corpus can support. This is the established logic of diagnostic,
+procedurally-generated suites that isolate a capability rather than model the wild
+(\Cref{sec:related}); controlled generation has repeatedly exposed limitations that
+scale-and-scrape benchmarks hid~\citep{mirzadeh2024gsm}. The transferable claim is therefore
+relational, not absolute: a model that cannot preserve equivalence, or that collapses under
+incidental mess on this controlled minimal domain, exhibits a deficiency that a larger,
+messier codebase will not cure. Absolute scores do not transfer; the controlled finding is a
+necessary-condition diagnostic, and the generator's extension contract (\Cref{app:datasheet})
+is the path to widening the domain without giving up that control.
+
 \paragraph{The readability leg of construct validity is weak.} The label order is
 validated, not asserted (\Cref{sec:validity}), but the legs of that validation are
 uneven. The complexity metrics move strongly with the knob, yet that is partly
