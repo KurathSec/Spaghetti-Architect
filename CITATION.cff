@@ -1,5 +1,4 @@
 # Citation metadata (https://citation-file-format.github.io/).
-# Authors/affiliations are placeholders for the human maintainer to fill in.
 cff-version: 1.2.0
 message: "If you use Spaghetti Architect or its dataset, please cite it as below."
 title: "Spaghetti Architect: a by-construction-labelled, contamination-resistant, multi-language code dataset generator"
@@ -21,14 +20,10 @@ repository-code: "https://github.com/KurathSec/Spaghetti-Architect"
 # TODO (release): mint a Zenodo archival DOI for the tagged release and set it here,
 # e.g.  doi: "10.5281/zenodo.XXXXXXX"  (also add an `identifiers:` block if desired).
 authors:
-  # TODO (camera-ready): if the venue is single-anonymous, real identity is required.
-  # Replace the entity name below with your person details and a real affiliation, e.g.:
-  #   - given-names: "First"
-  #     family-names: "Last"
-  #     affiliation: "Your Institution"   # TODO: affiliation
-  #     orcid: "https://orcid.org/0000-0000-0000-0000"
-  - name: "Kurath"
-    # affiliation: "TODO: affiliation"
+  - given-names: "Yuxiang"
+    family-names: "Ji"
+    affiliation: "Sunway College"
+    email: "kurathandrew@gmail.com"
 keywords:
   - "data-centric"
   - "code dataset"

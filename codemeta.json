@@ -24,7 +24,12 @@
   "author": [
     {
       "@type": "Person",
-      "name": "Kurath"
+      "givenName": "Yuxiang",
+      "familyName": "Ji",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Sunway College"
+      }
     }
   ]
 }

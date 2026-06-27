@@ -85,3 +85,6 @@ bench/paper/benchmark.generated.tex
 
 # live-run per-item checkpoints (transient; resumed from, then retired)
 bench/out/subagent/*.partial.jsonl
+
+# local Claude Code project file (not part of the artifact)
+CLAUDE.md
