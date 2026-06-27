@@ -25,6 +25,7 @@ from __future__ import annotations
 import json
 import os
 import sys
+import threading
 from dataclasses import dataclass, field
 from itertools import combinations
 from typing import Dict, List, Optional
@@ -60,6 +61,15 @@ COMPREHEND_PROFILES = ["minimal", "standard", "max"]
 # rendering cache (deterministic; generation is instant, compilation is not)
 # --------------------------------------------------------------------------- #
 _ENGINES: Dict[str, Engine] = {}
+# Engine.generate stashes per-call state (``self._inputs``) on the SHARED generator
+# singletons (src.generators.REGISTRY), so its own docstring requires generation to run
+# "one thread at a time". The finalize/regrade path grades items in a thread pool and
+# every grade rebuilds sources via ``_sources`` -> ``Engine.generate``; without
+# serialization two threads clobber each other's ``_inputs`` and a generator then reads a
+# collection name absent from the clobbering IR -> non-deterministic KeyError (e.g.
+# 'allow_list'). This lock makes the bench generation entry point honor that contract;
+# generation is instant, so the cost is negligible and the output stays byte-identical.
+_GEN_LOCK = threading.Lock()
 
 
 def _engine(profile: str) -> Engine:
@@ -69,7 +79,8 @@ def _engine(profile: str) -> Engine:
 
 
 def _sources(ir: dict, profile: str) -> Dict[str, str]:
-    return _engine(profile).generate(ir)["sources"]
+    with _GEN_LOCK:                       # serialize shared-generator state (see above)
+        return _engine(profile).generate(ir)["sources"]
 
 
 # --------------------------------------------------------------------------- #

@@ -357,6 +357,26 @@ def _record_item_id(task: str, rec: dict) -> Optional[str]:
             f"{rec.get('profile')}:{rec.get('language')}")
 
 
+# The per-task primary graded metric. A record loaded from the Phase-A JSONL checkpoint
+# carries raw model outputs but, never having run Phase B, lacks this key.
+_GRADED_KEY = {"refactor": "semantic_ok_rate", "comprehend": "exact_match_rate",
+               "judge": "pairwise_acc"}
+
+
+def _resume_needs_grade(task: str, rec: dict) -> bool:
+    """True iff a resumed record completed the network fetch (carries real raw outputs)
+    but was never graded (lacks its task's graded metric) -- i.e. it came from the Phase-A
+    JSONL checkpoint of a crashed/aborted batch. Finalize must GRADE such records (not pass
+    them through), else a resumed batch aggregates over only the freshly-graded items.
+    Error stubs, mock sentinels, and already-graded records return False."""
+    if rec.get("error") or _GRADED_KEY.get(task) in rec:
+        return False
+    if task == "judge":                       # judge persists pairwise raw, not raw_outputs
+        return bool(rec.get("raw_pairwise"))
+    raw = rec.get("raw_outputs")
+    return bool(raw) and raw != ["<mock>"]
+
+
 def _completed_from_subagent(task: str, model: str, family: Optional[str]) -> Dict[str, dict]:
     """A previously FINALIZED subagent JSON re-keyed by stable item id, so re-running a
     fully-completed batch makes ZERO new API calls. Error stubs are NOT treated as
@@ -502,14 +522,23 @@ def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
 
     # Split the work up front (#3 idempotency): cached items make ZERO calls; only the
     # PENDING set is fetched. A fully-completed batch -> pending == [] -> 0 calls.
-    cached: Dict[str, dict] = {}
-    pending: List[tuple] = []   # (item_id, item)
+    # A record resumed from the Phase-A JSONL checkpoint completed the (paid) fetch but NOT
+    # the grade, so it carries raw outputs without graded metrics; such items must be graded
+    # now (not passed through), else finalize would aggregate over only this session's
+    # freshly-graded items instead of checkpoint + fresh.
+    cached: Dict[str, dict] = {}          # already graded -> reuse verbatim, no grading
+    regrade_resumed: List[tuple] = []     # (item_id, rec): fetched earlier, grade now (0 calls)
+    pending: List[tuple] = []             # (item_id, item): fetch + grade
     for it in items_in:
         iid = T.item_id(task, it)
-        if iid in done:
-            cached[iid] = _strip_internal(done[iid])
-        else:
+        if iid not in done:
             pending.append((iid, it))
+            continue
+        rec = _strip_internal(done[iid])
+        if _resume_needs_grade(task, rec):
+            regrade_resumed.append((iid, rec))
+        else:
+            cached[iid] = rec
 
     if write and cp_path:
         os.makedirs(SUBAGENT_DIR, exist_ok=True)
@@ -645,15 +674,18 @@ def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
 
     graded_raw: Dict[str, dict] = {}
     fetched_list = [(iid, fetched[iid]) for iid, _ in pending if iid in fetched]
+    # Grade this session's fresh fetches AND any ungraded items resumed from the Phase-A
+    # checkpoint, so the aggregate covers checkpoint + fresh (identical to from-scratch).
+    to_grade = fetched_list + regrade_resumed
     gw = _grade_concurrency()
-    if is_mock or gw <= 1 or len(fetched_list) <= 1:
+    if is_mock or gw <= 1 or len(to_grade) <= 1:
         # mock grades inline (sequential, deterministic); real bounded-sequential when
         # there is <=1 item or a single grading worker.
-        for iid, rec in fetched_list:
+        for iid, rec in to_grade:
             graded_raw[iid] = _grade(rec)
     else:
         with ThreadPoolExecutor(max_workers=gw) as ex:
-            futs = {ex.submit(_grade, rec): iid for iid, rec in fetched_list}
+            futs = {ex.submit(_grade, rec): iid for iid, rec in to_grade}
             for fut in as_completed(futs):
                 graded_raw[futs[fut]] = fut.result()
 
@@ -661,15 +693,17 @@ def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
     # pre-concurrency run_meta semantics exactly; then strip the internal keys. Error
     # records originate ONLY in Phase A (fetch failures) and pass through grading
     # unchanged, so counting them here once is authoritative (no separate fetch tally).
+    resumed_regraded = {iid for iid, _ in regrade_resumed}
     parse_ok = parse_n = graded_items = n_errors = 0
     graded: Dict[str, dict] = {}
     for iid, rec in graded_raw.items():
         if rec.get("error"):
             n_errors += 1
         else:
-            graded_items += 1
             parse_ok += rec.get("_parse_ok", 0)
             parse_n += rec.get("_parse_n", 0)
+            if iid not in resumed_regraded:
+                graded_items += 1          # freshly fetched + graded this session
         graded[iid] = _strip_internal(rec)
 
     # #4 DETERMINISM: assemble the final item list sorted by stable item_id so the
@@ -677,7 +711,9 @@ def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
     # order of the thread pool. Cached + freshly-graded items both key by item_id.
     by_id: Dict[str, dict] = dict(cached)
     by_id.update(graded)
-    n_skipped_cached = len(cached)
+    # resumed = reused without a new API call: already-graded cached items PLUS checkpoint
+    # items that were fetched in a prior session and merely graded this session.
+    n_skipped_cached = len(cached) + len(resumed_regraded)
     records = [by_id[iid] for iid in sorted(by_id)]
 
     usage = models.reset_usage()
