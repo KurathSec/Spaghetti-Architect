@@ -11,6 +11,18 @@
       "fsm_transition": 0.0514,
       "status_router": 1.0,
       "threshold_select": 0.4167
+    },
+    "by_language": {
+      "cpp": 0.5892,
+      "go": 0.5321,
+      "java": 0.6417,
+      "javascript": 0.5775,
+      "python": 0.4217
+    },
+    "by_profile": {
+      "minimal": 0.539,
+      "standard": 0.5625,
+      "max": 0.5557
     }
   },
   "Mistral-24B": {
@@ -25,6 +37,18 @@
       "fsm_transition": 0.6069,
       "status_router": 1.0,
       "threshold_select": 0.5982
+    },
+    "by_language": {
+      "cpp": 0.725,
+      "go": 0.7333,
+      "java": 0.7496,
+      "javascript": 0.7483,
+      "python": 0.735
+    },
+    "by_profile": {
+      "minimal": 0.7295,
+      "standard": 0.7452,
+      "max": 0.74
     }
   },
   "Llama-3.3-70B": {
@@ -39,6 +63,18 @@
       "fsm_transition": 0.6556,
       "status_router": 1.0,
       "threshold_select": 0.7929
+    },
+    "by_language": {
+      "cpp": 0.7658,
+      "go": 0.765,
+      "java": 0.7783,
+      "javascript": 0.7625,
+      "python": 0.7708
+    },
+    "by_profile": {
+      "minimal": 0.7678,
+      "standard": 0.7688,
+      "max": 0.769
     }
   },
   "DeepSeek-V4-Flash": {
@@ -53,6 +89,18 @@
       "fsm_transition": 0.5403,
       "status_router": 1.0,
       "threshold_select": 1.0
+    },
+    "by_language": {
+      "cpp": 0.8392,
+      "go": 0.8154,
+      "java": 0.8529,
+      "javascript": 0.8387,
+      "python": 0.8462
+    },
+    "by_profile": {
+      "minimal": 0.8403,
+      "standard": 0.8357,
+      "max": 0.8395
     }
   }
 }

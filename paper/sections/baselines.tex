@@ -99,7 +99,11 @@ The four-model ladder (\Cref{tab:ladder}) shows the dataset \emph{discriminates}
 the comprehension task, overall exact match rises monotonically with model capability ---
 $0.55$ (Llama-3.1-8B) $\to 0.74$ (Mistral-24B) $\to 0.77$ (Llama-3.3-70B) $\to 0.84$
 (DeepSeek-V4-Flash) --- so the benchmark separates models across the capability range, not
-merely above a trivial floor. The per-family structure is the more informative finding.
+merely above a trivial floor. The ladder is also language-invariant for the capable models:
+per-language comprehension exact match varies by only $\le 0.04$ across all five languages
+for the top three models, confirming the five-language corpus is genuinely parallel; only
+the weakest model is language-sensitive (a $0.22$ spread). The per-family structure is the
+more informative finding.
 ``Easy'' families (e.g.\ \texttt{status\_router}, \texttt{config\_resolver}) are solved by
 the mid tier and \emph{saturate}, contributing discrimination only at the low end --- a
 ceiling effect we report rather than hide. Others do not saturate:
@@ -129,10 +133,13 @@ $W{=}64$ --- they cannot reliably aggregate more than a few dozen integers. The 
 the lookup family \texttt{config\_resolver} is sharp: there, every mid-tier-and-up model
 stays at $\approx 1.00$ across all $N$ (no cliff), confirming the \texttt{agg\_stats} collapse
 is arithmetic-reasoning difficulty driven by problem \emph{size}, not a generic artifact. This
-is the intrinsic-difficulty axis doing its job, and it gives the resource forward-looking
-headroom: a contamination-controlled, regenerable arithmetic-aggregation probe that current
-frontier models fail past a small size --- the controlled-generation analogue of how
-\textsc{GSM-Symbolic} exposed brittle math reasoning~\citep{mirzadeh2024gsm}.
+is the intrinsic-difficulty axis doing its job. The \emph{incidental} axis behaves oppositely:
+comprehension exact match is flat across the messiness knob (minimal/standard/max) for every
+model, so on this task the difficulty is genuinely \emph{intrinsic} --- problem size --- not
+presentational, exactly as the orthogonal-axes design intends. And it gives the resource
+forward-looking headroom: a contamination-controlled, regenerable arithmetic-aggregation probe
+that current frontier models fail past a small size --- the controlled-generation analogue of
+how \textsc{GSM-Symbolic} exposed brittle math reasoning~\citep{mirzadeh2024gsm}.
 
 \begin{table}[t]
 \centering

@@ -88,6 +88,8 @@ def main() -> int:
         if not recs:
             print(f"{label}: NO DATA"); continue
         per_fam = collections.defaultdict(list)
+        per_lang = collections.defaultdict(list)
+        per_profile = collections.defaultdict(list)
         by_fam_scale = collections.defaultdict(lambda: collections.defaultdict(list))
         all_em = []
         for rec in recs:
@@ -96,13 +98,19 @@ def main() -> int:
                 continue
             em, fam = grade(rec)
             per_fam[fam].append(em); all_em.append(em)
+            per_lang[rec.get("language", "?")].append(em)
+            per_profile[rec.get("profile", "?")].append(em)
             sc = _scale_of(rec)
             if fam in SCALE_FAMILIES and sc is not None:
                 by_fam_scale[fam][sc].append(em)
+        _mean = lambda v: round(sum(v) / len(v), 4)
         overall[label] = {
             "slug": slug, "n": len(all_em),
-            "overall_exact_match": round(sum(all_em) / len(all_em), 4) if all_em else None,
-            "per_family": {f: round(sum(v) / len(v), 4) for f, v in sorted(per_fam.items())},
+            "overall_exact_match": _mean(all_em) if all_em else None,
+            "per_family": {f: _mean(v) for f, v in sorted(per_fam.items())},
+            "by_language": {L: _mean(v) for L, v in sorted(per_lang.items())},
+            "by_profile": {p: _mean(per_profile[p])
+                           for p in ("minimal", "standard", "max") if p in per_profile},
         }
         scaling[label] = {fam: {s: round(sum(by_fam_scale[fam][s]) / len(by_fam_scale[fam][s]), 3)
                                 for s in sorted(by_fam_scale[fam])}
