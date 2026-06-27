@@ -92,7 +92,10 @@ task, the \emph{metric-heuristic judge} --- picking the lower static-complexity 
 of each pair --- attains $0.99$ position-consistent pairwise accuracy (Spearman
 rank-vs-complexity $\rho \approx -0.99$). This is a deliberately strong non-LLM reference:
 because complexity is monotone with the construction knob \emph{by design}, any useful LLM
-judge must be measured \emph{against} this floor, not merely above chance. The capability ladder (\Cref{tab:ladder}) then shows the dataset \emph{discriminates}. On
+judge must be measured \emph{against} this floor, not merely above chance.
+
+\paragraph{An open-model capability ladder.}
+The four-model ladder (\Cref{tab:ladder}) shows the dataset \emph{discriminates}. On
 the comprehension task, overall exact match rises monotonically with model capability ---
 $0.55$ (Llama-3.1-8B) $\to 0.74$ (Mistral-24B) $\to 0.77$ (Llama-3.3-70B) $\to 0.84$
 (DeepSeek-V4-Flash) --- so the benchmark separates models across the capability range, not
@@ -114,3 +117,41 @@ concentrated in comprehension's hard families and --- as future work --- the jud
 meta-evaluation. The resource's contribution is the controlled, by-construction-labelled
 data; model ranking is one downstream use, and the ladder above is a reference point for
 it, not this paper's claim.
+
+\paragraph{The intrinsic scale knob breaks even the frontier.}
+Because difficulty is \emph{tunable} along the intrinsic axis, we can locate exactly where a
+model fails. The \texttt{agg\_stats} family asks a model to predict the result of an
+\texttt{AGGREGATE} (sum/min/max) over a collection of $W$ integers; sweeping $W$ from $8$ to
+$384$ at fixed semantics is a controlled difficulty gradient. Exact match collapses with $W$
+for \emph{every} model, frontier included (\Cref{tab:scaling}): DeepSeek-V4-Flash is perfect
+at $W{=}8$ but reaches near-zero by $W{\approx}48$, and all four models are at $0$ by
+$W{=}64$ --- they cannot reliably aggregate more than a few dozen integers. The contrast with
+the lookup family \texttt{config\_resolver} is sharp: there, every mid-tier-and-up model
+stays at $\approx 1.00$ across all $N$ (no cliff), confirming the \texttt{agg\_stats} collapse
+is arithmetic-reasoning difficulty driven by problem \emph{size}, not a generic artifact. This
+is the intrinsic-difficulty axis doing its job, and it gives the resource forward-looking
+headroom: a contamination-controlled, regenerable arithmetic-aggregation probe that current
+frontier models fail past a small size --- the controlled-generation analogue of how
+\textsc{GSM-Symbolic} exposed brittle math reasoning~\citep{mirzadeh2024gsm}.
+
+\begin{table}[t]
+\centering
+\caption{Comprehension exact match on \texttt{agg\_stats} as a function of the collection
+size $W$ (the intrinsic scale knob), $k{=}8$, \texttt{dev} split. Difficulty is tunable and
+breaks every model with scale: the frontier DeepSeek-V4-Flash is perfect at $W{=}8$ and at $0$
+by $W{=}64$. The lookup family \texttt{config\_resolver} shows no such cliff (all
+mid-tier-and-up models stay at $\approx 1.00$ across $N$), so the collapse is reasoning
+difficulty, not a generic effect. Per-cell $n\approx20$ items; the full $W$ curve and the
+other families are in the released \texttt{ladder\_scaling.json}.}
+\label{tab:scaling}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+\texttt{agg\_stats} EM & $W{=}8$ & $W{=}16$ & $W{=}32$ & $W{=}64$ & $W{=}128$ \\
+\midrule
+Llama-3.1-8B      & $0.00$ & $0.00$ & $0.00$ & $0.00$ & $0.00$ \\
+Mistral-24B       & $1.00$ & $0.17$ & $0.01$ & $0.00$ & $0.00$ \\
+Llama-3.3-70B     & $0.72$ & $0.04$ & $0.14$ & $0.00$ & $0.00$ \\
+DeepSeek-V4-Flash & $1.00$ & $0.69$ & $0.17$ & $0.00$ & $0.00$ \\
+\bottomrule
+\end{tabular}
+\end{table}

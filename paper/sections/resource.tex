@@ -204,7 +204,10 @@ intrinsic-size measures --- the IR operation count and the per-family scale knob
 $\rho = 0.00$ within each family whose scale knob varies (computed in
 \texttt{bench/anchor.py}, recorded in \texttt{anchor.json}). The two difficulty axes are
 therefore orthogonal by construction \emph{and} verified balanced in the release, not
-merely claimed.
+merely claimed. Nor is the intrinsic axis cosmetic: sweeping it alone collapses even a
+frontier model's exact-match accuracy on the aggregation family to zero
+(\Cref{sec:baselines}, \Cref{tab:scaling}), evidence that the size knob controls genuine
+difficulty, not just token count.
 
 \subsection{Contamination protocol}
 \label{sec:contam}
