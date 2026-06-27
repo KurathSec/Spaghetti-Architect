@@ -1,0 +1,58 @@
+{
+  "Llama-3.1-8B": {
+    "slug": "meta-llama-Meta-Llama-3.1-8B-Instruct",
+    "n": 1500,
+    "overall_exact_match": 0.5524,
+    "per_family": {
+      "agg_stats": 0.0,
+      "allowlist": 0.901,
+      "config_resolver": 0.7101,
+      "discovery_pipeline": 0.7389,
+      "fsm_transition": 0.0514,
+      "status_router": 1.0,
+      "threshold_select": 0.4167
+    }
+  },
+  "Mistral-24B": {
+    "slug": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
+    "n": 1500,
+    "overall_exact_match": 0.7382,
+    "per_family": {
+      "agg_stats": 0.1017,
+      "allowlist": 0.9993,
+      "config_resolver": 0.9913,
+      "discovery_pipeline": 1.0,
+      "fsm_transition": 0.6069,
+      "status_router": 1.0,
+      "threshold_select": 0.5982
+    }
+  },
+  "Llama-3.3-70B": {
+    "slug": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
+    "n": 1500,
+    "overall_exact_match": 0.7685,
+    "per_family": {
+      "agg_stats": 0.0912,
+      "allowlist": 0.9997,
+      "config_resolver": 1.0,
+      "discovery_pipeline": 1.0,
+      "fsm_transition": 0.6556,
+      "status_router": 1.0,
+      "threshold_select": 0.7929
+    }
+  },
+  "DeepSeek-V4-Flash": {
+    "slug": "deepseek-ai-DeepSeek-V4-Flash",
+    "n": 1500,
+    "overall_exact_match": 0.8385,
+    "per_family": {
+      "agg_stats": 0.3304,
+      "allowlist": 1.0,
+      "config_resolver": 1.0,
+      "discovery_pipeline": 1.0,
+      "fsm_transition": 0.5403,
+      "status_router": 1.0,
+      "threshold_select": 1.0
+    }
+  }
+}
