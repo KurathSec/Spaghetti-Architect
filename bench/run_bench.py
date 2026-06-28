@@ -675,7 +675,12 @@ def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
         they pass straight through."""
         if rec.get("error") or is_mock:
             return rec
-        return T.regrade_record(task, dict(rec))  # carries _parse_ok/_parse_n
+        r = dict(rec)
+        # The regrade path rebuilds the item from the dataset; without the split it would
+        # default to dev and miss the private test split's held-out tier items. THIS batch's
+        # split is authoritative.
+        r["split"] = split
+        return T.regrade_record(task, r)  # carries _parse_ok/_parse_n
 
     graded_raw: Dict[str, dict] = {}
     fetched_list = [(iid, fetched[iid]) for iid, _ in pending if iid in fetched]
