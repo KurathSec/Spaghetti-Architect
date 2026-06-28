@@ -113,13 +113,18 @@ def env_block(cfg: models.Config, split: str) -> dict:
 # --------------------------------------------------------------------------- #
 # batch naming + headline aggregation
 # --------------------------------------------------------------------------- #
-def subagent_name(task: str, model: str, family: Optional[str]) -> str:
+def subagent_name(task: str, model: str, family: Optional[str], split: str = "dev") -> str:
     safe_model = model.replace("/", "-")
-    return f"{task}__{safe_model}" + (f"__{family}" if family else "") + ".json"
+    # The split is encoded only for non-dev runs, so every existing dev artifact (the
+    # committed mock fixtures, baselines, the capability ladder) keeps its exact name,
+    # while a `--split test` batch writes to its own file instead of clobbering dev.
+    fam = f"__{family}" if family else ""
+    sp = "" if split == "dev" else f"__{split}"
+    return f"{task}__{safe_model}" + fam + sp + ".json"
 
 
-def subagent_path(task: str, model: str, family: Optional[str]) -> str:
-    return os.path.join(SUBAGENT_DIR, subagent_name(task, model, family))
+def subagent_path(task: str, model: str, family: Optional[str], split: str = "dev") -> str:
+    return os.path.join(SUBAGENT_DIR, subagent_name(task, model, family, split))
 
 
 # --------------------------------------------------------------------------- #
@@ -306,11 +311,11 @@ def resolve_k(cfg: models.Config, task: str, k_override: Optional[int] = None) -
     return int(task_k.get(task, cfg.k_samples))
 
 
-def _checkpoint_path(task: str, model: str, family: Optional[str]) -> str:
+def _checkpoint_path(task: str, model: str, family: Optional[str], split: str = "dev") -> str:
     """Per-item JSONL checkpoint next to the subagent file: every completed item is
     appended as one line the instant it finishes, so a crash mid-batch loses nothing and
     a re-run skips the already-written items (keyed by the stable item id)."""
-    return subagent_path(task, model, family)[:-len(".json")] + ".partial.jsonl"
+    return subagent_path(task, model, family, split)[:-len(".json")] + ".partial.jsonl"
 
 
 def _load_checkpoint(path: str) -> Dict[str, dict]:
@@ -377,11 +382,11 @@ def _resume_needs_grade(task: str, rec: dict) -> bool:
     return bool(raw) and raw != ["<mock>"]
 
 
-def _completed_from_subagent(task: str, model: str, family: Optional[str]) -> Dict[str, dict]:
+def _completed_from_subagent(task: str, model: str, family: Optional[str], split: str = "dev") -> Dict[str, dict]:
     """A previously FINALIZED subagent JSON re-keyed by stable item id, so re-running a
     fully-completed batch makes ZERO new API calls. Error stubs are NOT treated as
     complete (they are retried on re-run)."""
-    path = subagent_path(task, model, family)
+    path = subagent_path(task, model, family, split)
     if not os.path.exists(path):
         return {}
     try:
@@ -508,13 +513,13 @@ def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
                   f"--allow-skips to score only the runnable languages.", file=sys.stderr)
             raise SystemExit(3)
 
-    cp_path = _checkpoint_path(task, model, fam) if write else None
+    cp_path = _checkpoint_path(task, model, fam, split) if write else None
     done: Dict[str, dict] = {}
     if write and resume:
         # idempotency comes from TWO sources: (a) the in-progress JSONL checkpoint (a
         # crashed/aborted batch), and (b) a previously FINALIZED subagent JSON (a fully
         # completed batch re-run -> ZERO new calls). The checkpoint wins on conflict.
-        done.update(_completed_from_subagent(task, model, fam))
+        done.update(_completed_from_subagent(task, model, fam, split))
         done.update(_load_checkpoint(cp_path))
         if done:
             print(f"resume: {len(done)} item(s) already completed; only missing items "
@@ -735,7 +740,7 @@ def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
         "aggregate": agg, "items": records, "run_meta": run_meta,
     }
     if write and not aborted:
-        with open(subagent_path(task, model, fam), "w", encoding="utf-8") as f:
+        with open(subagent_path(task, model, fam, split), "w", encoding="utf-8") as f:
             json.dump(payload, f, indent=2)
             f.write("\n")
         # batch finalized: the per-item checkpoint is now redundant with the subagent
