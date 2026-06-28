@@ -162,9 +162,28 @@ against the oracle/validator and the clean baseline:
 
 | Task | Measures | Grading |
 |------|----------|---------|
-| **Refactor** | recover clean code from mess | semantic equivalence (validator) + simplification toward the known optimum |
-| **Judge** *(headline)* | LLM-as-judge **faithfulness** to the ground-truth order | pairwise accuracy (position-swap) + rating monotonicity |
+| **Refactor** | recover clean code from mess | semantic-equivalence gate (validator-checked compile/run match against the oracle) |
+| **Judge** *(future work)* | LLM-as-judge **faithfulness** to the ground-truth order | pairwise accuracy (position-swap) + rating monotonicity |
 | **Comprehend** | output prediction | exact-match vs the oracle over differential variants |
+
+**Reference baselines** — a four-model open ladder (Llama-3.1-8B · Mistral-24B ·
+Llama-3.3-70B · DeepSeek-V4-Flash), every score graded against the oracle/validator
+(these are *reference baselines*, not an LLM-as-judge result):
+
+| Reference signal | Llama-8B | Mistral-24B | Llama-70B | DeepSeek-V4 |
+|---|---|---|---|---|
+| Comprehend overall EM | 0.55 | 0.74 | 0.77 | 0.84 |
+| Refactor `semantic_ok` (equivalence) | 0.73 | 0.83 | 0.95 | 0.99 |
+| Comprehend EM, `agg_stats` (sum) | 0.00 | 0.10 | 0.09 | 0.33 |
+
+Two things fall out. **(1) No measured contamination gap.** Exact-match on the private
+held-out test (Tier A) tracks dev EM across the whole ladder (0.557 / 0.733 / 0.770 /
+0.827, |Δ|≤0.011), so the by-construction labels are re-minted with fresh secret values
+rather than memorised. **(2) Structure vs. computation.** On *identical* `agg_stats`
+programs, refactor equivalence stays flat and high as collection width grows while
+comprehend EM collapses toward zero — restructuring the code is width-invariant, but
+computing the aggregate is width-sensitive; the intrinsic scale knob breaks arithmetic
+aggregation even for the frontier model.
 
 Fresh instances are minted from a **private held-out seed** for contamination
 control. The whole harness runs end-to-end on a **mock model at zero cost**; going
@@ -176,14 +195,16 @@ python3 bench/run_bench.py --dry-run       # mock over the real dataset
 python3 bench/run_bench.py --plan          # the (task × model × family) fan-out
 ```
 
-The benchmark now *leads* with the **LLM-as-judge** question — do judges track the
-by-construction ground-truth quality order? — alongside the refactor and comprehend
-tasks. The near-term write-up is the data-centric **resource paper**
+The near-term write-up *leads* with the **reference baselines** the generator yields — a
+measured capability ladder across a four-model reference set on the comprehend and refactor
+tasks, plus empirical contamination evidence — while the **LLM-as-judge** question (do
+judges track the by-construction ground-truth quality order?) is deferred. The near-term
+write-up is the data-centric **resource paper**
 [`paper/dmlr.tex`](paper/dmlr.tex) (a rolling JMLR-family journal, data.mlr.press),
 covering the generator + by-construction-labelled dataset and publishable **without**
-the paid live run; the full LLM-as-judge design, figures, and bibliography live in
-[`bench/paper/benchmark.tex`](bench/paper/benchmark.tex), a **deferred companion study**
-that needs that run. See [`bench/`](bench/) and [`REQUIREMENTS.md`](REQUIREMENTS.md).
+the paid live run; the full LLM-as-judge design, figures, and bibliography survive only as
+a seed draft archived under [`archived/benchmark-paper/`](archived/benchmark-paper/) ---
+future work that needs that run. See [`bench/`](bench/) and [`REQUIREMENTS.md`](REQUIREMENTS.md).
 
 ---
 
@@ -259,7 +280,7 @@ src/nodes/{parser,planner,safety,validator}.py
 src/generators/{base,python,javascript,go,java,cpp}_gen.py
 tests/                         # golden + equivalency + parser + profiles
 eval/{metrics,gen_samples}.py  # metric lanes + seeded sample set (reused by bench/)
-bench/                         # LLM benchmark generator (refactor/judge/comprehend) + companion paper
+bench/                         # LLM benchmark generator (refactor/judge/comprehend)
 ```
 
 A **layered monorepo**: one published engine (`src/`) plus two research layers that

@@ -31,27 +31,27 @@ equivalence-controlled, freshly-mintable, multi-language instance.
 
 We present \tool, a tool that synthesizes such data. \tool{} is an
 \emph{anti-optimization transpiler}: where an optimizing compiler holds semantics fixed
-and \emph{minimizes} a cost, \tool{} holds semantics fixed and deliberately
-\emph{maximizes} incidental complexity. It maps a clean, language-agnostic JSON
+and \emph{minimizes} a cost, \tool{} holds semantics fixed and \emph{maximizes} incidental complexity. It maps a clean, language-agnostic JSON
 intermediate representation (IR) to deliberately redundant, fully-flattened programs in
 five languages (Python, JavaScript, Go, Java, C++), and every emitted program is
 compiled, run, and checked against a reference oracle, so each instance is correct
 \emph{by construction}. Because the clean IR is a known-optimal reference and
 ``messiness'' is dialed by composable, strictly-nested anti-pattern profiles, each
 instance carries labels along two \emph{orthogonal} difficulty axes --- \emph{intrinsic}
-(the problem genuinely grows) and \emph{incidental} (presentation degrades at fixed
+(the problem grows) and \emph{incidental} (presentation degrades at fixed
 semantics) --- and a single IR yields a parallel corpus across all five languages. To
 resist contamination, scored instances are minted fresh from a \emph{private} held-out
 seed that is never committed, a public canary GUID enables training-set audits, and
-graded novelty tiers turn ``how memorized is this?'' into a measured quantity rather than
-a hope. A meta-evaluation of whether LLM judges track a code-quality order known independently of
+regenerable held-out tiers turn ``is this score inflated by memorization?'' into a measured
+quantity (by comparing public-split scores against freshly-minted private-split scores)
+rather than a hope. A meta-evaluation of whether LLM judges track a code-quality order known independently of
 any rater is \emph{one} application this resource enables, and we use it to motivate the
 design; this paper delivers and documents the \emph{instrument} and the dataset it
 produces, which stand on their own as a contribution. Because the deliverable is a
 \emph{generator}, the resource's value is its regenerability, not the size of any one
 frozen download: the public \texttt{dev} split is a compact, fully-inspectable reference
 ($100$ instances), while an unbounded stream of fresh, equivalently-labelled instances
---- including the private scored split --- is available on demand from the same
+(including the private scored split) is available on demand from the same
 contract. We therefore treat instance count as a tunable output, not a headline number.
 
 \paragraph{Contributions.} This paper contributes:
@@ -68,13 +68,21 @@ contract. We therefore treat instance count as a tunable output, not a headline 
         decomposition no mined corpus offers.
   \item \textbf{A contamination protocol} (\Cref{sec:contam}): mint-after-cutoff
         generation, a public \texttt{dev} split versus a private held-out \texttt{test}
-        split, an embedded canary, and graded A/B/C novelty tiers --- with the
-        public/private asymmetry as the mitigation, not an apology.
+        split, an embedded canary, and graded A/B/C held-out tiers (regenerable held-out
+        structures for contamination-resistance) --- with the public/private asymmetry as
+        the mitigation, not an apology.
   \item \textbf{Construct-validity evidence} (\Cref{sec:validity}) that the
         by-construction quality order moves established complexity and readability
         metrics, reported with its weaknesses stated plainly.
-  \item \textbf{Reference baselines} (\Cref{sec:baselines}) that establish the
-        dataset is usable and discriminative, and a reusable, FAIR,
+  \item \textbf{Reference baselines} (\Cref{sec:baselines}) on a four-model open ladder
+        that establish the dataset is usable and discriminative: comprehension and
+        refactoring each trace a capability ladder across model scale; public-\texttt{dev}
+        scores match freshly-minted private-\texttt{test} scores, turning the contamination
+        protocol from a design claim into measured evidence; and on identical programs,
+        refactoring equivalence is invariant to intrinsic problem size for the capable models
+        while comprehension's
+        arithmetic aggregation collapses with it even at the frontier, so the dataset
+        separates a structural from a computational competence. Released as a reusable, FAIR,
         dependency-free open-source artifact (to be archived under a DOI at release).
 \end{itemize}
 

@@ -28,7 +28,7 @@ output-prediction comprehension. It was created by the author of \tool{} (see
 Each instance is one program rendered from a clean JSON intermediate representation
 (IR) built from four operation primitives (\texttt{KEY\_VALUE\_LOOKUP},
 \texttt{MEMBERSHIP\_CHECK}, \texttt{AGGREGATE}, \texttt{CONDITIONAL\_SELECT}). An
-instance is located on four axes: \emph{incidental} complexity --- a strictly-nested
+instance is positioned on four axes: \emph{incidental} complexity --- a strictly-nested
 6-level messiness knob at identical semantics, with by-construction maintainability
 rank \texttt{clean} $\subset$ \texttt{minimal} $\subset$ \texttt{light} $\subset$
 \texttt{standard} $\subset$ \texttt{heavy} $\subset$ \texttt{max} (\texttt{clean} is
@@ -60,10 +60,11 @@ output. Every minted IR is checked with the real parser
 (\texttt{src.nodes.parser.parse}) before it enters the split, so a structurally
 invalid sample can never be included. Generation is byte-deterministic given the
 seed. The private \texttt{test} split re-mints numeric literals from a private seed
-and applies a structure-preserving, one-way (SHA-256) string salt (novelty Tier~A),
-adding held-out structural shapes (Tier~B) and out-of-distribution compositions
-(Tier~C); the held-out seed is scrubbed to \texttt{PRIVATE} and never written to any
-artifact.
+and applies a structure-preserving, one-way (SHA-256) string salt (Tier~A),
+adds held-out structural shapes (Tier~B) and out-of-distribution scale settings
+(Tier~C). These tiers exist to keep the held-out split contamination-resistant and
+regenerable; they are not a generalization or novelty probe. The held-out seed is
+scrubbed to \texttt{PRIVATE} and never written to any artifact.
 
 \paragraph{Preprocessing / Labelling.}
 Labels are correct \emph{by construction}, not human-annotated: the oracle output is
@@ -76,16 +77,18 @@ every \texttt{dev} record, so the full provenance of each instance is reproducib
 \paragraph{Uses.}
 The dataset is intended for machine-learning research on code: (i)
 \emph{contamination-controlled LLM evaluation} --- score on \texttt{dev} for
-reproducibility, then on the private \texttt{test} split, graded by novelty tier, to
-measure the memorization gap; (ii) \emph{training and probing} of code models on a
+reproducibility, then on the private \texttt{test} split, graded by held-out tier, to
+test for a memorization gap; (ii) \emph{training and probing} of code models on a
 controlled, by-construction-labelled signal (refactoring targets, quality ranking,
 output prediction); and (iii) \emph{robustness studies} that vary incidental vs
 intrinsic complexity independently to attribute failures to presentation mess rather
 than problem size. The shipped labels should be treated as a controlled stimulus,
 not as a model of natural-corpus difficulty; the \texttt{dev} split is public and so,
-once released, must be assumed potentially in future training sets --- only the
-private \texttt{test} split provides a contamination guarantee. It should not be used
-to claim that any model is ``contamination-proof''; the defense is the minting
+once released, must be assumed to be potentially present in future training sets, and
+only the private \texttt{test} split provides a contamination guarantee. That this control
+holds is measured rather than assumed: across the reference ladder, \texttt{dev} and private
+Tier~A scores coincide within $|\Delta|\le 0.011$ (\Cref{sec:baselines}). It should not be
+used to claim that any model is ``contamination-proof''; the defense is the minting
 protocol, not the artifact.
 
 \paragraph{Distribution.}

@@ -1,10 +1,7 @@
 %% sections/resource.tex
 %% \owner{PROSE}  GOAL: describe the RESOURCE — the generator pipeline, the operation/
 %% anti-pattern model, the two orthogonal difficulty axes, the oracle/validation, and the
-%% contamination protocol. Most prose below is PORTED VERBATIM from the archived MSR draft
-%% (archived/msr-toolshowcase/spaghetti_architect.tex) as a starting point; PROSE should
-%% (a) ML-reframe, (b) fold in the contamination protocol from bench/paper/benchmark.tex,
-%% (c) replace the placeholder figure, (d) add a concrete IR->spaghetti listing.
+%% contamination protocol.
 
 \section{The Resource}
 \label{sec:resource}
@@ -31,7 +28,7 @@ oracle-validated, two-axis-labelled multi-language dataset (\Cref{fig:pipeline})
 \node[note, below=1pt of ir, text width=22mm] (ops) {known-optimal reference; 4 op primitives};
 % parser
 \node[stage, right=of ir] (parser) {Parser};
-\node[note, below=1pt of parser, text width=17mm] {validate IR $\to$ typed model};
+\node[note, below=1pt of parser, text width=17mm] (pnote) {validate IR $\to$ typed model};
 % planner
 \node[stage, right=8mm of parser] (planner) {Planner};
 % generators
@@ -44,7 +41,7 @@ oracle-validated, two-axis-labelled multi-language dataset (\Cref{fig:pipeline})
 \node[draw, rounded corners, dashed, fill=none, inner sep=3pt, fit=(genlbl)(g5)] (gen) {};
 % validator
 \node[stage, right=8mm of gen] (val) {Validator\\+ Oracle};
-\node[note, below=1pt of val, text width=23mm] {compile, run, compare to oracle (missing $\to$ SKIP)};
+\node[note, below=1pt of val, text width=23mm] (vnote) {compile, run, compare to oracle (missing $\to$ SKIP)};
 % anti-pattern database / messiness knob feeding the planner
 \node[store, below=11mm of planner, text width=36mm, font=\scriptsize] (db)
   {Anti-pattern database \& messiness knob:\\clean\,$\subset$\,minimal\,$\subset$\,light\\$\subset$\,standard\,$\subset$\,heavy\,$\subset$\,max\\\textit{(fixed semantics)}};
@@ -55,7 +52,7 @@ oracle-validated, two-axis-labelled multi-language dataset (\Cref{fig:pipeline})
 % background fills (drawn behind node contents so labels stay visible)
 \begin{scope}[on background layer]
 \node[draw, rounded corners, fill=green!7, inner sep=3pt, fit=(datalbl)(dev)(test)] (data) {};
-\node[draw, rounded corners, fill=gray!5, inner sep=6pt, fit=(parser)(planner)(gen)(val)(db)] (tool) {};
+\node[draw, rounded corners, fill=gray!5, inner sep=6pt, fit=(parser)(pnote)(planner)(gen)(val)(vnote)(db)] (tool) {};
 \end{scope}
 % flow
 \draw[flow] (ir) -- (parser);
@@ -145,7 +142,7 @@ the same transform idiomatically; only C++ emits genuine pointer arithmetic for 
 manual-index pattern.
 
 \Cref{lst:ir} and~\Cref{lst:spag} show the contrast for a single \texttt{MEMBERSHIP\_CHECK}: a
-six-line IR fragment and an excerpt of the Python the \textsf{max} profile emits from it.
+four-line IR fragment and an excerpt of the Python the \textsf{max} profile emits from it.
 The clean reference is the membership test \texttt{search\_val in data\_list}; the
 \textsf{max} render computes the same boolean through a manual index loop, a de-hoisted
 \texttt{len()} call, an always-true opaque predicate, and an always-on
@@ -188,26 +185,33 @@ except Exception:
 A dataset can vary \emph{intrinsic} complexity (the problem genuinely grows: cascade
 arms, list length, operation count) independently of \emph{incidental} complexity (the
 \textsf{clean}$\rightarrow$\textsf{max} profile adds mess at \emph{zero} semantic change).
-This separation --- which no fixed mined corpus offers --- lets a study ask whether a
+This separation, which no fixed mined corpus offers, lets a study ask whether a
 method fails because the \emph{problem} got bigger or because the \emph{presentation} got
 messier. The incidental axis is the dataset's by-construction quality order: a strict
 nesting that holds independently of any rater.
 
-We make the orthogonality concrete rather than asserted. In mined corpora the two axes
+In mined corpora the two axes
 are \emph{confounded}: a longer program is usually also a messier one, so size and
-presentation cannot be moved independently. \tool{} instead crosses them fully --- every
-base sample is rendered at every messiness level --- so the incidental knob carries no
+presentation cannot be moved independently. \tool{} instead crosses them fully (every
+base sample is rendered at every messiness level), so the incidental knob carries no
 information about problem size. Over the public \texttt{dev} split this is exact: the
 Spearman correlation between the messiness-knob rank and two presentation-independent
 intrinsic-size measures --- the IR operation count and the per-family scale knob
 ($N/L/W/T$) --- is $\rho = 0.00$ across all $250$ (base sample, profile) cells, and
 $\rho = 0.00$ within each family whose scale knob varies (computed in
 \texttt{bench/anchor.py}, recorded in \texttt{anchor.json}). The two difficulty axes are
-therefore orthogonal by construction \emph{and} verified balanced in the release, not
-merely claimed. Nor is the intrinsic axis cosmetic: sweeping it alone collapses even a
+therefore orthogonal by construction \emph{and} verified balanced in the release. Nor
+is the intrinsic axis cosmetic: sweeping it alone collapses even a
 frontier model's exact-match accuracy on the aggregation family to zero
 (\Cref{sec:baselines}, \Cref{tab:scaling}), evidence that the size knob controls genuine
 difficulty, not just token count.
+
+The same intrinsic sweep separates two competences on \emph{identical}
+programs. As the aggregation width $W$ grows over the same \texttt{agg\_stats} samples,
+comprehension exact match collapses (the model must compute the sum) while refactor
+equivalence (\texttt{semantic\_ok}) stays high and width-invariant (the model need only
+restructure). On the same inputs the dataset thus isolates a \emph{computational}
+competence from a \emph{structural} one (\Cref{sec:baselines}).
 
 \subsection{Contamination protocol}
 \label{sec:contam}
@@ -219,7 +223,7 @@ we provide is a structural asymmetry that keeps the scored data fresh.
 \paragraph{Public \texttt{dev} versus private held-out \texttt{test}.} The dataset ships
 in two splits minted from one generator. The \texttt{dev} split is \emph{public}: it is
 committed to the repository so that the format, the labels, and the pipeline are fully
-inspectable and reproducible. Precisely because a public split can itself leak into
+inspectable and reproducible. Because a public split can itself leak into
 future training sets over time, the scored \texttt{test} split is \emph{private}: it is
 minted from a secret seed (\texttt{BENCH\_HELDOUT\_SEED}, an environment variable that is
 never committed) by re-drawing every numeric literal and salting string literals, and is
@@ -229,19 +233,37 @@ equivalent private split from their own fresh secret seed --- so the
 absorbed. The asymmetry is the mitigation: the inspectable half is allowed to be
 trainable so that the scored half does not have to be.
 
+\paragraph{The freshness guarantee, measured.} The protocol's premise --- that the private
+split is a faithful, un-memorized re-mint of the public one --- is itself testable. Across the four-model reference ladder (\Cref{sec:baselines}), comprehension exact
+match on the public \texttt{dev} split equals exact match on the private Tier-A
+\texttt{test} split to within $|\Delta|\le 0.011$ per model, and refactor
+\texttt{semantic\_ok} agrees between \texttt{dev} and Tier-A \texttt{test} across the
+ladder ($|\Delta|\le 0.011$; DeepSeek-V4-Flash $\Delta=-0.0001$). Because every \texttt{test} prompt hash
+differs from its \texttt{dev} counterpart, the agreement reflects preserved difficulty
+under a full re-mint of the scored literals, not reuse: the contamination-resistance
+property is thus measured.
+
 \paragraph{Canary.} A canary GUID --- a unique, memorizable string in the spirit of the
 unintended-memorization probes of \citet{carlini2019secret} --- is embedded in the public
 release (\texttt{spaghetti-architect-bench:\allowbreak canary:\allowbreak 9f1d4e7a-\dots}).
 A model that reproduces it has demonstrably ingested the public split, turning training-set
 inclusion into something an auditor can probe rather than assume.
 
-\paragraph{Graded novelty tiers.} Freshness is not binary, so we report three tiers that
-turn ``how memorized is this?'' into a measured axis. \textbf{Tier A} (literal-novel)
+\paragraph{Graded contamination-resistance tiers.} Freshness is not binary, so we
+regenerate held-out structure at three tiers, each defeating a distinct mode of
+memorization; these tiers are a contamination-resistance mechanism (regenerable
+held-out splits), not a generalization or novelty probe. \textbf{Tier A} (literal-novel)
 re-mints numeric literals and salts strings, defeating verbatim memorization. \textbf{Tier
 B} (structural held-out) keeps the operation-chain \emph{shapes} private, defeating
-memorization of structure. \textbf{Tier C} (distribution shift) uses deeper chains and
-out-of-range scales, defeating models that learned the training distribution. A model's
-degradation across A$\rightarrow$B$\rightarrow$C is therefore a quantity the benchmark
-measures, not a property it merely hopes for. The held-out seed and the Tier B/C
+memorization of structure. \textbf{Tier C} (scale/depth held-out) uses deeper chains and
+out-of-range scales, regenerating structures outside the public split's scale and depth
+range so they cannot have been memorized verbatim. What the tiers certify is freshness,
+not generalization: empirically the across-tier accuracy differences track \emph{operation
+type} (Tier~A is over half trivial single-operation items, of which Tier~B has none) and
+the list-aggregation computation tax of \Cref{sec:baselines} --- not novelty, since clean
+controls that hold operation type fixed (out-of-range scale on lookups and membership,
+out-of-range depth on conditional cascades) show essentially no degradation. The
+contamination signal is instead the \emph{matched} comparison: re-minting the same
+structures with fresh secret values leaves scores unchanged (\Cref{sec:baselines}). The held-out seed and the Tier B/C
 structures are deliberately withheld; this is a contamination trade-off, not an omission,
 and every minted IR --- public or held-out --- is re-validated by the parser before use.

@@ -18,7 +18,7 @@ widen this scope; broadening the operation set, the operand types, and the progr
 granularity is future work.
 
 \paragraph{Why a narrow controlled stimulus still yields valid conclusions.} Narrowness
-here buys \emph{internal} validity, and that is the point. A mined corpus maximizes surface
+here buys \emph{internal} validity. A mined corpus maximizes surface
 realism but confounds the factors a study wants to separate (size, mess, semantics), so an
 observed failure cannot be attributed to a cause. A controlled stimulus inverts this trade:
 by holding semantics fixed and moving one labelled axis at a time, it licenses \emph{causal}
@@ -53,20 +53,26 @@ overclaim the by-construction order as validated human quality.
 mint-after-cutoff, not contamination-proofing. A public generator can synthesize
 in-distribution data, and the public \texttt{dev} split will itself be absorbed into
 future training sets over time. That is exactly why the scored \texttt{test} split is
-minted from a private, never-committed seed and why we report graded A/B/C novelty tiers
-and embed a canary (\Cref{sec:contam}): the durable contribution is the protocol --- a
-fresh draw from a private seed --- not a permanently clean file. Two honest caveats
-follow: the tier gap is informative only \emph{if} a study actually observes it, and the
-held-out seed and Tier B/C structures are deliberately withheld, which is a freshness
-trade-off, not an oversight.
+minted from a private, never-committed seed and why we report graded A/B/C held-out tiers
+of regenerable structures and embed a canary (\Cref{sec:contam}): the durable contribution is the protocol --- a
+fresh draw from a private seed --- not a permanently clean file. In our reference baselines
+that protocol's payoff is already measurable: public \texttt{dev} and private-test Tier-A
+scores agree across the ladder (comprehension exact match within $|\Delta|\le0.011$;
+refactor semantic equivalence within $\Delta\approx0.0001$ at the frontier), so the held-out
+re-mint shows no measured contamination gap. Two caveats follow: the A/B/C tiers buy
+contamination-resistance (regenerable held-out structures), not a novelty or
+distribution-shift probe (on our reference baselines the cross-tier differences track
+operation-type composition, and clean out-of-distribution controls show essentially no
+degradation); and the held-out seed and Tier B/C structures are deliberately withheld,
+which is a freshness trade-off, not an oversight.
 
-\paragraph{Dual use.} \tool{} is, literally, a bad-code generator: its transforms overlap
+\paragraph{Dual use.} \tool{} is a bad-code generator: its transforms overlap
 with source obfuscation, and a tool that emits deliberately unmaintainable code invites
 the obvious misuse concern. Two properties bound that risk. First, the intended use is
 \emph{research} --- building contamination-controlled, equivalence-verified, labelled data
 for evaluating and probing code models --- and the generator changes presentation at zero
-semantic cost; it does not introduce vulnerabilities or alter behavior. Second, and more
-to the point, every output is \emph{clearly labelled} (each anti-pattern is annotated in
+semantic cost; it does not introduce vulnerabilities or alter behavior. Second, every
+output is \emph{clearly labelled} (each anti-pattern is annotated in
 the emitted source) and \emph{oracle-verified}, which makes the output a poor instrument
 for passing degraded code off as legitimate: the messiness is documented by construction.
 We judge the research value --- a class of controlled code data that mining cannot

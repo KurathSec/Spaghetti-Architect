@@ -26,11 +26,11 @@ reporting the mean over samples. The anchor tools
 are kept off the zero-dependency core and run only inside a quarantined virtualenv; a
 missing tool records an honest \texttt{SKIP} rather than a fabricated number.
 
-We are explicit about what is measured on which language, because our headline is a
+Which metric is measured on which language matters, because our headline is a
 five-language parallel corpus. Three of the four anchors are Python-only tools:
 \texttt{radon} cyclomatic complexity and maintainability index, and
 \texttt{cognitive\_complexity}, all operate on the Python abstract syntax tree, and our
-Buse--Weimer feature re-implementation tokenises Python. Table~\ref{tab:validity} therefore
+Buse--Weimer feature re-implementation tokenizes Python. Table~\ref{tab:validity} therefore
 reports the convergent-metric evidence \emph{on the Python sources}. Only \texttt{lizard}
 cyclomatic complexity is genuinely language-agnostic, so we additionally run it
 \emph{per language} on all five sources (Table~\ref{tab:validity-xlang}) to check that the
@@ -94,11 +94,10 @@ more strongly, \texttt{lizard}'s own lexical token count --- a genuine per-langu
 measure --- rises with the knob at $\rho=+0.88$ $[+0.85,+0.92]$ in all five languages
 (Table~\ref{tab:validity-xlang}). The values are near-identical across languages because
 the five sources are rendered from \emph{one} IR (a parallel corpus by construction;
-\texttt{go}'s slightly lower CC is the only divergence). We are careful about what this
-does and does not show: it is strong evidence that the incidental transformation
-\emph{manifests faithfully in every language} --- the messiness is genuinely present,
-ordered, and measurable cross-language, not a Python artifact --- but token size and
-cyclomatic complexity are surface/structural facets, \emph{not} human quality. The
+\texttt{go}'s slightly lower CC is the only divergence). What this shows is specific: it is strong evidence that the incidental transformation
+\emph{manifests faithfully in every language} (the messiness is present, ordered, and
+measurable cross-language, not a Python artifact), but token size and cyclomatic
+complexity are surface/structural facets, \emph{not} human quality. The
 genuinely less-circular readability signal remains Python-only (next paragraph), and that
 $\rho=+0.39$, not these cross-language faithfulness signals, is our conservative quality
 bound.
@@ -143,7 +142,7 @@ other density anchors; we do not extrapolate a readability number to the other f
 languages.
 
 \paragraph{No human calibration yet: a deliberate scope boundary, and future work.}
-We are explicit about the limit of all of the above: the benchmark's construct validity
+The limit of all of the above is clear: the benchmark's construct validity
 rests entirely on convergent \emph{static} metrics, not on calibrated human judgment. We
 make no claim that the by-construction labels have been validated against human
 perception of quality or readability. The complexity anchors are partly tautological, and

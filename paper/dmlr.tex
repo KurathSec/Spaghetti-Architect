@@ -24,8 +24,8 @@
 %% SCOPE: this is the DATA-CENTRIC RESOURCE paper — the generator + the contamination-
 %% resistant, by-construction-labelled, multi-language code dataset + label-validity
 %% evidence + reference baselines. It MUST NOT report the LLM-as-judge meta-evaluation
-%% FINDINGS: that empirical study is the SEPARATE, deferred paper (seed:
-%% bench/paper/benchmark.tex). Cite it only as a motivating use case; never put its
+%% FINDINGS: that empirical study is a SEPARATE, deferred study (seed draft archived at
+%% archived/benchmark-paper/). Cite it only as a motivating use case; never put its
 %% (unrun) numbers here.
 
 \documentclass[twoside,11pt]{article}
@@ -104,7 +104,15 @@ produces, give construct-validity evidence that the by-construction quality orde
 established complexity and readability metrics, and report reference baselines on a
 four-model open capability ladder --- where exact-match accuracy tracks model capability,
 and the intrinsic scale knob collapses even the frontier model's arithmetic-aggregation
-accuracy to zero. The artifact is open source (MIT), dependency-free, and will be archived
+accuracy to zero. Two further results bear out the design. First, the held-out protocol
+resists contamination not only by construction: development-set scores equal a
+freshly re-minted private test split across the ladder to within $|\Delta|\le 0.011$, for
+both comprehension (exact match) and refactoring (semantic-equivalence rate). Second, on
+identical programs the dataset separates two competences: refactoring
+equivalence (itself a capability ladder, $0.73\!\rightarrow\!0.99$) is invariant to the
+intrinsic scale knob for the capable models while output-prediction
+accuracy collapses with it. One instance set therefore probes structural and computational
+ability independently. The artifact is open source (MIT), dependency-free, and will be archived
 under a DOI.
 \end{abstract}
 
@@ -123,15 +131,15 @@ under a DOI.
 \impact{%
 \tool{} is research infrastructure for \emph{evaluation}, not a model or a deployed
 system, and its intended impact is methodological: contamination-resistant,
-by-construction-labelled data lets the community measure code-model behaviour --- code
-quality, robustness to incidental complexity, and output comprehension --- with controls
+by-construction-labelled data lets the community measure code-model behavior (code
+quality, robustness to incidental complexity, and output comprehension) with controls
 that mined corpora cannot supply, while the held-out, regenerable design reduces the
 benchmark leakage that inflates reported progress. The most direct risk is dual use: the
 generator deliberately emits degraded-but-correct programs, which could in principle be
 repurposed to obfuscate software or to manufacture low-quality training data. We judge
-this risk low --- the outputs are intentionally verbose, oracle-checked transformations
-of a public IR rather than novel capabilities --- but we state it plainly, release the
-tool under a permissive licence with an explicit research framing, and document the
+this risk low: the outputs are intentionally verbose, oracle-checked transformations
+of a public IR rather than novel capabilities. We nonetheless release the
+tool under a permissive license with an explicit research framing, and document the
 canary and held-out protocol so that misuse for contamination is detectable rather than
 silent. The generated data are wholly synthetic and contain no personal, sensitive, or
 human-subject content.

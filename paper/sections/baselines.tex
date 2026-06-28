@@ -6,7 +6,9 @@
 %;        families, dev split, <$25: Llama-3.1-8B / Mistral-Small-24B / Llama-3.3-70B / DeepSeek-V4-Flash.
 %% Gradient overall EM 0.55/0.74/0.77/0.84 (discriminates across the capability range) + per-family
 %% structure: easy families saturate by the mid tier; agg_stats challenges even the frontier
-%% (DeepSeek 0.33) = real headroom; refactor saturates at the frontier (reported honestly).
+%% (DeepSeek 0.33) = real headroom; refactor forms its own semantic_ok ladder 0.73/0.83/0.95/0.99
+%% (an EQUIVALENCE GATE, not optimal-form recovery); equivalence saturates only AT the frontier,
+%% and OOD scale still lowers it (~0.60). NOT a refactoring-quality/optimal-recovery saturation claim.
 %% NUMBERS ARE REAL but recovered/validated: the live-run finalize hit two harness bugs (a java_gen
 %% source-regen KeyError on the allowlist family, and a resume-aggregate bug giving a wrong _all),
 %% so scores are re-graded from the persisted raw_outputs via
@@ -106,19 +108,33 @@ the weakest model is language-sensitive (a $0.22$ spread). The per-family struct
 more informative finding.
 ``Easy'' families (e.g.\ \texttt{status\_router}, \texttt{config\_resolver}) are solved by
 the mid tier and \emph{saturate}, contributing discrimination only at the low end --- a
-ceiling effect we report rather than hide. Others do not saturate:
+ceiling effect we report explicitly. Others do not saturate:
 \texttt{threshold\_select} grades monotonically across the range, \texttt{fsm\_transition}
 discriminates but not monotonically (the frontier model does not dominate every family),
 and \texttt{agg\_stats} --- which asks a model to predict the result of an
-\texttt{AGGREGATE} over a collection of up to several hundred integers --- challenges
+\texttt{AGGREGATE} over a collection of up to $160$ integers --- challenges
 \emph{every} model, leaving the frontier DeepSeek-V4-Flash at only $0.33$. That a
 controlled, regenerable, contamination-resistant family stumps a frontier model is exactly
 the headroom a forward-looking resource needs, and it mirrors how controlled generation has
-exposed arithmetic-reasoning limits elsewhere~\citep{mirzadeh2024gsm}. We are explicit
-about scope: \emph{refactoring} does saturate at the frontier (a strong model reaches the
-clean ceiling on every difficulty level we tested), so the discriminative headroom is
-concentrated in comprehension's hard families and --- as future work --- the judge
-meta-evaluation. The resource's contribution is the controlled, by-construction-labelled
+exposed arithmetic-reasoning limits elsewhere~\citep{mirzadeh2024gsm}. The
+contamination resistance is now \emph{measured}, not merely designed: re-minting the
+\texttt{dev} families into a private held-out \texttt{test} split with fresh secret values
+leaves the ladder essentially unchanged --- per-model comprehension exact match on the
+Tier-A re-mint tracks the \texttt{dev} split to within $|\Delta|\le 0.011$, and the refactor
+semantic-equivalence ladder matches \texttt{dev} across all four models ($|\Delta|\le 0.011$;
+frontier $\Delta=-0.0001$) --- even though every prompt hash differs.
+The tasks differ in \emph{what kind} of competence they probe.
+\emph{Refactoring} forms its own capability ladder in semantic-equivalence rate (the
+fraction of $k{=}8$ rewrites that compile, run, and match the oracle), rising $0.73 \to 0.83
+\to 0.95 \to 0.99$ across the same four models, so it discriminates at the lower tiers
+while the frontier model's restructurings are almost always behavior-preserving. This
+rate is an equivalence \emph{gate} (it credits any semantics-preserving rewrite, including
+near-verbatim echoes), not a measure of optimal-form recovery, so we do \emph{not} claim a
+model recovers the labelled optimum; equivalence is also not uniform with difficulty ---
+far out-of-distribution scale and depth (beyond the in-range $W\le160$ sweep) lower even
+the frontier model's equivalence rate to $\approx 0.60$. With refactor equivalence otherwise near-saturated at the frontier, the
+\emph{additional} comprehension headroom there is concentrated in the arithmetic
+\texttt{agg\_stats} family, with the judge meta-evaluation as future work. The resource's contribution is the controlled, by-construction-labelled
 data; model ranking is one downstream use, and the ladder above is a reference point for
 it, not this paper's claim.
 
@@ -126,17 +142,23 @@ it, not this paper's claim.
 Because difficulty is \emph{tunable} along the intrinsic axis, we can locate exactly where a
 model fails. The \texttt{agg\_stats} family asks a model to predict the result of an
 \texttt{AGGREGATE} (sum/min/max) over a collection of $W$ integers; sweeping $W$ from $8$ to
-$384$ at fixed semantics is a controlled difficulty gradient. Exact match collapses with $W$
+$160$ at fixed semantics is a controlled difficulty gradient. Exact match collapses with $W$
 for \emph{every} model, frontier included (\Cref{tab:scaling}): DeepSeek-V4-Flash is perfect
 at $W{=}8$ but reaches near-zero by $W{\approx}48$, and all four models are at $0$ by
 $W{=}64$ --- they cannot reliably aggregate more than a few dozen integers. The contrast with
 the lookup family \texttt{config\_resolver} is sharp: there, every mid-tier-and-up model
 stays at $\approx 1.00$ across all $N$ (no cliff), confirming the \texttt{agg\_stats} collapse
-is arithmetic-reasoning difficulty driven by problem \emph{size}, not a generic artifact. This
+is arithmetic-reasoning difficulty driven by problem \emph{size}, not a generic artifact. A
+second, sharper control comes from running the \emph{refactor} task on the \emph{same}
+\texttt{agg\_stats} programs: there the semantic-equivalence rate is flat and high across
+the entire $W$ sweep ($\approx 1.00$ for the capable models from $W{=}8$ to $W{=}160$),
+even where comprehension exact match has fallen to $0$. Restructuring a wide aggregation is
+width-invariant; \emph{evaluating} the aggregate is width-sensitive --- so on identical
+inputs the resource cleanly separates a structural competence from a computational one. This
 is the intrinsic-difficulty axis doing its job. The \emph{incidental} axis behaves oppositely:
 comprehension exact match is flat across the messiness knob (minimal/standard/max) for every
-model, so on this task the difficulty is genuinely \emph{intrinsic} --- problem size --- not
-presentational, exactly as the orthogonal-axes design intends. And it gives the resource
+model, so on this task the difficulty is \emph{intrinsic} (problem size), not
+presentational, as the orthogonal-axes design intends. And it gives the resource
 forward-looking headroom: a contamination-controlled, regenerable arithmetic-aggregation probe
 that current frontier models fail past a small size --- the controlled-generation analogue of
 how \textsc{GSM-Symbolic} exposed brittle math reasoning~\citep{mirzadeh2024gsm}.
