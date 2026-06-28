@@ -158,7 +158,9 @@ def _run_go(source: str) -> dict:
         # real ~/.cache/go-build). GOCACHE is purely a compilation cache, so reusing
         # it does not affect output — it just avoids recompiling the stdlib cold every
         # time (measured ~22x faster on a warm cache).
-        cache = os.path.join(tempfile.gettempdir(), "spaghetti_gocache")
+        # ...under ~/.cache (roomy disk), not the temp dir: on a size-capped tmpfs /tmp
+        # the cache grows past the quota under a heavy Go workload and breaks every grade.
+        cache = os.path.join(os.path.expanduser("~/.cache"), "spaghetti_gocache")
         env = dict(os.environ, GOFLAGS="", GOCACHE=cache)
         out = _run(["go", "run", "."], cwd=d, env=env)
         return _parse_last_json(out)
