@@ -493,9 +493,37 @@ def build_heldout_tiers(seed: int) -> Tuple[Dict[str, dict], Dict[str, str]]:
     All literals are RNG-drawn from the held-out ``seed`` (decorrelated from
     :func:`build`'s stream). Returns ``(samples, tier_of)``; the caller
     (:func:`bench.dataset.mint`) validates every IR with ``parse()``."""
-    rng = random.Random((seed ^ 0x5BD1E995) & 0xFFFFFFFF)
+    # Decorrelate the tier stream from build()'s Tier-A re-mint stream by XORing the
+    # seed; use the FULL seed (no 32-bit mask) so a large private seed (e.g. a 256-bit
+    # secrets.randbits) contributes all its entropy here too -- random.Random accepts
+    # arbitrary-precision ints. For any seed < 2**32 this equals the old masked value,
+    # so committed/historical behaviour is unchanged.
+    rng = random.Random(seed ^ 0x5BD1E995)
     samples: Dict[str, dict] = {}
     tier: Dict[str, str] = {}
+
+    # Local minting helpers (kept inside this function so the public family
+    # generators are untouched). Every literal is drawn from `rng`, so a fresh
+    # held-out seed re-mints all numbers AND string values.
+    def _tok(n: int = 4) -> str:
+        """A short seed-minted hex token, used to keep string VALUES novel."""
+        return f"{rng.randrange(16 ** n):0{n}x}"
+
+    def _smap(keys: List[str]) -> Dict[str, str]:
+        """A string->string map with structural keys and seed-minted values."""
+        return {k: f"v_{k}_{_tok()}" for k in keys}
+
+    def _cond_cascade(name: str, t: int) -> dict:
+        """A pure CONDITIONAL_SELECT cascade of length `t` on `t` int subjects."""
+        ins: Dict[str, int] = {}
+        ops: List[dict] = []
+        for i in range(t):
+            nm = f"sig_{i:02d}"
+            ins[nm] = rng.randint(0, 100)
+            ops.append(_conditional(nm, ">=", rng.randint(20, 80),
+                                    f"hi_{i:02d}_{_tok()}", f"lo_{i:02d}_{_tok()}",
+                                    f"flag_{i:02d}"))
+        return _ir(name, ins, ops)
 
     # ---- Tier B: novel op-chain shapes ---------------------------------- #
     vals = sorted(rng.sample(range(1, 400), 16))
@@ -525,6 +553,165 @@ def build_heldout_tiers(seed: int) -> Tuple[Dict[str, dict], Dict[str, str]]:
          _conditional("score", ">", 50, "hi", "lo2", "scoreband"),
          _lookup("regions", "rk", "zone", regions, "unknown")])
     tier["tierB_quad"] = "B"
+
+    # [A, C] -- why novel: AGGREGATE paired with CONDITIONAL_SELECT and nothing
+    # else; no public family or other tier mixes exactly these two ops.
+    xfer = sorted(rng.sample(range(1, 5000), 12))
+    samples["tierB_agg_cond"] = _ir(
+        "tierB_agg_cond",
+        {"transfer_bytes": list(xfer), "latency_ms": rng.randint(0, 400)},
+        [_aggregate("transfer_bytes", "sum", "total_bytes"),
+         _conditional("latency_ms", ">=", rng.randint(80, 250),
+                      f"slow_{_tok()}", f"fast_{_tok()}", "latency_band")])
+    tier["tierB_agg_cond"] = "B"
+
+    # [A, L] -- why novel: AGGREGATE + KEY_VALUE_LOOKUP only; the public lookup
+    # families never co-chain an aggregate, and no other tier uses this pair.
+    amounts = sorted(rng.sample(range(1, 9000), 14))
+    cur = _smap(["usd", "eur", "gbp", "jpy"])
+    samples["tierB_agg_lookup"] = _ir(
+        "tierB_agg_lookup",
+        {"amounts": list(amounts), "currency_code": "eur",
+         "currency_symbols": dict(cur)},
+        [_aggregate("amounts", "sum", "invoice_total"),
+         _lookup("currency_symbols", "currency_code", "symbol", cur, f"none_{_tok()}")])
+    tier["tierB_agg_lookup"] = "B"
+
+    # [M, C] -- why novel: MEMBERSHIP + CONDITIONAL_SELECT only; unused by any
+    # public family and distinct from every other tier structure.
+    banned = sorted(rng.sample(range(1000, 9000), 20))
+    samples["tierB_member_cond"] = _ir(
+        "tierB_member_cond",
+        {"banned_ids": list(banned), "user_id": banned[rng.randrange(20)],
+         "request_count": rng.randint(0, 5000)},
+        [_membership("banned_ids", "user_id", "is_banned"),
+         _conditional("request_count", ">", rng.randint(500, 3000),
+                      f"throttle_{_tok()}", f"allow_{_tok()}", "rate_state")])
+    tier["tierB_member_cond"] = "B"
+
+    # [A, A, A, C] -- why novel: the full sum/min/max stats triple FOLLOWED by a
+    # conditional flag; agg_stats is pure [A,A,A], so the trailing C is held-out.
+    readings = [rng.randint(1, 2000) for _ in range(18)]
+    samples["tierB_stats_flag"] = _ir(
+        "tierB_stats_flag",
+        {"sensor_readings": list(readings), "pressure": rng.randint(0, 300)},
+        [_aggregate("sensor_readings", "sum", "reading_sum"),
+         _aggregate("sensor_readings", "min", "reading_min"),
+         _aggregate("sensor_readings", "max", "reading_max"),
+         _conditional("pressure", ">=", rng.randint(150, 280),
+                      f"alarm_{_tok()}", f"ok_{_tok()}", "pressure_state")])
+    tier["tierB_stats_flag"] = "B"
+
+    # [A, L, M] -- why novel: aggregate + lookup + membership with NO conditional
+    # in this ordering; the only 3-op all-distinct mix without a CONDITIONAL.
+    stock = sorted(rng.sample(range(1, 3000), 16))
+    recall = sorted(rng.sample(range(3000, 6000), 16))
+    wh = _smap(["us_west", "us_east", "eu_central", "ap_south"])
+    samples["tierB_agg_lookup_member"] = _ir(
+        "tierB_agg_lookup_member",
+        {"stock_levels": list(stock), "warehouse_key": "eu_central",
+         "warehouse_region": dict(wh),
+         "recall_skus": list(recall), "sku": recall[rng.randrange(16)]},
+        [_aggregate("stock_levels", "min", "min_stock"),
+         _lookup("warehouse_region", "warehouse_key", "region", wh, f"unknown_{_tok()}"),
+         _membership("recall_skus", "sku", "is_recalled")])
+    tier["tierB_agg_lookup_member"] = "B"
+
+    # [M, C, L] -- why novel: membership + conditional + lookup, all distinct ops
+    # in an ordering used by no public family and no other tier.
+    routes = sorted(rng.sample(range(1, 1000), 14))
+    handlers = _smap(["json", "xml", "form", "text"])
+    samples["tierB_member_cond_lookup"] = _ir(
+        "tierB_member_cond_lookup",
+        {"public_routes": list(routes), "path_id": routes[rng.randrange(14)],
+         "payload_size": rng.randint(0, 100000),
+         "content_handlers": dict(handlers), "content_type": "json"},
+        [_membership("public_routes", "path_id", "is_public"),
+         _conditional("payload_size", ">", rng.randint(10000, 80000),
+                      f"reject_{_tok()}", f"accept_{_tok()}", "size_verdict"),
+         _lookup("content_handlers", "content_type", "handler", handlers,
+                 f"default_{_tok()}")])
+    tier["tierB_member_cond_lookup"] = "B"
+
+    # [M, M, C] -- why novel: TWO memberships then a conditional; public allowlist
+    # is a single membership and no tier doubles membership before a conditional.
+    beta = sorted(rng.sample(range(1, 5000), 20))
+    allow_ids = sorted(rng.sample(range(5000, 10000), 20))
+    samples["tierB_dual_member_cond"] = _ir(
+        "tierB_dual_member_cond",
+        {"beta_cohort": list(beta), "allowlist_ids": list(allow_ids),
+         "uid_a": beta[rng.randrange(20)], "uid_b": allow_ids[rng.randrange(20)],
+         "account_age_days": rng.randint(0, 3650)},
+        [_membership("beta_cohort", "uid_a", "in_beta"),
+         _membership("allowlist_ids", "uid_b", "in_allow"),
+         _conditional("account_age_days", ">=", rng.randint(30, 365),
+                      f"trusted_{_tok()}", f"new_{_tok()}", "account_state")])
+    tier["tierB_dual_member_cond"] = "B"
+
+    # [C, C, L] -- why novel: TWO conditionals then a lookup; threshold_select is a
+    # pure conditional cascade, so the trailing lookup is held-out.
+    sla = _smap(["free", "pro", "enterprise"])
+    samples["tierB_dual_cond_lookup"] = _ir(
+        "tierB_dual_cond_lookup",
+        {"quantity": rng.randint(0, 1000), "loyalty_points": rng.randint(0, 10000),
+         "plan_sla": dict(sla), "plan_key": "pro"},
+        [_conditional("quantity", ">=", rng.randint(50, 500),
+                      f"bulk_{_tok()}", f"unit_{_tok()}", "order_kind"),
+         _conditional("loyalty_points", ">", rng.randint(1000, 8000),
+                      f"vip_{_tok()}", f"regular_{_tok()}", "loyalty_tier"),
+         _lookup("plan_sla", "plan_key", "sla", sla, f"none_{_tok()}")])
+    tier["tierB_dual_cond_lookup"] = "B"
+
+    # [A, C, L] -- why novel: aggregate + conditional + lookup, all distinct ops,
+    # an ordering/combination no public family or other tier uses.
+    cpu = [rng.randint(0, 100) for _ in range(15)]
+    dc = _smap(["host_a", "host_b", "host_c", "host_d"])
+    samples["tierB_agg_cond_lookup"] = _ir(
+        "tierB_agg_cond_lookup",
+        {"cpu_samples": list(cpu), "error_count": rng.randint(0, 1000),
+         "host_dc": dict(dc), "host_key": "host_c"},
+        [_aggregate("cpu_samples", "max", "peak_cpu"),
+         _conditional("error_count", ">", rng.randint(50, 500),
+                      f"page_{_tok()}", f"quiet_{_tok()}", "error_state"),
+         _lookup("host_dc", "host_key", "datacenter", dc, f"unknown_{_tok()}")])
+    tier["tierB_agg_cond_lookup"] = "B"
+
+    # [A, A, C, C] -- why novel: two aggregates then two conditionals (no
+    # membership/lookup); agg_stats stops at three aggregates and threshold_select
+    # is conditionals only -- this interleaved multiset is held-out.
+    txns = [rng.randint(1, 100000) for _ in range(20)]
+    samples["tierB_dual_agg_dual_cond"] = _ir(
+        "tierB_dual_agg_dual_cond",
+        {"txn_amounts": list(txns), "velocity": rng.randint(0, 500),
+         "chargebacks": rng.randint(0, 50)},
+        [_aggregate("txn_amounts", "sum", "total_volume"),
+         _aggregate("txn_amounts", "max", "largest_txn"),
+         _conditional("velocity", ">", rng.randint(50, 300),
+                      f"review_{_tok()}", f"pass_{_tok()}", "velocity_flag"),
+         _conditional("chargebacks", ">=", rng.randint(3, 20),
+                      f"freeze_{_tok()}", f"clear_{_tok()}", "chargeback_flag")])
+    tier["tierB_dual_agg_dual_cond"] = "B"
+
+    # [A, A, M, C, L] -- why novel: a 5-op chain exercising ALL FOUR primitives
+    # (with an extra aggregate); deeper and more diverse than tierB_quad's 4-op
+    # [A,M,C,L], and unused by any public family.
+    sizes = [rng.randint(1, 8000) for _ in range(16)]
+    retries = [rng.randint(0, 10) for _ in range(16)]
+    allow_ips = sorted(rng.sample(range(1, 100000), 24))
+    upstream = _smap(["api", "web", "static", "admin"])
+    samples["tierB_penta"] = _ir(
+        "tierB_penta",
+        {"payload_sizes": list(sizes), "retry_counts": list(retries),
+         "allow_ips": list(allow_ips), "client_ip": allow_ips[rng.randrange(24)],
+         "priority": rng.randint(0, 10),
+         "route_upstream": dict(upstream), "route_key": "api"},
+        [_aggregate("payload_sizes", "sum", "size_sum"),
+         _aggregate("retry_counts", "max", "max_retry"),
+         _membership("allow_ips", "client_ip", "ip_allowed"),
+         _conditional("priority", ">=", rng.randint(3, 8),
+                      f"expedite_{_tok()}", f"normal_{_tok()}", "priority_class"),
+         _lookup("route_upstream", "route_key", "upstream", upstream, f"none_{_tok()}")])
+    tier["tierB_penta"] = "B"
 
     # ---- Tier C: distribution shift ------------------------------------- #
     deep = sorted(rng.sample(range(1, 2000), 24))
@@ -557,6 +744,79 @@ def build_heldout_tiers(seed: int) -> Tuple[Dict[str, dict], Dict[str, str]]:
     allow_ir["module_name"] = "tierC_huge_allow"
     samples["tierC_huge_allow"] = allow_ir
     tier["tierC_huge_allow"] = "C"
+
+    # OOD scale on the LOOKUP axis at a second magnitude (N=128 vs public N<=64),
+    # so the shift axis is sampled at two points (128 and 256).
+    cfg_ir2, _ = _config_resolver(128)
+    cfg_ir2["module_name"] = "tierC_huge_cfg_mid"
+    samples["tierC_huge_cfg_mid"] = cfg_ir2
+    tier["tierC_huge_cfg_mid"] = "C"
+
+    # OOD scale on the MEMBERSHIP axis at the upper end (L=1024 vs public L<=384).
+    allow_ir2, _ = _allowlist(1024, rng)
+    allow_ir2["module_name"] = "tierC_huge_allow_xl"
+    samples["tierC_huge_allow_xl"] = allow_ir2
+    tier["tierC_huge_allow_xl"] = "C"
+
+    # OOD scale on the AGGREGATE axis (W=768 vs public W<=160): sum/min/max over a
+    # 768-element int list -- the spaghetti unroll scales far past the public set.
+    agg_ir, _ = _agg_stats(768, rng)
+    agg_ir["module_name"] = "tierC_huge_agg"
+    samples["tierC_huge_agg"] = agg_ir
+    tier["tierC_huge_agg"] = "C"
+
+    # OOD AGGREGATE at the top magnitude (W=1024), a second shift-axis point.
+    agg_ir2, _ = _agg_stats(1024, rng)
+    agg_ir2["module_name"] = "tierC_huge_agg_xl"
+    samples["tierC_huge_agg_xl"] = agg_ir2
+    tier["tierC_huge_agg_xl"] = "C"
+
+    # OOD DEPTH on the conditional axis: a 20-branch cascade (public threshold_select
+    # tops out at T=12), far past the public cascade depth.
+    samples["tierC_cond_cascade_t20"] = _cond_cascade("tierC_cond_cascade_t20", 20)
+    tier["tierC_cond_cascade_t20"] = "C"
+
+    # OOD DEPTH: a 30-branch conditional cascade (deeper still than T=20).
+    samples["tierC_cond_cascade_t30"] = _cond_cascade("tierC_cond_cascade_t30", 30)
+    tier["tierC_cond_cascade_t30"] = "C"
+
+    # OOD DEPTH on a MIXED chain: ~20 ops interleaving all four primitives -- far
+    # deeper than the public maximum mixed chain (discovery_pipeline's 7 ops) and
+    # deeper than tierC_deep_chain's 12 ops.
+    vdeep = sorted(rng.sample(range(1, 5000), 40))
+    vmap = _smap(["a", "b", "c", "d", "e", "f"])
+    vd_inputs = {
+        "nums": list(vdeep),
+        "probe1": vdeep[rng.randrange(40)], "probe2": vdeep[rng.randrange(40)],
+        "probe3": 10 ** 9,                       # guaranteed miss
+        "vmap": dict(vmap), "vk1": "a", "vk2": "c", "vk3": "f",
+        "m1": rng.randint(0, 100), "m2": rng.randint(-100, 100),
+        "m3": rng.randint(0, 500), "m4": rng.randint(0, 50), "m5": rng.randint(0, 1000),
+    }
+    vd_ops = [
+        _aggregate("nums", "sum", "vd_sum"),
+        _aggregate("nums", "max", "vd_max"),
+        _membership("nums", "probe1", "vd_in1"),
+        _conditional("m1", ">=", rng.randint(20, 80), f"h_{_tok()}", f"l_{_tok()}", "vd_c1"),
+        _lookup("vmap", "vk1", "vd_l1", vmap, f"none_{_tok()}"),
+        _aggregate("nums", "min", "vd_min"),
+        _membership("nums", "probe2", "vd_in2"),
+        _conditional("m2", ">", 0, f"pos_{_tok()}", f"neg_{_tok()}", "vd_c2"),
+        _lookup("vmap", "vk2", "vd_l2", vmap, f"none_{_tok()}"),
+        _conditional("m3", "<", rng.randint(100, 400), f"lt_{_tok()}", f"ge_{_tok()}", "vd_c3"),
+        _membership("nums", "probe3", "vd_in3"),
+        _aggregate("nums", "sum", "vd_sum2"),
+        _conditional("m4", "<=", rng.randint(10, 40), f"ok_{_tok()}", f"hi_{_tok()}", "vd_c4"),
+        _lookup("vmap", "vk3", "vd_l3", vmap, f"none_{_tok()}"),
+        _conditional("m5", ">=", rng.randint(200, 900), f"big_{_tok()}", f"small_{_tok()}", "vd_c5"),
+        _membership("nums", "probe1", "vd_in4"),
+        _aggregate("nums", "max", "vd_max2"),
+        _lookup("vmap", "vk1", "vd_l4", vmap, f"none_{_tok()}"),
+        _membership("nums", "probe2", "vd_in5"),
+        _aggregate("nums", "min", "vd_min2"),
+    ]
+    samples["tierC_very_deep"] = _ir("tierC_very_deep", vd_inputs, vd_ops)
+    tier["tierC_very_deep"] = "C"
 
     return samples, tier
 
