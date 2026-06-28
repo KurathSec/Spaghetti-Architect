@@ -6,15 +6,14 @@ This is the **current target paper**: a data-centric *resource* paper for
 the `dmlr.ai` ICLR/ICML *workshops*, which are deadline-based.)
 
 > The prior-venue drafts are archived, not deleted:
-> - `archived/msr-toolshowcase/` — the MSR Data & Tool Showcase engine/tool paper (superseded here).
-> - `bench/paper/benchmark.tex` — the EACL benchmark paper, **kept in place** as the seed of the
->   *deferred* empirical / EMSE paper (the LLM-as-judge meta-evaluation). It is wired to
->   `run_bench.py --report`; do not move it.
+> - `archived/msr-toolshowcase/` — the superseded engine-showcase draft.
+> - `archived/benchmark-paper/benchmark.tex` — the EACL benchmark paper, archived as the seed draft
+>   for a *future* LLM-as-judge meta-evaluation study. It is wired to `run_bench.py --report`.
 
 ## Scope (important)
 This paper covers the **generator + the dataset + label-validity + reference baselines**.
-It must **not** report the LLM-as-judge meta-evaluation *findings* — that is the separate,
-deferred paper. Cite it only as a motivating use case.
+It must **not** report the LLM-as-judge meta-evaluation *findings* — that is left to future
+work (seed draft archived under `archived/benchmark-paper/`). Cite it only as a motivating use case.
 
 ## Build
 ```

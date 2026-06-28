@@ -9,7 +9,9 @@
 > so a quality ordering exists *independently of any rater*.
 >
 > This README is the authoritative architecture anchor for the benchmark layer. The
-> companion paper is `bench/paper/benchmark.tex`; the design freeze is recorded in the
+> near-term write-up is the DMLR resource paper (`paper/dmlr.tex`); the LLM-as-judge study is
+> future work, with its seed draft archived at `archived/benchmark-paper/benchmark.tex`. The
+> design freeze is recorded in the
 > (private) pre-registration. Where this README and any older note disagree, **this
 > file wins**.
 
@@ -112,7 +114,7 @@ python3 bench/run_bench.py --sweep refactor   --model <id>     # prompt-robustne
 
 # 5. Merge + write up
 python3 bench/run_bench.py --aggregate     # out/subagent/*.json -> bench/out/results.json
-python3 bench/run_bench.py --report        # -> bench/paper/benchmark.tex (NOT auto-compiled)
+python3 bench/run_bench.py --report        # -> archived/benchmark-paper/benchmark.tex (NOT auto-compiled)
 #   pre-registered inference (same metrics venv; statsmodels installed there):
 $VENV bench/analysis.py                     # -> bench/out/analysis.json
 ```
@@ -132,7 +134,6 @@ bench/
   out/anchor.json      construct-validity anchors (real)
   out/analysis.json    pre-registered inference output
   config.json          live API keys — GITIGNORED, never committed (see config.example.json)
-  paper/benchmark.tex  the paper (emitted by --report); refs.bib + vendored acl.sty/acl_natbib.bst
 ```
 
 ## Status (so results are not misread)

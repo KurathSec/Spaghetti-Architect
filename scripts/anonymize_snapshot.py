@@ -13,8 +13,8 @@ near-term target has since pivoted to the DMLR data-centric resource paper
 (``paper/dmlr.tex``, data.mlr.press). DMLR's policy is now CONFIRMED (2026-06-26,
 data.mlr.press/submissions.html): SINGLE-BLIND with open review — authors are NOT
 anonymized. So this script is NOT required for a DMLR submission; it is retained only
-in case the deferred companion study (``bench/paper/benchmark.tex``, an ARR/EACL-style
-double-blind venue) needs a scrubbed snapshot.
+in case the deferred study (seed at ``archived/benchmark-paper/benchmark.tex``, an
+ARR/EACL-style double-blind venue) needs a scrubbed snapshot.
 
 This script NEVER mutates the working tree. It copies the repo into an output
 directory (default: a scratch dir outside the repo), redacts the identity-
@@ -97,15 +97,16 @@ EXCLUDE_DIR_NAMES = {
 EXCLUDE_DIR_PATHS = {
     "bench/notes",      # private working notes (carry 'Sunway' + roadmap)
     "bench/data/test",  # PRIVATE held-out split — must never leave the machine
-    # The archived MSR tool-showcase draft carries an author self-citation and its
+    # The archived engine-showcase draft carries an author self-citation and its
     # filename (`spaghetti_architect.tex`) leaks the project name, so it must never
-    # appear in an anonymized snapshot. (It used to be the top-level "paper/"; the MSR
+    # appear in an anonymized snapshot. (It used to be the top-level "paper/"; that
     # draft was archived here when "paper/" was repurposed for the DMLR paper.)
     "archived/msr-toolshowcase",
+    "archived/benchmark-paper",  # the deferred LLM-as-judge paper seed; not part of the DMLR artifact
     # The top-level "paper/" is now the DMLR data-centric resource submission. The
     # paper source/PDF is submitted to the venue (data.mlr.press) separately, not
     # shipped inside the anonymized code/data artifact, so it is withheld from the
-    # snapshot. (NB: this is the top-level "paper/", not "bench/paper/", which is kept.)
+    # snapshot. (NB: this is the top-level "paper/", the DMLR submission.)
     "paper",
 }
 # Exact relative file paths to drop.
@@ -240,7 +241,7 @@ def redact_pyproject(out_dir: Path, report: Report) -> None:
         txt,
         flags=re.S,
     )
-    # strip TODO comment naming MSR / real name+email
+    # strip TODO comment naming the prior venue / real name+email
     txt = re.sub(r"^.*#\s*TODO.*camera-ready.*$\n?", "", txt, flags=re.M | re.I)
     # neutralise project URLs that embed the github handle / repo name
     txt = re.sub(

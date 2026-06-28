@@ -17,7 +17,7 @@ Modes:
   config (the subagent fan-out). Needs no key.
 * ``--aggregate`` — merge subagent JSON into ``out/results.json`` (+ figure series +
   env block). Never reads bulk source.
-* ``--report`` — emit ``paper/benchmark.tex`` (NOT compiled).
+* ``--report`` — emit the archived benchmark-paper seed (``archived/benchmark-paper/benchmark.tex``, NOT compiled).
 
 This run executes only ``--selftest`` / ``--dry-run`` / ``--plan`` (mock model). No
 real model is queried and nothing is spent.
@@ -51,7 +51,7 @@ from src.nodes.validator import TOOLCHAINS  # noqa: E402
 OUT_DIR = os.path.join(_HERE, "out")
 SUBAGENT_DIR = os.path.join(OUT_DIR, "subagent")
 RESULTS_PATH = os.path.join(OUT_DIR, "results.json")
-PAPER_DIR = os.path.join(_HERE, "paper")
+PAPER_DIR = os.path.join(_ROOT, "archived", "benchmark-paper")
 PAPER_TEX = os.path.join(PAPER_DIR, "benchmark.tex")
 PY_VERSION = sys.version.split()[0]
 
