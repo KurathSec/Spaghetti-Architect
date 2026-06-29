@@ -21,7 +21,10 @@ mined corpora cannot provide: a \emph{known-optimal reference} to grade against,
 two \emph{orthogonal} difficulty axes that can be moved independently, and a
 \emph{contamination control}. It supports three tasks on a single shared label set
 --- refactoring (rewrite the spaghetti), LLM-as-judge code-quality ranking, and
-output-prediction comprehension. It was created by the author of \tool{} (see
+output-prediction comprehension. This paper provides reference baselines for
+refactoring and comprehension; the LLM-as-judge task is enabled and ships a
+non-learned metric-heuristic reference, with its model evaluation left to future
+work (\Cref{sec:baselines}). It was created by the author of \tool{} (see
 \texttt{CITATION.cff}); no external funding is associated with this release.
 
 \paragraph{Composition.}
@@ -87,7 +90,7 @@ not as a model of natural-corpus difficulty; the \texttt{dev} split is public an
 once released, must be assumed to be potentially present in future training sets, and
 only the private \texttt{test} split provides a contamination guarantee. That this control
 holds is measured rather than assumed: across the reference ladder, \texttt{dev} and private
-Tier~A scores coincide within $|\Delta|\le 0.011$ (\Cref{sec:baselines}). It should not be
+Tier~A scores coincide within $|\Delta|\le 0.012$ (\Cref{sec:baselines}). It should not be
 used to claim that any model is ``contamination-proof''; the defense is the minting
 protocol, not the artifact.
 

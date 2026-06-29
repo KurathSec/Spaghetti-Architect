@@ -8,7 +8,7 @@
 %% cyclomatic complexity AND lexical token count (anchor.json cross_language.per_language /
 %% per_language_tokens; Table~\ref{tab:validity-xlang}). A missing tool records an honest
 %% SKIP, never a fabricated number. radon CC/MI, cognitive complexity and the Buse--Weimer
-%% feature re-implementation are Python-only tools and are reported as such; the non-circular
+%% feature re-implementation are Python-only tools and are reported as such; the less-circular
 %% readability leg (BW +0.39) stays Python-only by design (the human study would extend it).
 
 \section{Construct Validity: do the labels mean anything?}
@@ -67,11 +67,14 @@ On the Python sources the complexity anchors agree and move sharply with the kno
 cyclomatic complexity~\citep{mccabe1976complexity} (identical at $\rho=+0.75$ under both
 \texttt{radon} and \texttt{lizard}), cognitive complexity~\citep{campbell2018cognitive}
 ($\rho=+0.80$), and the maintainability index in
-the expected \emph{opposite} direction ($\rho=-0.79$). Two independent tool families
-converging on the same ordering --- with tight bootstrap CIs that do not overlap the
-readability signal's (Table~\ref{tab:validity}) --- and our own stdlib metric lane
-cross-checking against them at $\rho>0.97$, is reassuring evidence that the labels are not
-arbitrary. We
+the expected \emph{opposite} direction ($\rho=-0.79$). radon and lizard report the same
+cyclomatic count by construction (both implement McCabe), so their agreement confirms
+implementation fidelity, not independent corroboration; the genuinely distinct signals
+--- cognitive complexity ($+0.80$) and the maintainability index ($-0.79$, opposite
+direction) --- converging with CC is the reassuring part. With tight bootstrap CIs that do
+not overlap the readability signal's (Table~\ref{tab:validity}), and our own stdlib metric
+lane cross-checking against them at $\rho>0.97$, this is reassuring evidence that the
+labels are not arbitrary. We
 deliberately under-claim here, though, because this agreement is partly
 \emph{tautological}: the incidental knob is engineered to inject redundant control flow,
 dead branches, and nested scaffolding, which is precisely what cyclomatic and cognitive
@@ -159,5 +162,5 @@ orderings and the by-construction knob order, pre-registered and reported per la
 Until that study is run, we do not assert that the labels track human judgment; we assert
 only that they track convergent, independently-implemented static metrics --- structural
 complexity and lexical size --- in every language, and a less-circular surface-readability
-signal in Python. Extending a \emph{non-circular} signal to the other four languages is
+signal in Python. Extending a \emph{less-circular} signal to the other four languages is
 precisely what the human study would add, and we scope our claims to that boundary.

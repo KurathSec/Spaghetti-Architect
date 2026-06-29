@@ -2,7 +2,7 @@
 %% data.mlr.press: the rolling JMLR-family archival journal (NOT the dmlr.ai workshops).
 %%
 %% SUBMISSION REQUIREMENTS — confirmed 2026-06-26 from data.mlr.press/submissions.html:
-%%   - NO page limit (longer papers simply take longer to review); we are ~16pp.
+%%   - NO page limit (longer papers simply take longer to review); we are ~22pp.
 %%   - SINGLE-BLIND + open review: authors are NOT anonymized (name/affiliation shown).
 %%   - MUST use this official dmlr2e style (failure to adhere may be desk-rejected).
 %%   - Submit via OpenReview: https://openreview.net/group?id=DMLR
@@ -103,10 +103,11 @@ variants from a private held-out seed. We document the generator and the dataset
 produces, give construct-validity evidence that the by-construction quality order moves
 established complexity and readability metrics, and report reference baselines on a
 four-model open capability ladder --- where exact-match accuracy tracks model capability,
-and the intrinsic scale knob collapses even the frontier model's arithmetic-aggregation
-accuracy to zero. Two further results bear out the design. First, the held-out protocol
-resists contamination not only by construction: development-set scores equal a
-freshly re-minted private test split across the ladder to within $|\Delta|\le 0.011$, for
+and the intrinsic scale knob collapses the arithmetic-aggregation accuracy of even the
+strongest model we tested to zero. Two further results bear out the design. First, the held-out protocol
+resists contamination not only by construction: development-set scores equal their
+freshly re-minted, literal-novel (Tier-A) counterparts in a private held-out test split
+across the ladder to within $|\Delta|\le 0.012$, for
 both comprehension (exact match) and refactoring (semantic-equivalence rate). Second, on
 identical programs the dataset separates two competences: refactoring
 equivalence (itself a capability ladder, $0.73\!\rightarrow\!0.99$) is invariant to the

@@ -201,8 +201,8 @@ intrinsic-size measures --- the IR operation count and the per-family scale knob
 $\rho = 0.00$ within each family whose scale knob varies (computed in
 \texttt{bench/anchor.py}, recorded in \texttt{anchor.json}). The two difficulty axes are
 therefore orthogonal by construction \emph{and} verified balanced in the release. Nor
-is the intrinsic axis cosmetic: sweeping it alone collapses even a
-frontier model's exact-match accuracy on the aggregation family to zero
+is the intrinsic axis cosmetic: sweeping it alone collapses the exact-match
+accuracy of even the strongest model we tested on the aggregation family to zero
 (\Cref{sec:baselines}, \Cref{tab:scaling}), evidence that the size knob controls genuine
 difficulty, not just token count.
 
@@ -236,7 +236,7 @@ trainable so that the scored half does not have to be.
 \paragraph{The freshness guarantee, measured.} The protocol's premise --- that the private
 split is a faithful, un-memorized re-mint of the public one --- is itself testable. Across the four-model reference ladder (\Cref{sec:baselines}), comprehension exact
 match on the public \texttt{dev} split equals exact match on the private Tier-A
-\texttt{test} split to within $|\Delta|\le 0.011$ per model, and refactor
+\texttt{test} split to within $|\Delta|\le 0.012$ per model, and refactor
 \texttt{semantic\_ok} agrees between \texttt{dev} and Tier-A \texttt{test} across the
 ladder ($|\Delta|\le 0.011$; DeepSeek-V4-Flash $\Delta=-0.0001$). Because every \texttt{test} prompt hash
 differs from its \texttt{dev} counterpart, the agreement reflects preserved difficulty
@@ -258,9 +258,10 @@ B} (structural held-out) keeps the operation-chain \emph{shapes} private, defeat
 memorization of structure. \textbf{Tier C} (scale/depth held-out) uses deeper chains and
 out-of-range scales, regenerating structures outside the public split's scale and depth
 range so they cannot have been memorized verbatim. What the tiers certify is freshness,
-not generalization: empirically the across-tier accuracy differences track \emph{operation
-type} (Tier~A is over half trivial single-operation items, of which Tier~B has none) and
-the list-aggregation computation tax of \Cref{sec:baselines} --- not novelty, since clean
+not generalization: empirically the across-tier accuracy differences are \emph{consistent
+with} operation-type composition (Tier~A is over half single-operation items, of which
+Tier~B has none) and the \texttt{agg\_stats} computation tax (\Cref{sec:baselines}), rather
+than a novelty penalty; consistent with this, clean
 controls that hold operation type fixed (out-of-range scale on lookups and membership,
 out-of-range depth on conditional cascades) show essentially no degradation. The
 contamination signal is instead the \emph{matched} comparison: re-minting the same

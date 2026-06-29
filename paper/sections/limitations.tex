@@ -21,9 +21,13 @@ granularity is future work.
 here buys \emph{internal} validity. A mined corpus maximizes surface
 realism but confounds the factors a study wants to separate (size, mess, semantics), so an
 observed failure cannot be attributed to a cause. A controlled stimulus inverts this trade:
-by holding semantics fixed and moving one labelled axis at a time, it licenses \emph{causal}
-statements --- ``model $M$ degrades under incidental complexity at fixed problem size'' ---
-that no confounded corpus can support. This is the established logic of diagnostic,
+by holding semantics fixed and moving one labelled axis at a time, it licenses a class of
+\emph{causal} statements --- of the form ``model $M$ degrades under incidental complexity at
+fixed problem size'' --- that no confounded corpus can support. This is the claim class the
+design \emph{enables}, not a behavior our present baselines exhibit: the reported baselines do
+not yet exercise the incidental axis as a difficulty driver (comprehension is flat across the
+knob, refactor difficulty is scale-driven), so this model-behavioral payoff is enabled but not
+yet demonstrated here. This is the established logic of diagnostic,
 procedurally-generated suites that isolate a capability rather than model the wild
 (\Cref{sec:related}); controlled generation has repeatedly exposed limitations that
 scale-and-scrape benchmarks hid~\citep{mirzadeh2024gsm}. The transferable claim is therefore
@@ -57,13 +61,14 @@ minted from a private, never-committed seed and why we report graded A/B/C held-
 of regenerable structures and embed a canary (\Cref{sec:contam}): the durable contribution is the protocol --- a
 fresh draw from a private seed --- not a permanently clean file. In our reference baselines
 that protocol's payoff is already measurable: public \texttt{dev} and private-test Tier-A
-scores agree across the ladder (comprehension exact match within $|\Delta|\le0.011$;
-refactor semantic equivalence within $\Delta\approx0.0001$ at the frontier), so the held-out
+scores agree across the ladder (comprehension exact match within $|\Delta|\le0.012$;
+refactor semantic equivalence within $\Delta\approx0.0001$ at the strongest tested model), so the held-out
 re-mint shows no measured contamination gap. Two caveats follow: the A/B/C tiers buy
 contamination-resistance (regenerable held-out structures), not a novelty or
-distribution-shift probe (on our reference baselines the cross-tier differences track
-operation-type composition, and clean out-of-distribution controls show essentially no
-degradation); and the held-out seed and Tier B/C structures are deliberately withheld,
+distribution-shift probe (on our reference baselines the cross-tier differences are
+consistent with operation-type composition, and clean out-of-distribution controls show
+essentially no degradation --- supporting evidence for this reading rather than proof); and
+the held-out seed and Tier B/C structures are deliberately withheld,
 which is a freshness trade-off, not an oversight.
 
 \paragraph{Dual use.} \tool{} is a bad-code generator: its transforms overlap

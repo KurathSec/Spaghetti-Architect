@@ -1,14 +1,19 @@
 # G3 run — comprehend×test + refactor×{dev,test} on the 4-model open ladder
 
-Compact, gzipped raw model completions (the same packaging as `../ladder/`) so the tables
-reproduce with **zero API calls** from version control. Each line is one item:
-`{sample, variant, profile, language, intrinsic, tier, raw_outputs}`.
+Compact, gzipped raw model completions (the same packaging as `../ladder/`), committed so the
+graded results can be re-derived without re-querying any model. Each line is one item:
+`{sample, variant, profile, language, intrinsic, tier, raw_outputs}` — raw completions only, no grades.
 
 Models (capability order): Meta-Llama-3.1-8B, Mistral-Small-3.2-24B, Llama-3.3-70B, DeepSeek-V4-Flash.
-Grid: comprehend on the private **test** split (4 novelty tiers), refactor on **dev** and **test**.
+Grid: comprehend on the private **test** split (3 held-out tiers), refactor on **dev** and **test**.
 
-Reproduce: `python3 bench/g3_analysis.py` → re-aggregates the per-item grades into
-`bench/out/g3_analysis.json` and prints the tables below.
+Reproduce. The **dev**-split reference numbers re-grade with **zero API** from version control
+(`python3 bench/ladder_analysis.py` re-grades the committed `../ladder/*.jsonl.gz` against the public
+oracle). The **private-test** numbers (the Tier-A contamination check and the A/B/C tiers) require the
+held-out seed `BENCH_HELDOUT_SEED` to regenerate the test oracle: by the contamination design they are
+reproducible by the maintainer (who holds the seed) and regenerable-equivalent by anyone from a fresh
+seed, not byte-reproducible from version control alone. `bench/g3_analysis.py` aggregates per-item
+grades from the finalize files under `bench/out/subagent/` (large, not committed).
 
 ## Verified findings (adversarial 8-agent re-derivation, 2026-06-29)
 

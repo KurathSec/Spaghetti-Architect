@@ -144,3 +144,8 @@ API: the non-LLM **baseline panel** (`--baselines`), the **construct-validity an
 (`anchor.py`), and the executed **inferential pipeline** (`analysis.py`). The
 `out/subagent/*mock*` files are wired placeholders — the file names say `mock`; do not
 read their `1.0` values as model performance.
+
+**Real capability-ladder results now exist** and live in `bench/out/ladder/` and
+`bench/out/g3/` (re-gradable with **zero API spend** via `bench/ladder_analysis.py` and
+`bench/g3_analysis.py`); the `mock`/DRY-RUN note above refers only to the harness
+self-test path, not to the project as a whole.

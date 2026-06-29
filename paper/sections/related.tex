@@ -38,12 +38,14 @@ responses have emerged. One gates
 on \emph{time}, scoring only items released after a model's training cutoff, as in the
 continuously-updated \textsc{LiveCodeBench}~\citep{jain2024livecodebench} and
 \textsc{LiveBench}~\citep{white2024livebench}; the other makes instances
-\emph{regenerable} so a fresh, never-seen draw is always available. \tool{} adopts both
+\emph{regenerable} so a fresh, never-seen draw is always
+available~\citep{zhu2024dyval,xia2024evoeval}. \tool{} adopts both
 --- a private held-out split minted after the cutoff plus a public canary
-(\Cref{sec:contam}) --- but differs from time-gated suites in a way that suits a data
+(\Cref{sec:contam}) --- but differs from both lines in a way that suits a data
 \emph{resource}: where a living benchmark \emph{harvests} new real-world problems over
-time (and so cannot supply a known-optimal label or hold semantics fixed along a
-difficulty axis), \tool{} \emph{synthesizes} its scored data, so every fresh draw still
+time and \textsc{DyVal}/\textsc{EvoEval} regenerate by mutating or evolving existing
+problems (and so neither can supply a known-optimal label or hold semantics fixed along a
+difficulty axis), \tool{} \emph{synthesizes} its scored data from an IR, so every fresh draw still
 carries by-construction labels and the two orthogonal axes. The scored data is thus not a
 fixed file to be protected but a fresh, fully-labelled sample to be minted --- the only
 durable defense once a public split inevitably leaks.
@@ -82,8 +84,15 @@ graded corpus. \tool{} reuses these primitives as a \emph{maintainability-degrad
 knob with ground truth}: a strictly-nested ladder that is, by construction, a quality
 order at fixed semantics.
 
-\paragraph{The four differentiators.} Each neighbor supplies some of the affordances a
-data-centric study needs; none supplies all four at once.
+\paragraph{The load-bearing mechanism.} One mechanism does the work: a by-construction
+graded maintainability order at fixed, oracle-verified semantics. The incidental messiness
+is varied across a strictly-nested ladder while behaviour is held execution-checked
+equivalent, so the messy$\rightarrow$clean order is a quality order known independently of
+any rater. The other affordances are best read as enabling properties of that mechanism
+rather than as an intersection of features: multi-language emission projects the same
+graded order across five languages, and the contamination protocol keeps it mintable and
+uncontaminated once a public split leaks. Each neighbor supplies some of these affordances;
+none supplies the graded order at verified semantics that the others rest on.
 \begin{itemize}
   \item \emph{Oracle-verified semantic equivalence.} Every instance --- and, for the
         refactoring use case, every candidate rewrite --- is compiled, run, and checked
@@ -97,11 +106,17 @@ data-centric study needs; none supplies all four at once.
         ground-truth order.
   \item \emph{Multi-language parallel corpus.} One IR emits the same logic in five
         languages, yielding aligned cross-language instances. Obfuscation and mutation
-        tools are typically single-language.
+        tools are typically single-language. Parallel multi-language \emph{code} corpora
+        do exist --- \textsc{MultiPL-E}~\citep{cassano2023multipl}, Project
+        CodeNet~\citep{puri2021codenet}, and \textsc{CodeTransOcean}~\citep{yan2023codetransocean}
+        --- but none carries a by-construction graded quality order or oracle-verified
+        equivalence at fixed semantics; the novelty is the parallel corpus \emph{plus} a
+        graded order, not parallelism alone.
   \item \emph{Contamination control.} Mint-after-cutoff generation with a private
         held-out split, a canary, and regenerable held-out structure tiers (\Cref{sec:contam}). Static
         benchmarks and the transformation tools carry no contamination protocol.
 \end{itemize}
-\noindent To our knowledge no prior generator combines oracle-verified equivalence, a
-by-construction graded quality order, a multi-language parallel corpus, and a
-contamination protocol in a single artifact; that combination is the resource's novelty.
+\noindent To our knowledge no prior generator delivers a by-construction graded
+maintainability order at fixed, oracle-verified semantics; the multi-language emission and
+the contamination protocol then make that order broadly usable and durable, and it is that
+mechanism --- not an intersection of features --- that constitutes the resource's novelty.
