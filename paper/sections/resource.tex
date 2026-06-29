@@ -264,8 +264,8 @@ the \texttt{agg\_stats} computation tax (\Cref{sec:baselines}), not a novelty pe
 Directly standardizing Tier~A's exact match onto Tier~B's operation-count distribution
 shrinks the mean Tier-A$-$Tier-B gap by $60$--$90\%$ across all four reference models and
 \emph{reverses} its sign at the shared three-operation stratum, where Tier~B is the more
-accurate tier; the full per-(tier, operation-count) decomposition is released in the
-analysis artifact (\texttt{g3\_analysis.json}). Consistent with this, clean
+accurate tier; the full per-(tier, operation-count) and per-(tier, family) decompositions
+are released in the analysis artifact (\texttt{g3\_analysis.json}). Consistent with this, clean
 controls that hold operation type fixed (out-of-range scale on lookups and membership,
 out-of-range depth on conditional cascades) show essentially no degradation. The
 contamination signal is instead the \emph{matched} comparison: re-minting the same

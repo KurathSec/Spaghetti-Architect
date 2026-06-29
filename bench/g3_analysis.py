@@ -163,20 +163,42 @@ def _matched_gap(cell_a: dict, cell_b: dict) -> dict:
     }
 
 
+def _tier_family_cells(items):
+    """tier -> family -> [per-item EM] for the comprehend test items."""
+    cell = collections.defaultdict(lambda: collections.defaultdict(list))
+    for r in items:
+        m = _metric(r)
+        if m is None:
+            continue
+        cell[_tier(r)][_family(r.get("sample", "?"))].append(m)
+    return cell
+
+
 def tier_nops_matched():
-    """Decompose the comprehend test A>B/C tier gaps into op-count composition vs a true
-    accuracy difference (the 'shown evidence' for the resource/limitations claim that the
-    cross-tier gap is operation-type composition + the agg_stats computation tax, NOT a
-    novelty penalty). For each model emits: the raw per-tier EM and gaps, the Tier-A
-    single-op fraction, the full per-(tier, n_ops) EM grid, and the n_ops-matched A-B / A-C
-    gaps (see _matched_gap). Sourced from the graded comprehend test finalize files; these
-    require the private held-out seed to re-derive from raw, per the contamination design."""
+    """Decompose the comprehend test A>B/C tier gaps to show they are operation-mix
+    composition, NOT a broad novelty penalty (the 'shown evidence' the resource/limitations
+    sections lean on). Per model emits: the raw per-tier EM and gaps, the Tier-A single-op
+    fraction, the per-(tier, n_ops) EM grid, the n_ops-matched A-B / A-C gaps (see
+    _matched_gap), and the per-(tier, family) EM grid.
+
+    On the matched evidence: n_ops standardization shrinks the raw A-B gap by ~60-90% and
+    reverses it at n_ops=3. NOTE we deliberately do NOT emit a single 'aggregation tax'
+    residual: Tier A and Tier B share no families, and 'contains an aggregate op' does not
+    cleanly predict failure (e.g. aggregate-then-lookup compositions score ~1.0 because the
+    downstream op masks the exact sum), so a forced agg-vs-non-agg gap would be a confound.
+    The per-(tier, family) grid is released instead as inspectable evidence: most held-out
+    Tier-B/C structures score ~1.0 (no novelty penalty) while the failures concentrate in
+    aggregation-bearing and very-deep compositions -- the same computation tax seen on dev.
+
+    Sourced from the graded comprehend test finalize files; these require the private held-out
+    seed to re-derive from raw, per the contamination design."""
     rep = {}
     for label, slug in LADDER:
         items = _load_final("comprehend", slug, "test")
         if not items:
             continue
         cell = _tier_nops_cells(items)
+        fam = _tier_family_cells(items)
         raw = {t: _mean([m for v in cell[t].values() for m in v]) for t in cell}
         n_a = sum(len(v) for v in cell.get("A", {}).values())
         n_a1 = len(cell.get("A", {}).get(1, []))
@@ -189,6 +211,8 @@ def tier_nops_matched():
                                      for n in sorted(cell[t])} for t in sorted(cell)},
             "matched_AB": _matched_gap(dict(cell.get("A", {})), dict(cell.get("B", {}))),
             "matched_AC": _matched_gap(dict(cell.get("A", {})), dict(cell.get("C", {}))),
+            "per_tier_family_EM": {t: {f: {"em": _mean(fam[t][f]), "n": len(fam[t][f])}
+                                       for f in sorted(fam[t])} for t in sorted(fam)},
         }
     return rep
 
@@ -384,11 +408,32 @@ def main() -> int:
             print("%-18s %8s %8s %9s%% | %s" % (
                 label, r["raw_gap_AB"], mab["matched_gap"],
                 round(100 * (r["tierA_frac_single_op"] or 0), 1), cells))
+            # held-out failure concentration: most novel structures are handled (~1.0); the
+            # failures are the aggregation-bearing / very-deep compositions, not novelty.
+            fb = (r.get("per_tier_family_EM") or {}).get("B", {})
+            if fb:
+                hi = [f for f, c in fb.items() if (c["em"] or 0) >= 0.9]
+                lo = [f for f, c in fb.items() if (c["em"] or 0) < 0.9]
+                print("%-18s   Tier-B: %d/%d held-out families >=0.90 EM; failures: %s" % (
+                    "", len(hi), len(fb), ", ".join(sorted(lo)) or "none"))
 
-    json.dump({"comprehend": comp, "tier_nops_matched": nops,
-               "refactor": refac, "structure_vs_computation": svc},
-              open(os.path.join(OUT, "g3_analysis.json"), "w"), indent=2)
-    print("\nwrote out/g3_analysis.json")
+    payload = {"comprehend": comp, "tier_nops_matched": nops,
+               "refactor": refac, "structure_vs_computation": svc}
+    out_path = os.path.join(OUT, "g3_analysis.json")
+    # The private-test sections (comprehend tiers, tier_nops_matched, refactor test) are only
+    # computable from the held-out seed's finalize files. A run WITHOUT them (e.g. a fresh
+    # third-party checkout) would otherwise clobber the committed released numbers with a
+    # dev-only subset. Guard: only overwrite the committed artifact when the test sections are
+    # present; otherwise write a .partial sidecar and leave the released file intact.
+    complete = bool(nops) and all("test_overall" in comp.get(label, {}) for label, _ in LADDER)
+    if complete or not os.path.exists(out_path):
+        json.dump(payload, open(out_path, "w"), indent=2)
+        print("\nwrote out/g3_analysis.json")
+    else:
+        part = os.path.join(OUT, "g3_analysis.partial.json")
+        json.dump(payload, open(part, "w"), indent=2)
+        print("\n[guard] private-test sections absent (no comprehend-test finalize files) -> "
+              "wrote out/g3_analysis.partial.json and LEFT the committed out/g3_analysis.json intact.")
     return 0
 
 

@@ -211,6 +211,134 @@
         "B_mean_shared": 0.4929,
         "matched_gap": 0.0144,
         "coverage": 0.7
+      },
+      "per_tier_family_EM": {
+        "A": {
+          "agg_stats": {
+            "em": 0.0187,
+            "n": 300
+          },
+          "allowlist": {
+            "em": 0.8583,
+            "n": 360
+          },
+          "config_resolver": {
+            "em": 0.8368,
+            "n": 360
+          },
+          "discovery_pipeline": {
+            "em": 0.7097,
+            "n": 90
+          },
+          "fsm_transition": {
+            "em": 0.1486,
+            "n": 90
+          },
+          "status_router": {
+            "em": 0.9139,
+            "n": 90
+          },
+          "threshold_select": {
+            "em": 0.2887,
+            "n": 210
+          }
+        },
+        "B": {
+          "tierB_agg_cond": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_agg_cond_lookup": {
+            "em": 0.1333,
+            "n": 15
+          },
+          "tierB_agg_lookup": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_agg_lookup_member": {
+            "em": 0.7333,
+            "n": 15
+          },
+          "tierB_dual_agg_dual_cond": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_dual_cond_lookup": {
+            "em": 0.0583,
+            "n": 15
+          },
+          "tierB_dual_member_cond": {
+            "em": 0.675,
+            "n": 15
+          },
+          "tierB_member_agg": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_member_cond": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_member_cond_lookup": {
+            "em": 0.9833,
+            "n": 15
+          },
+          "tierB_penta": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_quad": {
+            "em": 0.4,
+            "n": 15
+          },
+          "tierB_select_lookup": {
+            "em": 0.0667,
+            "n": 15
+          },
+          "tierB_stats_flag": {
+            "em": 0.0,
+            "n": 15
+          }
+        },
+        "C": {
+          "tierC_cond_cascade": {
+            "em": 0.0,
+            "n": 30
+          },
+          "tierC_deep_chain": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierC_huge_agg": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierC_huge_agg_xl": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierC_huge_allow": {
+            "em": 0.9167,
+            "n": 15
+          },
+          "tierC_huge_allow_xl": {
+            "em": 0.925,
+            "n": 15
+          },
+          "tierC_huge_cfg": {
+            "em": 0.9333,
+            "n": 15
+          },
+          "tierC_huge_cfg_mid": {
+            "em": 0.675,
+            "n": 15
+          },
+          "tierC_very_deep": {
+            "em": 0.0,
+            "n": 15
+          }
+        }
       }
     },
     "Mistral-24B": {
@@ -370,6 +498,134 @@
         "B_mean_shared": 0.5429,
         "matched_gap": 0.0522,
         "coverage": 0.7
+      },
+      "per_tier_family_EM": {
+        "A": {
+          "agg_stats": {
+            "em": 0.0892,
+            "n": 300
+          },
+          "allowlist": {
+            "em": 0.9663,
+            "n": 356
+          },
+          "config_resolver": {
+            "em": 0.9778,
+            "n": 360
+          },
+          "discovery_pipeline": {
+            "em": 1.0,
+            "n": 90
+          },
+          "fsm_transition": {
+            "em": 0.6333,
+            "n": 90
+          },
+          "status_router": {
+            "em": 1.0,
+            "n": 89
+          },
+          "threshold_select": {
+            "em": 0.6535,
+            "n": 202
+          }
+        },
+        "B": {
+          "tierB_agg_cond": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_agg_cond_lookup": {
+            "em": 0.9417,
+            "n": 15
+          },
+          "tierB_agg_lookup": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_agg_lookup_member": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierB_dual_agg_dual_cond": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_dual_cond_lookup": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierB_dual_member_cond": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierB_member_agg": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_member_cond": {
+            "em": 0.425,
+            "n": 15
+          },
+          "tierB_member_cond_lookup": {
+            "em": 0.8917,
+            "n": 15
+          },
+          "tierB_penta": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_quad": {
+            "em": 0.9333,
+            "n": 15
+          },
+          "tierB_select_lookup": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierB_stats_flag": {
+            "em": 0.0,
+            "n": 15
+          }
+        },
+        "C": {
+          "tierC_cond_cascade": {
+            "em": 0.2333,
+            "n": 30
+          },
+          "tierC_deep_chain": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierC_huge_agg": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierC_huge_agg_xl": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierC_huge_allow": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierC_huge_allow_xl": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierC_huge_cfg": {
+            "em": 0.8,
+            "n": 15
+          },
+          "tierC_huge_cfg_mid": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierC_very_deep": {
+            "em": 0.0,
+            "n": 15
+          }
+        }
       }
     },
     "Llama-3.3-70B": {
@@ -529,6 +785,134 @@
         "B_mean_shared": 0.5714,
         "matched_gap": 0.184,
         "coverage": 0.7
+      },
+      "per_tier_family_EM": {
+        "A": {
+          "agg_stats": {
+            "em": 0.1054,
+            "n": 300
+          },
+          "allowlist": {
+            "em": 1.0,
+            "n": 360
+          },
+          "config_resolver": {
+            "em": 1.0,
+            "n": 360
+          },
+          "discovery_pipeline": {
+            "em": 1.0,
+            "n": 90
+          },
+          "fsm_transition": {
+            "em": 0.7333,
+            "n": 90
+          },
+          "status_router": {
+            "em": 1.0,
+            "n": 90
+          },
+          "threshold_select": {
+            "em": 0.747,
+            "n": 210
+          }
+        },
+        "B": {
+          "tierB_agg_cond": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_agg_cond_lookup": {
+            "em": 0.2083,
+            "n": 15
+          },
+          "tierB_agg_lookup": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_agg_lookup_member": {
+            "em": 0.9917,
+            "n": 15
+          },
+          "tierB_dual_agg_dual_cond": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_dual_cond_lookup": {
+            "em": 0.8667,
+            "n": 15
+          },
+          "tierB_dual_member_cond": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierB_member_agg": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_member_cond": {
+            "em": 0.0,
+            "n": 14
+          },
+          "tierB_member_cond_lookup": {
+            "em": 0.9333,
+            "n": 15
+          },
+          "tierB_penta": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_quad": {
+            "em": 0.9333,
+            "n": 15
+          },
+          "tierB_select_lookup": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierB_stats_flag": {
+            "em": 0.0,
+            "n": 15
+          }
+        },
+        "C": {
+          "tierC_cond_cascade": {
+            "em": 0.0,
+            "n": 30
+          },
+          "tierC_deep_chain": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierC_huge_agg": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierC_huge_agg_xl": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierC_huge_allow": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierC_huge_allow_xl": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierC_huge_cfg": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierC_huge_cfg_mid": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierC_very_deep": {
+            "em": 0.0,
+            "n": 15
+          }
+        }
       }
     },
     "DeepSeek-V4-Flash": {
@@ -688,6 +1072,134 @@
         "B_mean_shared": 0.5714,
         "matched_gap": 0.2302,
         "coverage": 0.7
+      },
+      "per_tier_family_EM": {
+        "A": {
+          "agg_stats": {
+            "em": 0.2708,
+            "n": 300
+          },
+          "allowlist": {
+            "em": 1.0,
+            "n": 360
+          },
+          "config_resolver": {
+            "em": 1.0,
+            "n": 360
+          },
+          "discovery_pipeline": {
+            "em": 1.0,
+            "n": 90
+          },
+          "fsm_transition": {
+            "em": 0.5736,
+            "n": 90
+          },
+          "status_router": {
+            "em": 1.0,
+            "n": 90
+          },
+          "threshold_select": {
+            "em": 0.9917,
+            "n": 210
+          }
+        },
+        "B": {
+          "tierB_agg_cond": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_agg_cond_lookup": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierB_agg_lookup": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_agg_lookup_member": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierB_dual_agg_dual_cond": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_dual_cond_lookup": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierB_dual_member_cond": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierB_member_agg": {
+            "em": 0.0167,
+            "n": 15
+          },
+          "tierB_member_cond": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierB_member_cond_lookup": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierB_penta": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierB_quad": {
+            "em": 0.9833,
+            "n": 15
+          },
+          "tierB_select_lookup": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierB_stats_flag": {
+            "em": 0.0,
+            "n": 15
+          }
+        },
+        "C": {
+          "tierC_cond_cascade": {
+            "em": 1.0,
+            "n": 30
+          },
+          "tierC_deep_chain": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierC_huge_agg": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierC_huge_agg_xl": {
+            "em": 0.0,
+            "n": 15
+          },
+          "tierC_huge_allow": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierC_huge_allow_xl": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierC_huge_cfg": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierC_huge_cfg_mid": {
+            "em": 1.0,
+            "n": 15
+          },
+          "tierC_very_deep": {
+            "em": 0.0,
+            "n": 15
+          }
+        }
       }
     }
   },
