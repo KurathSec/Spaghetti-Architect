@@ -22,6 +22,7 @@ import collections
 import gzip
 import json
 import os
+import random
 import sys
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
@@ -69,6 +70,26 @@ def _scale_of(rec: dict):
     return intr[ks[0]] if ks else None
 
 
+def _cluster_ci95(clusters, n_boot=4000, seed=20260619):
+    """Base-IR-clustered bootstrap 95% CI for the overall exact match. Each cluster is one
+    (sample, variant) program logic; its profile x language renderings are correlated, so we
+    resample whole clusters (cluster-robust) rather than items, which would understate the
+    interval. Deterministic given the seed."""
+    groups = [g for g in clusters.values() if g]
+    if not groups:
+        return None
+    rng = random.Random(seed)
+    n = len(groups)
+    means = []
+    for _ in range(n_boot):
+        pool = []
+        for _ in range(n):
+            pool.extend(groups[rng.randrange(n)])
+        means.append(sum(pool) / len(pool))
+    means.sort()
+    return [round(means[int(0.025 * n_boot)], 4), round(means[int(0.975 * n_boot)], 4)]
+
+
 def main() -> int:
     sp = D.load("dev")
     stem_fam = {it.stem: it.family for it in sp.items}
@@ -91,6 +112,7 @@ def main() -> int:
         per_lang = collections.defaultdict(list)
         per_profile = collections.defaultdict(list)
         by_fam_scale = collections.defaultdict(lambda: collections.defaultdict(list))
+        clusters = collections.defaultdict(list)  # (sample,variant) -> item EMs (cluster bootstrap)
         all_em = []
         for rec in recs:
             raw = rec.get("raw_outputs")
@@ -98,6 +120,7 @@ def main() -> int:
                 continue
             em, fam = grade(rec)
             per_fam[fam].append(em); all_em.append(em)
+            clusters[(rec.get("sample"), rec.get("variant", "base"))].append(em)
             per_lang[rec.get("language", "?")].append(em)
             per_profile[rec.get("profile", "?")].append(em)
             sc = _scale_of(rec)
@@ -107,6 +130,7 @@ def main() -> int:
         overall[label] = {
             "slug": slug, "n": len(all_em),
             "overall_exact_match": _mean(all_em) if all_em else None,
+            "overall_exact_match_ci95": _cluster_ci95(clusters),
             "per_family": {f: _mean(v) for f, v in sorted(per_fam.items())},
             "by_language": {L: _mean(v) for L, v in sorted(per_lang.items())},
             "by_profile": {p: _mean(per_profile[p])

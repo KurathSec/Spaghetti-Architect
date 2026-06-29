@@ -59,9 +59,9 @@ machine-readable record for the same split is in [`croissant.json`](croissant.js
 - **Determinism.** Generation is byte-deterministic given the seed.
 - **Held-out `test` split.** Re-mints numeric literals from a private seed and applies
   a structure-preserving, one-way (SHA-256) string salt (held-out **Tier A**), adding
-  held-out structural shapes (**Tier B**) and out-of-distribution compositions
-  (**Tier C**). The held-out seed is scrubbed to `PRIVATE` and never written to any
-  artifact.
+  held-out structural shapes (**Tier B**) and out-of-distribution compositions (deeper
+  op-chains and out-of-range scales, **Tier C**). The held-out seed is scrubbed to
+  `PRIVATE` and never written to any artifact.
 
 ## Preprocessing / Labelling
 
@@ -98,6 +98,11 @@ machine-readable record for the same split is in [`croissant.json`](croissant.js
 - **DOI.** A persistent Zenodo concept DOI is assigned to the artifact:
   [10.5281/zenodo.21033174](https://doi.org/10.5281/zenodo.21033174). It always
   resolves to the latest archived version.
+- **Author statement & licensing.** The author confirms the generator and the public
+  `dev` split are released under the MIT License (see `LICENSE`); the data are wholly
+  synthetic and infringe no third-party rights, and the author bears responsibility for
+  any rights violation. MIT covers both the generator and the synthetic data records (a
+  permissive grant equivalent in effect to CC-BY/CC0 for the data).
 
 ## Maintenance
 

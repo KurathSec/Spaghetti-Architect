@@ -3,6 +3,10 @@
     "slug": "meta-llama-Meta-Llama-3.1-8B-Instruct",
     "n": 1500,
     "overall_exact_match": 0.5524,
+    "overall_exact_match_ci95": [
+      0.4733,
+      0.6302
+    ],
     "per_family": {
       "agg_stats": 0.0,
       "allowlist": 0.901,
@@ -29,6 +33,10 @@
     "slug": "mistralai-Mistral-Small-3.2-24B-Instruct-2506",
     "n": 1500,
     "overall_exact_match": 0.7382,
+    "overall_exact_match_ci95": [
+      0.6501,
+      0.8211
+    ],
     "per_family": {
       "agg_stats": 0.1017,
       "allowlist": 0.9993,
@@ -55,6 +63,10 @@
     "slug": "meta-llama-Llama-3.3-70B-Instruct-Turbo",
     "n": 1500,
     "overall_exact_match": 0.7685,
+    "overall_exact_match_ci95": [
+      0.6858,
+      0.8468
+    ],
     "per_family": {
       "agg_stats": 0.0912,
       "allowlist": 0.9997,
@@ -81,6 +93,10 @@
     "slug": "deepseek-ai-DeepSeek-V4-Flash",
     "n": 1500,
     "overall_exact_match": 0.8385,
+    "overall_exact_match_ci95": [
+      0.7651,
+      0.9018
+    ],
     "per_family": {
       "agg_stats": 0.3304,
       "allowlist": 1.0,
