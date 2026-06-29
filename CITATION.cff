@@ -1,7 +1,7 @@
 # Citation metadata (https://citation-file-format.github.io/).
 cff-version: 1.2.0
 message: "If you use Spaghetti Architect or its dataset, please cite it as below."
-title: "Spaghetti Architect: a by-construction-labelled, contamination-resistant, multi-language code dataset generator"
+title: "Spaghetti Architect: A Contamination-Resistant, By-Construction-Labelled, Multi-Language Code Dataset Generator"
 abstract: >-
   Spaghetti Architect maps a clean JSON intermediate representation to deliberately
   redundant, fully-flattened, yet provably-correct code in Python, JavaScript, Go,
