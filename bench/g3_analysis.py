@@ -22,13 +22,20 @@ Usage: python3 bench/g3_analysis.py
 from __future__ import annotations
 
 import collections
+import gzip
 import json
 import os
 import re
+import sys
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
+_ROOT = os.path.dirname(_HERE)
+if _ROOT not in sys.path:  # so the lazy gz re-grade can import bench.tasks
+    sys.path.insert(0, _ROOT)
+
 SUB = os.path.join(_HERE, "out", "subagent")
 OUT = os.path.join(_HERE, "out")
+G3_DATA = os.path.join(_HERE, "out", "g3")  # committed compact gzipped raw completions
 
 # label -> on-disk slug (model id with '/' -> '-')
 LADDER = [
@@ -112,6 +119,80 @@ def comprehend_report():
     return rows
 
 
+def _nops(rec) -> object:
+    return (rec.get("intrinsic") or {}).get("n_ops")
+
+
+def _tier_nops_cells(items):
+    """(tier -> n_ops -> [per-item EM]) for the comprehend test items."""
+    cell = collections.defaultdict(lambda: collections.defaultdict(list))
+    for r in items:
+        m, n = _metric(r), _nops(r)
+        if m is None or n is None:
+            continue
+        cell[_tier(r)][n].append(m)
+    return cell
+
+
+def _matched_gap(cell_a: dict, cell_b: dict) -> dict:
+    """The op-count-matched (directly standardized) Tier-A minus Tier-B accuracy gap.
+
+    The raw A-B gap is confounded: the tiers do not share an n_ops mix (Tier A is mostly
+    trivial single-op items; Tier B has none). We re-weight Tier-A's per-n_ops EM by Tier-B's
+    own n_ops distribution over the strata both tiers populate, then subtract Tier-B's mean on
+    those strata. The result isolates "is A more accurate at a FIXED op count" from "does A
+    just contain easier op counts". ``coverage`` is the fraction of Tier-B items that fall in
+    shared strata (the standardization's support)."""
+    shared = sorted(set(cell_a) & set(cell_b), key=lambda x: (x is None, x))
+    per, a_std, b_obs, nb = {}, 0.0, 0.0, 0
+    for n in shared:
+        a, b = cell_a[n], cell_b[n]
+        ma, mb = sum(a) / len(a), sum(b) / len(b)
+        per[str(n)] = {"A": round(ma, 4), "B": round(mb, 4), "gap": round(ma - mb, 4),
+                       "nA": len(a), "nB": len(b)}
+        a_std += len(b) * ma
+        b_obs += len(b) * mb
+        nb += len(b)
+    nb_total = sum(len(v) for v in cell_b.values())
+    return {
+        "per_nops": per,
+        "A_std_under_B_mix": round(a_std / nb, 4) if nb else None,
+        "B_mean_shared": round(b_obs / nb, 4) if nb else None,
+        "matched_gap": round((a_std - b_obs) / nb, 4) if nb else None,
+        "coverage": round(nb / nb_total, 4) if nb_total else 0.0,
+    }
+
+
+def tier_nops_matched():
+    """Decompose the comprehend test A>B/C tier gaps into op-count composition vs a true
+    accuracy difference (the 'shown evidence' for the resource/limitations claim that the
+    cross-tier gap is operation-type composition + the agg_stats computation tax, NOT a
+    novelty penalty). For each model emits: the raw per-tier EM and gaps, the Tier-A
+    single-op fraction, the full per-(tier, n_ops) EM grid, and the n_ops-matched A-B / A-C
+    gaps (see _matched_gap). Sourced from the graded comprehend test finalize files; these
+    require the private held-out seed to re-derive from raw, per the contamination design."""
+    rep = {}
+    for label, slug in LADDER:
+        items = _load_final("comprehend", slug, "test")
+        if not items:
+            continue
+        cell = _tier_nops_cells(items)
+        raw = {t: _mean([m for v in cell[t].values() for m in v]) for t in cell}
+        n_a = sum(len(v) for v in cell.get("A", {}).values())
+        n_a1 = len(cell.get("A", {}).get(1, []))
+        rep[label] = {
+            "raw_tier_EM": {t: raw[t] for t in sorted(raw)},
+            "raw_gap_AB": round(raw["A"] - raw["B"], 4) if {"A", "B"} <= set(raw) else None,
+            "raw_gap_AC": round(raw["A"] - raw["C"], 4) if {"A", "C"} <= set(raw) else None,
+            "tierA_frac_single_op": round(n_a1 / n_a, 4) if n_a else None,
+            "per_tier_nops_EM": {t: {str(n): {"em": _mean(cell[t][n]), "n": len(cell[t][n])}
+                                     for n in sorted(cell[t])} for t in sorted(cell)},
+            "matched_AB": _matched_gap(dict(cell.get("A", {})), dict(cell.get("B", {}))),
+            "matched_AC": _matched_gap(dict(cell.get("A", {})), dict(cell.get("C", {}))),
+        }
+    return rep
+
+
 def _refactor_agg(items):
     """tier -> {recovered, semok, uq} score lists; plus agg_stats W -> {recovered, semok}.
     The refactor headline is recovered_rate (equivalent AND within the optimality band);
@@ -141,18 +222,52 @@ def _refactor_agg(items):
     return tier, agg_W
 
 
+def _regrade_refactor_gz(path: str) -> list:
+    """Re-grade refactor raw completions from a committed out/g3/*.jsonl.gz with ZERO API
+    (it re-runs the validator/oracle on the persisted model outputs). Mirrors
+    ladder_analysis.py's gz re-grade for the comprehend ladder. ``recovered_rate`` and
+    ``semantic_ok_rate`` reproduce on the base interpreter; ``uniform_quality`` needs the
+    metrics venv (lizard/radon) and is otherwise null -- the same scope ladder_analysis has."""
+    from bench import tasks as T  # lazy: pulls in the engine + grader stack only when needed
+    items = []
+    with gzip.open(path, "rt") as fh:
+        for line in fh:
+            if not line.strip():
+                continue
+            rec = json.loads(line)
+            rec.setdefault("split", "dev")
+            items.append(T.regrade_refactor_record(rec))
+    return items
+
+
+def _load_refactor(slug: str, split: str):
+    """(items, run_meta) for one model's refactor split. Prefer the already-graded finalize
+    JSON under out/subagent/ (fast); if absent and split == 'dev', re-grade the committed raw
+    completions under out/g3/ so the refactor x dev ladder reproduces from version control
+    without the large finalize JSONs. refactor x test is NOT VC-reproducible: rebuilding its
+    oracle needs the private held-out seed (the contamination design, see out/g3/README.md),
+    so for test we only read an existing finalize file."""
+    suff = "" if split == "dev" else f"__{split}"
+    f = os.path.join(SUB, f"refactor__{slug}{suff}.json")
+    if os.path.exists(f):
+        full = json.load(open(f))
+        return full.get("items", []), full.get("run_meta", {})
+    if split == "dev":
+        g = os.path.join(G3_DATA, f"refactor_dev__{slug}.jsonl.gz")
+        if os.path.exists(g):
+            its = _regrade_refactor_gz(g)
+            return its, {"n_errors": 0, "n_items": len(its), "source": "gz-regrade"}
+    return None, None
+
+
 def refactor_report():
     rows = {}
     for label, slug in LADDER:
         row = {}
         for split in ("dev", "test"):
-            suff = "" if split == "dev" else f"__{split}"
-            f = os.path.join(SUB, f"refactor__{slug}{suff}.json")
-            if not os.path.exists(f):
+            items, rm = _load_refactor(slug, split)
+            if items is None:
                 continue
-            full = json.load(open(f))
-            items = full.get("items", [])
-            rm = full.get("run_meta", {})
             n_err, n_it = rm.get("n_errors", 0), rm.get("n_items", len(items))
             tier, agg_W = _refactor_agg(items)
             # A batch that ran out of API balance mid-run leaves mostly error stubs; flag
@@ -186,7 +301,7 @@ def structure_vs_computation():
     scaling = json.load(open(os.path.join(OUT, "ladder_scaling.json")))  # comprehend dev EM by W
     rep = {}
     for label, slug in LADDER:
-        items = _load_final("refactor", slug, "dev")
+        items, _ = _load_refactor(slug, "dev")
         if not items:
             continue
         agg = [it for it in items if _family(it.get("sample", "")) == "agg_stats"]
@@ -207,6 +322,7 @@ def structure_vs_computation():
 
 def main() -> int:
     comp = comprehend_report()
+    nops = tier_nops_matched()
     refac = refactor_report()
     svc = structure_vs_computation()
     print("=== comprehend: dev vs private-test by novelty tier ===")
@@ -255,7 +371,22 @@ def main() -> int:
         print("%-18s comprehend EM: %-28s | refactor semok: %-28s" % (label, comp_str, sem_str))
         print("%-18s   (recovered_rate is a python-lane artifact: %s)" % ("", s["refactor_recovered_by_language"]))
 
-    json.dump({"comprehend": comp, "refactor": refac, "structure_vs_computation": svc},
+    if nops:
+        print("\n=== tier gap vs op-count composition (comprehend test): A>B is op-count, not novelty ===")
+        print("%-18s %8s %8s %10s | %s" % ("model", "raw A-B", "matched", "A 1-op%", "per-n_ops A/B (gap)"))
+        for label, _ in LADDER:
+            r = nops.get(label)
+            if not r:
+                continue
+            mab = r["matched_AB"]
+            cells = " ".join("n%s:%.2f/%.2f(%+.2f)" % (n, c["A"], c["B"], c["gap"])
+                             for n, c in mab["per_nops"].items())
+            print("%-18s %8s %8s %9s%% | %s" % (
+                label, r["raw_gap_AB"], mab["matched_gap"],
+                round(100 * (r["tierA_frac_single_op"] or 0), 1), cells))
+
+    json.dump({"comprehend": comp, "tier_nops_matched": nops,
+               "refactor": refac, "structure_vs_computation": svc},
               open(os.path.join(OUT, "g3_analysis.json"), "w"), indent=2)
     print("\nwrote out/g3_analysis.json")
     return 0

@@ -65,9 +65,11 @@ scores agree across the ladder (comprehension exact match within $|\Delta|\le0.0
 refactor semantic equivalence within $\Delta\approx0.0001$ at the strongest tested model), so the held-out
 re-mint shows no measured contamination gap. Two caveats follow: the A/B/C tiers buy
 contamination-resistance (regenerable held-out structures), not a novelty or
-distribution-shift probe (on our reference baselines the cross-tier differences are
-consistent with operation-type composition, and clean out-of-distribution controls show
-essentially no degradation --- supporting evidence for this reading rather than proof); and
+distribution-shift probe (on our reference baselines, standardizing on operation count
+shrinks the cross-tier Tier-A$-$Tier-B accuracy gap by $60$--$90\%$ and reverses it at
+matched operation count, and clean out-of-distribution controls show essentially no
+degradation, so the residual cross-tier differences are operation-count composition plus
+the \texttt{agg\_stats} computation tax rather than novelty); and
 the held-out seed and Tier B/C structures are deliberately withheld,
 which is a freshness trade-off, not an oversight.
 

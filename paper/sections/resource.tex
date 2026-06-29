@@ -258,10 +258,14 @@ B} (structural held-out) keeps the operation-chain \emph{shapes} private, defeat
 memorization of structure. \textbf{Tier C} (scale/depth held-out) uses deeper chains and
 out-of-range scales, regenerating structures outside the public split's scale and depth
 range so they cannot have been memorized verbatim. What the tiers certify is freshness,
-not generalization: empirically the across-tier accuracy differences are \emph{consistent
-with} operation-type composition (Tier~A is over half single-operation items, of which
-Tier~B has none) and the \texttt{agg\_stats} computation tax (\Cref{sec:baselines}), rather
-than a novelty penalty; consistent with this, clean
+not generalization: the across-tier accuracy differences are \emph{operation-count
+composition} (Tier~A is over half single-operation items, of which Tier~B has none) plus
+the \texttt{agg\_stats} computation tax (\Cref{sec:baselines}), not a novelty penalty.
+Directly standardizing Tier~A's exact match onto Tier~B's operation-count distribution
+shrinks the mean Tier-A$-$Tier-B gap by $60$--$90\%$ across all four reference models and
+\emph{reverses} its sign at the shared three-operation stratum, where Tier~B is the more
+accurate tier; the full per-(tier, operation-count) decomposition is released in the
+analysis artifact (\texttt{g3\_analysis.json}). Consistent with this, clean
 controls that hold operation type fixed (out-of-range scale on lookups and membership,
 out-of-range depth on conditional cascades) show essentially no degradation. The
 contamination signal is instead the \emph{matched} comparison: re-minting the same
