@@ -88,3 +88,8 @@ bench/out/subagent/*.partial.jsonl
 
 # local Claude Code project file (not part of the artifact)
 CLAUDE.md
+
+# regenerable selftest mock fixtures (bench/run_bench.py --selftest); real results live in bench/out/{ladder,g3}/
+bench/out/subagent/*mock*.json
+# local review/audit notes — not part of the shipped artifact
+/DMLR_REVIEW_AUDIT.md
