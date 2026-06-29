@@ -7,13 +7,16 @@ graded results can be re-derived without re-querying any model. Each line is one
 Models (capability order): Meta-Llama-3.1-8B, Mistral-Small-3.2-24B, Llama-3.3-70B, DeepSeek-V4-Flash.
 Grid: comprehend on the private **test** split (3 held-out tiers), refactor on **dev** and **test**.
 
-Reproduce. The **dev**-split reference numbers re-grade with **zero API** from version control
-(`python3 bench/ladder_analysis.py` re-grades the committed `../ladder/*.jsonl.gz` against the public
-oracle). The **private-test** numbers (the Tier-A contamination check and the A/B/C tiers) require the
-held-out seed `BENCH_HELDOUT_SEED` to regenerate the test oracle: by the contamination design they are
-reproducible by the maintainer (who holds the seed) and regenerable-equivalent by anyone from a fresh
-seed, not byte-reproducible from version control alone. `bench/g3_analysis.py` aggregates per-item
-grades from the finalize files under `bench/out/subagent/` (large, not committed).
+Reproduce. The **dev**-split reference numbers re-grade with **zero API** from version control:
+`python3 bench/ladder_analysis.py` re-grades the committed comprehend `../ladder/*.jsonl.gz`, and
+`python3 bench/g3_analysis.py` re-grades the **refactor×dev** ladder from the committed
+`refactor_dev__*.jsonl.gz` here (it reads the large finalize files under `bench/out/subagent/` when
+present, else falls back to re-grading these raw completions — `recovered`/`semantic_ok` reproduce on
+the base interpreter; `uniform_quality` additionally needs the metrics venv). The **private-test**
+numbers (the Tier-A contamination check, the A/B/C tiers, and the n_ops-matched tier decomposition)
+require the held-out seed `BENCH_HELDOUT_SEED` to regenerate the test oracle: by the contamination
+design they are reproducible by the maintainer (who holds the seed) and regenerable-equivalent by
+anyone from a fresh seed, not byte-reproducible from version control alone.
 
 ## Verified findings (adversarial 8-agent re-derivation, 2026-06-29)
 
