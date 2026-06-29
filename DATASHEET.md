@@ -58,7 +58,7 @@ machine-readable record for the same split is in [`croissant.json`](croissant.js
   sample can never be included.
 - **Determinism.** Generation is byte-deterministic given the seed.
 - **Held-out `test` split.** Re-mints numeric literals from a private seed and applies
-  a structure-preserving, one-way (SHA-256) string salt (novelty **Tier A**), adding
+  a structure-preserving, one-way (SHA-256) string salt (held-out **Tier A**), adding
   held-out structural shapes (**Tier B**) and out-of-distribution compositions
   (**Tier C**). The held-out seed is scrubbed to `PRIVATE` and never written to any
   artifact.
@@ -76,7 +76,7 @@ machine-readable record for the same split is in [`croissant.json`](croissant.js
 
 - **Intended ML uses:**
   1. **Contamination-controlled LLM evaluation** — score on `dev` for reproducibility,
-     then on the private `test` split, graded by novelty tier, to measure the
+     then on the private `test` split, graded by held-out tier, to measure the
      memorization gap.
   2. **Training and probing** of code models on a controlled, by-construction-labelled
      signal (refactoring targets, quality ranking, output prediction).
@@ -95,9 +95,9 @@ machine-readable record for the same split is in [`croissant.json`](croissant.js
   described by this datasheet, the Croissant record (`croissant.json`), and the paper
   appendix. The public `dev` split is in the repository; the `test` split is private
   and withheld by design.
-- **DOI.** TODO: mint a Zenodo archival DOI for the tagged release and fill it into
-  `CITATION.cff`, `codemeta.json`, `croissant.json`, and the paper — this is a
-  maintainer action.
+- **DOI.** A persistent Zenodo concept DOI is assigned to the artifact:
+  [10.5281/zenodo.21033174](https://doi.org/10.5281/zenodo.21033174). It always
+  resolves to the latest archived version.
 
 ## Maintenance
 

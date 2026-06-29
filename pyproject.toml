@@ -4,13 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spaghetti-architect"
-version = "0.2.0"
+version = "0.2.1"
 description = "An anti-optimization transpiler: a clean JSON IR mapped to deliberately redundant but provably-correct code in Python, JavaScript, Go, Java, and C++, gated by a compile-run oracle."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { file = "LICENSE" }
-# TODO (camera-ready): MSR is single-anonymous — set your real name + email here.
-authors = [{ name = "Kurath" }]
+authors = [{ name = "Yuxiang Ji", email = "kurathandrew@gmail.com" }]
 keywords = [
   "anti-optimization",
   "code generation",

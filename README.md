@@ -180,7 +180,7 @@ Llama-3.3-70B · DeepSeek-V4-Flash), every score graded against the oracle/valid
 
 Two things fall out. **(1) No measured contamination gap.** Exact-match on the private
 held-out test (Tier A) tracks dev EM across the whole ladder (0.557 / 0.733 / 0.770 /
-0.827, |Δ|≤0.011), so the by-construction labels are re-minted with fresh secret values
+0.827, |Δ|≤0.012), so the by-construction labels are re-minted with fresh secret values
 rather than memorised. **(2) Structure vs. computation.** On *identical* `agg_stats`
 programs, refactor equivalence stays flat and high as collection width grows while
 comprehend EM collapses toward zero — restructuring the code is width-invariant, but
@@ -307,7 +307,7 @@ performance, floating-point reductions, and general control-flow transpilation.
 ## License
 
 Released under the **MIT License** — see [`LICENSE`](LICENSE).
-Copyright © 2026 Kurath.
+Copyright © 2026 Yuxiang Ji.
 
 ---
 
