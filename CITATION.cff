@@ -13,7 +13,7 @@ abstract: >-
   evaluation, training/probing of code models, and robustness studies (refactoring,
   LLM-as-judge quality, and output-prediction comprehension tasks).
 type: software
-version: "0.2.1"
+version: "0.2.2"
 date-released: "2026-06-29"
 license: "MIT"
 repository-code: "https://github.com/KurathSec/Spaghetti-Architect"

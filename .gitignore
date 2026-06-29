@@ -93,3 +93,6 @@ bench/out/subagent/*mock*.json
 # local review/audit notes — not part of the shipped artifact
 /DMLR_REVIEW_AUDIT.md
 /HANDOFF.md
+
+# Vestigial double-blind anonymizer — DMLR is single-blind; kept local only.
+scripts/anonymize_snapshot.py
