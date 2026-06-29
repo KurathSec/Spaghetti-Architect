@@ -13,19 +13,16 @@ abstract: >-
   evaluation, training/probing of code models, and robustness studies (refactoring,
   LLM-as-judge quality, and output-prediction comprehension tasks).
 type: software
-version: "0.2.0"
-date-released: "2026-06-21"
+version: "0.2.1"
+date-released: "2026-06-29"
 license: "MIT"
 repository-code: "https://github.com/KurathSec/Spaghetti-Architect"
-# Concept DOI (always resolves to the latest archived version).
+# Concept DOI — always resolves to the latest archived version (so it survives releases).
 doi: "10.5281/zenodo.21033174"
 identifiers:
   - type: doi
     value: "10.5281/zenodo.21033174"
-    description: "Concept DOI — always resolves to the latest version."
-  - type: doi
-    value: "10.5281/zenodo.21033176"
-    description: "Version DOI for the v0.2.0 release."
+    description: "Concept DOI — always resolves to the latest archived version."
 authors:
   - given-names: "Yuxiang"
     family-names: "Ji"

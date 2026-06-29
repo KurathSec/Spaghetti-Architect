@@ -93,9 +93,9 @@ The repo is a **layered monorepo** — one published library and two research la
   small bootstrap shim at the top of each `bench/` module — an intentional choice, not
   an accident, so the published tool stays dependency-free while the layers above carry
   their own optional deps: the LLM client and the anchor tools).
-- The benchmark layer's LLM-as-judge meta-evaluation is **future work**; its seed draft is
-  archived under `archived/benchmark-paper/benchmark.tex` (it needs a paid live run). The
-  near-term write-up is the data-centric resource paper `paper/dmlr.tex`.
+- The benchmark layer's LLM-as-judge meta-evaluation is **future work** (it needs a paid live
+  run). The near-term write-up is a data-centric DMLR resource paper, maintained and published
+  separately from this code+dataset repository.
   *This* document covers the engine both stand on.
 
 ---
@@ -223,12 +223,12 @@ bench/                             # BENCHMARK LAYER (LLM-eval harness — impor
 ├── anchor.py                      # quarantined construct-validity anchors (radon/lizard/cognitive)
 └── run_bench.py                   # CLI: --selftest/--dry-run/--plan/--batch/--aggregate/--report
 
-paper/                             # the DMLR data-centric resource paper (near-term primary)
-archived/benchmark-paper/          # seed draft of the deferred LLM-as-judge benchmark paper (future work)
-archived/msr-toolshowcase/         # the superseded engine-showcase draft
 pyproject.toml · requirements.txt · REQUIREMENTS.md   # packaging + per-layer deps
-CITATION.cff · codemeta.json · LICENSE                # citation metadata + MIT
+CITATION.cff · codemeta.json · croissant.json · LICENSE   # citation/dataset metadata + MIT
 ```
+
+> The DMLR resource paper and the deferred/superseded drafts are maintained **outside** this
+> repository (the public repo is the engine + dataset); the paper carries its own venue DOI.
 
 ---
 
@@ -1285,7 +1285,7 @@ committed.
 > `semantic_ok` stays high and flat as the collection width `W` grows while comprehension EM
 > collapses with `W` — so the dataset cleanly separates a **structural** competence
 > (restructuring, width-invariant) from a **computational** one (list summation, width-sensitive).
-> These are by-construction reference baselines for the resource paper (`paper/dmlr.tex`),
+> These are by-construction reference baselines for the accompanying DMLR resource paper,
 > **not** an LLM-as-judge finding; the held-out split exists for contamination-resistance, not
 > as a generalization/novelty probe.
 
@@ -1293,15 +1293,15 @@ committed.
 > `gen_samples.py`) that `bench/` reuses; a separate de-optimization study that also lives
 > under `eval/` is kept private.
 
-> **Publication.** The near-term primary write-up is the data-centric **resource paper**
-> `paper/dmlr.tex` (a rolling JMLR-family journal, data.mlr.press): the generator, the
-> by-construction-labelled multi-language dataset, label-validity evidence, and reference
-> baselines — publishable **without** the paid live run. The LLM-as-judge meta-evaluation
-> — whether judges track the by-construction ground-truth quality order, with the refactor
-> and comprehension tasks and the contamination protocol alongside — is **future work**; its
-> seed draft is archived under `archived/benchmark-paper/benchmark.tex`, which needs the paid
-> live run, and is emitted (never compiled) by `python3 bench/run_bench.py --report`. The
-> superseded engine-showcase draft now lives in `archived/msr-toolshowcase/`.
+> **Publication.** The near-term primary write-up is a data-centric **resource paper**
+> (DMLR, a rolling JMLR-family journal, data.mlr.press; single-blind / open review): the
+> generator, the by-construction-labelled multi-language dataset, label-validity evidence, and
+> reference baselines — publishable **without** the paid live run. The LLM-as-judge
+> meta-evaluation — whether judges track the by-construction ground-truth quality order, with
+> the refactor and comprehension tasks and the contamination protocol alongside — is **future
+> work** that needs the paid live run; its seed draft is regenerated (never compiled) by
+> `python3 bench/run_bench.py --report`. All manuscripts are maintained and published
+> separately from this code+dataset repository (each carries its own venue DOI).
 
 ---
 

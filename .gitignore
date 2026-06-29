@@ -56,11 +56,15 @@ bench/data/test/
 # Internal working notes (open problems, solutions, submission roadmap) — private.
 bench/notes/
 
-# LaTeX build artifacts — both papers: paper/ (engine/metric-lane write-up) and
-# bench/paper/ (the benchmark paper, emitted by `run_bench.py --report`). Submit the
-# compiled PDF to the venue / arXiv; never commit it. The ACL style files
-# (acl.sty, acl_natbib.bst) ARE meant to be committed if you vendor them for a
-# repo-local build — they are build inputs, not artifacts.
+# The manuscripts live OUTSIDE this public code+dataset artifact and are kept LOCAL only:
+#   paper/      — the DMLR resource paper (published separately: journal / arXiv)
+#   archived/   — superseded + deferred drafts; `run_bench.py --report` regenerates the
+#                 deferred benchmark-paper seed under archived/benchmark-paper/ on demand.
+# The public repo is the engine + dataset; the paper gets its own DOI from the venue.
+paper/
+archived/
+
+# LaTeX build artifacts (for any local paper build).
 *.aux
 *.bbl
 *.bcf
@@ -75,11 +79,6 @@ bench/notes/
 *.synctex.gz
 *.toc
 *.xdv
-paper/*.pdf
-bench/paper/*.pdf
-bench/paper/_build/
-# regenerated draft from `--report` (the committed benchmark.tex is hand-maintained)
-bench/paper/benchmark.generated.tex
 
 # Note: tests/golden/ is intentionally tracked — those are test fixtures.
 
@@ -93,3 +92,4 @@ CLAUDE.md
 bench/out/subagent/*mock*.json
 # local review/audit notes — not part of the shipped artifact
 /DMLR_REVIEW_AUDIT.md
+/HANDOFF.md

@@ -200,13 +200,12 @@ python3 bench/run_bench.py --plan          # the (task × model × family) fan-o
 The near-term write-up *leads* with the **reference baselines** the generator yields — a
 measured capability ladder across a four-model reference set on the comprehend and refactor
 tasks, plus empirical contamination evidence — while the **LLM-as-judge** question (do
-judges track the by-construction ground-truth quality order?) is deferred. The near-term
-write-up is the data-centric **resource paper**
-[`paper/dmlr.tex`](paper/dmlr.tex) (a rolling JMLR-family journal, data.mlr.press),
-covering the generator + by-construction-labelled dataset and publishable **without**
-the paid live run; the full LLM-as-judge design, figures, and bibliography survive only as
-a seed draft archived under [`archived/benchmark-paper/`](archived/benchmark-paper/) ---
-future work that needs that run. See [`bench/`](bench/) and [`REQUIREMENTS.md`](REQUIREMENTS.md).
+judges track the by-construction ground-truth quality order?) is deferred. That write-up is
+a data-centric **resource paper** (DMLR, *data.mlr.press*; single-blind, under review),
+covering the generator + by-construction-labelled dataset and publishable **without** the
+paid live run; the full LLM-as-judge study (design, figures, bibliography) is deferred
+future work that needs that run. The manuscript is published separately from this
+code+dataset repository. See [`bench/`](bench/) and [`REQUIREMENTS.md`](REQUIREMENTS.md).
 
 ---
 

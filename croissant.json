@@ -45,19 +45,9 @@
       "@type": "cr:FileObject",
       "@id": "github-repository",
       "name": "github-repository",
-      "description": "The Spaghetti Architect source repository hosting the dataset (live; the archival snapshot is the zenodo-archive distribution below).",
+      "description": "The Spaghetti Architect repository hosting the dataset. The citeable archival snapshot is the Zenodo deposit under the concept DOI 10.5281/zenodo.21033174, which always resolves to the latest archived version (see citeAs).",
       "contentUrl": "https://github.com/KurathSec/Spaghetti-Architect",
       "encodingFormat": "git+https"
-    },
-    {
-      "@type": "cr:FileObject",
-      "@id": "zenodo-archive",
-      "name": "zenodo-archive",
-      "description": "Citeable archival snapshot of the v0.2.0 release (version DOI 10.5281/zenodo.21033176; concept DOI 10.5281/zenodo.21033174). Contains the full repository tree, including bench/data/dev/ and bench/data/manifest.json.",
-      "contentUrl": "https://zenodo.org/api/records/21033176/files/KurathSec/Spaghetti-Architect-v0.2.0.zip/content",
-      "encodingFormat": "application/zip",
-      "contentSize": "3415596 B",
-      "md5": "5c3d1736c398c416781d71a27d4b71fc"
     },
     {
       "@type": "cr:FileSet",
