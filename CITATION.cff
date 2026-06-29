@@ -17,8 +17,15 @@ version: "0.2.0"
 date-released: "2026-06-21"
 license: "MIT"
 repository-code: "https://github.com/KurathSec/Spaghetti-Architect"
-# TODO (release): mint a Zenodo archival DOI for the tagged release and set it here,
-# e.g.  doi: "10.5281/zenodo.XXXXXXX"  (also add an `identifiers:` block if desired).
+# Concept DOI (always resolves to the latest archived version).
+doi: "10.5281/zenodo.21033174"
+identifiers:
+  - type: doi
+    value: "10.5281/zenodo.21033174"
+    description: "Concept DOI — always resolves to the latest version."
+  - type: doi
+    value: "10.5281/zenodo.21033176"
+    description: "Version DOI for the v0.2.0 release."
 authors:
   - given-names: "Yuxiang"
     family-names: "Ji"

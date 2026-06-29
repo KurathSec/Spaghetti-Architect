@@ -1,5 +1,7 @@
 # 🍝 Spaghetti Architect
 
+[![DOI](https://zenodo.org/badge/1273227056.svg)](https://doi.org/10.5281/zenodo.21033174)
+
 > An **anti-optimization transpiler**: feed it clean logic, get back deliberately
 > redundant, fully flattened — yet syntactically correct and **crash-free** —
 > "spaghetti code" in **Python, JavaScript, Go, Java and C++**.
