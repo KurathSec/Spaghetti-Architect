@@ -129,7 +129,7 @@ bench/
   data/dev/        public split — committed IR instances (50 base + 50 variant, 7 families)
   data/test/       PRIVATE held-out split — gitignored, minted from BENCH_HELDOUT_SEED, never committed
   data/manifest.json   axes, knob ranks, canary, dataset version
-  out/results.json     aggregated results (model rows are MOCK until the live run)
+  out/results.json     aggregated --aggregate output (mock; the real ladder/G3 numbers are in out/ladder + out/g3)
   out/subagent/*.json  per-batch raw outputs (mock + the real non-LLM baselines)
   out/anchor.json      construct-validity anchors (real)
   out/analysis.json    pre-registered inference output
@@ -138,12 +138,13 @@ bench/
 
 ## Status (so results are not misread)
 
-The harness is complete and mock-proven. **Model-under-test numbers are placeholders
-(`mock`, DRY-RUN) awaiting the gated paid live run.** What is *real* today and needs no
-API: the non-LLM **baseline panel** (`--baselines`), the **construct-validity anchors**
-(`anchor.py`), and the executed **inferential pipeline** (`analysis.py`). The
-`out/subagent/*mock*` files are wired placeholders — the file names say `mock`; do not
-read their `1.0` values as model performance.
+The harness is complete and mock-proven, and a cost-capped **capability-ladder live run
+has been done** (real results below; the full LLM-as-judge run remains future work). Also
+real today and needing no API: the non-LLM **baseline panel** (`--baselines`), the
+**construct-validity anchors** (`anchor.py`), and the executed **inferential pipeline**
+(`analysis.py`). The `out/subagent/*mock*` files are regenerable `--selftest` fixtures
+(now gitignored); their names say `mock`, so do not read their `1.0` values as model
+performance.
 
 **Real capability-ladder results now exist** and live in `bench/out/ladder/` and
 `bench/out/g3/` (re-gradable with **zero API spend** via `bench/ladder_analysis.py` and
