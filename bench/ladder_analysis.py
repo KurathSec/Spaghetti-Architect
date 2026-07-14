@@ -23,6 +23,7 @@ import gzip
 import json
 import os
 import random
+import re
 import sys
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
@@ -72,9 +73,11 @@ def _scale_of(rec: dict):
 
 def _cluster_ci95(clusters, n_boot=4000, seed=20260619):
     """Base-IR-clustered bootstrap 95% CI for the overall exact match. Each cluster is one
-    (sample, variant) program logic; its profile x language renderings are correlated, so we
-    resample whole clusters (cluster-robust) rather than items, which would understate the
-    interval. Deterministic given the seed."""
+    base program: its input variants (v0..v4) share the op-chain structure, and its
+    profile x language renderings are all correlated, so we resample whole base programs
+    (cluster-robust) rather than items or (program, variant) pairs, which would understate
+    the interval by treating re-mints of one program as independent. Deterministic given
+    the seed."""
     groups = [g for g in clusters.values() if g]
     if not groups:
         return None
@@ -112,7 +115,7 @@ def main() -> int:
         per_lang = collections.defaultdict(list)
         per_profile = collections.defaultdict(list)
         by_fam_scale = collections.defaultdict(lambda: collections.defaultdict(list))
-        clusters = collections.defaultdict(list)  # (sample,variant) -> item EMs (cluster bootstrap)
+        clusters = collections.defaultdict(list)  # base IR (variants pooled) -> item EMs
         all_em = []
         for rec in recs:
             raw = rec.get("raw_outputs")
@@ -120,7 +123,7 @@ def main() -> int:
                 continue
             em, fam = grade(rec)
             per_fam[fam].append(em); all_em.append(em)
-            clusters[(rec.get("sample"), rec.get("variant", "base"))].append(em)
+            clusters[re.sub(r"_v\d+$", "", rec.get("sample", ""))].append(em)
             per_lang[rec.get("language", "?")].append(em)
             per_profile[rec.get("profile", "?")].append(em)
             sc = _scale_of(rec)

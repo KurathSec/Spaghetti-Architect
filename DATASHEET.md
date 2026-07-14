@@ -74,7 +74,7 @@ machine-readable record for the same split is in [`croissant.json`](croissant.js
   corpus **3 of 3**.
 
   Three honest limits on that. First, this is a **refactoring** result. On comprehension the
-  same ratio is not family-robust at all: it is 3.1× on the full corpus and *inverts* to 0.85×
+  same ratio is not family-robust at all: it is 3.0× on the full corpus and *inverts* to 0.85×
   when `config_resolver` is dropped. Second, on refactoring the weakest-to-strongest ratio
   stays between 6.5× and 9.9× in six of the seven leave-one-family-out fits (the seventh,
   dropping `agg_stats`, prints 73×, but there the strongest model's delta is only −0.003 with

@@ -48,7 +48,7 @@ seventh (dropping `agg_stats`) prints 73x, but there the strongest model's delta
 with an interval spanning zero, so that ratio is a quotient by noise; the script reports
 `all_significant` per fit so it cannot be quoted by accident.
 
-**None of this transfers to comprehension.** There the weak/strong ratio is 3.1x on the full
+**None of this transfers to comprehension.** There the weak/strong ratio is 3.0x on the full
 corpus and *inverts* to 0.85x when `config_resolver` is dropped, and monotonicity fails in
 7 of 7 fits. The differential-inflation result is a refactoring result.
 

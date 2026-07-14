@@ -45,7 +45,7 @@ check on that, and it is not decoration. Three things it kills:
   * the headline rung-separation gain (1/3 -> 3/3) is a whole-corpus effect that dropping
     ALLOWLIST erases entirely (1/3 -> 1/3); three other drops reduce it to 1/3 -> 2/3. It is
     also a threshold on overlapping intervals, so near the boundary it moves with the seed;
-  * on COMPREHEND nothing transfers: the weak/strong ratio is 3.1x on the full corpus and
+  * on COMPREHEND nothing transfers: the weak/strong ratio is 3.0x on the full corpus and
     INVERTS to 0.85x when config_resolver is dropped, and monotonicity fails in 7 of 7 fits.
 
 What IS robust is the refactor gap between the extremes: 6.5x to 9.9x in six of the seven
