@@ -35,11 +35,19 @@ class BaseGenerator(ABC):
     extension: str         # ".py" / ".js" / ...
 
     # ---- Template method: the skeleton, do not override in subclasses ----
-    def generate(self, program: IRProgram, plan: TransformPlan) -> str:
+    def generate(self, program: IRProgram, plan: TransformPlan,
+                 annotate: bool = True) -> str:
+        """``annotate=False`` emits the same code with every comment removed.
+
+        The generators annotate their own output: a module header, a per-operation
+        comment stating the operation's clean form, and inline ``SPAGH_*`` markers.
+        That makes the corpus self-documenting, but it also hands the answer to any
+        model prompted with it, so the unannotated rendering is the control condition.
+        """
         # Stash inputs so body hooks can resolve element/value types by name
         # (the operation carries names, not values).
         self._inputs = dict(program.inputs)
-        e = self.new_emitter()
+        e = self.new_emitter(annotate=annotate)
         self.emit_file_prologue(e, program)
         self.emit_inputs(e, program.inputs)
         for op_plan in plan.per_op:
@@ -67,7 +75,7 @@ class BaseGenerator(ABC):
 
     # ---- Abstract hooks: implemented per language ----
     @abstractmethod
-    def new_emitter(self) -> CodeEmitter: ...
+    def new_emitter(self, annotate: bool = True) -> CodeEmitter: ...
     @abstractmethod
     def emit_file_prologue(self, e: CodeEmitter, program: IRProgram) -> None: ...
     @abstractmethod

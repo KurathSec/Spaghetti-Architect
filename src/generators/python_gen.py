@@ -21,8 +21,8 @@ class PythonGenerator(BaseGenerator):
     language = "python"
     extension = ".py"
 
-    def new_emitter(self) -> CodeEmitter:
-        return CodeEmitter(brace_style=False)
+    def new_emitter(self, annotate: bool = True) -> CodeEmitter:
+        return CodeEmitter(brace_style=False, annotate=annotate)
 
     def lit(self, value: object) -> str:
         return repr(value)

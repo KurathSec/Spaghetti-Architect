@@ -98,6 +98,10 @@ def env_block(cfg: models.Config, split: str) -> dict:
                                            "generator; instances private)",
                                       "C": "distribution shift (shapes public in the "
                                            "generator; instances private)"}},
+        # Which corpus condition this run used. The default corpus is self-annotated
+        # (header + per-op intent comment + SPAGH_* markers), which leaks the answer into
+        # the prompt; "unannotated" is the stripped control. Never compare across these.
+        "corpus_condition": "unannotated" if T.STRIP_ANNOTATIONS else "annotated",
         "prompt_version": P.PROMPT_VERSION,
         "prompt_set_hash": P.prompt_set_hash(),
         "n_paraphrases": P.N_PARAPHRASES,
@@ -124,7 +128,11 @@ def subagent_name(task: str, model: str, family: Optional[str], split: str = "de
     # while a `--split test` batch writes to its own file instead of clobbering dev.
     fam = f"__{family}" if family else ""
     sp = "" if split == "dev" else f"__{split}"
-    return f"{task}__{safe_model}" + fam + sp + ".json"
+    # Same rule for the corpus condition: the annotated (default) runs keep their exact
+    # published names, and a stripped-annotation run writes beside them instead of over
+    # them. The two conditions are different corpora and must never share a file.
+    ann = "__unannotated" if T.STRIP_ANNOTATIONS else ""
+    return f"{task}__{safe_model}" + fam + sp + ann + ".json"
 
 
 def subagent_path(task: str, model: str, family: Optional[str], split: str = "dev") -> str:

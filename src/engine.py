@@ -12,12 +12,25 @@ from .nodes.validator import ValidationResult, validate
 
 
 class Engine:
-    def __init__(self, db_path: str, profile: str = "max") -> None:
+    def __init__(self, db_path: str, profile: str = "max",
+                 annotate: bool = True) -> None:
         self._planner = Planner(db_path, profile)
+        self._annotate = annotate
 
     @property
     def profile(self) -> str:
         return self._planner.profile
+
+    @property
+    def annotate(self) -> bool:
+        """False renders the same programs with every comment stripped.
+
+        The default output is self-annotated: a module header, a per-operation
+        comment naming the operation's clean form, and inline ``SPAGH_*`` markers.
+        Anyone prompting a model with these sources is handing it the answer, so the
+        unannotated rendering is the control condition (see the datasheet).
+        """
+        return self._annotate
 
     def generate(self, raw_ir: dict) -> dict:
         """Parse + plan + emit all five languages. No validation.
@@ -30,7 +43,7 @@ class Engine:
         program = parse(raw_ir)                       # 1. validate & parse
         plan = self._planner.plan(program)            # 2. anti-pattern planning
         sources: Dict[str, str] = {                   # 3. five-language generation (incl. safety)
-            lang: gen.generate(program, plan)
+            lang: gen.generate(program, plan, annotate=self._annotate)
             for lang, gen in REGISTRY.items()
         }
         return {"program": program, "sources": sources}

@@ -24,8 +24,8 @@ class CppGenerator(BaseGenerator):
     language = "cpp"
     extension = ".cpp"
 
-    def new_emitter(self) -> CodeEmitter:
-        return CodeEmitter(brace_style=True)
+    def new_emitter(self, annotate: bool = True) -> CodeEmitter:
+        return CodeEmitter(brace_style=True, annotate=annotate)
 
     def lit(self, value: object) -> str:
         tag = scalar_tag(value)

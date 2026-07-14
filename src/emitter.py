@@ -20,6 +20,7 @@ class CodeEmitter:
         open_token: str = "{",
         close_token: str = "}",
         header_suffix: str = ":",
+        annotate: bool = True,
     ) -> None:
         self._lines: List[str] = []
         self._level = 0
@@ -27,10 +28,15 @@ class CodeEmitter:
         self._brace = brace_style          # True: C/JS/Go/Java/C++; False: Python
         self._open, self._close = open_token, close_token
         self._suffix = header_suffix       # the ":" for Python
+        self._annotate = annotate          # False: emit no comments at all
 
     @property
     def brace_style(self) -> bool:
         return self._brace
+
+    @property
+    def annotate(self) -> bool:
+        return self._annotate
 
     def line(self, text: str = "") -> "CodeEmitter":
         self._lines.append("" if text == "" else self._unit * self._level + text)
@@ -42,6 +48,17 @@ class CodeEmitter:
         return self
 
     def comment(self, text: str) -> "CodeEmitter":
+        """Every comment the generators emit funnels through here.
+
+        That includes the module header, the per-operation intent comment (which
+        states the clean form of the operation), and the inline ``SPAGH_*`` markers.
+        With ``annotate=False`` this is a no-op, which yields the *unannotated*
+        corpus: byte-identical code with every comment removed. That is the control
+        condition for prompting a model, because the annotations otherwise describe
+        the mess, and name the answer, to the model being measured.
+        """
+        if not self._annotate:
+            return self
         prefix = "// " if self._brace else "# "
         return self.line(prefix + text)
 

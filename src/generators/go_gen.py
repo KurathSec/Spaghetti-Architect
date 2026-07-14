@@ -32,8 +32,8 @@ class GoGenerator(BaseGenerator):
     language = "go"
     extension = ".go"
 
-    def new_emitter(self) -> CodeEmitter:
-        return CodeEmitter(brace_style=True)
+    def new_emitter(self, annotate: bool = True) -> CodeEmitter:
+        return CodeEmitter(brace_style=True, annotate=annotate)
 
     def lit(self, value: object) -> str:
         tag = _tag(value)

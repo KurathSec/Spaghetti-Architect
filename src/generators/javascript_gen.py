@@ -20,8 +20,8 @@ class JavaScriptGenerator(BaseGenerator):
     language = "javascript"
     extension = ".js"
 
-    def new_emitter(self) -> CodeEmitter:
-        return CodeEmitter(brace_style=True)
+    def new_emitter(self, annotate: bool = True) -> CodeEmitter:
+        return CodeEmitter(brace_style=True, annotate=annotate)
 
     def lit(self, value: object) -> str:
         # JSON is a syntactic subset of JS literals for scalars/arrays/objects.

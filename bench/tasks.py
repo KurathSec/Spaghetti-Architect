@@ -60,7 +60,7 @@ COMPREHEND_PROFILES = ["minimal", "standard", "max"]
 # --------------------------------------------------------------------------- #
 # rendering cache (deterministic; generation is instant, compilation is not)
 # --------------------------------------------------------------------------- #
-_ENGINES: Dict[str, Engine] = {}
+_ENGINES: Dict[tuple, Engine] = {}
 # Engine.generate stashes per-call state (``self._inputs``) on the SHARED generator
 # singletons (src.generators.REGISTRY), so its own docstring requires generation to run
 # "one thread at a time". The finalize/regrade path grades items in a thread pool and
@@ -72,10 +72,21 @@ _ENGINES: Dict[str, Engine] = {}
 _GEN_LOCK = threading.Lock()
 
 
+# Ablation switch. The generator annotates its own output (module header, a per-operation
+# comment stating the operation's CLEAN form, and inline SPAGH_* markers), and every task
+# prompt interpolates the source verbatim, so by default the model is shown the answer:
+# 72% of the clean baseline's code lines appear verbatim in its own input. Set
+# BENCH_STRIP_ANNOTATIONS=1 to mint the unannotated control corpus (byte-identical code,
+# every comment removed; oracle-validated 600/600). Stamped into the env block so a run
+# can never be mistaken for the other condition.
+STRIP_ANNOTATIONS = os.environ.get("BENCH_STRIP_ANNOTATIONS", "") not in ("", "0", "false")
+
+
 def _engine(profile: str) -> Engine:
-    if profile not in _ENGINES:
-        _ENGINES[profile] = Engine(DB, profile)
-    return _ENGINES[profile]
+    key = (profile, not STRIP_ANNOTATIONS)
+    if key not in _ENGINES:
+        _ENGINES[key] = Engine(DB, profile, annotate=not STRIP_ANNOTATIONS)
+    return _ENGINES[key]
 
 
 def _sources(ir: dict, profile: str) -> Dict[str, str]:

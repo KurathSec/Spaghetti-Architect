@@ -24,8 +24,8 @@ class JavaGenerator(BaseGenerator):
     language = "java"
     extension = ".java"
 
-    def new_emitter(self) -> CodeEmitter:
-        return CodeEmitter(brace_style=True)
+    def new_emitter(self, annotate: bool = True) -> CodeEmitter:
+        return CodeEmitter(brace_style=True, annotate=annotate)
 
     @staticmethod
     def class_name(module_name: str) -> str:
