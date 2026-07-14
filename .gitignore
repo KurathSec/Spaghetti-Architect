@@ -96,3 +96,6 @@ bench/out/subagent/*mock*.json
 
 # Vestigial double-blind anonymizer — DMLR is single-blind; kept local only.
 scripts/anonymize_snapshot.py
+
+# Ablation grade cache (rebuilt by bench/annotation_ablation.py; large, derived)
+bench/out/.annotation_ablation_grades.json

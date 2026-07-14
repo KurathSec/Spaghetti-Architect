@@ -1,0 +1,692 @@
+{
+  "refactor": {
+    "per_model": {
+      "Llama-3.1-8B": {
+        "n": 1500,
+        "annotated_k1": 0.7346666666666667,
+        "annotated_k1_ci95": [
+          0.6585507246376812,
+          0.8111111111111111
+        ],
+        "annotated_k8": 0.7316666666666667,
+        "k1_vs_k8_gap": 0.0030000000000000027,
+        "unannotated_k1": 0.5613333333333334,
+        "unannotated_k1_ci95": [
+          0.4905263157894737,
+          0.633015873015873
+        ],
+        "delta": -0.17333333333333334,
+        "delta_ci95": [
+          -0.2414814814814815,
+          -0.12347826086956522
+        ],
+        "delta_significant": true
+      },
+      "Mistral-24B": {
+        "n": 1500,
+        "annotated_k1": 0.834,
+        "annotated_k1_ci95": [
+          0.7985964912280702,
+          0.8698039215686274
+        ],
+        "annotated_k8": 0.832,
+        "k1_vs_k8_gap": 0.0020000000000000018,
+        "unannotated_k1": 0.73,
+        "unannotated_k1_ci95": [
+          0.6812698412698412,
+          0.7782456140350877
+        ],
+        "delta": -0.104,
+        "delta_ci95": [
+          -0.1663768115942029,
+          -0.04927536231884058
+        ],
+        "delta_significant": true
+      },
+      "Llama-3.3-70B": {
+        "n": 1500,
+        "annotated_k1": 0.9453333333333334,
+        "annotated_k1_ci95": [
+          0.8977777777777778,
+          0.9829629629629629
+        ],
+        "annotated_k8": 0.9453333333333334,
+        "k1_vs_k8_gap": 0.0,
+        "unannotated_k1": 0.8693333333333333,
+        "unannotated_k1_ci95": [
+          0.7960493827160494,
+          0.9259259259259259
+        ],
+        "delta": -0.076,
+        "delta_ci95": [
+          -0.12111111111111111,
+          -0.028070175438596492
+        ],
+        "delta_significant": true
+      },
+      "DeepSeek-V4-Flash": {
+        "n": 1500,
+        "annotated_k1": 0.9866666666666667,
+        "annotated_k1_ci95": [
+          0.9610666666666666,
+          1.0
+        ],
+        "annotated_k8": 0.9865833333333334,
+        "k1_vs_k8_gap": 8.333333333332416e-05,
+        "unannotated_k1": 0.9693333333333334,
+        "unannotated_k1_ci95": [
+          0.9445333333333333,
+          0.9889855072463768
+        ],
+        "delta": -0.017333333333333333,
+        "delta_ci95": [
+          -0.030877192982456142,
+          -0.006666666666666667
+        ],
+        "delta_significant": true
+      }
+    },
+    "rungs_separated": {
+      "annotated": {
+        "n": 1,
+        "pairs": [
+          {
+            "pair": "Llama-3.1-8B < Mistral-24B",
+            "separated": false
+          },
+          {
+            "pair": "Mistral-24B < Llama-3.3-70B",
+            "separated": true
+          },
+          {
+            "pair": "Llama-3.3-70B < DeepSeek-V4-Flash",
+            "separated": false
+          }
+        ]
+      },
+      "unannotated": {
+        "n": 3,
+        "pairs": [
+          {
+            "pair": "Llama-3.1-8B < Mistral-24B",
+            "separated": true
+          },
+          {
+            "pair": "Mistral-24B < Llama-3.3-70B",
+            "separated": true
+          },
+          {
+            "pair": "Llama-3.3-70B < DeepSeek-V4-Flash",
+            "separated": true
+          }
+        ]
+      }
+    },
+    "deltas_monotone": true,
+    "weak_over_strong_ratio": 10.0,
+    "leave_one_family_out": {
+      "config_resolver": {
+        "rungs_annotated": 1,
+        "rungs_unannotated": 2,
+        "monotone": false,
+        "weak_over_strong_ratio": 9.076923076923077,
+        "deltas": {
+          "Llama-3.1-8B": -0.20701754385964913,
+          "Mistral-24B": -0.10350877192982456,
+          "Llama-3.3-70B": -0.11666666666666667,
+          "DeepSeek-V4-Flash": -0.02280701754385965
+        },
+        "delta_ci95": {
+          "Llama-3.1-8B": [
+            -0.2905349794238683,
+            -0.14125412541254126
+          ],
+          "Mistral-24B": [
+            -0.1812206572769953,
+            -0.030065359477124184
+          ],
+          "Llama-3.3-70B": [
+            -0.15824175824175823,
+            -0.07078189300411522
+          ],
+          "DeepSeek-V4-Flash": [
+            -0.03950617283950617,
+            -0.008771929824561403
+          ]
+        },
+        "all_significant": true
+      },
+      "allowlist": {
+        "rungs_annotated": 1,
+        "rungs_unannotated": 1,
+        "monotone": true,
+        "weak_over_strong_ratio": 7.9230769230769225,
+        "deltas": {
+          "Llama-3.1-8B": -0.18070175438596492,
+          "Mistral-24B": -0.1368421052631579,
+          "Llama-3.3-70B": -0.062280701754385964,
+          "DeepSeek-V4-Flash": -0.02280701754385965
+        },
+        "delta_ci95": {
+          "Llama-3.1-8B": [
+            -0.26071428571428573,
+            -0.11366120218579236
+          ],
+          "Mistral-24B": [
+            -0.20924092409240924,
+            -0.06767676767676768
+          ],
+          "Llama-3.3-70B": [
+            -0.12192982456140351,
+            -0.0035087719298245615
+          ],
+          "DeepSeek-V4-Flash": [
+            -0.03934426229508197,
+            -0.00905349794238683
+          ]
+        },
+        "all_significant": true
+      },
+      "status_router": {
+        "rungs_annotated": 1,
+        "rungs_unannotated": 3,
+        "monotone": true,
+        "weak_over_strong_ratio": 9.884615384615387,
+        "deltas": {
+          "Llama-3.1-8B": -0.1822695035460993,
+          "Mistral-24B": -0.10567375886524823,
+          "Llama-3.3-70B": -0.08439716312056737,
+          "DeepSeek-V4-Flash": -0.018439716312056736
+        },
+        "delta_ci95": {
+          "Llama-3.1-8B": [
+            -0.24632768361581922,
+            -0.1292929292929293
+          ],
+          "Mistral-24B": [
+            -0.16902356902356902,
+            -0.046825396825396826
+          ],
+          "Llama-3.3-70B": [
+            -0.13015873015873017,
+            -0.036286919831223625
+          ],
+          "DeepSeek-V4-Flash": [
+            -0.032624113475177303,
+            -0.007207207207207207
+          ]
+        },
+        "all_significant": true
+      },
+      "discovery_pipeline": {
+        "rungs_annotated": 2,
+        "rungs_unannotated": 3,
+        "monotone": true,
+        "weak_over_strong_ratio": 9.576923076923078,
+        "deltas": {
+          "Llama-3.1-8B": -0.17659574468085107,
+          "Mistral-24B": -0.11063829787234042,
+          "Llama-3.3-70B": -0.06595744680851064,
+          "DeepSeek-V4-Flash": -0.018439716312056736
+        },
+        "delta_ci95": {
+          "Llama-3.1-8B": [
+            -0.24194756554307117,
+            -0.12415902140672783
+          ],
+          "Mistral-24B": [
+            -0.17307692307692307,
+            -0.05468164794007491
+          ],
+          "Llama-3.3-70B": [
+            -0.11385767790262172,
+            -0.021621621621621623
+          ],
+          "DeepSeek-V4-Flash": [
+            -0.032624113475177303,
+            -0.00749063670411985
+          ]
+        },
+        "all_significant": true
+      },
+      "fsm_transition": {
+        "rungs_annotated": 2,
+        "rungs_unannotated": 3,
+        "monotone": true,
+        "weak_over_strong_ratio": 9.44,
+        "deltas": {
+          "Llama-3.1-8B": -0.1673758865248227,
+          "Mistral-24B": -0.0950354609929078,
+          "Llama-3.3-70B": -0.06595744680851064,
+          "DeepSeek-V4-Flash": -0.01773049645390071
+        },
+        "delta_ci95": {
+          "Llama-3.1-8B": [
+            -0.23628691983122363,
+            -0.1180428134556575
+          ],
+          "Mistral-24B": [
+            -0.15815602836879433,
+            -0.04038461538461539
+          ],
+          "Llama-3.3-70B": [
+            -0.11385767790262172,
+            -0.021621621621621623
+          ],
+          "DeepSeek-V4-Flash": [
+            -0.031914893617021274,
+            -0.006741573033707865
+          ]
+        },
+        "all_significant": true
+      },
+      "agg_stats": {
+        "rungs_annotated": 1,
+        "rungs_unannotated": 2,
+        "monotone": false,
+        "weak_over_strong_ratio": 73.33333333333333,
+        "deltas": {
+          "Llama-3.1-8B": -0.18333333333333332,
+          "Mistral-24B": -0.04583333333333333,
+          "Llama-3.3-70B": -0.06833333333333333,
+          "DeepSeek-V4-Flash": -0.0025
+        },
+        "delta_ci95": {
+          "Llama-3.1-8B": [
+            -0.25916666666666666,
+            -0.12416666666666666
+          ],
+          "Mistral-24B": [
+            -0.08952380952380952,
+            -0.0038095238095238095
+          ],
+          "Llama-3.3-70B": [
+            -0.12666666666666668,
+            -0.009333333333333334
+          ],
+          "DeepSeek-V4-Flash": [
+            -0.009230769230769232,
+            0.0019047619047619048
+          ]
+        },
+        "all_significant": false
+      },
+      "threshold_select": {
+        "rungs_annotated": 1,
+        "rungs_unannotated": 2,
+        "monotone": false,
+        "weak_over_strong_ratio": 6.5,
+        "deltas": {
+          "Llama-3.1-8B": -0.12093023255813953,
+          "Mistral-24B": -0.13023255813953488,
+          "Llama-3.3-70B": -0.07209302325581396,
+          "DeepSeek-V4-Flash": -0.018604651162790697
+        },
+        "delta_ci95": {
+          "Llama-3.1-8B": [
+            -0.15384615384615385,
+            -0.09090909090909091
+          ],
+          "Mistral-24B": [
+            -0.19689922480620156,
+            -0.07280701754385965
+          ],
+          "Llama-3.3-70B": [
+            -0.12013888888888889,
+            -0.017361111111111112
+          ],
+          "DeepSeek-V4-Flash": [
+            -0.0336996336996337,
+            -0.007207207207207207
+          ]
+        },
+        "all_significant": true
+      }
+    }
+  },
+  "comprehend": {
+    "per_model": {
+      "Llama-3.1-8B": {
+        "n": 1500,
+        "annotated_k1": 0.5526666666666666,
+        "annotated_k1_ci95": [
+          0.3983333333333333,
+          0.6939130434782609
+        ],
+        "annotated_k8": 0.5524166666666667,
+        "k1_vs_k8_gap": 0.00024999999999997247,
+        "unannotated_k1": 0.388,
+        "unannotated_k1_ci95": [
+          0.24533333333333332,
+          0.5272727272727272
+        ],
+        "delta": -0.16466666666666666,
+        "delta_ci95": [
+          -0.24583333333333332,
+          -0.09523809523809523
+        ],
+        "delta_significant": true
+      },
+      "Mistral-24B": {
+        "n": 1500,
+        "annotated_k1": 0.7393333333333333,
+        "annotated_k1_ci95": [
+          0.5831111111111111,
+          0.8689855072463768
+        ],
+        "annotated_k8": 0.73825,
+        "k1_vs_k8_gap": 0.001083333333333325,
+        "unannotated_k1": 0.668,
+        "unannotated_k1_ci95": [
+          0.5207017543859649,
+          0.7918518518518518
+        ],
+        "delta": -0.07133333333333333,
+        "delta_ci95": [
+          -0.10285714285714286,
+          -0.04066666666666666
+        ],
+        "delta_significant": true
+      },
+      "Llama-3.3-70B": {
+        "n": 1500,
+        "annotated_k1": 0.7686666666666667,
+        "annotated_k1_ci95": [
+          0.6033333333333334,
+          0.8996491228070176
+        ],
+        "annotated_k8": 0.7685,
+        "k1_vs_k8_gap": 0.00016666666666675933,
+        "unannotated_k1": 0.7546666666666667,
+        "unannotated_k1_ci95": [
+          0.5866666666666667,
+          0.8837037037037037
+        ],
+        "delta": -0.014,
+        "delta_ci95": [
+          -0.03859649122807018,
+          0.006984126984126984
+        ],
+        "delta_significant": false
+      },
+      "DeepSeek-V4-Flash": {
+        "n": 1500,
+        "annotated_k1": 0.8393333333333334,
+        "annotated_k1_ci95": [
+          0.7185964912280701,
+          0.9396825396825397
+        ],
+        "annotated_k8": 0.8385,
+        "k1_vs_k8_gap": 0.0008333333333333526,
+        "unannotated_k1": 0.7853333333333333,
+        "unannotated_k1_ci95": [
+          0.6496296296296297,
+          0.9044444444444445
+        ],
+        "delta": -0.054,
+        "delta_ci95": [
+          -0.12148148148148148,
+          -0.01696969696969697
+        ],
+        "delta_significant": true
+      }
+    },
+    "rungs_separated": {
+      "annotated": {
+        "n": 0,
+        "pairs": [
+          {
+            "pair": "Llama-3.1-8B < Mistral-24B",
+            "separated": false
+          },
+          {
+            "pair": "Mistral-24B < Llama-3.3-70B",
+            "separated": false
+          },
+          {
+            "pair": "Llama-3.3-70B < DeepSeek-V4-Flash",
+            "separated": false
+          }
+        ]
+      },
+      "unannotated": {
+        "n": 0,
+        "pairs": [
+          {
+            "pair": "Llama-3.1-8B < Mistral-24B",
+            "separated": false
+          },
+          {
+            "pair": "Mistral-24B < Llama-3.3-70B",
+            "separated": false
+          },
+          {
+            "pair": "Llama-3.3-70B < DeepSeek-V4-Flash",
+            "separated": false
+          }
+        ]
+      }
+    },
+    "deltas_monotone": false,
+    "weak_over_strong_ratio": 3.0493827160493825,
+    "leave_one_family_out": {
+      "config_resolver": {
+        "rungs_annotated": 0,
+        "rungs_unannotated": 0,
+        "monotone": false,
+        "weak_over_strong_ratio": 0.8518518518518519,
+        "deltas": {
+          "Llama-3.1-8B": -0.060526315789473685,
+          "Mistral-24B": -0.03245614035087719,
+          "Llama-3.3-70B": -0.017543859649122806,
+          "DeepSeek-V4-Flash": -0.07105263157894737
+        },
+        "delta_ci95": {
+          "Llama-3.1-8B": [
+            -0.09398907103825137,
+            -0.03374485596707819
+          ],
+          "Mistral-24B": [
+            -0.05416666666666667,
+            -0.0028169014084507044
+          ],
+          "Llama-3.3-70B": [
+            -0.04880952380952381,
+            0.009302325581395349
+          ],
+          "DeepSeek-V4-Flash": [
+            -0.15492957746478872,
+            -0.023045267489711935
+          ]
+        },
+        "all_significant": false
+      },
+      "allowlist": {
+        "rungs_annotated": 0,
+        "rungs_unannotated": 0,
+        "monotone": false,
+        "weak_over_strong_ratio": 3.171875,
+        "deltas": {
+          "Llama-3.1-8B": -0.1780701754385965,
+          "Mistral-24B": -0.08508771929824561,
+          "Llama-3.3-70B": -0.011403508771929825,
+          "DeepSeek-V4-Flash": -0.056140350877192984
+        },
+        "delta_ci95": {
+          "Llama-3.1-8B": [
+            -0.28383838383838383,
+            -0.09180327868852459
+          ],
+          "Mistral-24B": [
+            -0.12192982456140351,
+            -0.045454545454545456
+          ],
+          "Llama-3.3-70B": [
+            -0.04141414141414142,
+            0.01317829457364341
+          ],
+          "DeepSeek-V4-Flash": [
+            -0.1434108527131783,
+            -0.007511737089201878
+          ]
+        },
+        "all_significant": false
+      },
+      "status_router": {
+        "rungs_annotated": 0,
+        "rungs_unannotated": 1,
+        "monotone": false,
+        "weak_over_strong_ratio": 3.0123456790123457,
+        "deltas": {
+          "Llama-3.1-8B": -0.17304964539007092,
+          "Mistral-24B": -0.07375886524822695,
+          "Llama-3.3-70B": -0.014893617021276596,
+          "DeepSeek-V4-Flash": -0.0574468085106383
+        },
+        "delta_ci95": {
+          "Llama-3.1-8B": [
+            -0.2574468085106383,
+            -0.1
+          ],
+          "Mistral-24B": [
+            -0.10437710437710437,
+            -0.04044943820224719
+          ],
+          "Llama-3.3-70B": [
+            -0.041666666666666664,
+            0.0070921985815602835
+          ],
+          "DeepSeek-V4-Flash": [
+            -0.12612612612612611,
+            -0.017948717948717947
+          ]
+        },
+        "all_significant": false
+      },
+      "discovery_pipeline": {
+        "rungs_annotated": 0,
+        "rungs_unannotated": 0,
+        "monotone": false,
+        "weak_over_strong_ratio": 3.0519480519480515,
+        "deltas": {
+          "Llama-3.1-8B": -0.16666666666666666,
+          "Mistral-24B": -0.06950354609929078,
+          "Llama-3.3-70B": -0.014184397163120567,
+          "DeepSeek-V4-Flash": -0.05460992907801419
+        },
+        "delta_ci95": {
+          "Llama-3.1-8B": [
+            -0.2539325842696629,
+            -0.0936026936026936
+          ],
+          "Mistral-24B": [
+            -0.10126582278481013,
+            -0.036936936936936934
+          ],
+          "Llama-3.3-70B": [
+            -0.04050632911392405,
+            0.006741573033707865
+          ],
+          "DeepSeek-V4-Flash": [
+            -0.1253968253968254,
+            -0.0149812734082397
+          ]
+        },
+        "all_significant": false
+      },
+      "fsm_transition": {
+        "rungs_annotated": 0,
+        "rungs_unannotated": 0,
+        "monotone": false,
+        "weak_over_strong_ratio": 2.9876543209876543,
+        "deltas": {
+          "Llama-3.1-8B": -0.17163120567375886,
+          "Mistral-24B": -0.07092198581560284,
+          "Llama-3.3-70B": -0.01773049645390071,
+          "DeepSeek-V4-Flash": -0.0574468085106383
+        },
+        "delta_ci95": {
+          "Llama-3.1-8B": [
+            -0.257051282051282,
+            -0.0978494623655914
+          ],
+          "Mistral-24B": [
+            -0.10283687943262411,
+            -0.03838383838383838
+          ],
+          "Llama-3.3-70B": [
+            -0.04285714285714286,
+            0.002531645569620253
+          ],
+          "DeepSeek-V4-Flash": [
+            -0.12612612612612611,
+            -0.017948717948717947
+          ]
+        },
+        "all_significant": false
+      },
+      "agg_stats": {
+        "rungs_annotated": 1,
+        "rungs_unannotated": 1,
+        "monotone": false,
+        "weak_over_strong_ratio": 10.73913043478261,
+        "deltas": {
+          "Llama-3.1-8B": -0.20583333333333334,
+          "Mistral-24B": -0.08083333333333333,
+          "Llama-3.3-70B": -0.004166666666666667,
+          "DeepSeek-V4-Flash": -0.019166666666666665
+        },
+        "delta_ci95": {
+          "Llama-3.1-8B": [
+            -0.30117647058823527,
+            -0.12666666666666668
+          ],
+          "Mistral-24B": [
+            -0.11555555555555555,
+            -0.04512820512820513
+          ],
+          "Llama-3.3-70B": [
+            -0.021538461538461538,
+            0.012307692307692308
+          ],
+          "DeepSeek-V4-Flash": [
+            -0.028888888888888888,
+            -0.009824561403508772
+          ]
+        },
+        "all_significant": false
+      },
+      "threshold_select": {
+        "rungs_annotated": 0,
+        "rungs_unannotated": 0,
+        "monotone": false,
+        "weak_over_strong_ratio": 3.0632911392405067,
+        "deltas": {
+          "Llama-3.1-8B": -0.1875968992248062,
+          "Mistral-24B": -0.08449612403100776,
+          "Llama-3.3-70B": -0.017054263565891473,
+          "DeepSeek-V4-Flash": -0.06124031007751938
+        },
+        "delta_ci95": {
+          "Llama-3.1-8B": [
+            -0.27982456140350875,
+            -0.11395348837209303
+          ],
+          "Mistral-24B": [
+            -0.11875,
+            -0.05581395348837209
+          ],
+          "Llama-3.3-70B": [
+            -0.044131455399061034,
+            0.003663003663003663
+          ],
+          "DeepSeek-V4-Flash": [
+            -0.13819444444444445,
+            -0.017543859649122806
+          ]
+        },
+        "all_significant": false
+      }
+    }
+  }
+}

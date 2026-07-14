@@ -77,8 +77,12 @@ _GEN_LOCK = threading.Lock()
 # prompt interpolates the source verbatim, so by default the model is shown the answer:
 # 72% of the clean baseline's code lines appear verbatim in its own input. Set
 # BENCH_STRIP_ANNOTATIONS=1 to mint the unannotated control corpus (byte-identical code,
-# every comment removed; oracle-validated 600/600). Stamped into the env block so a run
-# can never be mistaken for the other condition.
+# every comment removed; oracle-validated 600/600). Stamped into the env block and the batch
+# filename so every artifact records which condition produced it. The stamp is DESCRIPTIVE,
+# not enforced: --regrade rebuilds sources under whatever this env var says NOW, so an
+# unannotated batch must only ever be re-graded with BENCH_STRIP_ANNOTATIONS=1 (and the
+# annotated arm only with it unset). bench/annotation_ablation.py refuses to start if it is
+# set, for exactly this reason.
 STRIP_ANNOTATIONS = os.environ.get("BENCH_STRIP_ANNOTATIONS", "") not in ("", "0", "false")
 
 
