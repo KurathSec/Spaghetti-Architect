@@ -38,11 +38,19 @@ Two things are **not** claimed, and the leave-one-family-out sweep is why:
 * The 1/3 to 3/3 rung-separation gain is a **whole-corpus** effect, not a law, and it is the
   least stable number here. Rung separation is a threshold on overlapping intervals, so near
   the boundary it moves with the bootstrap draw itself. Dropping `allowlist` erases the gain
-  entirely. Only its *direction* is stable: no leave-one-out fit makes the unannotated ladder
-  resolve *fewer* rungs than the annotated one.
+  entirely (1/3 -> 1/3); three other drops reduce it to 1/3 -> 2/3. Only its *direction* is
+  stable: no leave-one-out fit makes the unannotated ladder resolve *fewer* rungs than the
+  annotated one.
 
-What survives every leave-one-out is the ratio between the extremes: the weakest model's
-inflation stays 6.5x to 73x the strongest model's.
+What survives every leave-one-out is the ratio between the extremes on REFACTOR: the weakest
+model's inflation stays 6.5x to 9.9x the strongest model's in six of the seven fits. The
+seventh (dropping `agg_stats`) prints 73x, but there the strongest model's delta is -0.003
+with an interval spanning zero, so that ratio is a quotient by noise; the script reports
+`all_significant` per fit so it cannot be quoted by accident.
+
+**None of this transfers to comprehension.** There the weak/strong ratio is 3.1x on the full
+corpus and *inverts* to 0.85x when `config_resolver` is dropped, and monotonicity fails in
+7 of 7 fits. The differential-inflation result is a refactoring result.
 
 Two design caveats. The ablation is at k=1 (temperature is 0, and re-grading the released
 k=8 runs at k=1 reproduces every published rung to 0.003 or better, so we take the arms to

@@ -24,10 +24,11 @@ unannotated  bench/out/ablation/<task>_unannotated__<model>.jsonl.gz     (k=1 ra
 WHY k=1 IS COMPARABLE TO THE PUBLISHED k=8
 ------------------------------------------
 Decoding is at temperature 0, so the k=8 draws capture serving-side nondeterminism rather
-than independent samples: only 4.9% (refactor) / 2.0% (comprehend) of items have a mixed
-outcome across their 8 draws. This script therefore grades the annotated arm at k=1 as well
-(draw[0] of each stored record) so the arms are matched, and prints the k=8 rung beside it.
-They agree to 0.003 or better on every rung, an order of magnitude below the effect measured.
+than independent samples: pooled over the four models, only 4.9% (refactor) / 1.7%
+(comprehend) of items have a mixed outcome across their 8 draws. This script therefore grades
+the annotated arm at k=1 as well (draw[0] of each stored record) so the arms are matched, and
+prints the k=8 rung beside it. They agree to 0.003 or better on every rung, an order of
+magnitude below the effect measured.
 
 Not controlled: the annotated arm is the RELEASED run, queried about two weeks before the
 unannotated arm, so serving-side drift at the hosted endpoints is a confound. Removing it
@@ -35,14 +36,22 @@ would mean re-fetching the annotated arm, which would cost API money and has not
 
 WHAT SURVIVES, AND WHAT DOES NOT
 --------------------------------
-The whole-corpus result is that the annotation inflates every model, and inflates weaker
-models far more than stronger ones. The leave-one-family-out sweep below is the honesty
-check on that, and it is not decoration: the strict monotone ordering of the four deltas
-is NOT family-robust (dropping agg_stats, config_resolver or threshold_select breaks it),
-and the headline rung-separation gain (1/3 -> 3/3) is a whole-corpus effect that vanishes
-if config_resolver or allowlist is dropped. What IS robust across every leave-one-out is
-the size of the gap between the weakest and strongest model's inflation (6x to 61x).
-Report accordingly.
+The whole-corpus REFACTOR result is that the annotation inflates every model, and inflates
+weaker models far more than stronger ones. The leave-one-family-out sweep below is the honesty
+check on that, and it is not decoration. Three things it kills:
+
+  * the strict monotone ordering of the four refactor deltas is NOT family-robust (dropping
+    agg_stats, config_resolver or threshold_select breaks it);
+  * the headline rung-separation gain (1/3 -> 3/3) is a whole-corpus effect that dropping
+    ALLOWLIST erases entirely (1/3 -> 1/3); three other drops reduce it to 1/3 -> 2/3. It is
+    also a threshold on overlapping intervals, so near the boundary it moves with the seed;
+  * on COMPREHEND nothing transfers: the weak/strong ratio is 3.1x on the full corpus and
+    INVERTS to 0.85x when config_resolver is dropped, and monotonicity fails in 7 of 7 fits.
+
+What IS robust is the refactor gap between the extremes: 6.5x to 9.9x in six of the seven
+fits. The seventh (dropping agg_stats) prints 73x, but there the strongest model's delta is
+-0.003 with an interval spanning zero, so that ratio is a quotient by noise; the script
+reports `all_significant` per fit so this cannot be quoted by accident. Report accordingly.
 
 STATISTICS
 ----------

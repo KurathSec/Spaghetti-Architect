@@ -1317,13 +1317,33 @@ def run_sweep(task: str, model: str, split: str = "dev") -> int:
 # --aggregate (merge subagent JSON -> results.json + figure series)
 # --------------------------------------------------------------------------- #
 def _load_subagents() -> List[dict]:
+    """Every finalized batch in out/subagent, EXCEPT the annotation-ablation control arm.
+
+    The ablation runs (``BENCH_STRIP_ANNOTATIONS=1``) write beside the released batches, and
+    they score a DIFFERENT corpus: the same programs with the generator's own comments
+    stripped. Merging them into ``results.json`` would silently pool two conditions into one
+    released aggregate. They are skipped here on two independent signals (the filename suffix
+    and the ``corpus_condition`` env stamp), and reported via
+    :mod:`bench.annotation_ablation` instead.
+    """
     if not os.path.isdir(SUBAGENT_DIR):
         return []
-    payloads = []
+    payloads, skipped = [], 0
     for fn in sorted(os.listdir(SUBAGENT_DIR)):
-        if fn.endswith(".json"):
-            with open(os.path.join(SUBAGENT_DIR, fn), encoding="utf-8") as f:
-                payloads.append(json.load(f))
+        if not fn.endswith(".json"):
+            continue
+        if "__unannotated" in fn:
+            skipped += 1
+            continue
+        with open(os.path.join(SUBAGENT_DIR, fn), encoding="utf-8") as f:
+            payload = json.load(f)
+        if (payload.get("env") or {}).get("corpus_condition") == "unannotated":
+            skipped += 1
+            continue
+        payloads.append(payload)
+    if skipped:
+        print(f"aggregate: skipped {skipped} unannotated (ablation control) batch file(s); "
+              f"see bench/annotation_ablation.py", file=sys.stderr)
     return payloads
 
 

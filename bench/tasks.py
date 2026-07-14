@@ -75,7 +75,8 @@ _GEN_LOCK = threading.Lock()
 # Ablation switch. The generator annotates its own output (module header, a per-operation
 # comment stating the operation's CLEAN form, and inline SPAGH_* markers), and every task
 # prompt interpolates the source verbatim, so by default the model is shown the answer:
-# 72% of the clean baseline's code lines appear verbatim in its own input. Set
+# 72% of the STATIC clean baseline's non-comment lines (clean_baseline_static, i.e. the
+# operation's computation) appear verbatim in the model's own input. Set
 # BENCH_STRIP_ANNOTATIONS=1 to mint the unannotated control corpus (byte-identical code,
 # every comment removed; oracle-validated 600/600). Stamped into the env block and the batch
 # filename so every artifact records which condition produced it. The stamp is DESCRIPTIVE,

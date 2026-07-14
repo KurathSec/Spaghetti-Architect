@@ -53,21 +53,25 @@
       "qwen3-coder-480b-a35b": "openai_compatible",
       "llama-4-maverick": "openai_compatible"
     },
-    "timestamp_utc": "2026-06-24T10:31:58.943412+00:00",
+    "timestamp_utc": "2026-06-24T12:53:51.109863+00:00",
     "note": "Static metrics & sample generation are byte-deterministic; LLM outputs are NOT \u2014 results are protocol-reproducible (temp 0 + k + CIs)."
   },
-  "status": "DRY-RUN (mock model; AWAITING LIVE RUN)",
+  "status": "LIVE",
   "models": [
     "baseline_clean_ceiling",
     "baseline_formatter",
     "baseline_metric_judge",
     "baseline_rule_based",
+    "deepseek-v4-flash",
     "mock"
   ],
   "splits": [
     "dev"
   ],
   "snapshots": {
+    "deepseek-v4-flash": [
+      "deepseek-v4-flash"
+    ],
     "mock": [
       "mock"
     ],
@@ -84,8 +88,50 @@
       "baseline"
     ]
   },
-  "n_subagent_files": 21,
+  "n_subagent_files": 24,
   "per_model": {
+    "deepseek-v4-flash": {
+      "comprehend": {
+        "discovery_pipeline": {
+          "n_items": 79,
+          "exact_match_rate": 1.0,
+          "exact_match_ci95": [
+            1.0,
+            1.0
+          ]
+        },
+        "status_router": {
+          "n_items": 81,
+          "exact_match_rate": 1.0,
+          "exact_match_ci95": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "refactor": {
+        "discovery_pipeline": {
+          "n_items": 73,
+          "semantic_ok_rate": 0.761986301369863,
+          "simplification_quality_mean": 0.614163982272527,
+          "simplification_quality_ci95": [
+            0.5589080173967432,
+            0.6668234599391439
+          ],
+          "simplification_quality_n": 12,
+          "uniform_quality_mean": 0.776846809549887,
+          "uniform_quality_ci95": [
+            0.7626431262946173,
+            0.7908821936179692
+          ],
+          "failure_modes": {
+            "broke_equivalence": 139,
+            "no_change": 0,
+            "over_complicated": 0
+          }
+        }
+      }
+    },
     "mock": {
       "comprehend": {
         "agg_stats": {
@@ -291,13 +337,13 @@
           "n_items": 250,
           "pairwise_acc_mean": 0.9862000000000001,
           "pairwise_acc_ci95": [
-            0.9821333333333333,
+            0.9822666666666666,
             0.9897333333333334
           ],
           "position_consistency_mean": 1.0,
           "monotonicity_mean": -0.991698854560586,
           "monotonicity_ci95": [
-            -0.9938528049006419,
+            -0.9938474003333517,
             -0.9892356528670108
           ],
           "sensitivity_mean": 0.0,
@@ -312,12 +358,15 @@
           "semantic_ok_rate": 1.0,
           "simplification_quality_mean": 0.8328319348046569,
           "simplification_quality_ci95": [
-            0.8208888111506139,
-            0.8437213614998214
+            0.8210526483808013,
+            0.8438275356398077
           ],
           "simplification_quality_n": 300,
-          "uniform_quality_mean": null,
-          "uniform_quality_ci95": null,
+          "uniform_quality_mean": 0.945763182290454,
+          "uniform_quality_ci95": [
+            0.9377619021453414,
+            0.9531075452888149
+          ],
           "failure_modes": {
             "broke_equivalence": 0,
             "no_change": 0,
@@ -336,13 +385,16 @@
             0.0,
             0.0
           ],
-          "simplification_quality_n": 0,
-          "uniform_quality_mean": null,
-          "uniform_quality_ci95": null,
+          "simplification_quality_n": 300,
+          "uniform_quality_mean": 0.0,
+          "uniform_quality_ci95": [
+            0.0,
+            0.0
+          ],
           "failure_modes": {
             "broke_equivalence": 0,
-            "no_change": 300,
-            "over_complicated": 0
+            "no_change": 393,
+            "over_complicated": 207
           }
         }
       }
@@ -358,8 +410,11 @@
             0.0
           ],
           "simplification_quality_n": 300,
-          "uniform_quality_mean": null,
-          "uniform_quality_ci95": null,
+          "uniform_quality_mean": 0.0,
+          "uniform_quality_ci95": [
+            0.0,
+            0.0
+          ],
           "failure_modes": {
             "broke_equivalence": 0,
             "no_change": 300,
@@ -399,12 +454,25 @@
       "baseline_formatter",
       "baseline_metric_judge",
       "baseline_rule_based",
+      "deepseek-v4-flash",
       "mock"
     ],
     "splits": [
       "dev"
     ],
     "incidental_degradation": {
+      "deepseek-v4-flash": {
+        "comprehend": {
+          "max": 1.0,
+          "minimal": 1.0,
+          "standard": 1.0
+        },
+        "refactor": {
+          "max": 0.7760295519070871,
+          "minimal": 0.7341473303342668,
+          "standard": 0.7090930645466833
+        }
+      },
       "mock": {
         "comprehend": {
           "max": 1.0,
@@ -419,13 +487,17 @@
       },
       "baseline_clean_ceiling": {
         "refactor": {
-          "minimal": 0.8238689617081395,
-          "standard": 0.8300590888968276,
-          "max": 0.8445677538090037
+          "minimal": 0.9647737923416279,
+          "standard": 0.9660118177793655,
+          "max": 0.9689135507618007
         }
       },
       "baseline_formatter": {
-        "refactor": {}
+        "refactor": {
+          "minimal": 0.0,
+          "standard": 0.0,
+          "max": 0.0
+        }
       },
       "baseline_rule_based": {
         "refactor": {
@@ -436,6 +508,7 @@
       }
     },
     "decomposition": {
+      "deepseek-v4-flash": {},
       "mock": {
         "L": {
           "scales": [
@@ -682,7 +755,7 @@
     "refactor_2d": {
       "baseline_clean_ceiling": {
         "semantic_ok_rate": 1.0,
-        "simplification_quality": 0.8328319348046569
+        "simplification_quality": 0.9665663869609314
       },
       "baseline_formatter": {
         "semantic_ok_rate": 1.0,
@@ -691,6 +764,10 @@
       "baseline_rule_based": {
         "semantic_ok_rate": 1.0,
         "simplification_quality": 0.0
+      },
+      "deepseek-v4-flash": {
+        "semantic_ok_rate": 0.761986301369863,
+        "simplification_quality": 0.7376154126402893
       },
       "mock": {
         "semantic_ok_rate": 1.0,
@@ -722,6 +799,14 @@
       }
     },
     "contamination": {
+      "deepseek-v4-flash": {
+        "comprehend": {
+          "dev": 1.0
+        },
+        "refactor": {
+          "dev": 0.7376154126402893
+        }
+      },
       "mock": {
         "comprehend": {
           "dev": 1.0
@@ -740,7 +825,7 @@
       },
       "baseline_clean_ceiling": {
         "refactor": {
-          "dev": 0.8328319348046569
+          "dev": 0.9665663869609314
         }
       },
       "baseline_formatter": {
@@ -755,6 +840,22 @@
       }
     },
     "cross_language": {
+      "deepseek-v4-flash": {
+        "comprehend": {
+          "go": 1.0,
+          "java": 1.0,
+          "javascript": 1.0,
+          "cpp": 1.0,
+          "python": 1.0
+        },
+        "refactor": {
+          "cpp": 0.7250612615942675,
+          "go": 0.7805136283227193,
+          "java": 0.7080319876949234,
+          "javascript": 0.832956658626287,
+          "python": 0.614163982272527
+        }
+      },
       "mock": {
         "comprehend": {
           "cpp": 1.0,
@@ -785,11 +886,18 @@
       },
       "baseline_clean_ceiling": {
         "refactor": {
-          "python": 0.8328319348046569
+          "python": 0.8328319348046569,
+          "javascript": 1.0,
+          "go": 1.0,
+          "java": 1.0,
+          "cpp": 1.0
         }
       },
       "baseline_formatter": {
-        "refactor": {}
+        "refactor": {
+          "python": 0.0,
+          "go": 0.0
+        }
       },
       "baseline_rule_based": {
         "refactor": {
