@@ -425,8 +425,11 @@ def freeze_dev(prompt_version: Optional[str] = None) -> dict:
             "novelty_tiers": {
                 "A": "literal-novel: re-mint numeric/string literals (RNG re-draw + "
                      "structure-preserving salt) -> defeats verbatim memorization",
-                "B": "structural held-out: op-chain shapes kept private (never "
-                     "released) -> defeats structure memorization",
+                "B": "structural held-out: op-chain shapes the public dev split never "
+                     "instantiates (the shapes themselves are specified in the released "
+                     "generator; only the seed, and hence the minted instances, is "
+                     "withheld) -> defeats memorization of the released dataset's "
+                     "structures, not of the repository",
                 "C": "distribution shift: compositions outside the public distribution "
                      "(deeper op-chains, out-of-range scales) -> defeats distribution "
                      "learning",

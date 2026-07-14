@@ -91,9 +91,13 @@ def env_block(cfg: models.Config, split: str) -> dict:
         "network_isolation": bool(G.network_isolation_prefix()),
         "dataset": {"version": D.DATASET_VERSION, "split": split, "seed": seed,
                     "dev_n_items": _dev_n_items(), "canary": D.CANARY_GUID,
+                    # The SEED (and hence the minted instances) is private; the Tier B/C
+                    # op-chain SHAPES are specified in the released generator and are not.
                     "novelty_tiers": {"A": "literal re-mint (salt + RNG)",
-                                      "B": "structural held-out (private)",
-                                      "C": "distribution shift (private)"}},
+                                      "B": "structural held-out (shapes public in the "
+                                           "generator; instances private)",
+                                      "C": "distribution shift (shapes public in the "
+                                           "generator; instances private)"}},
         "prompt_version": P.PROMPT_VERSION,
         "prompt_set_hash": P.prompt_set_hash(),
         "n_paraphrases": P.N_PARAPHRASES,
