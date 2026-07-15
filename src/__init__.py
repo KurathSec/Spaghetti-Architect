@@ -7,4 +7,4 @@ code" in Python, JavaScript, Go, Java and C++.
 See ``init.en.md`` for the full design blueprint.
 """
 
-__version__ = "1.0"
+__version__ = "0.2.4"

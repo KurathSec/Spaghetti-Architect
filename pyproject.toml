@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spaghetti-architect"
-version = "0.2.3"
+version = "0.2.4"
 description = "An anti-optimization transpiler: a clean JSON IR mapped to deliberately redundant but provably-correct code in Python, JavaScript, Go, Java, and C++, gated by a compile-run oracle."
 readme = "README.md"
 requires-python = ">=3.12"
