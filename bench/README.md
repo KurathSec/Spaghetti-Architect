@@ -150,3 +150,10 @@ performance.
 `bench/out/g3/` (re-gradable with **zero API spend** via `bench/ladder_analysis.py` and
 `bench/g3_analysis.py`); the `mock`/DRY-RUN note above refers only to the harness
 self-test path, not to the project as a whole.
+
+The **annotation ablation** (paper Table `tab:annotation`) re-grades the same way: its
+control arm lives in `bench/out/ablation/`, and `bench/annotation_ablation.py` rebuilds the
+whole table (both arms, the base-IR-clustered bootstrap, and the leave-one-family-out sweep)
+at zero API from committed archives. Run it with `BENCH_STRIP_ANNOTATIONS` **unset**; the
+script refuses to start otherwise, because that variable is read at import time and would
+rebuild the annotated arm's sources as the wrong corpus.
