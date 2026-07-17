@@ -52,6 +52,10 @@ eval/*
 bench/config.json
 bench/.heldout_seed
 bench/data/test/
+# ...including RESULTS on that split: a batch's `raw_outputs` embed the held-out
+# literals verbatim (a refactor completion reproduces the input fixtures in full).
+# The seed protects the literals, so these are as disclosive as bench/data/test/.
+bench/out/subagent/*__test.json
 
 # Internal working notes (open problems, solutions, submission roadmap) — private.
 bench/notes/
@@ -84,6 +88,12 @@ archived/
 
 # live-run per-item checkpoints (transient; resumed from, then retired)
 bench/out/subagent/*.partial.jsonl
+
+# Annotation-ablation control-arm shards (BENCH_STRIP_ANNOTATIONS=1). Transient: the
+# released arm is the compacted bench/out/ablation/*.jsonl.gz, which these compact into.
+# Note run_bench._load_subagents also skips them at aggregate time, on two independent
+# signals, so they can never pool into results.json.
+bench/out/subagent/*__unannotated.json
 
 # local Claude Code project file (not part of the artifact)
 CLAUDE.md
