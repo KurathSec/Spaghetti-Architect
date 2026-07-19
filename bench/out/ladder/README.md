@@ -3,7 +3,9 @@
 Compact, gzipped raw model completions for the comprehension **capability ladder** reported
 in the paper's baselines section (Tables `tab:ladder` and `tab:scaling`). One file per model,
 `comprehend__<model-id-with-slashes-as-dashes>.jsonl.gz`: one JSON record per
-`(sample, profile, language)` item with its `k=8` `raw_outputs` and `intrinsic` scale.
+`(sample, variant, profile, language)` item (1500 per file: the base rendering plus
+input-perturbation variants `v0`-`v4` on a subset of programs), each with its `variant`,
+`k=8` `raw_outputs`, and `intrinsic` scale.
 
 Reproduce both tables with **zero API calls**:
 

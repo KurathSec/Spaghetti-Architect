@@ -44,9 +44,13 @@ analysis script) and stress-tested for confounds. Outcomes:
 **Reframed after verification (earlier framings were confounded):**
 - **The tier gap is op-type composition, not novelty.** test_A > test_B/C reproduces, but Tier A is 54%
   trivial single-op items (Tier B has none); matched on `n_ops` the A−B gap shrinks and *reverses* at
-  n_ops=3. The clean novelty controls — OOD scale on 1-op lookup/membership, OOD depth on conditional
-  cascades — show ~zero degradation. Models **generalize over structure (depth/scale/cascade)**; the
-  apparent tier gap is the agg_stats computation tax surfacing where aggregate items are over-represented.
+  n_ops=3. The clean OOD **scale** controls (1-op lookup/membership) show ~zero degradation, isolating
+  problem size from novelty; the OOD **depth** controls (long conditional cascades, t=20/30) hold
+  full-sequence EM only for the strongest model (DeepSeek 1.0) and collapse for the sub-frontier models
+  as branch count grows (Llama-8B/Mistral/Llama-70B EM 0.0/0.23/0.0 vs their Tier-A 0.29/0.65/0.75), so
+  where depth loss occurs it tracks chain depth, not novelty. Models **generalize structurally at the
+  per-operation level** even where full-sequence EM drops; the apparent tier gap is the agg_stats
+  computation tax surfacing where aggregate items are over-represented.
 - **structure-vs-computation uses `semantic_ok`, not `recovered_rate`.** The "flat 0.20" recovered_rate is
   a Python-AST-lane artifact (recovered = 1.0 for python, 0.0 for the other four languages → mean 1/5).
   The honest, all-language signal: refactor agg_stats `semantic_ok` ≈ 1.0 and flat across W=8..160 (the

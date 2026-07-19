@@ -18,3 +18,10 @@ import (no second copy, single source of truth):
 
 `bench/` imports these as `from eval import metrics, gen_samples` to build a
 ground-truth, contamination-resistant LLM code benchmark; see [`../bench/`](../bench/).
+
+> **Note.** `metrics.py` and `gen_samples.py` are the two modules of a larger
+> de-optimization measurement study that are reused by `bench/`; the rest of that study
+> (its driver, prompt, and report) is unpublished and not shipped here. Their docstrings
+> therefore mention internal references (a `run_eval.py` driver, a `deopt_eval_prompt.md`
+> with numbered phases, and a report) that resolve only inside that private study, not in
+> this artifact. Nothing in `bench/` or the paper depends on those references.

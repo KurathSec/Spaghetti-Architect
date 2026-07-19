@@ -3,8 +3,8 @@
 The generator annotates its own output: a module header declaring it deliberately
 redundant, a per-operation comment stating that operation's **clean** form, and inline
 `SPAGH_*` markers on six of the eleven transforms. Every task prompt interpolates the
-source verbatim, so 72% of the labelled optimum's computation reaches the model inside its
-own input.
+source verbatim, so 72% of the non-comment lines of the labelled optimum's computation reach
+the model inside its own input.
 
 These are the raw completions for the **control** arm: the same programs re-rendered with
 every comment removed (`BENCH_STRIP_ANNOTATIONS=1`, i.e. `Engine(annotate=False)`). The
