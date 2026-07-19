@@ -75,7 +75,7 @@ python3 -m src.main examples/combined.json --profile max --source
 python3 -m src.main <ir.json> --lang python --lang cpp --source   # only some languages
 ```
 
-Profiles: `minimal` (de-idiomatize only) · `standard` · `max` (all 11 patterns).
+Profiles: `minimal` (de-idiomatize only) · `light` · `standard` · `heavy` · `max` (all 11 patterns).
 Use `max` unless the user wants a milder mess.
 
 ## IR schema (author these carefully — the parser rejects invalid IR)
@@ -140,6 +140,11 @@ operations chained) for minimal authored IRs.
 - **Correctness by construction** — valid syntax is structural, not
   hand-managed; safety (try/catch + null guards + a preset fallback) wraps every
   operation, so the output is crash-free regardless of profile strength.
+- **Self-annotated by default** — every generated source carries a module header,
+  a per-operation comment naming the clean form, and inline `SPAGH_*` markers.
+  The CLI always emits this annotated form; a comment-free rendering of the same
+  programs is available via the Python API (`Engine(db_path, profile, annotate=False)`)
+  when a fixture must not disclose its own construction.
 - **Deterministic** — same IR ⇒ byte-identical output (golden snapshots rely on
   this).
 - **Python is always validated** in-process via `exec()`. JavaScript / Go /

@@ -121,7 +121,7 @@ IR JSON ─▶ Parser ─▶ Planner ─▶ Generators (×5, +safety) ─▶ Val
 
 The last three (009–011) are grounded in the Collberg–Thomborson obfuscation
 taxonomy and classic code smells. Composed via profiles: **`minimal`**
-(de-idiomatize only) · **`standard`** · **`max`** (all eleven).
+(de-idiomatize only) · **`light`** · **`standard`** · **`heavy`** · **`max`** (all eleven).
 
 ---
 
@@ -155,7 +155,8 @@ labelled instances along **two orthogonal difficulty axes**:
 
 - **intrinsic** complexity — the logic genuinely grows (cascade arms `N`, list
   length `L`, operation count);
-- **incidental** complexity — the `minimal`→`standard`→`max` profile adds spaghetti
+- **incidental** complexity — the profile knob
+  (`clean`→`minimal`→`light`→`standard`→`heavy`→`max`) adds spaghetti
   at **zero** semantic change.
 
 …so you can ask a question no fixed corpus can: *do models fail because the problem
@@ -186,6 +187,15 @@ programs, refactor equivalence stays flat and high as collection width grows whi
 comprehend EM collapses toward zero — restructuring the code is width-invariant, but
 computing the aggregate is width-sensitive; the intrinsic scale knob breaks arithmetic
 aggregation even for the frontier model.
+
+**Annotation ablation (v0.2.4).** The generator labels its own output (module header,
+per-operation intent comment, inline `SPAGH_*` markers), and left in a prompt those labels
+leak: 72% of the labelled optimum's non-comment lines appear verbatim in the model's input.
+`Engine(annotate=False)` (for the bench corpus: `BENCH_STRIP_ANNOTATIONS=1`) renders the
+identical programs comment-free. On that control corpus every model scores lower, the
+weakest model in the ladder is inflated an order of magnitude more than the strongest, and
+the unannotated refactor ladder separates all three adjacent rungs where the annotated one
+separates one. Reproduce offline at zero API cost: `python3 bench/annotation_ablation.py`.
 
 Fresh instances are minted from a **private held-out seed** for contamination
 control. The whole harness runs end-to-end on a **mock model at zero cost**; going

@@ -12,4 +12,4 @@
 #   * bench/ only: network access + an LLM API key (see REQUIREMENTS.md).
 #
 # Optional, quarantined extra (never imported by the engine or metric lanes):
-#   radon        # Phase-6 construct-validity anchor for bench/; `pip install -e .[anchor]`
+#   radon, lizard, cognitive_complexity   # Phase-G construct-validity anchors for bench/; `pip install -e .[anchor]`

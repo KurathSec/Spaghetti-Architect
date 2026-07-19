@@ -78,7 +78,7 @@ benchmark say whether a model failed because *the problem got bigger* or because
 |------|------|
 | `dataset.py` | Mints the benchmark **dataset**: the two orthogonal axes, the `dev` (public) and `test` (private, held-out-seed) splits, and the ground truth. Reuses `eval.gen_samples.build(extended=True)` — there is **no second generator**. |
 | `models.py` | The pluggable **multi-provider LLM client** (Anthropic / OpenAI / Google / OpenAI-compatible gateway), per-model key resolution, dated snapshot ids, and the **`mock`** model used for all zero-spend plumbing. Pins `temperature=0`, `k=8`. |
-| `prompts.py` | **Frozen, versioned, paraphrase-ensembled** prompts (`bench-prompts-v2`). One canonical prompt per task for headline numbers + 3 frozen paraphrases for the robustness sweep; the set is content-hashed (`prompt_set_hash`) so it cannot be tuned on results. |
+| `prompts.py` | **Frozen, versioned, paraphrase-ensembled** prompts (`bench-prompts-v2`). One canonical prompt per task for headline numbers + 2 frozen paraphrases (3 prompt variants in total) for the robustness sweep; the set is content-hashed (`prompt_set_hash`) so it cannot be tuned on results. |
 | `tasks.py` | Builds the per-item work for the **three tasks** — `refactor` (rewrite the spaghetti), `judge` (rank by maintainability), `comprehend` (predict the output) — pairing each rendered program with its ground truth. |
 | `grade.py` | The **graders**: semantic-equivalence gating (runs candidate code against the oracle), simplification quality (capped per-facet recoveries incl. a readability/MI axis + `over_golfed` guard + optimality band + per-`SPAGH_*` removal), judge pairwise accuracy under **position-swap** (+ jury / no-self-judge helpers + the non-LLM **metric-heuristic judge** baseline), comprehension exact-match, and `ci95_bootstrap`. Pure functions of `(output, program, ground_truth)`. |
 | `anchor.py` | **Construct-validity anchors** (non-LLM, quarantined): `radon` CC/MI, `lizard` CC, cognitive complexity, and a stdlib **Buse–Weimer readability-feature** re-implementation. Shows the by-construction knob moves external metrics monotonically. |
@@ -129,7 +129,7 @@ bench/
   data/dev/        public split — committed IR instances (50 base + 50 variant, 7 families)
   data/test/       PRIVATE held-out split — gitignored, minted from BENCH_HELDOUT_SEED, never committed
   data/manifest.json   axes, knob ranks, canary, dataset version
-  out/results.json     aggregated --aggregate output (mock; the real ladder/G3 numbers are in out/ladder + out/g3)
+  out/results.json     aggregated --aggregate output (the real non-LLM baseline panel + a small live deepseek-v4-flash dev pilot; the headline ladder/G3 numbers are in out/ladder + out/g3)
   out/subagent/*.json  per-batch raw outputs (mock + the real non-LLM baselines)
   out/anchor.json      construct-validity anchors (real)
   out/analysis.json    pre-registered inference output

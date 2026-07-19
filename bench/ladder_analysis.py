@@ -7,9 +7,12 @@ This regenerates, with ZERO API calls, the two numbers tables in the baselines s
 * ``ladder_scaling.json``     -- comprehension exact match as a function of the intrinsic
   scale knob per family per model (paper Table ``tab:scaling``).
 
-It re-grades the persisted ``raw_outputs`` in ``bench/out/subagent/comprehend__<model>.json``
-(or the ``*.partial.jsonl`` checkpoint) against the oracle, using the SAME grader the live
-harness uses (``tasks._grade_comprehend_outputs`` -> ``grade.grade_comprehend_one``). It was
+It re-grades the persisted ``raw_outputs`` against the oracle, using the SAME grader the
+live harness uses (``tasks._grade_comprehend_outputs`` -> ``grade.grade_comprehend_one``).
+The primary source is the COMMITTED archive ``bench/out/ladder/comprehend__<model>.jsonl.gz``
+(zero API from version control); a fresh run's transient
+``bench/out/subagent/comprehend__<model>.json`` (or its ``*.partial.jsonl`` checkpoint) is
+only a fallback when the archive is absent. It was
 validated to match the harness grader exactly on a clean batch (DeepSeek-V4-Flash: 0.8385 ==
 0.8385); it deliberately bypasses the harness ``_rebuild_comprehend_item`` source-regen so it
 is unaffected by the (now-fixed) live-run finalize bugs.

@@ -170,11 +170,14 @@ Spaghetti-Architect/                   # repo root — also the project package 
 ├── examples/                      # IR samples you can feed the engine directly
 │   ├── membership_check.json
 │   ├── key_value_lookup.json
+│   ├── aggregate.json
+│   ├── conditional_select.json
+│   ├── analytics.json
 │   └── combined.json              # multi-op + inputs, for the run-equivalency demo
 │
 ├── tests/
 │   ├── __init__.py
-│   ├── golden/                    # committed snapshots: <lang>/<case>.<ext> (5 langs × 3 cases)
+│   ├── golden/                    # committed snapshots: <lang>/<case>.<ext> (5 langs × 6 cases)
 │   │   └── python/ javascript/ go/ java/ cpp/
 │   ├── test_golden.py             # snapshot regression
 │   ├── test_equivalency.py        # cross-language run equivalency
@@ -221,6 +224,13 @@ bench/                             # BENCHMARK LAYER (LLM-eval harness — impor
 ├── tasks.py                       # refactor / judge / comprehend task construction
 ├── grade.py                       # graders (reuse oracle/validate + eval.metrics)
 ├── anchor.py                      # quarantined construct-validity anchors (radon/lizard/cognitive)
+├── analysis.py                    # inferential pipeline over the aggregated results
+├── uniform_lane.py                # cross-language uniform-quality lane (needs the metrics venv)
+├── ladder_analysis.py             # zero-API re-grade of the dev comprehension ladder
+├── g3_analysis.py                 # zero-API re-grade of the G3 tables (dev + private test)
+├── annotation_ablation.py         # annotated-vs-unannotated ablation (refuses BENCH_STRIP_ANNOTATIONS)
+├── README.md · config.example.json
+├── data/                          # public dev split + CANARY.txt + manifest.json (test/ is private)
 └── run_bench.py                   # CLI: --selftest/--dry-run/--plan/--batch/--aggregate/--report
 
 pyproject.toml · requirements.txt · REQUIREMENTS.md   # packaging + per-layer deps
@@ -475,8 +485,10 @@ def _require(cond, msg):
 # _validate_inputs / _check_new_ident: implementation omitted, logic per §5.2
 ```
 
-> Design note: the `declared` set lets later operations reference `result_var`s written by earlier
-> operations — this is the key to supporting multi-operation sequences.
+> **As built** — the `declared` set only *rejects collisions*: `_check_new_ident` refuses a
+> `result_var` that reuses an input or earlier result name. Operations reference **inputs**, never
+> earlier results (every operand must be in `inputs`; see the §5.2 As-built note). Multi-operation
+> sequences are supported by independent operations over shared inputs, not by result chaining.
 
 ---
 
@@ -516,11 +528,20 @@ for testing and demos.
 
 ## 10. `config/anti_patterns_db.json` — The 11 Anti-Patterns
 
-All eleven are **composable cross-cutting transforms**, reused across both scenarios (improvement #7).
-`applies_to` declares which scenarios each affects; `profiles` declares which patterns each strength
-level enables. `SPAGH_009..011` were added later, grounded in the Collberg–Thomborson obfuscation
-taxonomy (opaque predicates) and classic code smells (Yoda conditions, loop-invariant de-hoisting);
-they target `MEMBERSHIP_CHECK` and slot into the existing manual-index-loop path.
+All eleven are **composable cross-cutting transforms**, shared across the engine's four scenarios
+(improvement #7). `applies_to` declares which scenarios each affects; `profiles` declares which
+patterns each strength level enables. `SPAGH_009..011` were added later, grounded in the
+Collberg–Thomborson obfuscation taxonomy (opaque predicates) and classic code smells (Yoda
+conditions, loop-invariant de-hoisting); they originally targeted `MEMBERSHIP_CHECK`'s
+manual-index-loop path, and in the shipped DB `SPAGH_009/010` also apply to `AGGREGATE` and
+`SPAGH_011` additionally to `CONDITIONAL_SELECT`.
+
+> **As built** — the JSON block below keeps the original two-operation `applies_to` lists as the
+> worked example; the shipped `config/anti_patterns_db.json` extends them across the four
+> operations. Its `profiles` block (shown as shipped) defines **five** nested sets
+> (`minimal` ⊂ `light` ⊂ `standard` ⊂ `heavy` ⊂ `max`; `light`/`heavy` added in v2 Phase C for
+> the benchmark's incidental knob). The file itself is authoritative; its `_profiles_note`
+> records the known rendering ties.
 
 ```json
 {
@@ -595,7 +616,9 @@ they target `MEMBERSHIP_CHECK` and slot into the existing manual-index-loop path
   },
   "profiles": {
     "minimal":  ["SPAGH_001"],
+    "light":    ["SPAGH_001", "SPAGH_002"],
     "standard": ["SPAGH_001", "SPAGH_002", "SPAGH_005", "SPAGH_007"],
+    "heavy":    ["SPAGH_001", "SPAGH_002", "SPAGH_004", "SPAGH_005", "SPAGH_007"],
     "max":      ["SPAGH_001", "SPAGH_002", "SPAGH_003", "SPAGH_004",
                  "SPAGH_005", "SPAGH_006", "SPAGH_007", "SPAGH_008",
                  "SPAGH_009", "SPAGH_010", "SPAGH_011"]
@@ -738,7 +761,10 @@ with e.block("while _idx < _n"):
 > `indented()` bumps one level with no delimiter (for `case:`/`default:` bodies under a `switch`);
 > `open_brace(header)` / `close_brace()` open and close a scope across *separate* calls, for file-spanning
 > structures a single `with` cannot wrap (Java `class` + `main`, C++ `int main()`, Go `func main()`).
-> `block()` and `raw_block()` remain the workhorses for ordinary nested blocks.
+> `block()` and `raw_block()` remain the workhorses for ordinary nested blocks. v0.2.4 additionally
+> gave the constructor an `annotate: bool = True` flag under which `comment()` becomes a no-op
+> (still zero language semantics: it only suppresses comment lines), producing the comment-free
+> rendering used as the annotation-ablation control corpus.
 
 ---
 
@@ -820,6 +846,9 @@ REGISTRY = {g.language: g for g in (
 > operation's element/value *types* by name (operations carry names, not values). The base adds shared
 > helpers `result_specs()`, `fallback_value()`, `collection_tag()` and input-kind classifiers.
 > `safety_scope` is the only hook that is a `@contextmanager`, and per §11 the try-wrap is always present.
+> In v0.2.4 `generate()` and the `new_emitter()` hook gained an `annotate: bool = True` parameter,
+> threaded from `Engine(annotate=...)` through `generate()` into `new_emitter()`; `annotate=False`
+> yields the comment-free rendering used as the ablation control.
 
 ---
 
@@ -994,6 +1023,16 @@ class Engine:
         return {"program": program, "sources": sources, "validation": results}
 ```
 
+> **As built** — the shipped `Engine` diverges from this sketch in three ways. (1) The constructor
+> is `Engine(db_path, profile="max", annotate=True)`: with `annotate=False` the same programs render
+> with every comment stripped (module header, per-operation clean-form comments, `SPAGH_*` markers),
+> the control corpus for the v0.2.4 annotation-leak ablation. (2) A `generate()` method exposes
+> parse + plan + emit *without* validation; it is the surface `bench/` imports (the "Engine.generate
+> (§16)" cross-references in §1 and §23 resolve here), and `transpile()` = `generate()` + validation.
+> (3) `transpile()` validates the five languages concurrently via a `ThreadPoolExecutor`
+> (subprocess-bound; results keyed by language, so output stays deterministic), while generation
+> stays single-threaded because the shared generator instances mutate per-call state.
+
 ---
 
 ## 17. `main.py` — CLI Panel + Validation
@@ -1010,8 +1049,9 @@ def main(argv=None):
     ap = argparse.ArgumentParser(description="Spaghetti Architect transpiler")
     ap.add_argument("ir", nargs="?", help="path to IR JSON; omit to run the built-in example suite")
     ap.add_argument("--profile", default="max",
-                    choices=["minimal", "standard", "max"])
+                    choices=["minimal", "light", "standard", "heavy", "max"])
     ap.add_argument("--lang", action="append", help="only output the given language(s) (repeatable)")
+    ap.add_argument("--source", action="store_true", help="also print the generated source")
     args = ap.parse_args(argv)
 
     here = os.path.dirname(__file__)
@@ -1066,7 +1106,7 @@ Panel sketch (box-drawing, pure stdlib):
 5. **Pure standard library**, `pytest` optional (`unittest` works too).
 
 > **As built** — the suites are `tests/test_golden.py`, `tests/test_equivalency.py`,
-> `tests/test_parser.py`, `tests/test_profiles.py` (25 tests total). A root `conftest.py` puts the repo
+> `tests/test_parser.py`, `tests/test_profiles.py` (40 tests total). A root `conftest.py` puts the repo
 > root on `sys.path` so bare `pytest` works; `python -m unittest discover -s tests -t .` works too.
 > Refresh snapshots with `UPDATE_GOLDEN=1 python -m unittest tests.test_golden`.
 
@@ -1165,7 +1205,7 @@ try {
 
 ## 20. Implementation Status
 
-**All five milestones below are complete**, and the 25-test suite (golden + equivalency + parser +
+**All five milestones below are complete**, and the 40-test suite (golden + equivalency + parser +
 profiles) is green. Validation coverage depends on the host: with every toolchain present all five
 languages PASS; with none, Python is runtime-verified via `exec()` and JS/Go/Java/C++ **SKIP** (never
 FAIL). The four compiled targets are otherwise locked in by golden snapshots + inspection.

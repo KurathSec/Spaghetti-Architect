@@ -78,5 +78,5 @@
                  "SPAGH_009", "SPAGH_010", "SPAGH_011"]
   },
   "profile_order": ["clean", "minimal", "light", "standard", "heavy", "max"],
-  "_profiles_note": "Strictly nested pattern sets minimal<light<standard<heavy<max (clean = empty baseline). The inclusion chain is a by-construction maintainability order (more enabled SPAGH_* = strictly more incidental complexity at fixed semantics), valid for both membership-only and lookup-only operations. 'light' and 'heavy' were added (v2 Phase C) to give >=6 incidental knob points for judge-monotonicity statistical power."
+  "_profiles_note": "Strictly nested pattern SETS minimal<light<standard<heavy<max (clean = empty baseline). Nesting orders the enabled sets, not necessarily the rendering: consult sites differ per operation, so rendered incidental complexity is monotone but NON-strict. Corpus-wide, 'light' and 'standard' render identically (SPAGH_005 is masked by the always-on SPAGH_001; SPAGH_007 has no consult site in any generator), and lookup-only programs render identically from 'light' upward (their emitters consult only SPAGH_001/002/005). 'light' and 'heavy' were added (v2 Phase C) to give >=6 incidental knob points for judge-monotonicity statistical power; the rendering ties attenuate rather than inflate monotonicity statistics."
 }

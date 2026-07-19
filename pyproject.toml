@@ -44,7 +44,7 @@ spaghetti-architect = "src.main:main"
 
 [project.optional-dependencies]
 # Quarantined, optional construct-validity anchors for bench/ (Phase G) — never
-# imported by the engine or the metric lanes; install in a throwaway venv. See
+# imported by the engine or the metric lanes; install once in a persistent venv. See
 # REQUIREMENTS.md.
 anchor = ["radon", "lizard", "cognitive_complexity"]
 

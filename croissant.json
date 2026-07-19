@@ -40,7 +40,7 @@
     "code refactoring",
     "LLM-as-judge"
   ],
-  "citeAs": "Yuxiang Ji. Spaghetti Architect: a by-construction-labelled, contamination-resistant, multi-language code dataset generator (v0.2.3). Zenodo, 2026. https://doi.org/10.5281/zenodo.21033174",
+  "citeAs": "Yuxiang Ji. Spaghetti Architect: a by-construction-labelled, contamination-resistant, multi-language code dataset generator (v0.2.4). Zenodo, 2026. https://doi.org/10.5281/zenodo.21033174",
   "distribution": [
     {
       "@type": "cr:FileObject",

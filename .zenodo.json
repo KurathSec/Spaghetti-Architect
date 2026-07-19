@@ -1,5 +1,5 @@
 {
-  "title": "Spaghetti Architect: an anti-optimization transpiler with a compile-run oracle",
+  "title": "Spaghetti Architect: A Contamination-Resistant, By-Construction-Labelled, Multi-Language Code Dataset Generator",
   "description": "Spaghetti Architect maps a clean JSON intermediate representation to deliberately redundant, fully-flattened, yet provably-correct code in Python, JavaScript, Go, Java, and C++. Every generated program is compiled, run, and checked against a reference oracle, so the generated 'bad code' provably builds and computes the right answer. It generates controllable, ground-truth, contamination-resistant code datasets (semantically-equivalent variants across two orthogonal difficulty axes) for software-engineering research.",
   "upload_type": "software",
   "access_right": "open",
