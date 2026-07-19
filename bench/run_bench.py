@@ -1531,7 +1531,7 @@ def aggregate() -> int:
 
 
 # --------------------------------------------------------------------------- #
-# --report (emit paper/benchmark.tex; NEVER compiled)
+# --report (emit archived/benchmark-paper/benchmark.tex; NEVER compiled)
 # --------------------------------------------------------------------------- #
 _PAPER_TEMPLATE = r"""% Spaghetti Architect benchmark paper. Emitted by bench/run_bench.py --report.
 % NOT compiled by the harness. Target venue: EACL (main or Findings) via ACL Rolling Review (ARR).
@@ -2245,7 +2245,7 @@ def _render_paper(results: Optional[dict]) -> str:
 
 
 def build_tex(results: Optional[dict]) -> str:
-    """Render paper/benchmark.tex. Figures/tables populate from ``results`` when a
+    """Render archived/benchmark-paper/benchmark.tex. Figures/tables populate from ``results`` when a
     live run exists, else show ``AWAITING LIVE RUN`` placeholders. NOT compiled."""
     return _render_paper(results)
 
@@ -2293,7 +2293,7 @@ def main(argv=None) -> int:
     g.add_argument("--sweep", metavar="TASK",
                    help="prompt-robustness paraphrase sweep (refactor|comprehend); needs --model")
     g.add_argument("--aggregate", action="store_true", help="merge subagent JSON -> results.json")
-    g.add_argument("--report", action="store_true", help="emit paper/benchmark.tex (not compiled)")
+    g.add_argument("--report", action="store_true", help="emit archived/benchmark-paper/benchmark.tex (not compiled)")
     g.add_argument("--regrade", action="store_true",
                    help="re-run graders on STORED raw outputs in out/subagent/*.json (ZERO API)")
     g.add_argument("--pilot", action="store_true",

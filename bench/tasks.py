@@ -11,7 +11,8 @@ queries the model ``k`` times, grades locally (reusing ``oracle``/``validate``/
   baseline. One item per (sample, profile, language, variant). The variant set of
   each representative supplies the differential inputs that defeat guessing.
 * **Judge** — rate maintainability across the incidental knob (``clean`` for
-  Python, then ``minimal``/``standard``/``max``); pointwise monotonicity +
+  Python, then the full ``minimal``/``light``/``standard``/``heavy``/``max`` ladder,
+  byte-identical renders deduped); pointwise monotonicity +
   sensitivity, and pairwise accuracy vs the knob order.
 * **Comprehend** — predict the result variables from a rendered source;
   exact-match vs the oracle over base + variants.

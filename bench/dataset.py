@@ -5,7 +5,7 @@ Built **on top of** ``eval.gen_samples`` (the single source of truth for sample
 logic) — this module adds no second sample generator. It exposes the benchmark's
 two difficulty axes and a contamination control:
 
-* **Incidental complexity** — ``profile in {minimal, standard, max}`` (plus the
+* **Incidental complexity** — ``profile in {minimal, light, standard, heavy, max}`` (plus the
   ``clean`` baseline as the zero point): identical semantics, more spaghetti, zero
   logic change.
 * **Intrinsic complexity** — the family scale knobs (``config_resolver`` N,

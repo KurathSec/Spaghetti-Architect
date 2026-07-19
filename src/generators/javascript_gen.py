@@ -2,7 +2,7 @@
 
 - emitter: ``brace_style=True``.
 - anti-patterns: explicit ``for`` index loop for membership; ``switch``-case for lookup.
-- safety: ``typeof``/null check + ``try { } catch (e) { }``; ``var`` (ES5).
+- safety: ``!== null && !== undefined`` guard + ``try { } catch (e) { }``; ``var`` (ES5).
 - output: ``console.log(JSON.stringify(...))`` so the validator can parse one JSON line.
 """
 
