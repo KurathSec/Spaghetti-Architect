@@ -1319,7 +1319,8 @@ committed.
 > regenerable re-mint of the dev families (identical family mix, fresh secret values, all
 > prompt hashes differ), so contamination-resistance is now *measured*, not merely asserted:
 > across the reference ladder, comprehension exact-match on the private **test** Tier-A equals
-> the dev EM (|Δ|≤0.011) and refactor compile/run `semantic_ok` on test Tier-A equals dev. The
+> the dev EM (|Δ|≤0.012) and refactor compile/run `semantic_ok` on test Tier-A equals dev
+> (|Δ|≤0.011). The
 > refactor task is its own capability ladder in `semantic_ok` (≈0.73→0.99 over the reference
 > models, mirroring comprehension's EM ladder). On *identical* `agg_stats` programs, refactor
 > `semantic_ok` stays high and flat as the collection width `W` grows while comprehension EM

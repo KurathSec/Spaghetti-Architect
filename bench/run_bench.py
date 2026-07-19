@@ -2269,7 +2269,7 @@ def write_report() -> int:
         with open(PAPER_TEX, "w", encoding="utf-8") as f:
             f.write(generated)
         print(f"wrote {PAPER_TEX} (NOT compiled)")
-    # ship the bibliography next to the paper (only if absent — paper/refs.bib is
+    # ship the bibliography next to the paper (only if absent — archived/benchmark-paper/refs.bib is
     # likewise hand-maintained once present; the two are kept in sync deliberately).
     dst_bib = os.path.join(PAPER_DIR, "refs.bib")
     src_bib = os.path.join(OUT_DIR, "relatedwork", "refs.bib")
