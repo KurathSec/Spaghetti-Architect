@@ -147,8 +147,13 @@ machine-readable record for the same split is in [`croissant.json`](croissant.js
 - **How distributed?** With the tool on GitHub
   (<https://github.com/KurathSec/Spaghetti-Architect>) under the **MIT** license; also
   described by this datasheet, the Croissant record (`croissant.json`), and the paper
-  appendix. The public `dev` split is in the repository; the `test` split is private
-  and withheld by design.
+  appendix. The public `dev` split is in the repository; the `test` split's instance
+  files are private and withheld by design. The raw model completions on the test split
+  ARE committed (`bench/out/g3/*_test__*.jsonl.gz`, so the published private-test numbers
+  can be audited without re-querying any model), and a refactoring completion reproduces
+  most of its instance's input literals, so treat the current minted test instances as
+  disclosed: freshness for any future scored use comes from re-minting with the private
+  seed, which is the protocol described under contamination controls above.
 - **DOI.** A persistent Zenodo concept DOI is assigned to the artifact:
   [10.5281/zenodo.21033174](https://doi.org/10.5281/zenodo.21033174). It always
   resolves to the latest archived version.

@@ -18,13 +18,22 @@ require the held-out seed `BENCH_HELDOUT_SEED` to regenerate the test oracle: by
 design they are reproducible by the maintainer (who holds the seed) and regenerable-equivalent by
 anyone from a fresh seed, not byte-reproducible from version control alone.
 
+**Disclosure trade-off (deliberate).** These archives include the raw completions on the private
+**test** split, and a refactoring completion reproduces most of its instance's input literals, so
+committing them discloses the literal content of the *current* minted test instances. That is the
+price of making the published private-test numbers auditable without re-querying any model. The
+contamination defense is the re-mint protocol, not the secrecy of this particular split: any
+future scored use of the held-out split starts from a fresh re-mint with `BENCH_HELDOUT_SEED`
+(never committed). The published dev-vs-Tier-A agreement is a record of runs completed before
+these archives were published.
+
 ## Verified findings (adversarial 8-agent re-derivation, 2026-06-29)
 
 Every headline number was independently re-derived from the raw per-item grades (not via the
 analysis script) and stress-tested for confounds. Outcomes:
 
 **Confirmed, robust:**
-- **No contamination.** comprehend dev EM ≈ test Tier-A EM for all 4 models (|Δ|≤0.011); Tier A is a
+- **No contamination.** comprehend dev EM ≈ test Tier-A EM for all 4 models (|Δ|≤0.012); Tier A is a
   faithful re-mint of the dev families (identical family mix, fresh secret values — all prompt hashes
   differ). refactor `semantic_ok` dev ≈ test_A across the full ladder (DeepSeek Δ=−0.0001 at 0.987).
 - **The arithmetic-aggregation cliff is genuine computation, not a parsing artifact.** agg_stats outputs

@@ -52,9 +52,12 @@ eval/*
 bench/config.json
 bench/.heldout_seed
 bench/data/test/
-# ...including RESULTS on that split: a batch's `raw_outputs` embed the held-out
-# literals verbatim (a refactor completion reproduces the input fixtures in full).
-# The seed protects the literals, so these are as disclosive as bench/data/test/.
+# ...including the transient finalize RESULT batches on that split: their
+# `raw_outputs` embed the held-out literals verbatim (a refactor completion
+# reproduces the input fixtures in full). The compacted test completions in
+# bench/out/g3/ are a DELIBERATE auditability release (see bench/out/g3/README.md
+# and the paper's limitations section); everything else minted from the seed
+# stays out of version control.
 bench/out/subagent/*__test.json
 
 # Internal working notes (open problems, solutions, submission roadmap) — private.
