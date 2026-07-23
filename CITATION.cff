@@ -23,6 +23,9 @@ identifiers:
   - type: doi
     value: "10.5281/zenodo.21033174"
     description: "Concept DOI — always resolves to the latest archived version."
+  - type: other
+    value: "arXiv:2607.18642"
+    description: "arXiv preprint of the companion paper (under review at DMLR)."
 authors:
   - given-names: "Yuxiang"
     family-names: "Ji"

@@ -1,6 +1,7 @@
 # 🍝 Spaghetti Architect
 
 [![DOI](https://zenodo.org/badge/1273227056.svg)](https://doi.org/10.5281/zenodo.21033174)
+[![arXiv](https://img.shields.io/badge/arXiv-2607.18642-b31b1b.svg)](https://arxiv.org/abs/2607.18642)
 
 > An **anti-optimization transpiler**: feed it clean logic, get back deliberately
 > redundant, fully flattened — yet syntactically correct and **crash-free** —

@@ -23,6 +23,11 @@
       "relation": "isSupplementTo",
       "scheme": "url",
       "identifier": "https://github.com/KurathSec/Spaghetti-Architect"
+    },
+    {
+      "relation": "isDocumentedBy",
+      "scheme": "arxiv",
+      "identifier": "arXiv:2607.18642"
     }
   ]
 }
