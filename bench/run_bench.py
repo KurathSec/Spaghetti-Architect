@@ -26,6 +26,7 @@ real model is queried and nothing is spent.
 from __future__ import annotations
 
 import argparse
+import dataclasses
 import datetime
 import json
 import os
@@ -59,6 +60,18 @@ PY_VERSION = sys.version.split()[0]
 # one batch per model (cheap grading, no compilation).
 PER_FAMILY_TASKS = ["refactor", "comprehend"]
 GLOBAL_TASKS = ["judge"]
+
+# Campaign namespace, read ONCE at import like the corpus flags. A non-empty
+# tag is appended to every batch filename (and therefore checkpoint name) and
+# stamped into the env block, so a whole campaign lives beside the published
+# artifacts instead of over them. rep1 = the pre-registered same-week
+# replication campaign (bench/PREREGISTRATION_V2.md).
+RUN_TAG = os.environ.get("BENCH_RUN_TAG", "")
+if RUN_TAG and not RUN_TAG.isidentifier():
+    sys.exit(f"BENCH_RUN_TAG={RUN_TAG!r} must be a bare identifier")
+
+# Mirrors tasks.PROMPT_MODE (read once there); "" or "cot".
+PROMPT_MODE = T.PROMPT_MODE
 
 
 # --------------------------------------------------------------------------- #
@@ -104,7 +117,12 @@ def env_block(cfg: models.Config, split: str) -> dict:
         "corpus_condition": T.CORPUS,
         # Which engine rendering-spec produced the sources ("2.0" = published).
         "engine_spec": T.ENGINE_SPEC,
-        "prompt_version": P.PROMPT_VERSION,
+        # Campaign namespace (empty outside campaigns) and prompt mode
+        # ("cot" only for the CoT-permitted comprehension lane).
+        "run_tag": RUN_TAG,
+        "prompt_mode": PROMPT_MODE,
+        "prompt_version": (P.COT_PROMPT_VERSION if PROMPT_MODE == "cot"
+                           else P.PROMPT_VERSION),
         "prompt_set_hash": P.prompt_set_hash(),
         "n_paraphrases": P.N_PARAPHRASES,
         "sampling": {"k_samples": cfg.k_samples, "temperature": cfg.temperature,
@@ -134,8 +152,14 @@ def subagent_name(task: str, model: str, family: Optional[str], split: str = "de
     # published names, and a stripped-annotation run writes beside them instead of over
     # them. The two conditions are different corpora and must never share a file.
     ann = {"annotated": "", "unannotated": "__unannotated",
-           "sidecar": "__sidecar"}[T.CORPUS]
-    return f"{task}__{safe_model}" + fam + sp + ann + ".json"
+           "sidecar": "__sidecar", "markers_only": "__markers_only",
+           "comments_only": "__comments_only", "lying": "__lying"}[T.CORPUS]
+    # BENCH_RUN_TAG namespaces an entire campaign (checkpoints included): a
+    # tagged re-fetch of the annotated arm writes beside the original finalize
+    # files instead of over them, and never resumes their checkpoints.
+    tag = f"__{RUN_TAG}" if RUN_TAG else ""
+    cot = "__cot" if PROMPT_MODE == "cot" else ""
+    return f"{task}__{safe_model}" + fam + sp + ann + cot + tag + ".json"
 
 
 def subagent_path(task: str, model: str, family: Optional[str], split: str = "dev") -> str:
@@ -478,8 +502,14 @@ def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
               allow_skips: bool = False, parse_floor: float = 0.5,
               resume: bool = True, max_calls: Optional[int] = None,
               max_cost: Optional[float] = None,
-              concurrency: Optional[int] = None) -> dict:
+              concurrency: Optional[int] = None,
+              max_tokens: Optional[int] = None) -> dict:
     cfg = models.load_config()
+    if PROMPT_MODE == "cot" and task != "comprehend":
+        raise SystemExit("BENCH_PROMPT_MODE=cot is defined for the comprehend "
+                         f"task only, not {task!r}")
+    if max_tokens is not None:
+        cfg = dataclasses.replace(cfg, max_tokens=int(max_tokens))
     if model != models.MOCK and not cfg.model_is_live(model):
         print(f"configure bench/config.json: no API key for model {model!r} "
               f"(provider {cfg.provider_of(model)!r}), then re-run", file=sys.stderr)
@@ -742,6 +772,7 @@ def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
     records = [by_id[iid] for iid in sorted(by_id)]
 
     usage = models.reset_usage()
+    finish_counts = models.reset_finish_counts()
     est_usd = _usage_cost(model, usage)
 
     agg = headline_aggregate(task, [r for r in records if not r.get("error")])
@@ -751,12 +782,14 @@ def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
                 "n_new_calls": new_calls, "parse_ok": parse_ok, "parse_n": parse_n,
                 "parse_success_rate": parse_rate, "aborted": aborted,
                 "net_concurrency": net_workers, "grade_concurrency": _grade_concurrency(),
-                "usage": usage}
+                "usage": usage, "finish_reasons": finish_counts}
     if est_usd is not None:
         run_meta["est_usd"] = est_usd
     payload = {
         "task": task, "model": model, "family": fam, "split": split, "k": k,
-        "prompt_version": P.PROMPT_VERSION, "env": env_block(cfg, split),
+        "prompt_version": (P.COT_PROMPT_VERSION if PROMPT_MODE == "cot"
+                           else P.PROMPT_VERSION),
+        "env": env_block(cfg, split),
         "aggregate": agg, "items": records, "run_meta": run_meta,
     }
     if write and not aborted:
@@ -1360,12 +1393,16 @@ def _load_subagents() -> List[dict]:
     for fn in sorted(os.listdir(SUBAGENT_DIR)):
         if not fn.endswith(".json"):
             continue
-        if "__unannotated" in fn:
+        if any(sfx in fn for sfx in ("__unannotated", "__sidecar",
+                                     "__markers_only", "__comments_only",
+                                     "__lying", "__cot", "__rep")):
             skipped += 1
             continue
         with open(os.path.join(SUBAGENT_DIR, fn), encoding="utf-8") as f:
             payload = json.load(f)
-        if (payload.get("env") or {}).get("corpus_condition") == "unannotated":
+        env = payload.get("env") or {}
+        if (env.get("corpus_condition") not in (None, "annotated")
+                or env.get("run_tag") or env.get("prompt_mode")):
             skipped += 1
             continue
         payloads.append(payload)
@@ -2331,6 +2368,10 @@ def main(argv=None) -> int:
     ap.add_argument("--family", help="family for --batch/--dry-run/--pilot")
     ap.add_argument("--task", help="restrict --dry-run/--regrade/--pilot to one task")
     ap.add_argument("--split", default="dev", choices=["dev", "test"], help="dataset split")
+    ap.add_argument("--max-tokens", type=int, default=None,
+                    help="--batch: override cfg.max_tokens for this batch only "
+                         "(the CoT lane runs 4096; the stamped env block "
+                         "reflects the override)")
     ap.add_argument("--k", type=int, default=None,
                     help="override k for --batch/--pilot (default: pre-registered cfg.k_samples=8)")
     ap.add_argument("--limit", type=int, default=1, help="items per task for --pilot")
@@ -2379,7 +2420,8 @@ def main(argv=None) -> int:
         run_batch(args.batch, args.model, args.family, split=args.split, k=args.k,
                   allow_skips=args.allow_skips, parse_floor=args.parse_floor,
                   resume=not args.no_resume, max_calls=args.max_calls,
-                  max_cost=args.max_cost, concurrency=args.concurrency)
+                  max_cost=args.max_cost, concurrency=args.concurrency,
+                  max_tokens=args.max_tokens)
         return 0
     return 0
 

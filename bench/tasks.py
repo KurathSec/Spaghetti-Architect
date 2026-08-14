@@ -97,7 +97,12 @@ STRIP_ANNOTATIONS = os.environ.get("BENCH_STRIP_ANNOTATIONS", "") not in ("", "0
 # the legacy flag it is read ONCE at import and stamped into every run's env
 # block; regrade enforces the stamp (see run_bench.regrade).
 _CORPUS_ENV = os.environ.get("BENCH_CORPUS", "")
-_CORPUS_VALUES = ("annotated", "unannotated", "sidecar")
+# markers_only / comments_only / lying are the annotation-decomposition
+# renderings of the pre-registered rep1 campaign (bench/PREREGISTRATION_V2.md):
+# channel filters and the veracity manipulation, code bytes identical to the
+# annotated corpus in all three (verified by the campaign's byte-identity gate).
+_CORPUS_VALUES = ("annotated", "unannotated", "sidecar",
+                  "markers_only", "comments_only", "lying")
 if _CORPUS_ENV and _CORPUS_ENV not in _CORPUS_VALUES:
     sys.exit(f"BENCH_CORPUS={_CORPUS_ENV!r} is not one of {_CORPUS_VALUES}")
 CORPUS = _CORPUS_ENV or ("unannotated" if STRIP_ANNOTATIONS else "annotated")
@@ -110,13 +115,23 @@ STRIP_ANNOTATIONS = CORPUS == "unannotated"   # keep the legacy flag consistent
 # SPAGH_005/007 fixes. Stamped into the env block of every run.
 ENGINE_SPEC = os.environ.get("BENCH_ENGINE_SPEC", "2.0")
 
+# CoT-permitted comprehension lane (rep1 campaign). Read once at import like
+# the corpus flags; "cot" switches ComprehendItem.prompt to
+# prompts.comprehend_cot (its own COT_PROMPT_VERSION; the frozen prompt set is
+# untouched). Valid for the comprehend task only -- run_bench enforces that.
+PROMPT_MODE = os.environ.get("BENCH_PROMPT_MODE", "")
+if PROMPT_MODE not in ("", "cot"):
+    sys.exit(f"BENCH_PROMPT_MODE={PROMPT_MODE!r} is not one of ('', 'cot')")
+
 
 def _engine(profile: str) -> Engine:
     key = (profile, CORPUS, ENGINE_SPEC)
     if key not in _ENGINES:
+        mode = (CORPUS if CORPUS in ("sidecar", "markers_only",
+                                     "comments_only", "lying") else None)
         _ENGINES[key] = Engine(
             DB, profile, annotate=not STRIP_ANNOTATIONS, spec=ENGINE_SPEC,
-            annotations="sidecar" if CORPUS == "sidecar" else None)
+            annotations=mode)
     return _ENGINES[key]
 
 
@@ -174,6 +189,9 @@ class ComprehendItem:
     tier: str = "A"
 
     def prompt(self, variant: int = 0):
+        if PROMPT_MODE == "cot":
+            return P.comprehend_cot(self.language, self.source,
+                                    self.result_vars, variant)
         return P.comprehend(self.language, self.source, self.result_vars, variant)
 
 

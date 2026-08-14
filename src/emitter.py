@@ -11,7 +11,18 @@ from __future__ import annotations
 from contextlib import contextmanager
 from typing import Iterator, List, Optional
 
-_MODES = ("full", "none", "sidecar")
+_MODES = ("full", "none", "sidecar", "markers_only", "comments_only", "lying")
+
+# Channel filters for the annotation-decomposition modes (campaign rep1).
+# The four comment kinds partition every emitted comment: "header" (module
+# header), "intent" (the per-operation clean-form comment), "marker" (inline
+# SPAGH_* anti-pattern markers), and "op" (structural scaffolding: fixture
+# banners, JSON-emit notes). markers_only UNION comments_only == full,
+# disjoint, so channel deltas decompose the full-vs-none ablation exactly.
+_MODE_KINDS = {
+    "markers_only": frozenset({"header", "marker", "op"}),
+    "comments_only": frozenset({"intent"}),
+}
 
 
 class CodeEmitter:
@@ -83,9 +94,15 @@ class CodeEmitter:
           code with every comment removed (the evaluation default, per the
           annotation-ablation result);
         * ``sidecar`` — the header stays in-source (the dual-use friction),
-          every other comment is diverted, line-aligned, into :meth:`sidecar`.
+          every other comment is diverted, line-aligned, into :meth:`sidecar`;
+        * ``markers_only`` / ``comments_only`` — the channel-decomposition
+          renderings (campaign rep1): keep only the kinds in ``_MODE_KINDS``;
+        * ``lying`` — renders like ``full`` (the falsified intent text is
+          produced upstream, at the describe call site).
         """
         if self._mode == "none":
+            return self
+        if self._mode in _MODE_KINDS and kind not in _MODE_KINDS[self._mode]:
             return self
         prefix = "// " if self._brace else "# "
         if self._mode == "sidecar" and kind != "header":

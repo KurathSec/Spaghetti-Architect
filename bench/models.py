@@ -90,6 +90,27 @@ def reset_usage() -> Dict[str, int]:
     return snap
 
 
+# Batch-level finish_reason tally (rep1 campaign; same lifecycle as _USAGE).
+# The CoT lane raises max_tokens and needs truncation to be COUNTED, not
+# silent: per-item truncation is detected by the answer-tag protocol in the
+# offline scorer, and this tally corroborates it at the batch level.
+_FINISH: Dict[str, int] = {}
+
+
+def _record_finish(reason: object) -> None:
+    with _USAGE_LOCK:
+        key = str(reason) if reason else "unknown"
+        _FINISH[key] = _FINISH.get(key, 0) + 1
+
+
+def reset_finish_counts() -> Dict[str, int]:
+    """Atomically read and reset the finish_reason tally (run_batch, per batch)."""
+    with _USAGE_LOCK:
+        snap = dict(_FINISH)
+        _FINISH.clear()
+    return snap
+
+
 def _record_anthropic_usage(body: dict) -> None:
     u = body.get("usage") or {}
     # Anthropic counts input/output; extended-thinking tokens are billed as output and
@@ -401,6 +422,7 @@ def _openai_chat(model, system, user, cfg, spec, key) -> Tuple[str, str]:
                       model=model)
     _record_openai_usage(body)
     choices = body.get("choices") or [{}]
+    _record_finish(choices[0].get("finish_reason"))
     text = (choices[0].get("message") or {}).get("content", "") or ""
     return text, str(body.get("model", model))
 

@@ -97,6 +97,13 @@ bench/out/subagent/*.partial.jsonl
 # Note run_bench._load_subagents also skips them at aggregate time, on two independent
 # signals, so they can never pool into results.json.
 bench/out/subagent/*__unannotated.json
+# rep1 campaign shards (channel/veracity/CoT conditions + the run tag): transient
+# like the ablation shards; the durable record is the packaged out/ablation_v2/ gz.
+bench/out/subagent/*__markers_only*.json
+bench/out/subagent/*__comments_only*.json
+bench/out/subagent/*__lying*.json
+bench/out/subagent/*__cot*.json
+bench/out/subagent/*__rep[0-9]*.json
 
 # local Claude Code project file (not part of the artifact)
 CLAUDE.md

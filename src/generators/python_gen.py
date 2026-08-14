@@ -77,10 +77,10 @@ class PythonGenerator(BaseGenerator):
             self._assign_bool(e, res, f"({tgt} in {coll})", patterns)
             return
 
-        e.comment("SPAGH_001/006/008: manual index loop instead of `in`")
+        e.comment("SPAGH_001/006/008: manual index loop instead of `in`", kind="marker")
         e.line("_idx = 0")
         if Pattern.REDUNDANT_RECOMP in patterns:
-            e.comment("SPAGH_010: recompute len() every iteration (de-hoisted)")
+            e.comment("SPAGH_010: recompute len() every iteration (de-hoisted)", kind="marker")
             bound = f"len({coll})"
         else:
             e.line(f"_n = len({coll})")
@@ -95,7 +95,7 @@ class PythonGenerator(BaseGenerator):
                     current = f"{coll}[_idx]"
                 self._emit_match(e, current, tgt, patterns)
             if self._overguard(patterns):
-                e.comment("SPAGH_007: redundant bounds re-check before use")
+                e.comment("SPAGH_007: redundant bounds re-check before use", kind="marker")
                 with e.block(f"if _idx >= 0 and _idx < {bound}"):
                     body()
             else:
@@ -111,7 +111,7 @@ class PythonGenerator(BaseGenerator):
     def _emit_match(self, e, current, tgt, patterns) -> None:
         cmp = self._match_cmp(current, tgt, patterns)
         if Pattern.OPAQUE_PREDICATE in patterns:
-            e.comment("SPAGH_009: opaque predicate (always true: n*(n+1) is even)")
+            e.comment("SPAGH_009: opaque predicate (always true: n*(n+1) is even)", kind="marker")
             with e.block("if (_idx * (_idx + 1)) % 2 == 0"):
                 self._match_body(e, cmp, patterns)
         else:
@@ -143,7 +143,7 @@ class PythonGenerator(BaseGenerator):
             e.line(f"{res} = {m}.get({key}, {default_lit})")
             return
 
-        e.comment("SPAGH_005: cascade enumerating every known key")
+        e.comment("SPAGH_005: cascade enumerating every known key", kind="marker")
         e.line("_resolved = False")
         if Pattern.REDUNDANT_TEMPS in patterns:
             e.line(f"_key = {key}")
@@ -153,7 +153,7 @@ class PythonGenerator(BaseGenerator):
 
         def emit_cascade() -> None:
             if self._nested(patterns):
-                e.comment("SPAGH_005: nested cascade (one else-scope per key)")
+                e.comment("SPAGH_005: nested cascade (one else-scope per key)", kind="marker")
                 self._emit_nested_cascade(e, k, list(op.pairs.items()), res)
                 return
             first = True
@@ -168,7 +168,7 @@ class PythonGenerator(BaseGenerator):
                 e.line("_resolved = False")
 
         if self._overguard(patterns):
-            e.comment("SPAGH_007: redundant key re-check before use")
+            e.comment("SPAGH_007: redundant key re-check before use", kind="marker")
             with e.block(f"if {k} is not None"):
                 emit_cascade()
         else:
@@ -209,10 +209,10 @@ class PythonGenerator(BaseGenerator):
             e.line(f"{res} = {mode}({coll})")
             return
 
-        e.comment(f"SPAGH_001/006/008: manual {mode} reduction instead of {mode}()")
+        e.comment(f"SPAGH_001/006/008: manual {mode} reduction instead of {mode}()", kind="marker")
         e.line("_idx = 0")
         if Pattern.REDUNDANT_RECOMP in patterns:
-            e.comment("SPAGH_010: recompute len() every iteration (de-hoisted)")
+            e.comment("SPAGH_010: recompute len() every iteration (de-hoisted)", kind="marker")
             bound = f"len({coll})"
         else:
             e.line(f"_n = len({coll})")
@@ -227,7 +227,7 @@ class PythonGenerator(BaseGenerator):
                     current = f"{coll}[_idx]"
                 self._emit_reduce(e, mode, current, patterns)
             if self._overguard(patterns):
-                e.comment("SPAGH_007: redundant bounds re-check before use")
+                e.comment("SPAGH_007: redundant bounds re-check before use", kind="marker")
                 with e.block(f"if _idx >= 0 and _idx < {bound}"):
                     body()
             else:
@@ -237,7 +237,7 @@ class PythonGenerator(BaseGenerator):
 
     def _emit_reduce(self, e, mode, current, patterns) -> None:
         if Pattern.OPAQUE_PREDICATE in patterns:
-            e.comment("SPAGH_009: opaque predicate (always true: n*(n+1) is even)")
+            e.comment("SPAGH_009: opaque predicate (always true: n*(n+1) is even)", kind="marker")
             with e.block("if (_idx * (_idx + 1)) % 2 == 0"):
                 self._reduce_body(e, mode, current, patterns)
         else:
@@ -266,16 +266,16 @@ class PythonGenerator(BaseGenerator):
             e.line(f"{res} = {then_lit} if {cond} else {else_lit}")
             return
 
-        e.comment("SPAGH_001/005: expand the ternary into an explicit if/else")
+        e.comment("SPAGH_001/005: expand the ternary into an explicit if/else", kind="marker")
         if Pattern.REDUNDANT_TEMPS in patterns:
             e.line(f"_cond = {cond}")
             cond = "_cond"
 
         if self._nested(patterns):
-            e.comment("SPAGH_005: two-stage dispatch through a branch selector")
+            e.comment("SPAGH_005: two-stage dispatch through a branch selector", kind="marker")
             e.line("_branch = 0")
             if self._overguard(patterns):
-                e.comment("SPAGH_007: redundant condition re-check before use")
+                e.comment("SPAGH_007: redundant condition re-check before use", kind="marker")
                 with e.block(f"if {cond}"):
                     with e.block(f"if {cond}"):
                         e.line("_branch = 1")

@@ -33,7 +33,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap.add_argument("--lang", action="append",
                     help="only output the given language(s) (repeatable)")
     ap.add_argument("--source", action="store_true", help="also print the generated source")
-    ap.add_argument("--annotate", default="full", choices=["full", "none", "sidecar"],
+    ap.add_argument("--annotate", default="full",
+                    choices=["full", "none", "sidecar",
+                             "markers_only", "comments_only", "lying"],
                     help="annotation mode: full = self-annotated (release default), "
                          "none = every comment stripped (the evaluation corpus), "
                          "sidecar = header in-source + line-aligned sidecar JSON")

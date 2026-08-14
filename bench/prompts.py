@@ -167,6 +167,38 @@ def comprehend(language: str, source: str, result_vars: List[str], variant: int 
 
 
 # --------------------------------------------------------------------------- #
+# Task C' — CoT-permitted comprehension (rep1 campaign; SEPARATE lane)
+# --------------------------------------------------------------------------- #
+# The frozen bench-prompts-v2 comprehension protocol FORBIDS intermediate
+# reasoning, so every published number is a direct-answer measurement. This
+# lane measures the protocol sensitivity of the width-collapse result. It is
+# deliberately OUTSIDE prompt_set_hash() (the frozen provenance stays
+# byte-stable) and carries its own version tag; batches run under
+# BENCH_PROMPT_MODE=cot and are graded by a separate offline scorer
+# (answer-tag extraction), never by grade.extract_json_obj.
+COT_PROMPT_VERSION = "bench-prompts-cot-v1"
+
+
+def comprehend_cot(language: str, source: str, result_vars: List[str],
+                   variant: int = 0) -> tuple:
+    """CoT-permitted output prediction: reason freely, then give the final
+    JSON inside <answer>...</answer>. Single canonical wording (no
+    paraphrase sweep for this lane)."""
+    name = _LANG_NAME[language]
+    keys = ", ".join(f'"{v}"' for v in result_vars)
+    system = ("You are a careful interpreter. You may reason step by step as "
+              "much as you need. End your reply with the final result as a "
+              "single JSON object wrapped in <answer></answer> tags.")
+    user = (f"Work through this {name} program step by step and determine the "
+            "final value of each result variable. Show your reasoning, then "
+            f"finish with ONLY one JSON object whose keys are exactly [{keys}] "
+            "(use JSON true/false for booleans, JSON strings for strings), "
+            "wrapped in <answer></answer> tags.\n\n"
+            f"```{_FENCE[language]}\n{source}\n```")
+    return system, user
+
+
+# --------------------------------------------------------------------------- #
 # Prompt-set hash (pre-registration: prove the prompts were not tuned on results)
 # --------------------------------------------------------------------------- #
 def prompt_set_hash() -> str:

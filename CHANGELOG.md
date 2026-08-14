@@ -1,5 +1,22 @@
 # Changelog
 
+## Unreleased
+
+- Emitter comment kinds refined for the rep1 campaign: the per-operation
+  intent comment is now `kind="intent"` and the inline SPAGH markers
+  `kind="marker"` (previously both defaulted to `"op"`); rendered bytes are
+  unchanged in every existing mode, and sidecar entries now carry the finer
+  kinds. New annotation modes `markers_only`, `comments_only` (channel
+  decomposition; the pair partitions the full annotation set exactly) and
+  `lying` (per-op intent payload deterministically falsified, code untouched),
+  exposed via `--annotate` and `BENCH_CORPUS`. Bench: `BENCH_RUN_TAG`
+  namespacing, `BENCH_PROMPT_MODE=cot` comprehension lane
+  (`bench-prompts-cot-v1`, separate offline answer-tag scorer; the frozen
+  prompt set and its hash are untouched), `--max-tokens` per-batch override,
+  batch-level `finish_reason` tallies. Pre-registered campaign docs and
+  analysis: `bench/PREREGISTRATION_V2.md`, `bench/ablation_v2_analysis.py`,
+  `bench/package_rep1.py`, `bench/run_rep1.sh`.
+
 ## v0.3.0 (unreleased)
 
 Three version axes now coexist and must not be conflated: **software** (this

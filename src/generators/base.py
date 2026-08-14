@@ -75,7 +75,11 @@ class BaseGenerator(ABC):
     def emit_operation(self, e: CodeEmitter, op_plan: OpPlan) -> None:
         op = op_plan.operation
         pol = policy_for(op)
-        e.comment(self.describe(op))
+        # The per-operation intent comment. In "lying" mode (the veracity
+        # manipulation of campaign rep1) the stated clean form is a
+        # deterministic plausible-but-wrong alternative; the CODE is untouched.
+        e.comment(self.describe_false(op) if e.mode == "lying"
+                  else self.describe(op), kind="intent")
         self.declare_result_default(e, op, pol)          # give result a safe default first
         with self.safety_scope(e, op, pol):              # try + guard (language-specific hook)
             if isinstance(op, MembershipCheck):
@@ -124,6 +128,29 @@ class BaseGenerator(ABC):
             return f"AGGREGATE: {op.result_var} = {op.mode}({op.collection_name})"
         return (f"CONDITIONAL_SELECT: {op.result_var} = {op.then_value!r} if "
                 f"{op.subject_var} {op.comparator} {op.compare_value} else {op.else_value!r}")
+
+    def describe_false(self, op: Operation) -> str:
+        """A deterministic, plausible-but-WRONG clean form in the exact
+        :meth:`describe` grammar (the "lying" rendering's intent payload):
+        membership negated, aggregate mode cycled (sum->max->min->sum), the
+        conditional's branch values swapped, the lookup's stated fallback
+        replaced by another value from its own pairs. Pure function of the
+        operation; the emitted code never changes."""
+        if isinstance(op, MembershipCheck):
+            return (f"MEMBERSHIP_CHECK: {op.result_var} = "
+                    f"{op.target_var} not in {op.collection_name}")
+        if isinstance(op, KeyValueLookup):
+            wrong = next((v for v in sorted(op.pairs.values(), key=repr)
+                          if v != op.default_value), op.default_value)
+            return (f"KEY_VALUE_LOOKUP: {op.result_var} = "
+                    f"{op.map_name}[{op.key_var}] or {wrong!r}")
+        if isinstance(op, Aggregate):
+            cycle = {"sum": "max", "max": "min", "min": "sum"}
+            return (f"AGGREGATE: {op.result_var} = "
+                    f"{cycle[op.mode]}({op.collection_name})")
+        return (f"CONDITIONAL_SELECT: {op.result_var} = {op.else_value!r} if "
+                f"{op.subject_var} {op.comparator} {op.compare_value} else "
+                f"{op.then_value!r}")
 
     @staticmethod
     def guard_target(op: Operation):

@@ -134,14 +134,14 @@ class CppGenerator(BaseGenerator):
             )
             return
 
-        e.comment("SPAGH_006: pointer arithmetic with full bounds checking")
+        e.comment("SPAGH_006: pointer arithmetic with full bounds checking", kind="marker")
         e.line(f"{etype}* list_ptr = {coll}.empty() ? nullptr : &{coll}[0];")
         e.line(f"long {coll}_len = (long){coll}.size();")
         with e.block(f"if (list_ptr != nullptr && {coll}_len >= 0)"):
             e.line("long _idx = 0;")
             e.line("bool _match_flag = false;")
             if Pattern.REDUNDANT_RECOMP in patterns:
-                e.comment("SPAGH_010: recompute .size() every iteration (de-hoisted)")
+                e.comment("SPAGH_010: recompute .size() every iteration (de-hoisted)", kind="marker")
                 bound = f"(long){coll}.size()"
             else:
                 bound = f"{coll}_len"
@@ -154,7 +154,7 @@ class CppGenerator(BaseGenerator):
                         current = "*(list_ptr + _idx)"
                     self._emit_match(e, current, tgt, patterns)
                 if self._overguard(patterns):
-                    e.comment("SPAGH_007: redundant bounds re-check before use")
+                    e.comment("SPAGH_007: redundant bounds re-check before use", kind="marker")
                     with e.block(f"if (_idx >= 0 && _idx < (long){coll}.size())"):
                         body()
                 else:
@@ -172,7 +172,7 @@ class CppGenerator(BaseGenerator):
     def _emit_match(self, e, current, tgt, patterns) -> None:
         cmp = self._match_cmp(current, tgt, patterns)
         if Pattern.OPAQUE_PREDICATE in patterns:
-            e.comment("SPAGH_009: opaque predicate (always true: n*(n+1) is even)")
+            e.comment("SPAGH_009: opaque predicate (always true: n*(n+1) is even)", kind="marker")
             with e.block("if ((_idx * (_idx + 1)) % 2 == 0)"):
                 self._match_body(e, cmp, patterns)
         else:
@@ -206,7 +206,7 @@ class CppGenerator(BaseGenerator):
                 e.line(f"{res} = _it->second;")
             return
 
-        e.comment("SPAGH_005: nested if chain enumerating every known key")
+        e.comment("SPAGH_005: nested if chain enumerating every known key", kind="marker")
         e.line("bool _resolved = false;")
         if Pattern.REDUNDANT_TEMPS in patterns:
             e.line(f"std::string _key = {key};")
@@ -216,7 +216,7 @@ class CppGenerator(BaseGenerator):
 
         def cascade() -> None:
             if self._nested(patterns):
-                e.comment("SPAGH_005: nested cascade (one else-scope per key)")
+                e.comment("SPAGH_005: nested cascade (one else-scope per key)", kind="marker")
                 self._emit_nested_cascade(e, k, list(op.pairs.items()), res)
                 return
             first = True
@@ -231,7 +231,7 @@ class CppGenerator(BaseGenerator):
                 e.line("_resolved = false;")
 
         if self._overguard(patterns):
-            e.comment("SPAGH_007: redundant key re-check before use")
+            e.comment("SPAGH_007: redundant key re-check before use", kind="marker")
             with e.block(f"if (!{k}.empty() || {k}.empty())"):
                 cascade()
         else:
@@ -278,10 +278,10 @@ class CppGenerator(BaseGenerator):
                 e.line(f"{res} = *std::{mode}_element({coll}.begin(), {coll}.end());")
             return
 
-        e.comment(f"SPAGH_001/006/008: manual {mode} reduction with explicit indexing")
+        e.comment(f"SPAGH_001/006/008: manual {mode} reduction with explicit indexing", kind="marker")
         e.line("long _idx = 0;")
         if Pattern.REDUNDANT_RECOMP in patterns:
-            e.comment("SPAGH_010: recompute .size() every iteration (de-hoisted)")
+            e.comment("SPAGH_010: recompute .size() every iteration (de-hoisted)", kind="marker")
             bound = f"(long){coll}.size()"
         else:
             e.line(f"long {coll}_len = (long){coll}.size();")
@@ -296,7 +296,7 @@ class CppGenerator(BaseGenerator):
                     current = f"{coll}[_idx]"
                 self._emit_reduce(e, mode, current, patterns)
             if self._overguard(patterns):
-                e.comment("SPAGH_007: redundant bounds re-check before use")
+                e.comment("SPAGH_007: redundant bounds re-check before use", kind="marker")
                 with e.block(f"if (_idx >= 0 && _idx < (long){coll}.size())"):
                     body()
             else:
@@ -306,7 +306,7 @@ class CppGenerator(BaseGenerator):
 
     def _emit_reduce(self, e, mode, current, patterns) -> None:
         if Pattern.OPAQUE_PREDICATE in patterns:
-            e.comment("SPAGH_009: opaque predicate (always true: n*(n+1) is even)")
+            e.comment("SPAGH_009: opaque predicate (always true: n*(n+1) is even)", kind="marker")
             with e.block("if ((_idx * (_idx + 1)) % 2 == 0)"):
                 self._reduce_body(e, mode, current, patterns)
         else:
@@ -335,16 +335,16 @@ class CppGenerator(BaseGenerator):
             e.line(f"{res} = ({cond}) ? {then_lit} : {else_lit};")
             return
 
-        e.comment("SPAGH_001/005: expand the ternary into an explicit if/else")
+        e.comment("SPAGH_001/005: expand the ternary into an explicit if/else", kind="marker")
         if Pattern.REDUNDANT_TEMPS in patterns:
             e.line(f"bool _cond = {cond};")
             cond = "_cond"
 
         if self._nested(patterns):
-            e.comment("SPAGH_005: two-stage dispatch through a branch selector")
+            e.comment("SPAGH_005: two-stage dispatch through a branch selector", kind="marker")
             e.line("int _branch = 0;")
             if self._overguard(patterns):
-                e.comment("SPAGH_007: redundant condition re-check before use")
+                e.comment("SPAGH_007: redundant condition re-check before use", kind="marker")
                 with e.block(f"if ({cond})"):
                     with e.block(f"if ({cond})"):
                         e.line("_branch = 1;")

@@ -15,10 +15,12 @@ class Engine:
     def __init__(self, db_path: str, profile: str = "max",
                  annotate: bool = True, spec: str = "2.0",
                  annotations: "str | None" = None) -> None:
-        # ``annotations`` in {None, "full", "none", "sidecar"}: the three-mode
-        # form of the legacy ``annotate`` boolean (None defers to it). Sidecar
-        # keeps the module header in-source and diverts every other comment
-        # into line-aligned structures returned under the "sidecars" key.
+        # ``annotations`` in {None, "full", "none", "sidecar", "markers_only",
+        # "comments_only", "lying"}: the mode form of the legacy ``annotate``
+        # boolean (None defers to it). Sidecar keeps the module header
+        # in-source and diverts every other comment into line-aligned
+        # structures returned under the "sidecars" key; the last three are the
+        # rep1 campaign's channel/veracity renderings (emitter._MODE_KINDS).
         self._planner = Planner(db_path, profile, spec=spec)
         self._annotate = annotate
         self._annotations = annotations
