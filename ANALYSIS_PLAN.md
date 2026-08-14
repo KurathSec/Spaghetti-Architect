@@ -100,3 +100,15 @@ draws, artifact headers, the strip guard).
 6. The planned human-calibration study (design in the companion paper's
    validity appendix) remains **designed, not executed**; static-metric
    validity claims stay scoped accordingly.
+
+## Post-hoc addenda (2026-08-14, estimation only)
+
+Registered AFTER the suite's results were read, prompted by an internal review
+pass; the sections above are unchanged. These analyses add **no** confirmatory
+family members: the family remains the six p-values enumerated above, and the
+addenda are reported as estimation with intervals (any bootstrap p recorded in
+their artifacts is for completeness, not inference).
+
+| Script | Artifact | Purpose | Embedded kill-switches (published figures) |
+|---|---|---|---|
+| `bench/did_pairwise.py` | `did_pairwise.json` | pairwise delta DiDs on shared draws (incl. the off-ceiling weakest-vs-Llama-3.3-70B contrast) + a 100-seed sweep of the published rung-separation construction | extreme-pair points = `ablation_did.json` exactly; published-seed counts = `annotation_ablation.json` rungs (1→3 refactor, 0→0 comprehend) |
