@@ -1030,19 +1030,30 @@ def selftest() -> int:
     import bench.uniform_lane as U  # noqa: PLC0415 (optional, quarantined)
     liz = U.available()
     go_panel = G.baseline_panel("go", go.spaghetti_src, go.program)
+    # v0.3.0: the non-Python clean_ceiling is the MEASURED scaffold-inclusive
+    # clean render pushed through the full semantic gate (works with or without
+    # lizard); the old uniform-lane algebraic identity lives under
+    # clean_ceiling_metric_reachability.
     if liz:
-        # tool-backed: Python item must expose a poolable uniform_quality, and the
-        # non-Python clean-ceiling must reach the uniform metric optimum (~1).
+        # tool-backed: Python item must expose a poolable uniform_quality; the
+        # measured go clean render must pass the gate; and the metric-
+        # reachability identity must still show the uniform optimum (~1).
         c1u = (rpy.get("uniform_quality") is not None
-               and go_panel["clean_ceiling"].get("uniform_quality", 0) > 0.99)
-        label = f"uniform lane ON (lizard {U.lizard_version()}): py poolable & go ceiling~1"
+               and go_panel["clean_ceiling"].get("semantic_ok") == 1
+               and go_panel["clean_ceiling_metric_reachability"]
+                   .get("uniform_quality", 0) > 0.99)
+        label = (f"uniform lane ON (lizard {U.lizard_version()}): py poolable & "
+                 f"go clean gated & identity~1")
     else:
-        # graceful fallback: no uniform_quality anywhere; the non-Python clean-ceiling
-        # honestly SKIPs (no runnable per-language clean + no lizard), and the core
-        # refactor scoring still runs via the regex proxy (rgo above already passed).
+        # graceful fallback: no uniform_quality anywhere; the measured go clean
+        # render still passes the gate (grading needs no lizard), the identity
+        # key honestly SKIPs, and the core refactor scoring still runs via the
+        # regex proxy (rgo above already passed).
         c1u = (rpy.get("uniform_quality") is None
-               and go_panel["clean_ceiling"].get("skip") is True)
-        label = "uniform lane OFF (lizard absent): graceful regex-proxy fallback"
+               and go_panel["clean_ceiling"].get("semantic_ok") == 1
+               and go_panel["clean_ceiling_metric_reachability"]
+                   .get("skip") is True)
+        label = "uniform lane OFF (lizard absent): measured clean gated & graceful fallback"
     checks.append(f"{label}: {c1u}")
     ok = ok and c1u
 
