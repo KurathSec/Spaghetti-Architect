@@ -26,15 +26,24 @@ def main(argv: Optional[List[str]] = None) -> int:
     ap = argparse.ArgumentParser(description="Spaghetti Architect transpiler")
     ap.add_argument("ir", nargs="?", help="path to IR JSON; omit to run the built-in example suite")
     ap.add_argument("--profile", default="max",
-                    choices=["minimal", "light", "standard", "heavy", "max"])
+                    choices=["clean", "minimal", "light", "standard", "heavy", "max"])
+    ap.add_argument("--spec", default="2.0", choices=["2.0", "2.1"],
+                    help="engine rendering-spec version (2.0 = the published "
+                         "rendering; 2.1 activates the additive SPAGH_005/007 fixes)")
     ap.add_argument("--lang", action="append",
                     help="only output the given language(s) (repeatable)")
     ap.add_argument("--source", action="store_true", help="also print the generated source")
+    ap.add_argument("--annotate", default="full", choices=["full", "none", "sidecar"],
+                    help="annotation mode: full = self-annotated (release default), "
+                         "none = every comment stripped (the evaluation corpus), "
+                         "sidecar = header in-source + line-aligned sidecar JSON")
+    ap.add_argument("--sidecar-out", metavar="DIR",
+                    help="with --annotate sidecar: write <case>.<lang>.sidecar.json here")
     args = ap.parse_args(argv)
 
     here = os.path.dirname(os.path.abspath(__file__))
     db = os.path.join(here, "..", "config", "anti_patterns_db.json")
-    engine = Engine(db, args.profile)
+    engine = Engine(db, args.profile, spec=args.spec, annotations=args.annotate)
 
     try:
         cases = _load_cases(args.ir, here)
@@ -81,6 +90,15 @@ def main(argv: Optional[List[str]] = None) -> int:
         _render_panel(name, out, engine.profile, only=args.lang)
         if args.source:
             _print_sources(out, only=args.lang)
+        if args.sidecar_out and "sidecars" in out:
+            os.makedirs(args.sidecar_out, exist_ok=True)
+            for lang, sc in out["sidecars"].items():
+                if args.lang and lang not in args.lang:
+                    continue
+                path = os.path.join(args.sidecar_out, f"{name}.{lang}.sidecar.json")
+                with open(path, "w", encoding="utf-8") as fh:
+                    json.dump(sc, fh, indent=2)
+                    fh.write("\n")
         for res in out["validation"].values():
             if res.status == "FAIL":
                 overall_ok = False

@@ -14,7 +14,8 @@ from ..ir_models import IRProgram, OpPlan, Pattern, TransformPlan
 
 
 class Planner:
-    def __init__(self, db_path: str, profile: str = "max") -> None:
+    def __init__(self, db_path: str, profile: str = "max",
+                 spec: str = "2.0") -> None:
         with open(db_path, encoding="utf-8") as f:
             self._db = json.load(f)
         if profile not in self._db["profiles"]:
@@ -22,11 +23,21 @@ class Planner:
                 f"unknown profile {profile!r}; "
                 f"available: {sorted(self._db['profiles'])}"
             )
+        supported = self._db.get("supported_specs", ["2.0"])
+        if spec not in supported:
+            raise ValueError(
+                f"unknown engine spec {spec!r}; available: {sorted(supported)}"
+            )
         self._profile = profile          # strength level: see DB "profiles"
+        self._spec = spec                # rendering-spec version (DB "_spec_note")
 
     @property
     def profile(self) -> str:
         return self._profile
+
+    @property
+    def spec(self) -> str:
+        return self._spec
 
     def available_profiles(self) -> list:
         return sorted(self._db["profiles"])
@@ -41,4 +52,4 @@ class Planner:
                 if pid in enabled and op.op in meta["applies_to"]
             }
             per_op.append(OpPlan(op, frozenset(applicable)))
-        return TransformPlan(per_op)
+        return TransformPlan(per_op, spec=self._spec)

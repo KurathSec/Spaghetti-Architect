@@ -114,6 +114,12 @@ class OpPlan:
 @dataclass(frozen=True)
 class TransformPlan:
     per_op: List[OpPlan]
+    # Engine rendering-spec version. "2.0" is the published rendering the
+    # frozen dev split and the committed model completions bind to; "2.1"
+    # additionally activates the SPAGH_005/SPAGH_007 additive transforms
+    # (see config/anti_patterns_db.json "_spec_note"). Defaulted so every
+    # existing constructor call keeps its published behavior.
+    spec: str = "2.0"
 
 
 # --------------------------------------------------------------------------- #

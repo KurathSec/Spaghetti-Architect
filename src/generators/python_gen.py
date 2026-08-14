@@ -10,27 +10,27 @@
 
 from __future__ import annotations
 
-from contextlib import contextmanager
+from contextlib import ExitStack, contextmanager
 
 from ..emitter import CodeEmitter
 from ..ir_models import Pattern
-from .base import BaseGenerator
+from .base import BaseGenerator, V21_NEST_CAP
 
 
 class PythonGenerator(BaseGenerator):
     language = "python"
     extension = ".py"
 
-    def new_emitter(self, annotate: bool = True) -> CodeEmitter:
-        return CodeEmitter(brace_style=False, annotate=annotate)
+    def new_emitter(self, annotate: bool = True, mode=None) -> CodeEmitter:
+        return CodeEmitter(brace_style=False, annotate=annotate, mode=mode)
 
     def lit(self, value: object) -> str:
         return repr(value)
 
     # ---- file structure ----
     def emit_file_prologue(self, e, program) -> None:
-        e.comment(f"Spaghetti Architect — generated module: {program.module_name}")
-        e.comment("Deliberately redundant, but syntactically correct and crash-free.")
+        e.comment(f"Spaghetti Architect — generated module: {program.module_name}", kind="header")
+        e.comment("Deliberately redundant, but syntactically correct and crash-free.", kind="header")
 
     def emit_file_epilogue(self, e, program) -> None:
         # No output statement: the validator reads result_vars from the exec()
@@ -62,6 +62,13 @@ class PythonGenerator(BaseGenerator):
         with e.block("except Exception"):
             e.line(fb)
 
+    # ---- v2.1 helpers (additive; never reached at spec 2.0) ----
+    def _overguard(self, patterns) -> bool:
+        return self._v21 and Pattern.OVER_GUARDING in patterns
+
+    def _nested(self, patterns) -> bool:
+        return self._v21 and Pattern.CASCADING_COND in patterns
+
     # ---- MEMBERSHIP_CHECK ----
     def emit_membership(self, e, op, patterns, pol) -> None:
         coll, tgt, res = op.collection_name, op.target_var, op.result_var
@@ -80,12 +87,19 @@ class PythonGenerator(BaseGenerator):
             bound = "_n"
         e.line("_match_flag = False")
         with e.block(f"while _idx < {bound}"):
-            if Pattern.REDUNDANT_TEMPS in patterns:
-                e.line(f"_current = {coll}[_idx]")
-                current = "_current"
+            def body() -> None:
+                if Pattern.REDUNDANT_TEMPS in patterns:
+                    e.line(f"_current = {coll}[_idx]")
+                    current = "_current"
+                else:
+                    current = f"{coll}[_idx]"
+                self._emit_match(e, current, tgt, patterns)
+            if self._overguard(patterns):
+                e.comment("SPAGH_007: redundant bounds re-check before use")
+                with e.block(f"if _idx >= 0 and _idx < {bound}"):
+                    body()
             else:
-                current = f"{coll}[_idx]"
-            self._emit_match(e, current, tgt, patterns)
+                body()
             e.line("_idx = _idx + 1")
         self._assign_bool(e, res, "_match_flag", patterns)
 
@@ -137,18 +151,55 @@ class PythonGenerator(BaseGenerator):
         else:
             k = key
 
-        first = True
-        for pk, pv in op.pairs.items():
-            header = f"if {k} == {self.lit(pk)}" if first else f"elif {k} == {self.lit(pk)}"
-            with e.block(header):
-                e.line(f"{res} = {self.lit(pv)}")
-                e.line("_resolved = True")
-            first = False
-        with e.block("else"):
-            e.line("_resolved = False")
+        def emit_cascade() -> None:
+            if self._nested(patterns):
+                e.comment("SPAGH_005: nested cascade (one else-scope per key)")
+                self._emit_nested_cascade(e, k, list(op.pairs.items()), res)
+                return
+            first = True
+            for pk, pv in op.pairs.items():
+                header = (f"if {k} == {self.lit(pk)}" if first
+                          else f"elif {k} == {self.lit(pk)}")
+                with e.block(header):
+                    e.line(f"{res} = {self.lit(pv)}")
+                    e.line("_resolved = True")
+                first = False
+            with e.block("else"):
+                e.line("_resolved = False")
+
+        if self._overguard(patterns):
+            e.comment("SPAGH_007: redundant key re-check before use")
+            with e.block(f"if {k} is not None"):
+                emit_cascade()
+        else:
+            emit_cascade()
 
         with e.block("if _resolved == False"):
             e.line(f"{res} = {default_lit}")
+
+    def _emit_nested_cascade(self, e, k, items, res) -> None:
+        """Genuinely nested else-scopes in groups of ``V21_NEST_CAP``; groups
+        chain FLAT through ``if _resolved == False`` links so depth stays
+        bounded no matter how many keys the map enumerates."""
+        for gstart in range(0, len(items), V21_NEST_CAP):
+            group = items[gstart:gstart + V21_NEST_CAP]
+            if gstart == 0:
+                self._emit_nested_group(e, k, group, res)
+            else:
+                with e.block("if _resolved == False"):
+                    self._emit_nested_group(e, k, group, res)
+
+    def _emit_nested_group(self, e, k, group, res) -> None:
+        with ExitStack() as stack:
+            for i, (pk, pv) in enumerate(group):
+                if i > 0:
+                    stack.enter_context(e.block("else"))
+                with e.block(f"if {k} == {self.lit(pk)}"):
+                    e.line(f"{res} = {self.lit(pv)}")
+                    e.line("_resolved = True")
+                if i == len(group) - 1:
+                    with e.block("else"):
+                        e.line("_resolved = False")
 
     # ---- AGGREGATE ----
     def emit_aggregate(self, e, op, patterns, pol) -> None:
@@ -168,12 +219,19 @@ class PythonGenerator(BaseGenerator):
             bound = "_n"
         e.line(f"_acc = {'0' if mode == 'sum' else f'{coll}[0]'}")
         with e.block(f"while _idx < {bound}"):
-            if Pattern.REDUNDANT_TEMPS in patterns:
-                e.line(f"_current = {coll}[_idx]")
-                current = "_current"
+            def body() -> None:
+                if Pattern.REDUNDANT_TEMPS in patterns:
+                    e.line(f"_current = {coll}[_idx]")
+                    current = "_current"
+                else:
+                    current = f"{coll}[_idx]"
+                self._emit_reduce(e, mode, current, patterns)
+            if self._overguard(patterns):
+                e.comment("SPAGH_007: redundant bounds re-check before use")
+                with e.block(f"if _idx >= 0 and _idx < {bound}"):
+                    body()
             else:
-                current = f"{coll}[_idx]"
-            self._emit_reduce(e, mode, current, patterns)
+                body()
             e.line("_idx = _idx + 1")
         e.line(f"{res} = _acc")
 
@@ -212,6 +270,26 @@ class PythonGenerator(BaseGenerator):
         if Pattern.REDUNDANT_TEMPS in patterns:
             e.line(f"_cond = {cond}")
             cond = "_cond"
+
+        if self._nested(patterns):
+            e.comment("SPAGH_005: two-stage dispatch through a branch selector")
+            e.line("_branch = 0")
+            if self._overguard(patterns):
+                e.comment("SPAGH_007: redundant condition re-check before use")
+                with e.block(f"if {cond}"):
+                    with e.block(f"if {cond}"):
+                        e.line("_branch = 1")
+            else:
+                with e.block(f"if {cond}"):
+                    e.line("_branch = 1")
+            with e.block("if _branch == 1"):
+                e.line(f"{res} = {then_lit}")
+            with e.block("else"):
+                e.line(f"{res} = {else_lit}")
+                if Pattern.DEAD_CODE in patterns:
+                    e.line(f"{res} = {res}")                  # SPAGH_004 no-op
+            return
+
         with e.block(f"if {cond}"):
             e.line(f"{res} = {then_lit}")
         with e.block("else"):

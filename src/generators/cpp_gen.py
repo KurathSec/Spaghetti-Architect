@@ -11,11 +11,11 @@
 from __future__ import annotations
 
 import json
-from contextlib import contextmanager
+from contextlib import ExitStack, contextmanager
 
 from ..emitter import CodeEmitter
 from ..ir_models import Aggregate, KeyValueLookup, MembershipCheck, Pattern, scalar_tag
-from .base import BaseGenerator
+from .base import BaseGenerator, V21_NEST_CAP
 
 _CPP_TYPE = {"bool": "bool", "int": "int", "float": "double", "str": "std::string"}
 
@@ -24,8 +24,8 @@ class CppGenerator(BaseGenerator):
     language = "cpp"
     extension = ".cpp"
 
-    def new_emitter(self, annotate: bool = True) -> CodeEmitter:
-        return CodeEmitter(brace_style=True, annotate=annotate)
+    def new_emitter(self, annotate: bool = True, mode=None) -> CodeEmitter:
+        return CodeEmitter(brace_style=True, annotate=annotate, mode=mode)
 
     def lit(self, value: object) -> str:
         tag = scalar_tag(value)
@@ -39,8 +39,8 @@ class CppGenerator(BaseGenerator):
 
     # ---- file structure ----
     def emit_file_prologue(self, e, program) -> None:
-        e.comment(f"Spaghetti Architect — generated module: {program.module_name}")
-        e.comment("Deliberately redundant, but syntactically correct and crash-free.")
+        e.comment(f"Spaghetti Architect — generated module: {program.module_name}", kind="header")
+        e.comment("Deliberately redundant, but syntactically correct and crash-free.", kind="header")
         e.line("#include <bits/stdc++.h>")
         e.line()
         self._emit_q_helper(e)
@@ -114,6 +114,13 @@ class CppGenerator(BaseGenerator):
         with e.block("catch (...)"):
             e.line(fb)
 
+    # ---- v2.1 helpers (additive; never reached at spec 2.0) ----
+    def _overguard(self, patterns) -> bool:
+        return self._v21 and Pattern.OVER_GUARDING in patterns
+
+    def _nested(self, patterns) -> bool:
+        return self._v21 and Pattern.CASCADING_COND in patterns
+
     # ---- MEMBERSHIP_CHECK ----
     def emit_membership(self, e, op, patterns, pol) -> None:
         coll, tgt, res = op.collection_name, op.target_var, op.result_var
@@ -139,12 +146,19 @@ class CppGenerator(BaseGenerator):
             else:
                 bound = f"{coll}_len"
             with e.block(f"while (_idx < {bound})"):
-                if Pattern.REDUNDANT_TEMPS in patterns:
-                    e.line(f"{etype} _current = *(list_ptr + _idx);")
-                    current = "_current"
+                def body() -> None:
+                    if Pattern.REDUNDANT_TEMPS in patterns:
+                        e.line(f"{etype} _current = *(list_ptr + _idx);")
+                        current = "_current"
+                    else:
+                        current = "*(list_ptr + _idx)"
+                    self._emit_match(e, current, tgt, patterns)
+                if self._overguard(patterns):
+                    e.comment("SPAGH_007: redundant bounds re-check before use")
+                    with e.block(f"if (_idx >= 0 && _idx < (long){coll}.size())"):
+                        body()
                 else:
-                    current = "*(list_ptr + _idx)"
-                self._emit_match(e, current, tgt, patterns)
+                    body()
                 e.line("_idx = _idx + 1;")
             self._assign_bool(e, res, "_match_flag", patterns)
         with e.block("else"):
@@ -200,20 +214,56 @@ class CppGenerator(BaseGenerator):
         else:
             k = key
 
-        first = True
-        for pk, pv in op.pairs.items():
-            header = f"if ({k} == {json.dumps(pk)})" if first \
-                else f"else if ({k} == {json.dumps(pk)})"
-            with e.block(header):
-                e.line(f"{res} = {self.lit(pv)};")
-                e.line("_resolved = true;")
-            first = False
-        with e.block("else"):
-            e.line("_resolved = false;")
+        def cascade() -> None:
+            if self._nested(patterns):
+                e.comment("SPAGH_005: nested cascade (one else-scope per key)")
+                self._emit_nested_cascade(e, k, list(op.pairs.items()), res)
+                return
+            first = True
+            for pk, pv in op.pairs.items():
+                header = f"if ({k} == {json.dumps(pk)})" if first \
+                    else f"else if ({k} == {json.dumps(pk)})"
+                with e.block(header):
+                    e.line(f"{res} = {self.lit(pv)};")
+                    e.line("_resolved = true;")
+                first = False
+            with e.block("else"):
+                e.line("_resolved = false;")
+
+        if self._overguard(patterns):
+            e.comment("SPAGH_007: redundant key re-check before use")
+            with e.block(f"if (!{k}.empty() || {k}.empty())"):
+                cascade()
+        else:
+            cascade()
 
         with e.block("if (_resolved == false)"):
             e.line(f"{res} = {default_lit};")
         e.line(f"(void){m};")          # map is a fixture; touch it to avoid -Wunused
+
+    def _emit_nested_cascade(self, e, k, items, res) -> None:
+        """Genuinely nested else-scopes in groups of ``V21_NEST_CAP``; groups
+        chain FLAT through ``if (_resolved == false)`` links so depth stays
+        bounded no matter how many keys the map enumerates."""
+        for gstart in range(0, len(items), V21_NEST_CAP):
+            group = items[gstart:gstart + V21_NEST_CAP]
+            if gstart == 0:
+                self._emit_nested_group(e, k, group, res)
+            else:
+                with e.block("if (_resolved == false)"):
+                    self._emit_nested_group(e, k, group, res)
+
+    def _emit_nested_group(self, e, k, group, res) -> None:
+        with ExitStack() as stack:
+            for i, (pk, pv) in enumerate(group):
+                if i > 0:
+                    stack.enter_context(e.block("else"))
+                with e.block(f"if ({k} == {json.dumps(pk)})"):
+                    e.line(f"{res} = {self.lit(pv)};")
+                    e.line("_resolved = true;")
+                if i == len(group) - 1:
+                    with e.block("else"):
+                        e.line("_resolved = false;")
 
     # ---- AGGREGATE ----
     def emit_aggregate(self, e, op, patterns, pol) -> None:
@@ -238,12 +288,19 @@ class CppGenerator(BaseGenerator):
             bound = f"{coll}_len"
         e.line(f"{etype} _acc = {acc_init};")
         with e.block(f"while (_idx < {bound})"):
-            if Pattern.REDUNDANT_TEMPS in patterns:
-                e.line(f"{etype} _current = {coll}[_idx];")
-                current = "_current"
+            def body() -> None:
+                if Pattern.REDUNDANT_TEMPS in patterns:
+                    e.line(f"{etype} _current = {coll}[_idx];")
+                    current = "_current"
+                else:
+                    current = f"{coll}[_idx]"
+                self._emit_reduce(e, mode, current, patterns)
+            if self._overguard(patterns):
+                e.comment("SPAGH_007: redundant bounds re-check before use")
+                with e.block(f"if (_idx >= 0 && _idx < (long){coll}.size())"):
+                    body()
             else:
-                current = f"{coll}[_idx]"
-            self._emit_reduce(e, mode, current, patterns)
+                body()
             e.line("_idx = _idx + 1;")
         e.line(f"{res} = _acc;")
 
@@ -282,6 +339,26 @@ class CppGenerator(BaseGenerator):
         if Pattern.REDUNDANT_TEMPS in patterns:
             e.line(f"bool _cond = {cond};")
             cond = "_cond"
+
+        if self._nested(patterns):
+            e.comment("SPAGH_005: two-stage dispatch through a branch selector")
+            e.line("int _branch = 0;")
+            if self._overguard(patterns):
+                e.comment("SPAGH_007: redundant condition re-check before use")
+                with e.block(f"if ({cond})"):
+                    with e.block(f"if ({cond})"):
+                        e.line("_branch = 1;")
+            else:
+                with e.block(f"if ({cond})"):
+                    e.line("_branch = 1;")
+            with e.block("if (_branch == 1)"):
+                e.line(f"{res} = {then_lit};")
+            with e.block("else"):
+                e.line(f"{res} = {else_lit};")
+                if Pattern.DEAD_CODE in patterns:
+                    e.line(f"{res} = {res};")                 # SPAGH_004 no-op
+            return
+
         with e.block(f"if ({cond})"):
             e.line(f"{res} = {then_lit};")
         with e.block("else"):

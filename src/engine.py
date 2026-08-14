@@ -13,13 +13,29 @@ from .nodes.validator import ValidationResult, validate
 
 class Engine:
     def __init__(self, db_path: str, profile: str = "max",
-                 annotate: bool = True) -> None:
-        self._planner = Planner(db_path, profile)
+                 annotate: bool = True, spec: str = "2.0",
+                 annotations: "str | None" = None) -> None:
+        # ``annotations`` in {None, "full", "none", "sidecar"}: the three-mode
+        # form of the legacy ``annotate`` boolean (None defers to it). Sidecar
+        # keeps the module header in-source and diverts every other comment
+        # into line-aligned structures returned under the "sidecars" key.
+        self._planner = Planner(db_path, profile, spec=spec)
         self._annotate = annotate
+        self._annotations = annotations
 
     @property
     def profile(self) -> str:
         return self._planner.profile
+
+    @property
+    def spec(self) -> str:
+        """Rendering-spec version. "2.0" (default) is the published rendering
+        that the frozen dev split and the committed model completions bind to;
+        "2.1" additionally activates the SPAGH_005/SPAGH_007 additive
+        transforms. The default must never change: offline regrade rebuilds
+        spaghetti sources through this engine and grades the committed
+        completions against them."""
+        return self._planner.spec
 
     @property
     def annotate(self) -> bool:
@@ -42,11 +58,17 @@ class Engine:
         """
         program = parse(raw_ir)                       # 1. validate & parse
         plan = self._planner.plan(program)            # 2. anti-pattern planning
-        sources: Dict[str, str] = {                   # 3. five-language generation (incl. safety)
-            lang: gen.generate(program, plan, annotate=self._annotate)
-            for lang, gen in REGISTRY.items()
-        }
-        return {"program": program, "sources": sources}
+        sources: Dict[str, str] = {}                  # 3. five-language generation (incl. safety)
+        sidecars: Dict[str, dict] = {}
+        for lang, gen in REGISTRY.items():
+            sources[lang] = gen.generate(program, plan, annotate=self._annotate,
+                                         mode=self._annotations)
+            if self._annotations == "sidecar":
+                sidecars[lang] = gen.last_sidecar
+        out = {"program": program, "sources": sources}
+        if self._annotations == "sidecar":
+            out["sidecars"] = sidecars
+        return out
 
     def transpile(self, raw_ir: dict) -> dict:
         out = self.generate(raw_ir)

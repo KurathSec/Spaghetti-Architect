@@ -1,7 +1,9 @@
 """JavaScript (ES5) generator (blueprint §14.2).
 
 - emitter: ``brace_style=True``.
-- anti-patterns: explicit ``for`` index loop for membership; ``switch``-case for lookup.
+- anti-patterns: explicit ``for`` index loop for membership; ``switch``-case for lookup
+  (spec 2.1 additively replaces the switch with a chained if/else-if cascade and
+  layers redundant SPAGH_007 re-checks; spec 2.0 output is byte-identical).
 - safety: ``!== null && !== undefined`` guard + ``try { } catch (e) { }``; ``var`` (ES5).
 - output: ``console.log(JSON.stringify(...))`` so the validator can parse one JSON line.
 """
@@ -20,8 +22,8 @@ class JavaScriptGenerator(BaseGenerator):
     language = "javascript"
     extension = ".js"
 
-    def new_emitter(self, annotate: bool = True) -> CodeEmitter:
-        return CodeEmitter(brace_style=True, annotate=annotate)
+    def new_emitter(self, annotate: bool = True, mode=None) -> CodeEmitter:
+        return CodeEmitter(brace_style=True, annotate=annotate, mode=mode)
 
     def lit(self, value: object) -> str:
         # JSON is a syntactic subset of JS literals for scalars/arrays/objects.
@@ -29,8 +31,8 @@ class JavaScriptGenerator(BaseGenerator):
 
     # ---- file structure ----
     def emit_file_prologue(self, e, program) -> None:
-        e.comment(f"Spaghetti Architect — generated module: {program.module_name}")
-        e.comment("Deliberately redundant, but syntactically correct and crash-free.")
+        e.comment(f"Spaghetti Architect — generated module: {program.module_name}", kind="header")
+        e.comment("Deliberately redundant, but syntactically correct and crash-free.", kind="header")
 
     def emit_inputs(self, e, inputs) -> None:
         e.line()
@@ -63,6 +65,13 @@ class JavaScriptGenerator(BaseGenerator):
         with e.block("catch (e)"):
             e.line(fb)
 
+    # ---- v2.1 helpers (additive; never reached at spec 2.0) ----
+    def _overguard(self, patterns) -> bool:
+        return self._v21 and Pattern.OVER_GUARDING in patterns
+
+    def _nested(self, patterns) -> bool:
+        return self._v21 and Pattern.CASCADING_COND in patterns
+
     # ---- MEMBERSHIP_CHECK ----
     def emit_membership(self, e, op, patterns, pol) -> None:
         coll, tgt, res = op.collection_name, op.target_var, op.result_var
@@ -81,12 +90,19 @@ class JavaScriptGenerator(BaseGenerator):
             bound = "_n"
         e.line("var _match_flag = false;")
         with e.block(f"for (_idx = 0; _idx < {bound}; _idx++)"):
-            if Pattern.REDUNDANT_TEMPS in patterns:
-                e.line(f"var _current = {coll}[_idx];")
-                current = "_current"
+            def body() -> None:
+                if Pattern.REDUNDANT_TEMPS in patterns:
+                    e.line(f"var _current = {coll}[_idx];")
+                    current = "_current"
+                else:
+                    current = f"{coll}[_idx]"
+                self._emit_match(e, current, tgt, patterns)
+            if self._overguard(patterns):
+                e.comment("SPAGH_007: redundant bounds re-check before use")
+                with e.block(f"if (_idx >= 0 && _idx < {bound})"):
+                    body()
             else:
-                current = f"{coll}[_idx]"
-            self._emit_match(e, current, tgt, patterns)
+                body()
         self._assign_bool(e, res, "_match_flag", patterns)
 
     def _match_cmp(self, current, tgt, patterns) -> str:
@@ -129,7 +145,10 @@ class JavaScriptGenerator(BaseGenerator):
             e.line(f"{res} = ({m}[{key}] !== undefined ? {m}[{key}] : {default_lit});")
             return
 
-        e.comment("SPAGH_005: switch enumerating every known key")
+        if self._nested(patterns):
+            e.comment("SPAGH_005: cascade as chained conditionals instead of switch")
+        else:
+            e.comment("SPAGH_005: switch enumerating every known key")
         e.line("var _resolved = false;")
         if Pattern.REDUNDANT_TEMPS in patterns:
             e.line(f"var _key = {key};")
@@ -137,20 +156,46 @@ class JavaScriptGenerator(BaseGenerator):
         else:
             k = key
 
-        with e.block(f"switch ({k})"):
-            for pk, pv in op.pairs.items():
-                e.line(f"case {self.lit(pk)}:")
+        def cascade() -> None:
+            if self._nested(patterns):
+                self._emit_chained_cascade(e, k, list(op.pairs.items()), res)
+                return
+            with e.block(f"switch ({k})"):
+                for pk, pv in op.pairs.items():
+                    e.line(f"case {self.lit(pk)}:")
+                    with e.indented():
+                        e.line(f"{res} = {self.lit(pv)};")
+                        e.line("_resolved = true;")
+                        e.line("break;")
+                e.line("default:")
                 with e.indented():
-                    e.line(f"{res} = {self.lit(pv)};")
-                    e.line("_resolved = true;")
+                    e.line("_resolved = false;")
                     e.line("break;")
-            e.line("default:")
-            with e.indented():
-                e.line("_resolved = false;")
-                e.line("break;")
+
+        if self._overguard(patterns):
+            e.comment("SPAGH_007: redundant key re-check before use")
+            with e.block(f'if (typeof {k} !== "undefined")'):
+                cascade()
+        else:
+            cascade()
 
         with e.block("if (_resolved === false)"):
             e.line(f"{res} = {default_lit};")
+
+    def _emit_chained_cascade(self, e, k, items, res) -> None:
+        """One if/else-if arm per known key, all at a single flat level, so the
+        chain stays parseable no matter how many keys the map enumerates; the
+        trailing else mirrors the switch's default arm."""
+        first = True
+        for pk, pv in items:
+            header = (f"if ({k} === {self.lit(pk)})" if first
+                      else f"else if ({k} === {self.lit(pk)})")
+            with e.block(header):
+                e.line(f"{res} = {self.lit(pv)};")
+                e.line("_resolved = true;")
+            first = False
+        with e.block("else"):
+            e.line("_resolved = false;")
 
     # ---- AGGREGATE ----
     def emit_aggregate(self, e, op, patterns, pol) -> None:
@@ -173,12 +218,19 @@ class JavaScriptGenerator(BaseGenerator):
             bound = "_n"
         e.line(f"var _acc = {'0' if mode == 'sum' else f'{coll}[0]'};")
         with e.block(f"for (_idx = 0; _idx < {bound}; _idx++)"):
-            if Pattern.REDUNDANT_TEMPS in patterns:
-                e.line(f"var _current = {coll}[_idx];")
-                current = "_current"
+            def body() -> None:
+                if Pattern.REDUNDANT_TEMPS in patterns:
+                    e.line(f"var _current = {coll}[_idx];")
+                    current = "_current"
+                else:
+                    current = f"{coll}[_idx]"
+                self._emit_reduce(e, mode, current, patterns)
+            if self._overguard(patterns):
+                e.comment("SPAGH_007: redundant bounds re-check before use")
+                with e.block(f"if (_idx >= 0 && _idx < {bound})"):
+                    body()
             else:
-                current = f"{coll}[_idx]"
-            self._emit_reduce(e, mode, current, patterns)
+                body()
         e.line(f"{res} = _acc;")
 
     def _emit_reduce(self, e, mode, current, patterns) -> None:
@@ -216,6 +268,26 @@ class JavaScriptGenerator(BaseGenerator):
         if Pattern.REDUNDANT_TEMPS in patterns:
             e.line(f"var _cond = {cond};")
             cond = "_cond"
+
+        if self._nested(patterns):
+            e.comment("SPAGH_005: two-stage dispatch through a branch selector")
+            e.line("var _branch = 0;")
+            if self._overguard(patterns):
+                e.comment("SPAGH_007: redundant condition re-check before use")
+                with e.block(f"if ({cond})"):
+                    with e.block(f"if ({cond})"):
+                        e.line("_branch = 1;")
+            else:
+                with e.block(f"if ({cond})"):
+                    e.line("_branch = 1;")
+            with e.block("if (_branch === 1)"):
+                e.line(f"{res} = {then_lit};")
+            with e.block("else"):
+                e.line(f"{res} = {else_lit};")
+                if Pattern.DEAD_CODE in patterns:
+                    e.line(f"{res} = {res};")                 # SPAGH_004 no-op
+            return
+
         with e.block(f"if ({cond})"):
             e.line(f"{res} = {then_lit};")
         with e.block("else"):

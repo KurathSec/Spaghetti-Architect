@@ -9,7 +9,9 @@ they just never manage whitespace or closing braces by hand.
 from __future__ import annotations
 
 from contextlib import contextmanager
-from typing import Iterator, List
+from typing import Iterator, List, Optional
+
+_MODES = ("full", "none", "sidecar")
 
 
 class CodeEmitter:
@@ -21,6 +23,7 @@ class CodeEmitter:
         close_token: str = "}",
         header_suffix: str = ":",
         annotate: bool = True,
+        mode: Optional[str] = None,
     ) -> None:
         self._lines: List[str] = []
         self._level = 0
@@ -28,7 +31,16 @@ class CodeEmitter:
         self._brace = brace_style          # True: C/JS/Go/Java/C++; False: Python
         self._open, self._close = open_token, close_token
         self._suffix = header_suffix       # the ":" for Python
-        self._annotate = annotate          # False: emit no comments at all
+        # Annotation mode. The legacy boolean maps to "full"/"none"; "sidecar"
+        # (v0.3.0) keeps the module header in-source but diverts every other
+        # comment into a line-aligned sidecar structure (see sidecar()).
+        if mode is None:
+            mode = "full" if annotate else "none"
+        if mode not in _MODES:
+            raise ValueError(f"unknown annotation mode {mode!r}; one of {_MODES}")
+        self._mode = mode
+        self._annotate = mode == "full"    # legacy view: full == annotated
+        self._sidecar: List[dict] = []
 
     @property
     def brace_style(self) -> bool:
@@ -37,6 +49,18 @@ class CodeEmitter:
     @property
     def annotate(self) -> bool:
         return self._annotate
+
+    @property
+    def mode(self) -> str:
+        return self._mode
+
+    def sidecar(self) -> dict:
+        """The diverted annotations (sidecar mode only). Each entry records the
+        index in the emitted line buffer where the comment line would sit in
+        the full render, plus the exact source line, so re-inserting entries in
+        order at ``line + entry_ordinal`` reproduces the full render
+        byte-identically (the round-trip property pinned by the tests)."""
+        return {"format": "spaghetti-sidecar/1", "entries": list(self._sidecar)}
 
     def line(self, text: str = "") -> "CodeEmitter":
         self._lines.append("" if text == "" else self._unit * self._level + text)
@@ -47,19 +71,31 @@ class CodeEmitter:
             self.line(t)
         return self
 
-    def comment(self, text: str) -> "CodeEmitter":
+    def comment(self, text: str, kind: str = "op") -> "CodeEmitter":
         """Every comment the generators emit funnels through here.
 
-        That includes the module header, the per-operation intent comment (which
-        states the clean form of the operation), and the inline ``SPAGH_*`` markers.
-        With ``annotate=False`` this is a no-op, which yields the *unannotated*
-        corpus: byte-identical code with every comment removed. That is the control
-        condition for prompting a model, because the annotations otherwise describe
-        the mess, and name the answer, to the model being measured.
+        That includes the module header (``kind="header"``), the per-operation
+        intent comment (which states the clean form of the operation), and the
+        inline ``SPAGH_*`` markers. Modes:
+
+        * ``full``  — emit in-source (the released self-annotated corpus);
+        * ``none``  — no-op: the *unannotated* control corpus, byte-identical
+          code with every comment removed (the evaluation default, per the
+          annotation-ablation result);
+        * ``sidecar`` — the header stays in-source (the dual-use friction),
+          every other comment is diverted, line-aligned, into :meth:`sidecar`.
         """
-        if not self._annotate:
+        if self._mode == "none":
             return self
         prefix = "// " if self._brace else "# "
+        if self._mode == "sidecar" and kind != "header":
+            self._sidecar.append({
+                "line": len(self._lines),          # insertion index in this buffer
+                "kind": kind,
+                "text": text,
+                "source_line": self._unit * self._level + prefix + text,
+            })
+            return self
         return self.line(prefix + text)
 
     @contextmanager

@@ -29,6 +29,12 @@ from ..nodes.safety import SafetyPolicy, policy_for
 # all five target languages, so the flip table is language-agnostic.
 _FLIP_COMPARATOR = {"==": "==", "!=": "!=", "<": ">", "<=": ">=", ">": "<", ">=": "<="}
 
+# Spec-2.1 nested-cascade group cap. CPython's tokenizer rejects more than 100
+# indentation levels, and the deepest held-out lookup enumerates 256 keys, so
+# the nested SPAGH_005 cascade opens at most this many else-scopes before
+# falling back to a flat group link at the outer level.
+V21_NEST_CAP = 8
+
 
 class BaseGenerator(ABC):
     language: str          # "python" / "javascript" / ...
@@ -36,24 +42,34 @@ class BaseGenerator(ABC):
 
     # ---- Template method: the skeleton, do not override in subclasses ----
     def generate(self, program: IRProgram, plan: TransformPlan,
-                 annotate: bool = True) -> str:
+                 annotate: bool = True, mode: "str | None" = None) -> str:
         """``annotate=False`` emits the same code with every comment removed.
 
         The generators annotate their own output: a module header, a per-operation
         comment stating the operation's clean form, and inline ``SPAGH_*`` markers.
         That makes the corpus self-documenting, but it also hands the answer to any
         model prompted with it, so the unannotated rendering is the control condition.
+
+        ``mode`` overrides the boolean: ``"full"``/``"none"``/``"sidecar"``
+        (v0.3.0; sidecar keeps the header in-source and diverts the rest into a
+        line-aligned structure, retrievable via :attr:`last_sidecar` right
+        after this call).
         """
         # Stash inputs so body hooks can resolve element/value types by name
         # (the operation carries names, not values).
         self._inputs = dict(program.inputs)
-        e = self.new_emitter(annotate=annotate)
+        # Spec switch for the emit hooks. False (spec 2.0) must reproduce the
+        # published rendering byte-for-byte; True enables the additive
+        # SPAGH_005/SPAGH_007 emissions.
+        self._v21 = getattr(plan, "spec", "2.0") != "2.0"
+        e = self.new_emitter(annotate=annotate, mode=mode)
         self.emit_file_prologue(e, program)
         self.emit_inputs(e, program.inputs)
         for op_plan in plan.per_op:
             e.line()
             self.emit_operation(e, op_plan)
         self.emit_file_epilogue(e, program)
+        self.last_sidecar = e.sidecar() if e.mode == "sidecar" else None
         return e.render()
 
     def emit_operation(self, e: CodeEmitter, op_plan: OpPlan) -> None:
@@ -75,7 +91,7 @@ class BaseGenerator(ABC):
 
     # ---- Abstract hooks: implemented per language ----
     @abstractmethod
-    def new_emitter(self, annotate: bool = True) -> CodeEmitter: ...
+    def new_emitter(self, annotate: bool = True, mode: "str | None" = None) -> CodeEmitter: ...
     @abstractmethod
     def emit_file_prologue(self, e: CodeEmitter, program: IRProgram) -> None: ...
     @abstractmethod

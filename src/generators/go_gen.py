@@ -32,8 +32,8 @@ class GoGenerator(BaseGenerator):
     language = "go"
     extension = ".go"
 
-    def new_emitter(self, annotate: bool = True) -> CodeEmitter:
-        return CodeEmitter(brace_style=True, annotate=annotate)
+    def new_emitter(self, annotate: bool = True, mode=None) -> CodeEmitter:
+        return CodeEmitter(brace_style=True, annotate=annotate, mode=mode)
 
     def lit(self, value: object) -> str:
         tag = _tag(value)
@@ -47,8 +47,8 @@ class GoGenerator(BaseGenerator):
 
     # ---- file structure ----
     def emit_file_prologue(self, e, program) -> None:
-        e.comment(f"Spaghetti Architect — generated module: {program.module_name}")
-        e.comment("Deliberately redundant, but syntactically correct and crash-free.")
+        e.comment(f"Spaghetti Architect — generated module: {program.module_name}", kind="header")
+        e.comment("Deliberately redundant, but syntactically correct and crash-free.", kind="header")
         e.line("package main")
         e.line()
         e.line('import "fmt"')
@@ -90,6 +90,13 @@ class GoGenerator(BaseGenerator):
             else:
                 yield e
 
+    # ---- v2.1 helpers (additive; never reached at spec 2.0) ----
+    def _overguard(self, patterns) -> bool:
+        return self._v21 and Pattern.OVER_GUARDING in patterns
+
+    def _nested(self, patterns) -> bool:
+        return self._v21 and Pattern.CASCADING_COND in patterns
+
     # ---- MEMBERSHIP_CHECK ----
     def emit_membership(self, e, op, patterns, pol) -> None:
         coll, tgt, res = op.collection_name, op.target_var, op.result_var
@@ -111,12 +118,19 @@ class GoGenerator(BaseGenerator):
             bound = "_n"
         e.line("_match_flag := false")
         with e.block(f"for _idx < {bound}"):
-            if Pattern.REDUNDANT_TEMPS in patterns:
-                e.line(f"_current := {coll}[_idx]")
-                current = "_current"
+            def body() -> None:
+                if Pattern.REDUNDANT_TEMPS in patterns:
+                    e.line(f"_current := {coll}[_idx]")
+                    current = "_current"
+                else:
+                    current = f"{coll}[_idx]"
+                self._emit_match(e, current, tgt, patterns)
+            if self._overguard(patterns):
+                e.comment("SPAGH_007: redundant bounds re-check before use")
+                with e.block(f"if _idx >= 0 && _idx < {bound}"):
+                    body()
             else:
-                current = f"{coll}[_idx]"
-            self._emit_match(e, current, tgt, patterns)
+                body()
             e.line("_idx = _idx + 1")
         self._assign_bool(e, res, "_match_flag", patterns)
 
@@ -159,7 +173,10 @@ class GoGenerator(BaseGenerator):
                 e.line(f"{res} = _v")
             return
 
-        e.comment("SPAGH_005: switch enumerating every known key")
+        if self._nested(patterns):
+            e.comment("SPAGH_005: re-tested sequential cascade")
+        else:
+            e.comment("SPAGH_005: switch enumerating every known key")
         e.line("_resolved := false")
         if Pattern.REDUNDANT_TEMPS in patterns:
             e.line(f"_key := {key}")
@@ -167,15 +184,31 @@ class GoGenerator(BaseGenerator):
         else:
             k = key
 
-        with e.block(f"switch {k}"):
-            for pk, pv in op.pairs.items():
-                e.line(f"case {self.lit(pk)}:")
+        def cascade() -> None:
+            if self._nested(patterns):
+                # Flat sequential ifs re-testing _resolved: no else-chain in Go,
+                # so no nesting (and no nest cap) is ever needed.
+                for pk, pv in op.pairs.items():
+                    with e.block(f"if _resolved == false && {k} == {self.lit(pk)}"):
+                        e.line(f"{res} = {self.lit(pv)}")
+                        e.line("_resolved = true")
+                return
+            with e.block(f"switch {k}"):
+                for pk, pv in op.pairs.items():
+                    e.line(f"case {self.lit(pk)}:")
+                    with e.indented():
+                        e.line(f"{res} = {self.lit(pv)}")
+                        e.line("_resolved = true")
+                e.line("default:")
                 with e.indented():
-                    e.line(f"{res} = {self.lit(pv)}")
-                    e.line("_resolved = true")
-            e.line("default:")
-            with e.indented():
-                e.line("_resolved = false")
+                    e.line("_resolved = false")
+
+        if self._overguard(patterns):
+            e.comment("SPAGH_007: redundant key re-check before use")
+            with e.block(f"if len({k}) >= 0"):
+                cascade()
+        else:
+            cascade()
 
         with e.block("if _resolved == false"):
             e.line(f"{res} = {default_lit}")
@@ -203,12 +236,19 @@ class GoGenerator(BaseGenerator):
             bound = "_n"
         e.line(f"_acc := {acc_init}")
         with e.block(f"for _idx < {bound}"):
-            if Pattern.REDUNDANT_TEMPS in patterns:
-                e.line(f"_current := {coll}[_idx]")
-                current = "_current"
+            def body() -> None:
+                if Pattern.REDUNDANT_TEMPS in patterns:
+                    e.line(f"_current := {coll}[_idx]")
+                    current = "_current"
+                else:
+                    current = f"{coll}[_idx]"
+                self._emit_reduce(e, mode, current, patterns)
+            if self._overguard(patterns):
+                e.comment("SPAGH_007: redundant bounds re-check before use")
+                with e.block(f"if _idx >= 0 && _idx < {bound}"):
+                    body()
             else:
-                current = f"{coll}[_idx]"
-            self._emit_reduce(e, mode, current, patterns)
+                body()
             e.line("_idx = _idx + 1")
         e.line(f"{res} = _acc")
 
@@ -241,6 +281,27 @@ class GoGenerator(BaseGenerator):
         if Pattern.REDUNDANT_TEMPS in patterns:
             e.line(f"_cond := {cond}")
             cond = "_cond"
+
+        if self._nested(patterns):
+            # First 005 consult site for CONDITIONAL_SELECT in Go: the two-stage
+            # dispatch keeps the no-else discipline (the pre-set fallback already
+            # carries the else value), so no `} else {` line is ever emitted.
+            e.comment("SPAGH_005: two-stage dispatch through a branch selector")
+            e.line("_branch := 0")
+            if self._overguard(patterns):
+                e.comment("SPAGH_007: redundant condition re-check before use")
+                with e.block(f"if {cond}"):
+                    with e.block(f"if {cond}"):
+                        e.line("_branch = 1")
+            else:
+                with e.block(f"if {cond}"):
+                    e.line("_branch = 1")
+            with e.block("if _branch == 1"):
+                e.line(f"{res} = {then_lit}")
+            if Pattern.DEAD_CODE in patterns:
+                e.line(f"_ = {res}")                          # SPAGH_004 no-op (ASI-safe)
+            return
+
         with e.block(f"if {cond}"):
             e.line(f"{res} = {then_lit}")
         if Pattern.DEAD_CODE in patterns:

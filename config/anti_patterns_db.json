@@ -1,5 +1,7 @@
 {
   "schema_version": "1.0",
+  "supported_specs": ["2.0", "2.1"],
+  "_spec_note": "Rendering-spec versions the engine accepts. '2.0' (the default everywhere) is the PUBLISHED rendering: SPAGH_005 is masked by the always-on SPAGH_001 disjunction and SPAGH_007 has no consult site, so 'light' and 'standard' render identically. '2.1' activates both ADDITIVELY: SPAGH_005 nests the already-live cascade (bounded else-scope groups) and adds a two-stage dispatch to CONDITIONAL_SELECT, and SPAGH_007 emits redundant always-true re-checks inside the op body; the minimal crash-free safety scaffold is untouched, and 'minimal'/'light' renders stay byte-identical to 2.0 because neither flag is in those profiles. The frozen dev split, the committed model completions, and every published number bind to spec 2.0; spec 2.1 is opt-in (Engine(..., spec='2.1')).",
   "patterns": {
     "SPAGH_001": {
       "name": "De-idiomatization / Loop Flattening",
@@ -69,6 +71,7 @@
     }
   },
   "profiles": {
+    "clean":    [],
     "minimal":  ["SPAGH_001"],
     "light":    ["SPAGH_001", "SPAGH_002"],
     "standard": ["SPAGH_001", "SPAGH_002", "SPAGH_005", "SPAGH_007"],
