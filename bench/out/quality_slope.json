@@ -1,0 +1,355 @@
+{
+  "DeepSeek-V4-Flash": {
+    "gate": {
+      "by_knob": {
+        "max": {
+          "mean": 1.0,
+          "n": 100
+        },
+        "minimal": {
+          "mean": 1.0,
+          "n": 100
+        },
+        "standard": {
+          "mean": 1.0,
+          "n": 100
+        }
+      },
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "iters": 2000,
+      "method": "cluster_bootstrap",
+      "n_clusters": 50,
+      "n_dropped_none": 0,
+      "n_obs": 300,
+      "p_bootstrap": 1.0,
+      "slope": 0.0
+    },
+    "quality_cond": {
+      "by_knob": {
+        "max": {
+          "mean": 0.8424165530283824,
+          "n": 100
+        },
+        "minimal": {
+          "mean": 0.820752231529224,
+          "n": 100
+        },
+        "standard": {
+          "mean": 0.828063068986964,
+          "n": 100
+        }
+      },
+      "ci95": [
+        0.00738461721860348,
+        0.01508517754823069
+      ],
+      "iters": 2000,
+      "method": "cluster_bootstrap",
+      "n_clusters": 50,
+      "n_dropped_none": 0,
+      "n_obs": 300,
+      "p_bootstrap": 0.0,
+      "slope": 0.01083216074957919
+    },
+    "quality_uncond": {
+      "by_knob": {
+        "max": {
+          "mean": 0.8424165530283824,
+          "n": 100
+        },
+        "minimal": {
+          "mean": 0.820752231529224,
+          "n": 100
+        },
+        "standard": {
+          "mean": 0.828063068986964,
+          "n": 100
+        }
+      },
+      "ci95": [
+        0.00738461721860348,
+        0.01508517754823069
+      ],
+      "iters": 2000,
+      "method": "cluster_bootstrap",
+      "n_clusters": 50,
+      "n_dropped_none": 0,
+      "n_obs": 300,
+      "p_bootstrap": 0.0,
+      "slope": 0.01083216074957919
+    }
+  },
+  "Llama-3.1-8B": {
+    "gate": {
+      "by_knob": {
+        "max": {
+          "mean": 0.98875,
+          "n": 100
+        },
+        "minimal": {
+          "mean": 1.0,
+          "n": 100
+        },
+        "standard": {
+          "mean": 1.0,
+          "n": 100
+        }
+      },
+      "ci95": [
+        -0.01764705882352941,
+        0.0
+      ],
+      "iters": 2000,
+      "method": "cluster_bootstrap",
+      "n_clusters": 50,
+      "n_dropped_none": 0,
+      "n_obs": 300,
+      "p_bootstrap": 0.27,
+      "slope": -0.005625
+    },
+    "quality_cond": {
+      "by_knob": {
+        "max": {
+          "mean": 0.7816141488294641,
+          "n": 100
+        },
+        "minimal": {
+          "mean": 0.742132180139365,
+          "n": 100
+        },
+        "standard": {
+          "mean": 0.7552109770648505,
+          "n": 100
+        }
+      },
+      "ci95": [
+        0.012010730376907947,
+        0.028155000671516123
+      ],
+      "iters": 2000,
+      "method": "cluster_bootstrap",
+      "n_clusters": 50,
+      "n_dropped_none": 0,
+      "n_obs": 300,
+      "p_bootstrap": 0.0,
+      "slope": 0.019740984345049582
+    },
+    "quality_uncond": {
+      "by_knob": {
+        "max": {
+          "mean": 0.7728315068090468,
+          "n": 100
+        },
+        "minimal": {
+          "mean": 0.742132180139365,
+          "n": 100
+        },
+        "standard": {
+          "mean": 0.7552109770648505,
+          "n": 100
+        }
+      },
+      "ci95": [
+        0.004465796793115837,
+        0.025227292923635344
+      ],
+      "iters": 2000,
+      "method": "cluster_bootstrap",
+      "n_clusters": 50,
+      "n_dropped_none": 0,
+      "n_obs": 300,
+      "p_bootstrap": 0.009,
+      "slope": 0.015349663334840944
+    }
+  },
+  "Llama-3.3-70B": {
+    "gate": {
+      "by_knob": {
+        "max": {
+          "mean": 1.0,
+          "n": 100
+        },
+        "minimal": {
+          "mean": 1.0,
+          "n": 100
+        },
+        "standard": {
+          "mean": 1.0,
+          "n": 100
+        }
+      },
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "iters": 2000,
+      "method": "cluster_bootstrap",
+      "n_clusters": 50,
+      "n_dropped_none": 0,
+      "n_obs": 300,
+      "p_bootstrap": 1.0,
+      "slope": 0.0
+    },
+    "quality_cond": {
+      "by_knob": {
+        "max": {
+          "mean": 0.8008960319723473,
+          "n": 100
+        },
+        "minimal": {
+          "mean": 0.7702906609707466,
+          "n": 100
+        },
+        "standard": {
+          "mean": 0.7807878406477102,
+          "n": 100
+        }
+      },
+      "ci95": [
+        0.010951034498754283,
+        0.02038494004849581
+      ],
+      "iters": 2000,
+      "method": "cluster_bootstrap",
+      "n_clusters": 50,
+      "n_dropped_none": 0,
+      "n_obs": 300,
+      "p_bootstrap": 0.0,
+      "slope": 0.015302685500800352
+    },
+    "quality_uncond": {
+      "by_knob": {
+        "max": {
+          "mean": 0.8008960319723473,
+          "n": 100
+        },
+        "minimal": {
+          "mean": 0.7702906609707466,
+          "n": 100
+        },
+        "standard": {
+          "mean": 0.7807878406477102,
+          "n": 100
+        }
+      },
+      "ci95": [
+        0.010951034498754283,
+        0.02038494004849581
+      ],
+      "iters": 2000,
+      "method": "cluster_bootstrap",
+      "n_clusters": 50,
+      "n_dropped_none": 0,
+      "n_obs": 300,
+      "p_bootstrap": 0.0,
+      "slope": 0.015302685500800352
+    }
+  },
+  "Mistral-24B": {
+    "gate": {
+      "by_knob": {
+        "max": {
+          "mean": 0.99,
+          "n": 100
+        },
+        "minimal": {
+          "mean": 0.99,
+          "n": 100
+        },
+        "standard": {
+          "mean": 0.99,
+          "n": 100
+        }
+      },
+      "ci95": [
+        0.0,
+        0.0
+      ],
+      "iters": 2000,
+      "method": "cluster_bootstrap",
+      "n_clusters": 50,
+      "n_dropped_none": 0,
+      "n_obs": 300,
+      "p_bootstrap": 1.0,
+      "slope": 0.0
+    },
+    "quality_cond": {
+      "by_knob": {
+        "max": {
+          "mean": 0.8200602270484958,
+          "n": 99
+        },
+        "minimal": {
+          "mean": 0.7986129115662031,
+          "n": 99
+        },
+        "standard": {
+          "mean": 0.8040941670765347,
+          "n": 99
+        }
+      },
+      "ci95": [
+        0.00604800272149366,
+        0.015891231461595823
+      ],
+      "iters": 2000,
+      "method": "cluster_bootstrap",
+      "n_clusters": 49,
+      "n_dropped_none": 3,
+      "n_obs": 297,
+      "p_bootstrap": 0.0,
+      "slope": 0.010723657741146428
+    },
+    "quality_uncond": {
+      "by_knob": {
+        "max": {
+          "mean": 0.8118596247780109,
+          "n": 100
+        },
+        "minimal": {
+          "mean": 0.790626782450541,
+          "n": 100
+        },
+        "standard": {
+          "mean": 0.7960532254057694,
+          "n": 100
+        }
+      },
+      "ci95": [
+        0.006024492943179334,
+        0.01592598098186482
+      ],
+      "iters": 2000,
+      "method": "cluster_bootstrap",
+      "n_clusters": 50,
+      "n_dropped_none": 0,
+      "n_obs": 300,
+      "p_bootstrap": 0.0,
+      "slope": 0.010616421163734964
+    }
+  },
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "confirmatory": "quality_cond slopes only",
+    "generated_by": "bench/quality_slope_analysis.py",
+    "inputs": [
+      "bench/out/g3/refactor_dev__*.jsonl.gz"
+    ],
+    "knob_levels": [
+      "minimal",
+      "standard",
+      "max"
+    ],
+    "lane": "python",
+    "outcomes": [
+      "gate",
+      "quality_cond",
+      "quality_uncond"
+    ],
+    "suite_seed": 20260814,
+    "zero_api": true
+  }
+}

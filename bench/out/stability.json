@@ -1,0 +1,804 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "generated_by": "bench/stability_analysis.py",
+    "inputs": [
+      "bench/out/.annotation_ablation_grades.json",
+      "bench/out/ablation/*.jsonl.gz",
+      "bench/out/g3/refactor_dev__*.jsonl.gz",
+      "bench/out/ladder/*.jsonl.gz",
+      "bench/out/ladder_comprehend.json"
+    ],
+    "shared_draws": true,
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "drift_diagnostics": {
+    "comprehend": {
+      "DeepSeek-V4-Flash": {
+        "annotated": {
+          "chars_deciles": [
+            19,
+            20,
+            20,
+            22,
+            23,
+            25,
+            41,
+            48,
+            93,
+            162,
+            320
+          ],
+          "lines_deciles": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            6,
+            14
+          ],
+          "n": 1500,
+          "n_json_parse_fail": 0
+        },
+        "unannotated": {
+          "chars_deciles": [
+            19,
+            20,
+            20,
+            22,
+            23,
+            25,
+            41,
+            45,
+            93,
+            148,
+            320
+          ],
+          "lines_deciles": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            5,
+            14
+          ],
+          "n": 1500,
+          "n_json_parse_fail": 0
+        }
+      },
+      "Llama-3.1-8B": {
+        "annotated": {
+          "chars_deciles": [
+            24,
+            36,
+            36,
+            39,
+            39,
+            60,
+            61,
+            63,
+            121,
+            175,
+            375
+          ],
+          "lines_deciles": [
+            3,
+            5,
+            5,
+            5,
+            5,
+            6,
+            7,
+            7,
+            8,
+            10,
+            32
+          ],
+          "n": 1500,
+          "n_json_parse_fail": 3
+        },
+        "unannotated": {
+          "chars_deciles": [
+            24,
+            36,
+            36,
+            39,
+            50,
+            60,
+            62,
+            77,
+            121,
+            179,
+            632
+          ],
+          "lines_deciles": [
+            3,
+            4,
+            5,
+            5,
+            5,
+            6,
+            7,
+            7,
+            8,
+            10,
+            33
+          ],
+          "n": 1500,
+          "n_json_parse_fail": 0
+        }
+      },
+      "Llama-3.3-70B": {
+        "annotated": {
+          "chars_deciles": [
+            19,
+            20,
+            20,
+            23,
+            23,
+            25,
+            41,
+            43,
+            95,
+            146,
+            294
+          ],
+          "lines_deciles": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            11
+          ],
+          "n": 1500,
+          "n_json_parse_fail": 1
+        },
+        "unannotated": {
+          "chars_deciles": [
+            19,
+            20,
+            20,
+            23,
+            23,
+            25,
+            41,
+            42,
+            92,
+            146,
+            295
+          ],
+          "lines_deciles": [
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            1,
+            11
+          ],
+          "n": 1500,
+          "n_json_parse_fail": 0
+        }
+      },
+      "Mistral-24B": {
+        "annotated": {
+          "chars_deciles": [
+            32,
+            32,
+            33,
+            35,
+            36,
+            39,
+            61,
+            63,
+            114,
+            173,
+            334
+          ],
+          "lines_deciles": [
+            3,
+            3,
+            3,
+            3,
+            3,
+            5,
+            7,
+            7,
+            8,
+            10,
+            16
+          ],
+          "n": 1500,
+          "n_json_parse_fail": 0
+        },
+        "unannotated": {
+          "chars_deciles": [
+            32,
+            32,
+            35,
+            36,
+            39,
+            41,
+            61,
+            63,
+            114,
+            173,
+            356
+          ],
+          "lines_deciles": [
+            3,
+            3,
+            3,
+            3,
+            5,
+            5,
+            7,
+            7,
+            8,
+            10,
+            16
+          ],
+          "n": 1500,
+          "n_json_parse_fail": 0
+        }
+      }
+    },
+    "note": "DESCRIPTIVE ONLY: the annotated arm (released run) and the unannotated arm (ablation run, ~2 weeks later) differ by both the treatment (annotations stripped) and serving-side drift at the hosted endpoints, so arm differences are treatment-confounded and no statistical test is computed. All diagnostics use draw[0] of each record. Deciles are nearest-rank at 0%,10%,...,100%.",
+    "refactor": {
+      "DeepSeek-V4-Flash": {
+        "annotated": {
+          "chars_deciles": [
+            103,
+            299,
+            397,
+            459,
+            552,
+            633,
+            746,
+            921,
+            1163,
+            1573,
+            2703
+          ],
+          "lines_deciles": [
+            5,
+            6,
+            7,
+            13,
+            16,
+            18,
+            20,
+            25,
+            32,
+            40,
+            90
+          ],
+          "n": 1500,
+          "n_extract_code_empty": 0,
+          "n_unterminated_fence": 0
+        },
+        "unannotated": {
+          "chars_deciles": [
+            122,
+            305,
+            407,
+            500,
+            567,
+            638,
+            737,
+            921,
+            1115,
+            1480,
+            2774
+          ],
+          "lines_deciles": [
+            6,
+            7,
+            8,
+            13,
+            17,
+            20,
+            21,
+            26,
+            32,
+            41,
+            70
+          ],
+          "n": 1500,
+          "n_extract_code_empty": 0,
+          "n_unterminated_fence": 0
+        }
+      },
+      "Llama-3.1-8B": {
+        "annotated": {
+          "chars_deciles": [
+            140,
+            312,
+            431,
+            496,
+            602,
+            663,
+            819,
+            969,
+            1169,
+            1519,
+            3382
+          ],
+          "lines_deciles": [
+            6,
+            8,
+            9,
+            11,
+            14,
+            20,
+            25,
+            29,
+            34,
+            40,
+            93
+          ],
+          "n": 1500,
+          "n_extract_code_empty": 0,
+          "n_unterminated_fence": 0
+        },
+        "unannotated": {
+          "chars_deciles": [
+            140,
+            313,
+            419,
+            496,
+            577,
+            667,
+            783,
+            956,
+            1153,
+            1486,
+            3610
+          ],
+          "lines_deciles": [
+            7,
+            8,
+            9,
+            12,
+            16,
+            19,
+            24,
+            29,
+            37,
+            45,
+            128
+          ],
+          "n": 1500,
+          "n_extract_code_empty": 0,
+          "n_unterminated_fence": 0
+        }
+      },
+      "Llama-3.3-70B": {
+        "annotated": {
+          "chars_deciles": [
+            120,
+            315,
+            402,
+            481,
+            556,
+            624,
+            717,
+            898,
+            1098,
+            1420,
+            3549
+          ],
+          "lines_deciles": [
+            6,
+            6,
+            8,
+            13,
+            15,
+            16,
+            20,
+            22,
+            27,
+            34,
+            126
+          ],
+          "n": 1500,
+          "n_extract_code_empty": 0,
+          "n_unterminated_fence": 0
+        },
+        "unannotated": {
+          "chars_deciles": [
+            122,
+            349,
+            433,
+            492,
+            557,
+            615,
+            663,
+            774,
+            988,
+            1327,
+            3131
+          ],
+          "lines_deciles": [
+            6,
+            8,
+            9,
+            13,
+            15,
+            17,
+            20,
+            21,
+            25,
+            30,
+            84
+          ],
+          "n": 1500,
+          "n_extract_code_empty": 0,
+          "n_unterminated_fence": 0
+        }
+      },
+      "Mistral-24B": {
+        "annotated": {
+          "chars_deciles": [
+            120,
+            310,
+            414,
+            492,
+            602,
+            658,
+            814,
+            933,
+            1121,
+            1499,
+            2882
+          ],
+          "lines_deciles": [
+            2,
+            6,
+            8,
+            12,
+            15,
+            18,
+            22,
+            28,
+            32,
+            38,
+            96
+          ],
+          "n": 1500,
+          "n_extract_code_empty": 0,
+          "n_unterminated_fence": 15
+        },
+        "unannotated": {
+          "chars_deciles": [
+            104,
+            296,
+            384,
+            460,
+            555,
+            658,
+            747,
+            862,
+            1068,
+            1429,
+            3234
+          ],
+          "lines_deciles": [
+            2,
+            7,
+            8,
+            10,
+            15,
+            17,
+            23,
+            27,
+            30,
+            37,
+            70
+          ],
+          "n": 1500,
+          "n_extract_code_empty": 0,
+          "n_unterminated_fence": 15
+        }
+      }
+    }
+  },
+  "nondeterminism_report": {
+    "comprehend_per_draw_crosscheck": {
+      "DeepSeek-V4-Flash": {
+        "agrees_with_cache": true,
+        "n_items": 1500,
+        "n_mixed": 31
+      },
+      "Llama-3.1-8B": {
+        "agrees_with_cache": true,
+        "n_items": 1500,
+        "n_mixed": 20
+      },
+      "Llama-3.3-70B": {
+        "agrees_with_cache": true,
+        "n_items": 1500,
+        "n_mixed": 23
+      },
+      "Mistral-24B": {
+        "agrees_with_cache": true,
+        "n_items": 1500,
+        "n_mixed": 25
+      }
+    },
+    "definition": "an item is MIXED when its k=8 binary grades disagree across draws (k=8 mean strictly inside (0,1)); grades are semantic_ok (refactor) / exact_match (comprehend) on the annotated archives",
+    "draw0_vs_rest_comprehend": {
+      "DeepSeek-V4-Flash": {
+        "diff_ci95": [
+          -0.00010582010582010565,
+          0.002689075630252101
+        ],
+        "diff_point": 0.0009523809523809526,
+        "mean_draw0": 0.8393333333333334,
+        "mean_rest": 0.8383809523809524,
+        "n_clusters": 50,
+        "n_items": 1500,
+        "p_bootstrap": 0.126
+      },
+      "Llama-3.1-8B": {
+        "diff_ci95": [
+          -0.003208020050125313,
+          0.003726708074534162
+        ],
+        "diff_point": 0.0002857142857142858,
+        "mean_draw0": 0.5526666666666666,
+        "mean_rest": 0.5523809523809524,
+        "n_clusters": 50,
+        "n_items": 1500,
+        "p_bootstrap": 0.833
+      },
+      "Llama-3.3-70B": {
+        "diff_ci95": [
+          -0.0023443223443223443,
+          0.0028070175438596498
+        ],
+        "diff_point": 0.00019047619047619086,
+        "mean_draw0": 0.7686666666666667,
+        "mean_rest": 0.7684761904761905,
+        "n_clusters": 50,
+        "n_items": 1500,
+        "p_bootstrap": 0.847
+      },
+      "Mistral-24B": {
+        "diff_ci95": [
+          -0.0015686274509803919,
+          0.004761904761904762
+        ],
+        "diff_point": 0.0012380952380952382,
+        "mean_draw0": 0.7393333333333333,
+        "mean_rest": 0.738095238095238,
+        "n_clusters": 50,
+        "n_items": 1500,
+        "p_bootstrap": 0.393
+      }
+    },
+    "note": "the mixed fraction is a LOWER bound on serving-side nondeterminism: draws that fail identically (or succeed identically for different reasons) count as agreement. The k=1 ablation protocol additionally ASSUMES this within-item stability, measured on the annotated arm, propagates to the unannotated k=1 arm; that propagation is untested here.",
+    "per_model_mixed": {
+      "comprehend": {
+        "DeepSeek-V4-Flash": {
+          "mixed_fraction": 0.020666666666666667,
+          "n": 1500,
+          "n_mixed": 31
+        },
+        "Llama-3.1-8B": {
+          "mixed_fraction": 0.013333333333333334,
+          "n": 1500,
+          "n_mixed": 20
+        },
+        "Llama-3.3-70B": {
+          "mixed_fraction": 0.015333333333333332,
+          "n": 1500,
+          "n_mixed": 23
+        },
+        "Mistral-24B": {
+          "mixed_fraction": 0.016666666666666666,
+          "n": 1500,
+          "n_mixed": 25
+        }
+      },
+      "refactor": {
+        "DeepSeek-V4-Flash": {
+          "mixed_fraction": 0.007333333333333333,
+          "n": 1500,
+          "n_mixed": 11
+        },
+        "Llama-3.1-8B": {
+          "mixed_fraction": 0.04,
+          "n": 1500,
+          "n_mixed": 60
+        },
+        "Llama-3.3-70B": {
+          "mixed_fraction": 0.06866666666666667,
+          "n": 1500,
+          "n_mixed": 103
+        },
+        "Mistral-24B": {
+          "mixed_fraction": 0.078,
+          "n": 1500,
+          "n_mixed": 117
+        }
+      }
+    },
+    "pooled_mixed": {
+      "comprehend": {
+        "mixed_fraction": 0.0165,
+        "n": 6000,
+        "n_mixed": 99
+      },
+      "refactor": {
+        "mixed_fraction": 0.0485,
+        "n": 6000,
+        "n_mixed": 291
+      }
+    },
+    "refactor_route": "cache route only: refactor per-draw re-grading compiles untrusted model code in five languages, so no per-draw cross-check is run for it"
+  },
+  "variant_sensitivity": {
+    "caveats": [
+      "agg_stats v2 appends an element: W label confound",
+      "variants perturb one input literal, not a full Tier-A re-mint"
+    ],
+    "comprehend": {
+      "DeepSeek-V4-Flash": {
+        "mean_sd": 0.143440550167479,
+        "mean_sd_ci95": [
+          0.0,
+          0.28588630490526645
+        ],
+        "n_cells": 150,
+        "n_representatives": 10,
+        "variants_per_cell": [
+          4,
+          5
+        ]
+      },
+      "Llama-3.1-8B": {
+        "mean_sd": 0.18505850856110861,
+        "mean_sd_ci95": [
+          0.08763070038814492,
+          0.28441694311033655
+        ],
+        "n_cells": 150,
+        "n_representatives": 10,
+        "variants_per_cell": [
+          4,
+          5
+        ]
+      },
+      "Llama-3.3-70B": {
+        "mean_sd": 0.10408646947492758,
+        "mean_sd_ci95": [
+          0.0033541019662496844,
+          0.2249434487811036
+        ],
+        "n_cells": 150,
+        "n_representatives": 10,
+        "variants_per_cell": [
+          4,
+          5
+        ]
+      },
+      "Mistral-24B": {
+        "mean_sd": 0.14416549083928556,
+        "mean_sd_ci95": [
+          0.006708203932499369,
+          0.2821120965295044
+        ],
+        "n_cells": 150,
+        "n_representatives": 10,
+        "variants_per_cell": [
+          4,
+          5
+        ]
+      }
+    },
+    "definition": "for each (base representative, profile, language) cell with >= 2 variants present, the across-variant sample SD (ddof=1) of the per-item k=8 rate (comprehend exact-match / refactor semantic-ok, annotated arm); per-model mean SD with a representative-clustered bootstrap CI on shared draws",
+    "excluded": "discovery_pipeline v0 records (verified byte-identical duplicate of base)",
+    "ladder_comprehend_reference_check": {
+      "DeepSeek-V4-Flash": {
+        "committed_overall": 0.8385,
+        "convention": "round(mean, 4)",
+        "n": 1500,
+        "pooled_exact_match": 0.8385
+      },
+      "Llama-3.1-8B": {
+        "committed_overall": 0.5524,
+        "convention": "round(mean, 4)",
+        "n": 1500,
+        "pooled_exact_match": 0.5524166666666667
+      },
+      "Llama-3.3-70B": {
+        "committed_overall": 0.7685,
+        "convention": "round(mean, 4)",
+        "n": 1500,
+        "pooled_exact_match": 0.7685
+      },
+      "Mistral-24B": {
+        "committed_overall": 0.7382,
+        "convention": "round(mean, 4)",
+        "n": 1500,
+        "pooled_exact_match": 0.73825
+      }
+    },
+    "refactor": {
+      "DeepSeek-V4-Flash": {
+        "mean_sd": 0.0,
+        "mean_sd_ci95": [
+          0.0,
+          0.0
+        ],
+        "n_cells": 150,
+        "n_representatives": 10,
+        "variants_per_cell": [
+          4,
+          5
+        ]
+      },
+      "Llama-3.1-8B": {
+        "mean_sd": 0.053625482400127676,
+        "mean_sd_ci95": [
+          0.02639830693755708,
+          0.08093989579881009
+        ],
+        "n_cells": 150,
+        "n_representatives": 10,
+        "variants_per_cell": [
+          4,
+          5
+        ]
+      },
+      "Llama-3.3-70B": {
+        "mean_sd": 0.027204521253630626,
+        "mean_sd_ci95": [
+          0.016860398779418077,
+          0.043135621042094466
+        ],
+        "n_cells": 150,
+        "n_representatives": 10,
+        "variants_per_cell": [
+          4,
+          5
+        ]
+      },
+      "Mistral-24B": {
+        "mean_sd": 0.05270554740319572,
+        "mean_sd_ci95": [
+          0.025412323157689765,
+          0.08313412471791606
+        ],
+        "n_cells": 150,
+        "n_representatives": 10,
+        "variants_per_cell": [
+          4,
+          5
+        ]
+      }
+    }
+  }
+}

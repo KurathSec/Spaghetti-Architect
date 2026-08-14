@@ -1,0 +1,505 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "generated_by": "bench/compression_anchor.py",
+    "inputs": [
+      "bench/data/dev/*.json"
+    ],
+    "knob_rank": [
+      "clean",
+      "minimal",
+      "light",
+      "standard",
+      "heavy",
+      "max"
+    ],
+    "languages": [
+      "python",
+      "javascript",
+      "go",
+      "java",
+      "cpp"
+    ],
+    "n_base_samples": 50,
+    "suite_seed": 20260814,
+    "tools": "stdlib zlib (level 9) + stdlib ast only; no external anchors",
+    "zero_api": true
+  },
+  "annotation_sensitivity": {
+    "cpp": {
+      "n_cells": 250,
+      "ncd": {
+        "raw_mean_rho": 0.6375517560356017,
+        "stripped_mean_rho": 0.5941811989875446
+      },
+      "redundancy_level_shift_stripped_minus_raw_mean": 0.04398962008861379,
+      "zlib_redundancy": {
+        "raw_mean_rho": 0.4463245063772435,
+        "stripped_mean_rho": 0.46115265761452273
+      }
+    },
+    "go": {
+      "n_cells": 250,
+      "ncd": {
+        "raw_mean_rho": 0.6913457529549522,
+        "stripped_mean_rho": 0.6240743043282544
+      },
+      "redundancy_level_shift_stripped_minus_raw_mean": 0.05200798843078548,
+      "zlib_redundancy": {
+        "raw_mean_rho": 0.6160301338620149,
+        "stripped_mean_rho": 0.5213606592097001
+      }
+    },
+    "java": {
+      "n_cells": 250,
+      "ncd": {
+        "raw_mean_rho": 0.6204135135308362,
+        "stripped_mean_rho": 0.6678879839872338
+      },
+      "redundancy_level_shift_stripped_minus_raw_mean": 0.03747945405481606,
+      "zlib_redundancy": {
+        "raw_mean_rho": 0.4463245063772435,
+        "stripped_mean_rho": 0.4596206236389601
+      }
+    },
+    "javascript": {
+      "n_cells": 250,
+      "ncd": {
+        "raw_mean_rho": 0.6268488499038277,
+        "stripped_mean_rho": 0.743367259430613
+      },
+      "redundancy_level_shift_stripped_minus_raw_mean": 0.04957819462033827,
+      "zlib_redundancy": {
+        "raw_mean_rho": 0.6160301338620149,
+        "stripped_mean_rho": 0.5028930488721673
+      }
+    },
+    "python": {
+      "n_cells": 300,
+      "ncd": {
+        "raw_mean_rho": 0.8297406766620881,
+        "stripped_mean_rho": 0.7760428411394655
+      },
+      "redundancy_level_shift_stripped_minus_raw_mean": 0.04417506386365053,
+      "zlib_redundancy": {
+        "raw_mean_rho": 0.7337649334524394,
+        "stripped_mean_rho": 0.7259315341353738
+      }
+    }
+  },
+  "definitions": {
+    "aggregation": "per-base-sample Spearman(knob rank, metric) via bench.grade.spearman; mean over the 50 base samples with bench.grade.ci95_bootstrap.",
+    "ncd": "(C(xy)-min(Cx,Cy))/max(Cx,Cy), C = zlib level-9 compressed length, y = the sample's PYTHON clean reference (eval.metrics.clean_baseline_static); direction '+' (more mess -> further from clean).",
+    "stripped_variant": "same measures on line-comment-stripped text (eval.metrics._code_part), the annotation-sensitivity check: the knob correlation must survive removing SPAGH_* marker comments.",
+    "zlib_redundancy": "1 - len(zlib.compress(src,9))/len(src); direction '+' (more mess -> more redundancy)."
+  },
+  "kill_switches_passed": [
+    "50 base samples x 5 profiles x 5 languages present in the frozen dev split",
+    "AST depth >= max_nesting on all 300 python cells (min margin 3)",
+    "raw-variant mean Spearman vs knob > 0 in every language for zlib_redundancy and ncd"
+  ],
+  "level_means": {
+    "cpp": {
+      "heavy": {
+        "n": 50,
+        "ncd_raw_mean": 0.9428706269300049,
+        "zlib_ratio_raw_mean": 0.31331227744965384,
+        "zlib_ratio_stripped_mean": 0.26916130800991933
+      },
+      "light": {
+        "n": 50,
+        "ncd_raw_mean": 0.9424598090399094,
+        "zlib_ratio_raw_mean": 0.32184804427908614,
+        "zlib_ratio_stripped_mean": 0.27808254338334565
+      },
+      "max": {
+        "n": 50,
+        "ncd_raw_mean": 0.9449892223149863,
+        "zlib_ratio_raw_mean": 0.302693725983694,
+        "zlib_ratio_stripped_mean": 0.2585125562389976
+      },
+      "minimal": {
+        "n": 50,
+        "ncd_raw_mean": 0.9413849037967047,
+        "zlib_ratio_raw_mean": 0.32431079821306774,
+        "zlib_ratio_stripped_mean": 0.2802258387459106
+      },
+      "standard": {
+        "n": 50,
+        "ncd_raw_mean": 0.9424598090399094,
+        "zlib_ratio_raw_mean": 0.32184804427908614,
+        "zlib_ratio_stripped_mean": 0.27808254338334565
+      }
+    },
+    "go": {
+      "heavy": {
+        "n": 50,
+        "ncd_raw_mean": 0.9320719359014416,
+        "zlib_ratio_raw_mean": 0.3060510783813966,
+        "zlib_ratio_stripped_mean": 0.25433786165243377
+      },
+      "light": {
+        "n": 50,
+        "ncd_raw_mean": 0.9310167275007144,
+        "zlib_ratio_raw_mean": 0.31010685396439325,
+        "zlib_ratio_stripped_mean": 0.2584058565845065
+      },
+      "max": {
+        "n": 50,
+        "ncd_raw_mean": 0.9348106844523427,
+        "zlib_ratio_raw_mean": 0.29523863554567337,
+        "zlib_ratio_stripped_mean": 0.2427048726611024
+      },
+      "minimal": {
+        "n": 50,
+        "ncd_raw_mean": 0.9299489718836235,
+        "zlib_ratio_raw_mean": 0.3137881477466871,
+        "zlib_ratio_stripped_mean": 0.26139717996606704
+      },
+      "standard": {
+        "n": 50,
+        "ncd_raw_mean": 0.9310167275007144,
+        "zlib_ratio_raw_mean": 0.31010685396439325,
+        "zlib_ratio_stripped_mean": 0.2584058565845065
+      }
+    },
+    "java": {
+      "heavy": {
+        "n": 50,
+        "ncd_raw_mean": 0.9452040745432174,
+        "zlib_ratio_raw_mean": 0.2744498401658644,
+        "zlib_ratio_stripped_mean": 0.23689935717655275
+      },
+      "light": {
+        "n": 50,
+        "ncd_raw_mean": 0.9442434070602918,
+        "zlib_ratio_raw_mean": 0.2827659983441785,
+        "zlib_ratio_stripped_mean": 0.24572847024679562
+      },
+      "max": {
+        "n": 50,
+        "ncd_raw_mean": 0.9477251001653444,
+        "zlib_ratio_raw_mean": 0.2662449682696483,
+        "zlib_ratio_stripped_mean": 0.22728053656159536
+      },
+      "minimal": {
+        "n": 50,
+        "ncd_raw_mean": 0.9437861253243667,
+        "zlib_ratio_raw_mean": 0.28546269560131815,
+        "zlib_ratio_stripped_mean": 0.24865539621936825
+      },
+      "standard": {
+        "n": 50,
+        "ncd_raw_mean": 0.9442434070602918,
+        "zlib_ratio_raw_mean": 0.2827659983441785,
+        "zlib_ratio_stripped_mean": 0.24572847024679562
+      }
+    },
+    "javascript": {
+      "heavy": {
+        "n": 50,
+        "ncd_raw_mean": 0.9269932071455486,
+        "zlib_ratio_raw_mean": 0.31199888393964886,
+        "zlib_ratio_stripped_mean": 0.26143959006848605
+      },
+      "light": {
+        "n": 50,
+        "ncd_raw_mean": 0.9258493523462336,
+        "zlib_ratio_raw_mean": 0.3228180397375448,
+        "zlib_ratio_stripped_mean": 0.2742118642827581
+      },
+      "max": {
+        "n": 50,
+        "ncd_raw_mean": 0.9305325779105487,
+        "zlib_ratio_raw_mean": 0.30056788995497113,
+        "zlib_ratio_stripped_mean": 0.24916385554211032
+      },
+      "minimal": {
+        "n": 50,
+        "ncd_raw_mean": 0.9243815906303753,
+        "zlib_ratio_raw_mean": 0.3283568625074044,
+        "zlib_ratio_stripped_mean": 0.27964156859931
+      },
+      "standard": {
+        "n": 50,
+        "ncd_raw_mean": 0.9258493523462336,
+        "zlib_ratio_raw_mean": 0.3228180397375448,
+        "zlib_ratio_stripped_mean": 0.2742118642827581
+      }
+    },
+    "python": {
+      "clean": {
+        "n": 50,
+        "ncd_raw_mean": 0.060406974721851005,
+        "zlib_ratio_raw_mean": 0.9128915126180734,
+        "zlib_ratio_stripped_mean": 0.9128915126180734
+      },
+      "heavy": {
+        "n": 50,
+        "ncd_raw_mean": 0.9107224716331893,
+        "zlib_ratio_raw_mean": 0.31708645432079285,
+        "zlib_ratio_stripped_mean": 0.26337806945401504
+      },
+      "light": {
+        "n": 50,
+        "ncd_raw_mean": 0.909342312975988,
+        "zlib_ratio_raw_mean": 0.3285009517995256,
+        "zlib_ratio_stripped_mean": 0.2763634225104111
+      },
+      "max": {
+        "n": 50,
+        "ncd_raw_mean": 0.9161711047654424,
+        "zlib_ratio_raw_mean": 0.30626850711475323,
+        "zlib_ratio_stripped_mean": 0.2511805635651187
+      },
+      "minimal": {
+        "n": 50,
+        "ncd_raw_mean": 0.9073870567895075,
+        "zlib_ratio_raw_mean": 0.3305032940960247,
+        "zlib_ratio_stripped_mean": 0.2785242979087627
+      },
+      "standard": {
+        "n": 50,
+        "ncd_raw_mean": 0.909342312975988,
+        "zlib_ratio_raw_mean": 0.3285009517995256,
+        "zlib_ratio_stripped_mean": 0.2763634225104111
+      }
+    }
+  },
+  "orientation_note": "Investigated, not assumed: the naive 'messier -> less compressible per byte' expectation is INVERTED on this generator. The knob injects textual redundancy (duplicated scaffolding, repeated boilerplate, marker comments) and longer files amortize the zlib header, so the raw compressed/original ratio FALLS monotonically with the knob (see level_means). The anchor is therefore oriented as redundancy = 1 - ratio, direction '+'. NCD needs no flip: distance from the clean reference rises with the knob.",
+  "per_language": {
+    "cpp": {
+      "ncd_raw": {
+        "ci95": [
+          0.537449000142179,
+          0.7294466851123431
+        ],
+        "direction": "+",
+        "mean": 0.6375517560356017,
+        "n_base_samples": 50,
+        "n_levels": 5
+      },
+      "ncd_stripped": {
+        "ci95": [
+          0.4494603463885184,
+          0.7254245998792235
+        ],
+        "direction": "+",
+        "mean": 0.5941811989875446,
+        "n_base_samples": 50,
+        "n_levels": 5
+      },
+      "zlib_redundancy_raw": {
+        "ci95": [
+          0.24121066413543357,
+          0.6534903053232237
+        ],
+        "direction": "+",
+        "mean": 0.4463245063772435,
+        "n_base_samples": 50,
+        "n_levels": 5
+      },
+      "zlib_redundancy_stripped": {
+        "ci95": [
+          0.2588183890058218,
+          0.6672786111032876
+        ],
+        "direction": "+",
+        "mean": 0.46115265761452273,
+        "n_base_samples": 50,
+        "n_levels": 5
+      }
+    },
+    "go": {
+      "ncd_raw": {
+        "ci95": [
+          0.5736616319458414,
+          0.7906440918017509
+        ],
+        "direction": "+",
+        "mean": 0.6913457529549522,
+        "n_base_samples": 50,
+        "n_levels": 5
+      },
+      "ncd_stripped": {
+        "ci95": [
+          0.4903358241214828,
+          0.7446966272633802
+        ],
+        "direction": "+",
+        "mean": 0.6240743043282544,
+        "n_base_samples": 50,
+        "n_levels": 5
+      },
+      "zlib_redundancy_raw": {
+        "ci95": [
+          0.4392005628676669,
+          0.7793822531490155
+        ],
+        "direction": "+",
+        "mean": 0.6160301338620149,
+        "n_base_samples": 50,
+        "n_levels": 5
+      },
+      "zlib_redundancy_stripped": {
+        "ci95": [
+          0.3195463133296068,
+          0.7178235520239064
+        ],
+        "direction": "+",
+        "mean": 0.5213606592097001,
+        "n_base_samples": 50,
+        "n_levels": 5
+      }
+    },
+    "java": {
+      "ncd_raw": {
+        "ci95": [
+          0.47597212719229065,
+          0.7467485839675504
+        ],
+        "direction": "+",
+        "mean": 0.6204135135308362,
+        "n_base_samples": 50,
+        "n_levels": 5
+      },
+      "ncd_stripped": {
+        "ci95": [
+          0.5394191286711284,
+          0.7823544368098487
+        ],
+        "direction": "+",
+        "mean": 0.6678879839872338,
+        "n_base_samples": 50,
+        "n_levels": 5
+      },
+      "zlib_redundancy_raw": {
+        "ci95": [
+          0.24121066413543357,
+          0.6534903053232237
+        ],
+        "direction": "+",
+        "mean": 0.4463245063772435,
+        "n_base_samples": 50,
+        "n_levels": 5
+      },
+      "zlib_redundancy_stripped": {
+        "ci95": [
+          0.25731408924051946,
+          0.6645267716804389
+        ],
+        "direction": "+",
+        "mean": 0.4596206236389601,
+        "n_base_samples": 50,
+        "n_levels": 5
+      }
+    },
+    "javascript": {
+      "ncd_raw": {
+        "ci95": [
+          0.5362014604846326,
+          0.7092884125063417
+        ],
+        "direction": "+",
+        "mean": 0.6268488499038277,
+        "n_base_samples": 50,
+        "n_levels": 5
+      },
+      "ncd_stripped": {
+        "ci95": [
+          0.6633409479679709,
+          0.8107205362325316
+        ],
+        "direction": "+",
+        "mean": 0.743367259430613,
+        "n_base_samples": 50,
+        "n_levels": 5
+      },
+      "zlib_redundancy_raw": {
+        "ci95": [
+          0.4343740605879232,
+          0.7796617194094962
+        ],
+        "direction": "+",
+        "mean": 0.6160301338620149,
+        "n_base_samples": 50,
+        "n_levels": 5
+      },
+      "zlib_redundancy_stripped": {
+        "ci95": [
+          0.2944797102686407,
+          0.705954934409807
+        ],
+        "direction": "+",
+        "mean": 0.5028930488721673,
+        "n_base_samples": 50,
+        "n_levels": 5
+      }
+    },
+    "python": {
+      "ncd_raw": {
+        "ci95": [
+          0.7816113965685836,
+          0.8719411006666623
+        ],
+        "direction": "+",
+        "mean": 0.8297406766620881,
+        "n_base_samples": 50,
+        "n_levels": 6
+      },
+      "ncd_stripped": {
+        "ci95": [
+          0.6983535223620375,
+          0.8452882012953522
+        ],
+        "direction": "+",
+        "mean": 0.7760428411394655,
+        "n_base_samples": 50,
+        "n_levels": 6
+      },
+      "zlib_redundancy_raw": {
+        "ci95": [
+          0.634031704295362,
+          0.8334895088285069
+        ],
+        "direction": "+",
+        "mean": 0.7337649334524394,
+        "n_base_samples": 50,
+        "n_levels": 6
+      },
+      "zlib_redundancy_stripped": {
+        "ci95": [
+          0.6275644978425358,
+          0.826140219620675
+        ],
+        "direction": "+",
+        "mean": 0.7259315341353738,
+        "n_base_samples": 50,
+        "n_levels": 6
+      }
+    }
+  },
+  "python_ast_depth": {
+    "definition": "max parse-tree node depth (Module at depth 0) via a guarded recursive walk of ast.parse, reported next to eval.metrics.max_nesting (block-nesting depth).",
+    "depth_vs_knob": {
+      "ci95": [
+        0.4302366933665816,
+        0.5571366321768351
+      ],
+      "mean": 0.49945484180853805,
+      "n_base_samples": 50
+    },
+    "kill": "depth >= max_nesting on every python cell (AST depth counts expression levels too, so it must dominate)",
+    "max_nesting_vs_knob": {
+      "ci95": [
+        0.7232338809553712,
+        0.7765740444811223
+      ],
+      "mean": 0.7499039627182468,
+      "n_base_samples": 50
+    },
+    "min_depth_minus_nesting": 3,
+    "n_cells": 300
+  },
+  "reference_note": "The NCD reference is the sample's PYTHON clean baseline for every language; the python-reference/language mismatch is a fixed constant within each (sample, language) knob series, so the within-series Spearman is unaffected by it. The clean floor itself is a knob level only for python (rank 0), mirroring bench/anchor.py; the other languages rank the five engine profiles."
+}

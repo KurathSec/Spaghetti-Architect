@@ -1,0 +1,263 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "generated_by": "bench/did_analysis.py",
+    "inputs": [
+      "bench/out/ablation/*.jsonl.gz",
+      "bench/out/annotation_ablation.json",
+      "bench/out/g3/refactor_dev__*.jsonl.gz",
+      "bench/out/ladder/*.jsonl.gz"
+    ],
+    "shared_draws": true,
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "comprehend": {
+    "concordance": {
+      "annotated:Llama-3.1-8B<Mistral-24B": 1.0,
+      "annotated:Llama-3.3-70B<DeepSeek-V4-Flash": 0.991,
+      "annotated:Mistral-24B<Llama-3.3-70B": 0.954,
+      "unannotated:Llama-3.1-8B<Mistral-24B": 1.0,
+      "unannotated:Llama-3.3-70B<DeepSeek-V4-Flash": 0.936,
+      "unannotated:Mistral-24B<Llama-3.3-70B": 1.0
+    },
+    "concordance_vs_committed_rungs": [
+      {
+        "arm": "annotated",
+        "committed_separated": false,
+        "concordance": 1.0,
+        "pair": "Llama-3.1-8B < Mistral-24B"
+      },
+      {
+        "arm": "annotated",
+        "committed_separated": false,
+        "concordance": 0.954,
+        "pair": "Mistral-24B < Llama-3.3-70B"
+      },
+      {
+        "arm": "annotated",
+        "committed_separated": false,
+        "concordance": 0.991,
+        "pair": "Llama-3.3-70B < DeepSeek-V4-Flash"
+      },
+      {
+        "arm": "unannotated",
+        "committed_separated": false,
+        "concordance": 1.0,
+        "pair": "Llama-3.1-8B < Mistral-24B"
+      },
+      {
+        "arm": "unannotated",
+        "committed_separated": false,
+        "concordance": 1.0,
+        "pair": "Mistral-24B < Llama-3.3-70B"
+      },
+      {
+        "arm": "unannotated",
+        "committed_separated": false,
+        "concordance": 0.936,
+        "pair": "Llama-3.3-70B < DeepSeek-V4-Flash"
+      }
+    ],
+    "did": {
+      "ci95": [
+        -0.21636363636363637,
+        -0.011764705882352941
+      ],
+      "definition": "delta(Llama-3.1-8B) - delta(DeepSeek-V4-Flash), delta = unannotated - annotated",
+      "n_clusters": 50,
+      "n_items_per_model": 1500,
+      "p_bootstrap": 0.03,
+      "point": -0.11066666666666666
+    },
+    "per_model_delta_point": {
+      "DeepSeek-V4-Flash": -0.054,
+      "Llama-3.1-8B": -0.16466666666666666,
+      "Llama-3.3-70B": -0.014,
+      "Mistral-24B": -0.07133333333333333
+    },
+    "ratio": {
+      "ci95": [
+        1.117283950617284,
+        12.357142857142856
+      ],
+      "n_near_zero_draws": 0,
+      "n_signflip_draws": 0,
+      "note": "CI nulled when >1% of shared draws sign-flip the denominator (a quotient by noise); the DiD is the quotable statistic.",
+      "point": 3.0493827160493825,
+      "unstable": false
+    },
+    "regression": {
+      "logit_cluster_robust": {
+        "interactions": {
+          "C(model)[T.Llama-3.1-8B]:C(cond)[T.unannotated]": {
+            "coef": -0.3109236791660974,
+            "p": 0.209043066604768
+          },
+          "C(model)[T.Llama-3.3-70B]:C(cond)[T.unannotated]": {
+            "coef": 0.2791148621585693,
+            "p": 0.17182919860698842
+          },
+          "C(model)[T.Mistral-24B]:C(cond)[T.unannotated]": {
+            "coef": 0.01290105914172723,
+            "p": 0.9488413656248846
+          }
+        },
+        "weakest_x_unannotated": {
+          "coef": -0.3109236791660974,
+          "p": 0.209043066604768
+        }
+      },
+      "lpm_cluster_robust": {
+        "interactions": {
+          "C(model)[T.Llama-3.1-8B]:C(cond)[T.unannotated]": {
+            "coef": -0.11066666666669711,
+            "p": 0.03975131090683369
+          },
+          "C(model)[T.Llama-3.3-70B]:C(cond)[T.unannotated]": {
+            "coef": 0.04000000000000348,
+            "p": 0.20920821354088115
+          },
+          "C(model)[T.Mistral-24B]:C(cond)[T.unannotated]": {
+            "coef": -0.017333333333336087,
+            "p": 0.607155202240522
+          }
+        },
+        "weakest_x_unannotated": {
+          "coef": -0.11066666666669711,
+          "p": 0.03975131090683369
+        }
+      },
+      "n_rows": 12000,
+      "note": "both engines duplicate the DiD hypothesis as cross-checks on two scales; neither is part of the confirmatory p-value family",
+      "reference": {
+        "cond": "annotated",
+        "model": "DeepSeek-V4-Flash"
+      }
+    }
+  },
+  "refactor": {
+    "concordance": {
+      "annotated:Llama-3.1-8B<Mistral-24B": 0.9745,
+      "annotated:Llama-3.3-70B<DeepSeek-V4-Flash": 1.0,
+      "annotated:Mistral-24B<Llama-3.3-70B": 1.0,
+      "unannotated:Llama-3.1-8B<Mistral-24B": 1.0,
+      "unannotated:Llama-3.3-70B<DeepSeek-V4-Flash": 1.0,
+      "unannotated:Mistral-24B<Llama-3.3-70B": 0.997
+    },
+    "concordance_vs_committed_rungs": [
+      {
+        "arm": "annotated",
+        "committed_separated": false,
+        "concordance": 0.9745,
+        "pair": "Llama-3.1-8B < Mistral-24B"
+      },
+      {
+        "arm": "annotated",
+        "committed_separated": true,
+        "concordance": 1.0,
+        "pair": "Mistral-24B < Llama-3.3-70B"
+      },
+      {
+        "arm": "annotated",
+        "committed_separated": false,
+        "concordance": 1.0,
+        "pair": "Llama-3.3-70B < DeepSeek-V4-Flash"
+      },
+      {
+        "arm": "unannotated",
+        "committed_separated": true,
+        "concordance": 1.0,
+        "pair": "Llama-3.1-8B < Mistral-24B"
+      },
+      {
+        "arm": "unannotated",
+        "committed_separated": true,
+        "concordance": 0.997,
+        "pair": "Mistral-24B < Llama-3.3-70B"
+      },
+      {
+        "arm": "unannotated",
+        "committed_separated": true,
+        "concordance": 1.0,
+        "pair": "Llama-3.3-70B < DeepSeek-V4-Flash"
+      }
+    ],
+    "did": {
+      "ci95": [
+        -0.22533333333333333,
+        -0.10500000000000001
+      ],
+      "definition": "delta(Llama-3.1-8B) - delta(DeepSeek-V4-Flash), delta = unannotated - annotated",
+      "n_clusters": 50,
+      "n_items_per_model": 1500,
+      "p_bootstrap": 0.0,
+      "point": -0.156
+    },
+    "per_model_delta_point": {
+      "DeepSeek-V4-Flash": -0.017333333333333333,
+      "Llama-3.1-8B": -0.17333333333333334,
+      "Llama-3.3-70B": -0.076,
+      "Mistral-24B": -0.104
+    },
+    "ratio": {
+      "ci95": [
+        5.083333333333333,
+        28.214285714285715
+      ],
+      "n_near_zero_draws": 18,
+      "n_signflip_draws": 0,
+      "note": "CI nulled when >1% of shared draws sign-flip the denominator (a quotient by noise); the DiD is the quotable statistic.",
+      "point": 10.0,
+      "unstable": false
+    },
+    "regression": {
+      "logit_cluster_robust": {
+        "interactions": {
+          "C(model)[T.Llama-3.1-8B]:C(cond)[T.unannotated]": {
+            "coef": 0.07877793008831563,
+            "p": 0.8918455669454616
+          },
+          "C(model)[T.Llama-3.3-70B]:C(cond)[T.unannotated]": {
+            "coef": -0.1045735449720126,
+            "p": 0.8397991698776318
+          },
+          "C(model)[T.Mistral-24B]:C(cond)[T.unannotated]": {
+            "coef": 0.2310097927415832,
+            "p": 0.6554956133543093
+          }
+        },
+        "weakest_x_unannotated": {
+          "coef": 0.07877793008831563,
+          "p": 0.8918455669454616
+        }
+      },
+      "lpm_cluster_robust": {
+        "interactions": {
+          "C(model)[T.Llama-3.1-8B]:C(cond)[T.unannotated]": {
+            "coef": -0.15600000000004677,
+            "p": 8.743560803855134e-07
+          },
+          "C(model)[T.Llama-3.3-70B]:C(cond)[T.unannotated]": {
+            "coef": -0.0586666666666702,
+            "p": 0.01405914489129308
+          },
+          "C(model)[T.Mistral-24B]:C(cond)[T.unannotated]": {
+            "coef": -0.08666666666667266,
+            "p": 0.0008083664198279706
+          }
+        },
+        "weakest_x_unannotated": {
+          "coef": -0.15600000000004677,
+          "p": 8.743560803855134e-07
+        }
+      },
+      "n_rows": 12000,
+      "note": "both engines duplicate the DiD hypothesis as cross-checks on two scales; neither is part of the confirmatory p-value family",
+      "reference": {
+        "cond": "annotated",
+        "model": "DeepSeek-V4-Flash"
+      }
+    }
+  }
+}

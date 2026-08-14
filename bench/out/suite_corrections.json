@@ -1,0 +1,79 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "family_size": 6,
+    "generated_by": "bench/suite_corrections.py",
+    "inputs": [
+      "bench/out/ablation_did.json",
+      "bench/out/quality_slope.json"
+    ],
+    "p_floor": 0.0005,
+    "policy": "BH-FDR q=.05 primary, Holm sensitivity; family fixed in ANALYSIS_PLAN.md before results were read",
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "family": [
+    {
+      "below_resolution": true,
+      "bh_q": 0.0006000000000000001,
+      "bh_reject_at_05": true,
+      "holm_reject_at_05": true,
+      "hypothesis": "refactor DiD (delta_weakest - delta_strongest) != 0",
+      "p_floored": 0.0005,
+      "p_raw": 0.0,
+      "source": "ablation_did.json"
+    },
+    {
+      "below_resolution": false,
+      "bh_q": 0.03,
+      "bh_reject_at_05": true,
+      "holm_reject_at_05": true,
+      "hypothesis": "comprehend DiD (delta_weakest - delta_strongest) != 0",
+      "p_floored": 0.03,
+      "p_raw": 0.03,
+      "source": "ablation_did.json"
+    },
+    {
+      "below_resolution": true,
+      "bh_q": 0.0006000000000000001,
+      "bh_reject_at_05": true,
+      "holm_reject_at_05": true,
+      "hypothesis": "Llama-3.1-8B conditional-quality slope on the knob != 0",
+      "p_floored": 0.0005,
+      "p_raw": 0.0,
+      "source": "quality_slope.json"
+    },
+    {
+      "below_resolution": true,
+      "bh_q": 0.0006000000000000001,
+      "bh_reject_at_05": true,
+      "holm_reject_at_05": true,
+      "hypothesis": "Mistral-24B conditional-quality slope on the knob != 0",
+      "p_floored": 0.0005,
+      "p_raw": 0.0,
+      "source": "quality_slope.json"
+    },
+    {
+      "below_resolution": true,
+      "bh_q": 0.0006000000000000001,
+      "bh_reject_at_05": true,
+      "holm_reject_at_05": true,
+      "hypothesis": "Llama-3.3-70B conditional-quality slope on the knob != 0",
+      "p_floored": 0.0005,
+      "p_raw": 0.0,
+      "source": "quality_slope.json"
+    },
+    {
+      "below_resolution": true,
+      "bh_q": 0.0006000000000000001,
+      "bh_reject_at_05": true,
+      "holm_reject_at_05": true,
+      "hypothesis": "DeepSeek-V4-Flash conditional-quality slope on the knob != 0",
+      "p_floored": 0.0005,
+      "p_raw": 0.0,
+      "source": "quality_slope.json"
+    }
+  ],
+  "n_bh_rejections": 6,
+  "n_holm_rejections": 6
+}

@@ -1,0 +1,469 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "ci_convention": "bench.grade.ci95_bootstrap defaults (iters=2000, seed=0) over per-sample coefficients in row order, matching bench/anchor.py _incidental_spearman_stats",
+    "generated_by": "bench/anchor_subset_analysis.py",
+    "inputs": [
+      "bench/out/anchor.json",
+      "bench/out/provenance_figures.json"
+    ],
+    "subset_source": "provenance_figures.json inert_cells_report.degenerate_base_samples",
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "published_check": {
+    "bw_proxy": {
+      "abs_diff": 0.00444491984785883,
+      "committed_mean": 0.39444491984785884,
+      "matches_committed": true,
+      "published_rounded": 0.39,
+      "recomputed_mean": 0.39444491984785884
+    },
+    "cognitive_cognitive": {
+      "abs_diff": 0.0021111905888513416,
+      "committed_mean": 0.7978888094111487,
+      "matches_committed": true,
+      "published_rounded": 0.8,
+      "recomputed_mean": 0.7978888094111487
+    },
+    "lizard_cc": {
+      "abs_diff": 9.603728175322512e-05,
+      "committed_mean": 0.7499039627182468,
+      "matches_committed": true,
+      "published_rounded": 0.75,
+      "recomputed_mean": 0.7499039627182468
+    },
+    "radon_cc": {
+      "abs_diff": 9.603728175322512e-05,
+      "committed_mean": 0.7499039627182468,
+      "matches_committed": true,
+      "published_rounded": 0.75,
+      "recomputed_mean": 0.7499039627182468
+    },
+    "radon_mi": {
+      "abs_diff": 0.0012658160561430654,
+      "committed_mean": -0.788734183943857,
+      "matches_committed": true,
+      "published_rounded": -0.79,
+      "recomputed_mean": -0.788734183943857
+    }
+  },
+  "spearman_by_metric": {
+    "bw_proxy": {
+      "degenerate": {
+        "ci95": [
+          0.021128856368212903,
+          0.5197698666580376
+        ],
+        "mean": 0.26622359023948267,
+        "n_base_samples": 16
+      },
+      "full": {
+        "ci95": [
+          0.2937217092509188,
+          0.4942237936244674
+        ],
+        "mean": 0.39444491984785884,
+        "n_base_samples": 50
+      },
+      "non_degenerate": {
+        "ci95": [
+          0.3731651336189739,
+          0.5415192313168548
+        ],
+        "mean": 0.45478436907533,
+        "n_base_samples": 34
+      }
+    },
+    "cognitive_cognitive": {
+      "degenerate": {
+        "ci95": [
+          0.6546536707079771,
+          0.6546536707079771
+        ],
+        "mean": 0.6546536707079771,
+        "n_base_samples": 16
+      },
+      "full": {
+        "ci95": [
+          0.7577829705742606,
+          0.8379946482480366
+        ],
+        "mean": 0.7978888094111487,
+        "n_base_samples": 50
+      },
+      "non_degenerate": {
+        "ci95": [
+          0.8231655985940612,
+          0.9074215625371034
+        ],
+        "mean": 0.8652935805655823,
+        "n_base_samples": 34
+      }
+    },
+    "lizard_cc": {
+      "degenerate": {
+        "ci95": [
+          0.6546536707079771,
+          0.6546536707079771
+        ],
+        "mean": 0.6546536707079771,
+        "n_base_samples": 16
+      },
+      "full": {
+        "ci95": [
+          0.7232338809553712,
+          0.7765740444811223
+        ],
+        "mean": 0.7499039627182468,
+        "n_base_samples": 50
+      },
+      "non_degenerate": {
+        "ci95": [
+          0.7667128377788825,
+          0.8227424213143353
+        ],
+        "mean": 0.794727629546609,
+        "n_base_samples": 34
+      }
+    },
+    "radon_cc": {
+      "degenerate": {
+        "ci95": [
+          0.6546536707079771,
+          0.6546536707079771
+        ],
+        "mean": 0.6546536707079771,
+        "n_base_samples": 16
+      },
+      "full": {
+        "ci95": [
+          0.7232338809553712,
+          0.7765740444811223
+        ],
+        "mean": 0.7499039627182468,
+        "n_base_samples": 50
+      },
+      "non_degenerate": {
+        "ci95": [
+          0.7667128377788825,
+          0.8227424213143353
+        ],
+        "mean": 0.794727629546609,
+        "n_base_samples": 34
+      }
+    },
+    "radon_mi": {
+      "degenerate": {
+        "ci95": [
+          -0.8451542547285165,
+          -0.8451542547285165
+        ],
+        "mean": -0.8451542547285165,
+        "n_base_samples": 16
+      },
+      "full": {
+        "ci95": [
+          -0.8621707542028599,
+          -0.7029691283669061
+        ],
+        "mean": -0.788734183943857,
+        "n_base_samples": 50
+      },
+      "non_degenerate": {
+        "ci95": [
+          -0.8799199094924616,
+          -0.6444472153038081
+        ],
+        "mean": -0.7621835623981348,
+        "n_base_samples": 34
+      }
+    }
+  },
+  "subsets": {
+    "degenerate": {
+      "low_resolution": true,
+      "max_distinct_levels_any_metric": 3,
+      "n_base_samples": 16,
+      "n_distinct_levels": {
+        "bw_proxy": {
+          "histogram": {
+            "3": 16
+          },
+          "max": 3,
+          "min": 3
+        },
+        "cognitive_cognitive": {
+          "histogram": {
+            "2": 16
+          },
+          "max": 2,
+          "min": 2
+        },
+        "lizard_cc": {
+          "histogram": {
+            "2": 16
+          },
+          "max": 2,
+          "min": 2
+        },
+        "radon_cc": {
+          "histogram": {
+            "2": 16
+          },
+          "max": 2,
+          "min": 2
+        },
+        "radon_mi": {
+          "histogram": {
+            "3": 16
+          },
+          "max": 3,
+          "min": 3
+        }
+      },
+      "note": "low-resolution subset: each sample's 6 knob rows collapse to at most 3 distinct metric levels (clean + 2 distinct spaghetti renders), so its per-sample rank correlations are dominated by tie corrections and quantize to a few attainable values",
+      "samples": [
+        "config_resolver_N10",
+        "config_resolver_N12",
+        "config_resolver_N16",
+        "config_resolver_N20",
+        "config_resolver_N24",
+        "config_resolver_N28",
+        "config_resolver_N32",
+        "config_resolver_N4",
+        "config_resolver_N40",
+        "config_resolver_N48",
+        "config_resolver_N56",
+        "config_resolver_N6",
+        "config_resolver_N64",
+        "config_resolver_N8",
+        "fsm_transition",
+        "status_router"
+      ]
+    },
+    "non_degenerate": {
+      "low_resolution": false,
+      "max_distinct_levels_any_metric": 5,
+      "n_base_samples": 34,
+      "n_distinct_levels": {
+        "bw_proxy": {
+          "histogram": {
+            "4": 9,
+            "5": 25
+          },
+          "max": 5,
+          "min": 4
+        },
+        "cognitive_cognitive": {
+          "histogram": {
+            "2": 9,
+            "4": 25
+          },
+          "max": 4,
+          "min": 2
+        },
+        "lizard_cc": {
+          "histogram": {
+            "2": 9,
+            "3": 25
+          },
+          "max": 3,
+          "min": 2
+        },
+        "radon_cc": {
+          "histogram": {
+            "2": 9,
+            "3": 25
+          },
+          "max": 3,
+          "min": 2
+        },
+        "radon_mi": {
+          "histogram": {
+            "4": 9,
+            "5": 25
+          },
+          "max": 5,
+          "min": 4
+        }
+      },
+      "samples": [
+        "agg_stats_W12",
+        "agg_stats_W128",
+        "agg_stats_W16",
+        "agg_stats_W160",
+        "agg_stats_W24",
+        "agg_stats_W32",
+        "agg_stats_W48",
+        "agg_stats_W64",
+        "agg_stats_W8",
+        "agg_stats_W96",
+        "allowlist_L12",
+        "allowlist_L128",
+        "allowlist_L16",
+        "allowlist_L160",
+        "allowlist_L192",
+        "allowlist_L24",
+        "allowlist_L256",
+        "allowlist_L32",
+        "allowlist_L320",
+        "allowlist_L384",
+        "allowlist_L48",
+        "allowlist_L64",
+        "allowlist_L8",
+        "allowlist_L96",
+        "discovery_pipeline",
+        "threshold_select_T10",
+        "threshold_select_T12",
+        "threshold_select_T2",
+        "threshold_select_T3",
+        "threshold_select_T4",
+        "threshold_select_T5",
+        "threshold_select_T6",
+        "threshold_select_T7",
+        "threshold_select_T8"
+      ]
+    }
+  },
+  "tau_b_by_metric": {
+    "bw_proxy": {
+      "degenerate": {
+        "ci95": [
+          0.07530800950958867,
+          0.4841229182759271
+        ],
+        "mean": 0.2689571768199595,
+        "n_base_samples": 16
+      },
+      "full": {
+        "ci95": [
+          0.27851855515959295,
+          0.43822719103634794
+        ],
+        "mean": 0.3565985277195475,
+        "n_base_samples": 50
+      },
+      "non_degenerate": {
+        "ci95": [
+          0.3360730086747747,
+          0.4659286847348685
+        ],
+        "mean": 0.39784151637817705,
+        "n_base_samples": 34
+      }
+    },
+    "cognitive_cognitive": {
+      "degenerate": {
+        "ci95": [
+          0.5773502691896257,
+          0.5773502691896257
+        ],
+        "mean": 0.5773502691896257,
+        "n_base_samples": 16
+      },
+      "full": {
+        "ci95": [
+          0.6914979610413302,
+          0.7802794991482114
+        ],
+        "mean": 0.7358887300947708,
+        "n_base_samples": 50
+      },
+      "non_degenerate": {
+        "ci95": [
+          0.7638661055486199,
+          0.857124023728117
+        ],
+        "mean": 0.8104950646383684,
+        "n_base_samples": 34
+      }
+    },
+    "lizard_cc": {
+      "degenerate": {
+        "ci95": [
+          0.5773502691896257,
+          0.5773502691896257
+        ],
+        "mean": 0.5773502691896257,
+        "n_base_samples": 16
+      },
+      "full": {
+        "ci95": [
+          0.6483589732082945,
+          0.7035879652228146
+        ],
+        "mean": 0.6759734692155546,
+        "n_base_samples": 50
+      },
+      "non_degenerate": {
+        "ci95": [
+          0.6933775633377772,
+          0.7513912104118531
+        ],
+        "mean": 0.7223843868748152,
+        "n_base_samples": 34
+      }
+    },
+    "radon_cc": {
+      "degenerate": {
+        "ci95": [
+          0.5773502691896257,
+          0.5773502691896257
+        ],
+        "mean": 0.5773502691896257,
+        "n_base_samples": 16
+      },
+      "full": {
+        "ci95": [
+          0.6483589732082945,
+          0.7035879652228146
+        ],
+        "mean": 0.6759734692155546,
+        "n_base_samples": 50
+      },
+      "non_degenerate": {
+        "ci95": [
+          0.6933775633377772,
+          0.7513912104118531
+        ],
+        "mean": 0.7223843868748152,
+        "n_base_samples": 34
+      }
+    },
+    "radon_mi": {
+      "degenerate": {
+        "ci95": [
+          -0.7745966692414834,
+          -0.7745966692414834
+        ],
+        "mean": -0.7745966692414834,
+        "n_base_samples": 16
+      },
+      "full": {
+        "ci95": [
+          -0.8141096130075206,
+          -0.6844940892923488
+        ],
+        "mean": -0.7534422445059887,
+        "n_base_samples": 50
+      },
+      "non_degenerate": {
+        "ci95": [
+          -0.8411756863061752,
+          -0.6481724211763631
+        ],
+        "mean": -0.7434872211010501,
+        "n_base_samples": 34
+      }
+    }
+  },
+  "tau_b_self_test": {
+    "hand_cases_passed": true,
+    "sign_property": {
+      "n_samples_checked": 0,
+      "n_sign_mismatches": 0,
+      "note": "checked on tie-free samples only (knob ranks never tie; a sample qualifies iff its 6 metric values are distinct); empty on this data because light==standard renders byte-identically, so every sample has a tie"
+    }
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "generated_by": "bench/provenance_figures.py",
+    "inputs": [
+      "bench/data/dev/*.json",
+      "bench/data/manifest.json"
+    ],
+    "sources_route": "frozen record['sources'] used directly; byte-identical to a direct Engine(DB, profile, annotate=True) render per tests/test_frozen_dev.py",
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "exposure_report": {
+    "definition": "fraction of clean-baseline lines whose whitespace-stripped text occurs verbatim in the rendered annotated source; pooled over line-slots (the published figure), with the per-cell mean as a secondary view",
+    "exposure_runnable_python": 0.8736842105263158,
+    "exposure_static_mean": 0.7198443579766537,
+    "families_at_100pct": [
+      "agg_stats",
+      "allowlist",
+      "threshold_select"
+    ],
+    "n_cells": 1500,
+    "n_line_slots": 3855,
+    "n_runnable_cells": 300,
+    "n_runnable_line_slots": 1710,
+    "per_family": {
+      "agg_stats": {
+        "exposure": 1.0,
+        "n_line_slots": 900
+      },
+      "allowlist": {
+        "exposure": 1.0,
+        "n_line_slots": 360
+      },
+      "config_resolver": {
+        "exposure": 0.0,
+        "n_line_slots": 360
+      },
+      "discovery_pipeline": {
+        "exposure": 0.5714285714285714,
+        "n_line_slots": 630
+      },
+      "fsm_transition": {
+        "exposure": 0.0,
+        "n_line_slots": 360
+      },
+      "status_router": {
+        "exposure": 0.0,
+        "n_line_slots": 90
+      },
+      "threshold_select": {
+        "exposure": 1.0,
+        "n_line_slots": 1155
+      }
+    },
+    "per_language": {
+      "cpp": {
+        "exposure": 0.7198443579766537,
+        "n_line_slots": 771
+      },
+      "go": {
+        "exposure": 0.7198443579766537,
+        "n_line_slots": 771
+      },
+      "java": {
+        "exposure": 0.7198443579766537,
+        "n_line_slots": 771
+      },
+      "javascript": {
+        "exposure": 0.7198443579766537,
+        "n_line_slots": 771
+      },
+      "python": {
+        "exposure": 0.7198443579766537,
+        "n_line_slots": 771
+      }
+    },
+    "per_language_spread": 0.0,
+    "secondary_mean_of_cell_fractions": {
+      "runnable_python": 0.8643333333333334,
+      "static": 0.6142857142857143
+    }
+  },
+  "inert_cells_report": {
+    "definition": "distinct-render count per (item, language) cell across the 5 profiles of the frozen sources; a cell is degenerate when only 2 renders are distinct",
+    "degenerate_base_samples": [
+      "config_resolver_N10",
+      "config_resolver_N12",
+      "config_resolver_N16",
+      "config_resolver_N20",
+      "config_resolver_N24",
+      "config_resolver_N28",
+      "config_resolver_N32",
+      "config_resolver_N4",
+      "config_resolver_N40",
+      "config_resolver_N48",
+      "config_resolver_N56",
+      "config_resolver_N6",
+      "config_resolver_N64",
+      "config_resolver_N8",
+      "fsm_transition",
+      "status_router"
+    ],
+    "degenerate_items": [
+      "config_resolver_N10",
+      "config_resolver_N12",
+      "config_resolver_N16",
+      "config_resolver_N16_v0",
+      "config_resolver_N16_v1",
+      "config_resolver_N16_v2",
+      "config_resolver_N16_v3",
+      "config_resolver_N16_v4",
+      "config_resolver_N20",
+      "config_resolver_N24",
+      "config_resolver_N28",
+      "config_resolver_N32",
+      "config_resolver_N4",
+      "config_resolver_N40",
+      "config_resolver_N48",
+      "config_resolver_N56",
+      "config_resolver_N6",
+      "config_resolver_N64",
+      "config_resolver_N8",
+      "config_resolver_N8_v0",
+      "config_resolver_N8_v1",
+      "config_resolver_N8_v2",
+      "config_resolver_N8_v3",
+      "config_resolver_N8_v4",
+      "fsm_transition",
+      "fsm_transition_v0",
+      "fsm_transition_v1",
+      "fsm_transition_v2",
+      "fsm_transition_v3",
+      "fsm_transition_v4",
+      "status_router",
+      "status_router_v0",
+      "status_router_v1",
+      "status_router_v2",
+      "status_router_v3",
+      "status_router_v4"
+    ],
+    "distinct_render_histogram": {
+      "2": 180,
+      "4": 320
+    },
+    "light_equals_standard_cells": 500,
+    "n_cells": 500,
+    "n_degenerate_cells": 180,
+    "n_degenerate_items": 36
+  },
+  "inert_signature_crosscheck": {
+    "adjacent_pairs": [
+      "minimal->light",
+      "light->standard",
+      "standard->heavy",
+      "heavy->max"
+    ],
+    "definition": "per item: ids appearing only in adjacent-profile signature diffs whose renders are byte-identical on all languages are empirically inert; dropping them from each profile's enabled_spagh set must predict the item's distinct-render count. The render route is authoritative; globally_inert_ids lists ids never seen in any render-changing diff on any item",
+    "globally_inert_ids": [
+      "SPAGH_005",
+      "SPAGH_007"
+    ],
+    "items_changed_per_transition": {
+      "heavy->max": 64,
+      "light->standard": 0,
+      "minimal->light": 100,
+      "standard->heavy": 64
+    },
+    "n_items": 100,
+    "per_item_inert_classes": [
+      {
+        "families": [
+          "config_resolver",
+          "fsm_transition",
+          "status_router"
+        ],
+        "inert_ids": [
+          "SPAGH_004",
+          "SPAGH_005",
+          "SPAGH_007",
+          "SPAGH_008"
+        ],
+        "n_items": 36
+      },
+      {
+        "families": [
+          "discovery_pipeline",
+          "threshold_select"
+        ],
+        "inert_ids": [
+          "SPAGH_005",
+          "SPAGH_007"
+        ],
+        "n_items": 20
+      },
+      {
+        "families": [
+          "agg_stats",
+          "allowlist"
+        ],
+        "inert_ids": [
+          "SPAGH_007"
+        ],
+        "n_items": 44
+      }
+    ],
+    "projection_agreement_items": 100,
+    "raw_heavy_equals_max_items": 0
+  }
+}

@@ -1,0 +1,89 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "generated_by": "bench/judge_leakage_analysis.py",
+    "inputs": [
+      "bench/dataset.py::load('dev') (in-memory deterministic mint)",
+      "bench/out/subagent/judge__baseline_metric_judge.json",
+      "config/anti_patterns_db.json"
+    ],
+    "lizard_available": true,
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "heuristic_judge": {
+    "definition": "bench.grade.static_complexity per candidate, lower = cleaner; complexity tie 0.5; unscored pair abstains (metric_heuristic_judge conventions)",
+    "lizard_available": true,
+    "n_items": 250,
+    "n_pairs_scored": 1268,
+    "n_pairs_unscored": 0,
+    "per_item_acc": 0.9862000000000001,
+    "per_item_acc_committed": 0.9862000000000001,
+    "pooled_acc_scored": 0.9822555205047319
+  },
+  "items": {
+    "mean_markers_max_label": 6.0,
+    "mean_markers_rank0": 2.032,
+    "n_items": 250,
+    "n_max_label_candidates": 170,
+    "n_pairs_total": 1268,
+    "n_rank0_candidates": 250,
+    "n_zero_marker_candidate_items": 50,
+    "zero_marker_candidate_languages": [
+      "python"
+    ]
+  },
+  "leakage_resistant_subset": {
+    "antiordered_note": "empty in dev: literal marker count never decreases with rank (543 ordered pairs, 725 ties, 0 anti-ordered); equivalently the regex judge has zero losses, which the published pooled 0.714 already implies. Accuracy on an empty stratum is null, never 0.",
+    "criterion": "unordered candidate pairs (a, b) with rank_a < rank_b (a is ground-truth cleaner) where sign(markers_a - markers_b) is 0 (stratum 'tie': equal literal SPAGH_ counts) or opposed to sign(rank_a - rank_b), i.e. +1 (stratum 'antiordered': the cleaner candidate carries MORE markers). On this subset a judge that ranks by counting literal SPAGH_ markers is capped at chance: it scores exactly 0.5 on ties by convention and is always wrong on anti-ordered pairs. (In the dev data the anti-ordered stratum is empty: marker count never decreases with rank, so the subset is exactly the tie stratum.)",
+    "heuristic_judge": {
+      "antiordered": {
+        "acc": null,
+        "n": 0,
+        "n_scored": 0,
+        "n_unscored": 0
+      },
+      "overall": {
+        "acc": 0.9689655172413794,
+        "n": 725,
+        "n_scored": 725,
+        "n_unscored": 0
+      },
+      "tie": {
+        "acc": 0.9689655172413794,
+        "n": 725,
+        "n_scored": 725,
+        "n_unscored": 0
+      }
+    },
+    "n": 725,
+    "n_antiordered": 0,
+    "n_tie": 725,
+    "regex_judge": {
+      "antiordered": {
+        "acc": null,
+        "n": 0
+      },
+      "overall": {
+        "acc": 0.5,
+        "n": 725
+      },
+      "tie": {
+        "acc": 0.5,
+        "n": 725
+      }
+    }
+  },
+  "marker_definition": "literal src.count('SPAGH_') per candidate (no grouped-id expansion)",
+  "regex_judge": {
+    "definition": "per pair pick the fewer-literal-markers candidate as cleaner; exact tie scores 0.5",
+    "n_items": 250,
+    "n_pairs": 1268,
+    "n_tie_pairs": 725,
+    "per_item_acc": 0.6635333333333333,
+    "per_item_acc_published": 0.664,
+    "pooled_acc": 0.7141167192429022,
+    "pooled_acc_published": 0.714
+  },
+  "subset_artifact": "bench/out/judge_leakage_subset.json"
+}

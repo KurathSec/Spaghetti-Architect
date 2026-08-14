@@ -1,0 +1,828 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "deltas": [
+      0.0,
+      0.01,
+      0.02,
+      0.03,
+      0.05,
+      0.075,
+      0.1
+    ],
+    "dev_score_source": "ann8 (k=8 per-item rate from the ablation grade cache)",
+    "generated_by": "bench/freshness_power.py",
+    "inner_permutations": 500,
+    "inputs": [
+      "bench/out/.annotation_ablation_grades.json",
+      "bench/out/g3_analysis.json",
+      "bench/out/subagent/comprehend__deepseek-ai-DeepSeek-V4-Flash__test.json",
+      "bench/out/subagent/comprehend__meta-llama-Llama-3.3-70B-Instruct-Turbo__test.json",
+      "bench/out/subagent/comprehend__meta-llama-Meta-Llama-3.1-8B-Instruct__test.json",
+      "bench/out/subagent/comprehend__mistralai-Mistral-Small-3.2-24B-Instruct-2506__test.json",
+      "bench/out/subagent/refactor__deepseek-ai-DeepSeek-V4-Flash__test.json",
+      "bench/out/subagent/refactor__meta-llama-Llama-3.3-70B-Instruct-Turbo__test.json",
+      "bench/out/subagent/refactor__meta-llama-Meta-Llama-3.1-8B-Instruct__test.json",
+      "bench/out/subagent/refactor__mistralai-Mistral-Small-3.2-24B-Instruct-2506__test.json"
+    ],
+    "missing_test_files": [],
+    "mode": "dev_vs_testA",
+    "power_target": 0.8,
+    "sims": 400,
+    "suite_seed": 20260814,
+    "testA_score_source": "tier==A per-item scores of the local finalize files",
+    "zero_api": true
+  },
+  "consistency": {
+    "line": "The published freshness agreement (max |dev - testA| = 0.0111) sits below the smallest shift the design detects with >= 80% power -- refactor: pooled MDE80 = 0.05 (4.2x the published bound); comprehend: no grid shift reaches 80% power. Any dev-vs-testA drift at or above the pooled MDE80 would have been flagged; drifts below it are consistent with the null but were not detectable.",
+    "max_abs_observed_delta": 0.011083333333333334,
+    "pooled_mde80": {
+      "comprehend": null,
+      "refactor": 0.05
+    },
+    "published_bound_abs_delta": 0.012
+  },
+  "mode": "dev_vs_testA",
+  "observed": {
+    "comprehend": {
+      "DeepSeek-V4-Flash": {
+        "dev_mean": 0.8385,
+        "dev_minus_testA": 0.011083333333333334,
+        "dev_n": 1500,
+        "n_clusters_dev": 50,
+        "n_clusters_testA": 50,
+        "testA_mean": 0.8274166666666667,
+        "testA_n": 1500
+      },
+      "Llama-3.1-8B": {
+        "dev_mean": 0.5524166666666667,
+        "dev_minus_testA": -0.00491666666666668,
+        "dev_n": 1500,
+        "n_clusters_dev": 50,
+        "n_clusters_testA": 50,
+        "testA_mean": 0.5573333333333333,
+        "testA_n": 1500
+      },
+      "Llama-3.3-70B": {
+        "dev_mean": 0.7685,
+        "dev_minus_testA": -0.0011666666666667602,
+        "dev_n": 1500,
+        "n_clusters_dev": 50,
+        "n_clusters_testA": 50,
+        "testA_mean": 0.7696666666666667,
+        "testA_n": 1500
+      },
+      "Mistral-24B": {
+        "dev_mean": 0.73825,
+        "dev_minus_testA": 0.004726126429051791,
+        "dev_n": 1500,
+        "n_clusters_dev": 50,
+        "n_clusters_testA": 50,
+        "testA_mean": 0.7335238735709482,
+        "testA_n": 1487
+      },
+      "pooled": {
+        "dev_mean": 0.7244166666666667,
+        "dev_minus_testA": 0.0024565864929569914,
+        "dev_n": 6000,
+        "n_clusters_dev": 50,
+        "n_clusters_testA": 50,
+        "testA_mean": 0.7219600801737097,
+        "testA_n": 5987
+      }
+    },
+    "refactor": {
+      "DeepSeek-V4-Flash": {
+        "dev_mean": 0.9865833333333334,
+        "dev_minus_testA": -8.333333333332416e-05,
+        "dev_n": 1500,
+        "n_clusters_dev": 50,
+        "n_clusters_testA": 50,
+        "testA_mean": 0.9866666666666667,
+        "testA_n": 1500
+      },
+      "Llama-3.1-8B": {
+        "dev_mean": 0.7316666666666667,
+        "dev_minus_testA": -0.010489541611036879,
+        "dev_n": 1500,
+        "n_clusters_dev": 50,
+        "n_clusters_testA": 50,
+        "testA_mean": 0.7421562082777036,
+        "testA_n": 1498
+      },
+      "Llama-3.3-70B": {
+        "dev_mean": 0.9453333333333334,
+        "dev_minus_testA": -0.005166666666666653,
+        "dev_n": 1500,
+        "n_clusters_dev": 50,
+        "n_clusters_testA": 50,
+        "testA_mean": 0.9505,
+        "testA_n": 1500
+      },
+      "Mistral-24B": {
+        "dev_mean": 0.832,
+        "dev_minus_testA": 0.0033426853707414494,
+        "dev_n": 1500,
+        "n_clusters_dev": 50,
+        "n_clusters_testA": 50,
+        "testA_mean": 0.8286573146292585,
+        "testA_n": 1497
+      },
+      "pooled": {
+        "dev_mean": 0.8738958333333333,
+        "dev_minus_testA": -0.003168386850152971,
+        "dev_n": 6000,
+        "n_clusters_dev": 50,
+        "n_clusters_testA": 50,
+        "testA_mean": 0.8770642201834863,
+        "testA_n": 5995
+      }
+    }
+  },
+  "power": {
+    "comprehend": {
+      "DeepSeek-V4-Flash": {
+        "calibration_rejection_at_zero_null": 0.0375,
+        "cells": {
+          "0.000": {
+            "achieved_shift_mean": 0.0,
+            "inner_permutations": 500,
+            "n_detected": 21,
+            "power": 0.0525,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.010": {
+            "achieved_shift_mean": 0.01,
+            "inner_permutations": 500,
+            "n_detected": 29,
+            "power": 0.0725,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.020": {
+            "achieved_shift_mean": 0.02,
+            "inner_permutations": 500,
+            "n_detected": 36,
+            "power": 0.09,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.030": {
+            "achieved_shift_mean": 0.029980555555555552,
+            "inner_permutations": 500,
+            "n_detected": 47,
+            "power": 0.1175,
+            "saturated_sims": 1,
+            "sims": 400
+          },
+          "0.050": {
+            "achieved_shift_mean": 0.049827173188467314,
+            "inner_permutations": 500,
+            "n_detected": 80,
+            "power": 0.2,
+            "saturated_sims": 7,
+            "sims": 400
+          },
+          "0.075": {
+            "achieved_shift_mean": 0.07378604450059732,
+            "inner_permutations": 500,
+            "n_detected": 135,
+            "power": 0.3375,
+            "saturated_sims": 26,
+            "sims": 400
+          },
+          "0.100": {
+            "achieved_shift_mean": 0.0966263032827429,
+            "inner_permutations": 500,
+            "n_detected": 192,
+            "power": 0.48,
+            "saturated_sims": 46,
+            "sims": 400
+          }
+        },
+        "mde80": null,
+        "mde80_note": "no grid delta reaches 0.80 power; injection saturates below the grid ceiling",
+        "n_arm2_items": 1500,
+        "n_clusters": 50,
+        "n_dev_items": 1500,
+        "rejection_at_zero_vs_arm2": 0.0525,
+        "rejection_at_zero_vs_arm2_note": "descriptive: in dev_vs_testA mode this responds to the real observed dev-testA gap, not only to false positives"
+      },
+      "Llama-3.1-8B": {
+        "calibration_rejection_at_zero_null": 0.08,
+        "cells": {
+          "0.000": {
+            "achieved_shift_mean": 0.0,
+            "inner_permutations": 500,
+            "n_detected": 46,
+            "power": 0.115,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.010": {
+            "achieved_shift_mean": 0.01,
+            "inner_permutations": 500,
+            "n_detected": 50,
+            "power": 0.125,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.020": {
+            "achieved_shift_mean": 0.02,
+            "inner_permutations": 500,
+            "n_detected": 57,
+            "power": 0.1425,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.030": {
+            "achieved_shift_mean": 0.03,
+            "inner_permutations": 500,
+            "n_detected": 63,
+            "power": 0.1575,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.050": {
+            "achieved_shift_mean": 0.05,
+            "inner_permutations": 500,
+            "n_detected": 85,
+            "power": 0.2125,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.075": {
+            "achieved_shift_mean": 0.075,
+            "inner_permutations": 500,
+            "n_detected": 135,
+            "power": 0.3375,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.100": {
+            "achieved_shift_mean": 0.1,
+            "inner_permutations": 500,
+            "n_detected": 183,
+            "power": 0.4575,
+            "saturated_sims": 0,
+            "sims": 400
+          }
+        },
+        "mde80": null,
+        "mde80_note": "no grid delta reaches 0.80 power",
+        "n_arm2_items": 1500,
+        "n_clusters": 50,
+        "n_dev_items": 1500,
+        "rejection_at_zero_vs_arm2": 0.115,
+        "rejection_at_zero_vs_arm2_note": "descriptive: in dev_vs_testA mode this responds to the real observed dev-testA gap, not only to false positives"
+      },
+      "Llama-3.3-70B": {
+        "calibration_rejection_at_zero_null": 0.05,
+        "cells": {
+          "0.000": {
+            "achieved_shift_mean": 0.0,
+            "inner_permutations": 500,
+            "n_detected": 40,
+            "power": 0.1,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.010": {
+            "achieved_shift_mean": 0.01,
+            "inner_permutations": 500,
+            "n_detected": 51,
+            "power": 0.1275,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.020": {
+            "achieved_shift_mean": 0.02,
+            "inner_permutations": 500,
+            "n_detected": 62,
+            "power": 0.155,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.030": {
+            "achieved_shift_mean": 0.029996296296296295,
+            "inner_permutations": 500,
+            "n_detected": 77,
+            "power": 0.1925,
+            "saturated_sims": 1,
+            "sims": 400
+          },
+          "0.050": {
+            "achieved_shift_mean": 0.0499462962962963,
+            "inner_permutations": 500,
+            "n_detected": 106,
+            "power": 0.265,
+            "saturated_sims": 1,
+            "sims": 400
+          },
+          "0.075": {
+            "achieved_shift_mean": 0.07474713409391534,
+            "inner_permutations": 500,
+            "n_detected": 159,
+            "power": 0.3975,
+            "saturated_sims": 7,
+            "sims": 400
+          },
+          "0.100": {
+            "achieved_shift_mean": 0.09895397430858231,
+            "inner_permutations": 500,
+            "n_detected": 212,
+            "power": 0.53,
+            "saturated_sims": 17,
+            "sims": 400
+          }
+        },
+        "mde80": null,
+        "mde80_note": "no grid delta reaches 0.80 power; injection saturates below the grid ceiling",
+        "n_arm2_items": 1500,
+        "n_clusters": 50,
+        "n_dev_items": 1500,
+        "rejection_at_zero_vs_arm2": 0.1,
+        "rejection_at_zero_vs_arm2_note": "descriptive: in dev_vs_testA mode this responds to the real observed dev-testA gap, not only to false positives"
+      },
+      "Mistral-24B": {
+        "calibration_rejection_at_zero_null": 0.07,
+        "cells": {
+          "0.000": {
+            "achieved_shift_mean": 0.0,
+            "inner_permutations": 500,
+            "n_detected": 34,
+            "power": 0.085,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.010": {
+            "achieved_shift_mean": 0.01,
+            "inner_permutations": 500,
+            "n_detected": 40,
+            "power": 0.1,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.020": {
+            "achieved_shift_mean": 0.02,
+            "inner_permutations": 500,
+            "n_detected": 49,
+            "power": 0.1225,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.030": {
+            "achieved_shift_mean": 0.03,
+            "inner_permutations": 500,
+            "n_detected": 58,
+            "power": 0.145,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.050": {
+            "achieved_shift_mean": 0.04999818368107303,
+            "inner_permutations": 500,
+            "n_detected": 76,
+            "power": 0.19,
+            "saturated_sims": 1,
+            "sims": 400
+          },
+          "0.075": {
+            "achieved_shift_mean": 0.07493568368107302,
+            "inner_permutations": 500,
+            "n_detected": 129,
+            "power": 0.3225,
+            "saturated_sims": 1,
+            "sims": 400
+          },
+          "0.100": {
+            "achieved_shift_mean": 0.09984992204902744,
+            "inner_permutations": 500,
+            "n_detected": 179,
+            "power": 0.4475,
+            "saturated_sims": 3,
+            "sims": 400
+          }
+        },
+        "mde80": null,
+        "mde80_note": "no grid delta reaches 0.80 power; injection saturates below the grid ceiling",
+        "n_arm2_items": 1487,
+        "n_clusters": 50,
+        "n_dev_items": 1500,
+        "rejection_at_zero_vs_arm2": 0.085,
+        "rejection_at_zero_vs_arm2_note": "descriptive: in dev_vs_testA mode this responds to the real observed dev-testA gap, not only to false positives"
+      },
+      "pooled": {
+        "calibration_rejection_at_zero_null": 0.07,
+        "cells": {
+          "0.000": {
+            "achieved_shift_mean": 0.0,
+            "inner_permutations": 500,
+            "n_detected": 37,
+            "power": 0.0925,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.010": {
+            "achieved_shift_mean": 0.01,
+            "inner_permutations": 500,
+            "n_detected": 44,
+            "power": 0.11,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.020": {
+            "achieved_shift_mean": 0.02,
+            "inner_permutations": 500,
+            "n_detected": 50,
+            "power": 0.125,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.030": {
+            "achieved_shift_mean": 0.03,
+            "inner_permutations": 500,
+            "n_detected": 61,
+            "power": 0.1525,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.050": {
+            "achieved_shift_mean": 0.05,
+            "inner_permutations": 500,
+            "n_detected": 91,
+            "power": 0.2275,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.075": {
+            "achieved_shift_mean": 0.07499778607195845,
+            "inner_permutations": 500,
+            "n_detected": 143,
+            "power": 0.3575,
+            "saturated_sims": 1,
+            "sims": 400
+          },
+          "0.100": {
+            "achieved_shift_mean": 0.09993528607195847,
+            "inner_permutations": 500,
+            "n_detected": 209,
+            "power": 0.5225,
+            "saturated_sims": 1,
+            "sims": 400
+          }
+        },
+        "mde80": null,
+        "mde80_note": "no grid delta reaches 0.80 power; injection saturates below the grid ceiling",
+        "n_arm2_items": 5987,
+        "n_clusters": 50,
+        "n_dev_items": 6000,
+        "rejection_at_zero_vs_arm2": 0.0925,
+        "rejection_at_zero_vs_arm2_note": "descriptive: in dev_vs_testA mode this responds to the real observed dev-testA gap, not only to false positives"
+      }
+    },
+    "refactor": {
+      "DeepSeek-V4-Flash": {
+        "calibration_rejection_at_zero_null": 0.05,
+        "cells": {
+          "0.000": {
+            "achieved_shift_mean": 0.0,
+            "inner_permutations": 500,
+            "n_detected": 21,
+            "power": 0.0525,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.010": {
+            "achieved_shift_mean": 0.00735525593266087,
+            "inner_permutations": 500,
+            "n_detected": 144,
+            "power": 0.36,
+            "saturated_sims": 136,
+            "sims": 400
+          },
+          "0.020": {
+            "achieved_shift_mean": 0.011407906241913608,
+            "inner_permutations": 500,
+            "n_detected": 267,
+            "power": 0.6675,
+            "saturated_sims": 297,
+            "sims": 400
+          },
+          "0.030": {
+            "achieved_shift_mean": 0.012869524812336957,
+            "inner_permutations": 500,
+            "n_detected": 314,
+            "power": 0.785,
+            "saturated_sims": 370,
+            "sims": 400
+          },
+          "0.050": {
+            "achieved_shift_mean": 0.013418758987619043,
+            "inner_permutations": 500,
+            "n_detected": 333,
+            "power": 0.8325,
+            "saturated_sims": 398,
+            "sims": 400
+          },
+          "0.075": {
+            "achieved_shift_mean": 0.013434090795399362,
+            "inner_permutations": 500,
+            "n_detected": 335,
+            "power": 0.8375,
+            "saturated_sims": 400,
+            "sims": 400
+          },
+          "0.100": {
+            "achieved_shift_mean": 0.013434090795399362,
+            "inner_permutations": 500,
+            "n_detected": 335,
+            "power": 0.8375,
+            "saturated_sims": 400,
+            "sims": 400
+          }
+        },
+        "mde80": 0.05,
+        "mde80_note": "smallest grid delta with power >= 0.80",
+        "n_arm2_items": 1500,
+        "n_clusters": 50,
+        "n_dev_items": 1500,
+        "rejection_at_zero_vs_arm2": 0.0525,
+        "rejection_at_zero_vs_arm2_note": "descriptive: in dev_vs_testA mode this responds to the real observed dev-testA gap, not only to false positives"
+      },
+      "Llama-3.1-8B": {
+        "calibration_rejection_at_zero_null": 0.0375,
+        "cells": {
+          "0.000": {
+            "achieved_shift_mean": 0.0,
+            "inner_permutations": 500,
+            "n_detected": 29,
+            "power": 0.0725,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.010": {
+            "achieved_shift_mean": 0.01,
+            "inner_permutations": 500,
+            "n_detected": 37,
+            "power": 0.0925,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.020": {
+            "achieved_shift_mean": 0.02,
+            "inner_permutations": 500,
+            "n_detected": 55,
+            "power": 0.1375,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.030": {
+            "achieved_shift_mean": 0.03,
+            "inner_permutations": 500,
+            "n_detected": 88,
+            "power": 0.22,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.050": {
+            "achieved_shift_mean": 0.05,
+            "inner_permutations": 500,
+            "n_detected": 187,
+            "power": 0.4675,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.075": {
+            "achieved_shift_mean": 0.075,
+            "inner_permutations": 500,
+            "n_detected": 283,
+            "power": 0.7075,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.100": {
+            "achieved_shift_mean": 0.1,
+            "inner_permutations": 500,
+            "n_detected": 361,
+            "power": 0.9025,
+            "saturated_sims": 0,
+            "sims": 400
+          }
+        },
+        "mde80": 0.1,
+        "mde80_note": "smallest grid delta with power >= 0.80",
+        "n_arm2_items": 1498,
+        "n_clusters": 50,
+        "n_dev_items": 1500,
+        "rejection_at_zero_vs_arm2": 0.0725,
+        "rejection_at_zero_vs_arm2_note": "descriptive: in dev_vs_testA mode this responds to the real observed dev-testA gap, not only to false positives"
+      },
+      "Llama-3.3-70B": {
+        "calibration_rejection_at_zero_null": 0.05,
+        "cells": {
+          "0.000": {
+            "achieved_shift_mean": 0.0,
+            "inner_permutations": 500,
+            "n_detected": 40,
+            "power": 0.1,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.010": {
+            "achieved_shift_mean": 0.009988554067460319,
+            "inner_permutations": 500,
+            "n_detected": 95,
+            "power": 0.2375,
+            "saturated_sims": 3,
+            "sims": 400
+          },
+          "0.020": {
+            "achieved_shift_mean": 0.019613690380651198,
+            "inner_permutations": 500,
+            "n_detected": 159,
+            "power": 0.3975,
+            "saturated_sims": 37,
+            "sims": 400
+          },
+          "0.030": {
+            "achieved_shift_mean": 0.027867548175459365,
+            "inner_permutations": 500,
+            "n_detected": 236,
+            "power": 0.59,
+            "saturated_sims": 98,
+            "sims": 400
+          },
+          "0.050": {
+            "achieved_shift_mean": 0.04039627987730872,
+            "inner_permutations": 500,
+            "n_detected": 340,
+            "power": 0.85,
+            "saturated_sims": 214,
+            "sims": 400
+          },
+          "0.075": {
+            "achieved_shift_mean": 0.04721832227546255,
+            "inner_permutations": 500,
+            "n_detected": 387,
+            "power": 0.9675,
+            "saturated_sims": 343,
+            "sims": 400
+          },
+          "0.100": {
+            "achieved_shift_mean": 0.049137685802937495,
+            "inner_permutations": 500,
+            "n_detected": 397,
+            "power": 0.9925,
+            "saturated_sims": 382,
+            "sims": 400
+          }
+        },
+        "mde80": 0.05,
+        "mde80_note": "smallest grid delta with power >= 0.80",
+        "n_arm2_items": 1500,
+        "n_clusters": 50,
+        "n_dev_items": 1500,
+        "rejection_at_zero_vs_arm2": 0.1,
+        "rejection_at_zero_vs_arm2_note": "descriptive: in dev_vs_testA mode this responds to the real observed dev-testA gap, not only to false positives"
+      },
+      "Mistral-24B": {
+        "calibration_rejection_at_zero_null": 0.075,
+        "cells": {
+          "0.000": {
+            "achieved_shift_mean": 0.0,
+            "inner_permutations": 500,
+            "n_detected": 45,
+            "power": 0.1125,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.010": {
+            "achieved_shift_mean": 0.01,
+            "inner_permutations": 500,
+            "n_detected": 33,
+            "power": 0.0825,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.020": {
+            "achieved_shift_mean": 0.02,
+            "inner_permutations": 500,
+            "n_detected": 41,
+            "power": 0.1025,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.030": {
+            "achieved_shift_mean": 0.03,
+            "inner_permutations": 500,
+            "n_detected": 38,
+            "power": 0.095,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.050": {
+            "achieved_shift_mean": 0.05,
+            "inner_permutations": 500,
+            "n_detected": 98,
+            "power": 0.245,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.075": {
+            "achieved_shift_mean": 0.075,
+            "inner_permutations": 500,
+            "n_detected": 222,
+            "power": 0.555,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.100": {
+            "achieved_shift_mean": 0.1,
+            "inner_permutations": 500,
+            "n_detected": 335,
+            "power": 0.8375,
+            "saturated_sims": 0,
+            "sims": 400
+          }
+        },
+        "mde80": 0.1,
+        "mde80_note": "smallest grid delta with power >= 0.80",
+        "n_arm2_items": 1497,
+        "n_clusters": 50,
+        "n_dev_items": 1500,
+        "rejection_at_zero_vs_arm2": 0.1125,
+        "rejection_at_zero_vs_arm2_note": "descriptive: in dev_vs_testA mode this responds to the real observed dev-testA gap, not only to false positives"
+      },
+      "pooled": {
+        "calibration_rejection_at_zero_null": 0.0375,
+        "cells": {
+          "0.000": {
+            "achieved_shift_mean": 0.0,
+            "inner_permutations": 500,
+            "n_detected": 14,
+            "power": 0.035,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.010": {
+            "achieved_shift_mean": 0.01,
+            "inner_permutations": 500,
+            "n_detected": 63,
+            "power": 0.1575,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.020": {
+            "achieved_shift_mean": 0.02,
+            "inner_permutations": 500,
+            "n_detected": 139,
+            "power": 0.3475,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.030": {
+            "achieved_shift_mean": 0.03,
+            "inner_permutations": 500,
+            "n_detected": 247,
+            "power": 0.6175,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.050": {
+            "achieved_shift_mean": 0.05,
+            "inner_permutations": 500,
+            "n_detected": 371,
+            "power": 0.9275,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.075": {
+            "achieved_shift_mean": 0.075,
+            "inner_permutations": 500,
+            "n_detected": 400,
+            "power": 1.0,
+            "saturated_sims": 0,
+            "sims": 400
+          },
+          "0.100": {
+            "achieved_shift_mean": 0.09968694019277798,
+            "inner_permutations": 500,
+            "n_detected": 400,
+            "power": 1.0,
+            "saturated_sims": 26,
+            "sims": 400
+          }
+        },
+        "mde80": 0.05,
+        "mde80_note": "smallest grid delta with power >= 0.80",
+        "n_arm2_items": 5995,
+        "n_clusters": 50,
+        "n_dev_items": 6000,
+        "rejection_at_zero_vs_arm2": 0.035,
+        "rejection_at_zero_vs_arm2_note": "descriptive: in dev_vs_testA mode this responds to the real observed dev-testA gap, not only to false positives"
+      }
+    }
+  }
+}

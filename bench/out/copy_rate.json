@@ -1,0 +1,1589 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "generated_by": "bench/copy_rate_analysis.py",
+    "inputs": [
+      "bench/out/.annotation_ablation_grades.json",
+      "bench/out/ablation/refactor_unannotated__*.jsonl.gz",
+      "bench/out/annotation_ablation.json",
+      "bench/out/g3/refactor_dev__*.jsonl.gz",
+      "config/anti_patterns_db.json"
+    ],
+    "languages": [
+      "python",
+      "javascript",
+      "go",
+      "java",
+      "cpp"
+    ],
+    "models": [
+      "Llama-3.1-8B",
+      "Mistral-24B",
+      "Llama-3.3-70B",
+      "DeepSeek-V4-Flash"
+    ],
+    "profiles": [
+      "minimal",
+      "standard",
+      "max"
+    ],
+    "suite_seed": 20260814,
+    "whitespace_normalization": "strip-all",
+    "zero_api": true
+  },
+  "annotation_texts": {
+    "annotation_lines_mean_by_cell": {
+      "max/cpp": 10.03,
+      "max/go": 9.03,
+      "max/java": 10.03,
+      "max/javascript": 9.03,
+      "max/python": 8.03,
+      "minimal/cpp": 9.03,
+      "minimal/go": 8.03,
+      "minimal/java": 9.03,
+      "minimal/javascript": 8.03,
+      "minimal/python": 7.03,
+      "standard/cpp": 9.03,
+      "standard/go": 8.03,
+      "standard/java": 9.03,
+      "standard/javascript": 8.03,
+      "standard/python": 7.03
+    },
+    "code_part_identity": "PASS: all cells byte-identical after comment stripping",
+    "n_cells": 1500,
+    "payloads_by_op": {
+      "AGGREGATE": 60,
+      "CONDITIONAL_SELECT": 77,
+      "KEY_VALUE_LOOKUP": 72,
+      "MEMBERSHIP_CHECK": 48
+    }
+  },
+  "clean_form_payloads": {
+    "agg_stats_W12": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W128": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W16": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W160": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W16_v0": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W16_v1": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W16_v2": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W16_v3": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W16_v4": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W24": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W32": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W32_v0": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W32_v1": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W32_v2": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W32_v3": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W32_v4": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W48": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W64": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W8": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "agg_stats_W96": [
+      {
+        "op": "AGGREGATE",
+        "payload": "peak = max(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "total = sum(readings)"
+      },
+      {
+        "op": "AGGREGATE",
+        "payload": "trough = min(readings)"
+      }
+    ],
+    "allowlist_L12": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L128": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L16": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L160": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L192": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L24": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L256": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L32": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L320": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L32_v0": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L32_v1": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L32_v2": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L32_v3": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L32_v4": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L384": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L48": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L64": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L64_v0": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L64_v1": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L64_v2": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L64_v3": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L64_v4": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L8": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "allowlist_L96": [
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "is_allowed = probe in allow_list"
+      }
+    ],
+    "config_resolver_N10": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N12": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N16": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N16_v0": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N16_v1": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N16_v2": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N16_v3": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N16_v4": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N20": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N24": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N28": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N32": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N4": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N40": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N48": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N56": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N6": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N64": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N8": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N8_v0": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N8_v1": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N8_v2": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N8_v3": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "config_resolver_N8_v4": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "resolved = config_db[lookup_key] or 'DEFAULT_HOST'"
+      }
+    ],
+    "discovery_pipeline": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "env_host = env_map[env_key] or '0.0.0.0'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "service_name = service_map[svc_key] or 'unknown_svc'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "service_name2 = service_map[svc_key2] or 'unknown_svc'"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "code_seen = code_probe in codes"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "flag_on = flag_probe in feature_flags"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "host_known = host_probe in hosts"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "port_open = port_probe in ports"
+      }
+    ],
+    "discovery_pipeline_v0": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "env_host = env_map[env_key] or '0.0.0.0'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "service_name = service_map[svc_key] or 'unknown_svc'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "service_name2 = service_map[svc_key2] or 'unknown_svc'"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "code_seen = code_probe in codes"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "flag_on = flag_probe in feature_flags"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "host_known = host_probe in hosts"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "port_open = port_probe in ports"
+      }
+    ],
+    "discovery_pipeline_v1": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "env_host = env_map[env_key] or '0.0.0.0'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "service_name = service_map[svc_key] or 'unknown_svc'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "service_name2 = service_map[svc_key2] or 'unknown_svc'"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "code_seen = code_probe in codes"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "flag_on = flag_probe in feature_flags"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "host_known = host_probe in hosts"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "port_open = port_probe in ports"
+      }
+    ],
+    "discovery_pipeline_v2": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "env_host = env_map[env_key] or '0.0.0.0'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "service_name = service_map[svc_key] or 'unknown_svc'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "service_name2 = service_map[svc_key2] or 'unknown_svc'"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "code_seen = code_probe in codes"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "flag_on = flag_probe in feature_flags"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "host_known = host_probe in hosts"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "port_open = port_probe in ports"
+      }
+    ],
+    "discovery_pipeline_v3": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "env_host = env_map[env_key] or '0.0.0.0'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "service_name = service_map[svc_key] or 'unknown_svc'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "service_name2 = service_map[svc_key2] or 'unknown_svc'"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "code_seen = code_probe in codes"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "flag_on = flag_probe in feature_flags"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "host_known = host_probe in hosts"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "port_open = port_probe in ports"
+      }
+    ],
+    "discovery_pipeline_v4": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "env_host = env_map[env_key] or '0.0.0.0'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "service_name = service_map[svc_key] or 'unknown_svc'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "service_name2 = service_map[svc_key2] or 'unknown_svc'"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "code_seen = code_probe in codes"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "flag_on = flag_probe in feature_flags"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "host_known = host_probe in hosts"
+      },
+      {
+        "op": "MEMBERSHIP_CHECK",
+        "payload": "port_open = port_probe in ports"
+      }
+    ],
+    "fsm_transition": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_pause = tbl_pause[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_resume = tbl_resume[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_start = tbl_start[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_stop = tbl_stop[current_state] or 'ERR'"
+      }
+    ],
+    "fsm_transition_v0": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_pause = tbl_pause[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_resume = tbl_resume[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_start = tbl_start[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_stop = tbl_stop[current_state] or 'ERR'"
+      }
+    ],
+    "fsm_transition_v1": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_pause = tbl_pause[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_resume = tbl_resume[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_start = tbl_start[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_stop = tbl_stop[current_state] or 'ERR'"
+      }
+    ],
+    "fsm_transition_v2": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_pause = tbl_pause[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_resume = tbl_resume[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_start = tbl_start[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_stop = tbl_stop[current_state] or 'ERR'"
+      }
+    ],
+    "fsm_transition_v3": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_pause = tbl_pause[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_resume = tbl_resume[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_start = tbl_start[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_stop = tbl_stop[current_state] or 'ERR'"
+      }
+    ],
+    "fsm_transition_v4": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_pause = tbl_pause[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_resume = tbl_resume[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_start = tbl_start[current_state] or 'ERR'"
+      },
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "next_stop = tbl_stop[current_state] or 'ERR'"
+      }
+    ],
+    "status_router": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "route = status_table[incoming] or 'unrouted'"
+      }
+    ],
+    "status_router_v0": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "route = status_table[incoming] or 'unrouted'"
+      }
+    ],
+    "status_router_v1": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "route = status_table[incoming] or 'unrouted'"
+      }
+    ],
+    "status_router_v2": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "route = status_table[incoming] or 'unrouted'"
+      }
+    ],
+    "status_router_v3": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "route = status_table[incoming] or 'unrouted'"
+      }
+    ],
+    "status_router_v4": [
+      {
+        "op": "KEY_VALUE_LOOKUP",
+        "payload": "route = status_table[incoming] or 'unrouted'"
+      }
+    ],
+    "threshold_select_T10": [
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_00 = 'high_00' if metric_00 >= 50 else 'low_00'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_01 = 'high_01' if metric_01 >= 50 else 'low_01'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_02 = 'high_02' if metric_02 >= 50 else 'low_02'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_03 = 'high_03' if metric_03 >= 50 else 'low_03'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_04 = 'high_04' if metric_04 >= 50 else 'low_04'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_05 = 'high_05' if metric_05 >= 50 else 'low_05'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_06 = 'high_06' if metric_06 >= 50 else 'low_06'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_07 = 'high_07' if metric_07 >= 50 else 'low_07'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_08 = 'high_08' if metric_08 >= 50 else 'low_08'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_09 = 'high_09' if metric_09 >= 50 else 'low_09'"
+      }
+    ],
+    "threshold_select_T12": [
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_00 = 'high_00' if metric_00 >= 50 else 'low_00'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_01 = 'high_01' if metric_01 >= 50 else 'low_01'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_02 = 'high_02' if metric_02 >= 50 else 'low_02'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_03 = 'high_03' if metric_03 >= 50 else 'low_03'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_04 = 'high_04' if metric_04 >= 50 else 'low_04'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_05 = 'high_05' if metric_05 >= 50 else 'low_05'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_06 = 'high_06' if metric_06 >= 50 else 'low_06'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_07 = 'high_07' if metric_07 >= 50 else 'low_07'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_08 = 'high_08' if metric_08 >= 50 else 'low_08'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_09 = 'high_09' if metric_09 >= 50 else 'low_09'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_10 = 'high_10' if metric_10 >= 50 else 'low_10'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_11 = 'high_11' if metric_11 >= 50 else 'low_11'"
+      }
+    ],
+    "threshold_select_T2": [
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_00 = 'high_00' if metric_00 >= 50 else 'low_00'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_01 = 'high_01' if metric_01 >= 50 else 'low_01'"
+      }
+    ],
+    "threshold_select_T3": [
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_00 = 'high_00' if metric_00 >= 50 else 'low_00'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_01 = 'high_01' if metric_01 >= 50 else 'low_01'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_02 = 'high_02' if metric_02 >= 50 else 'low_02'"
+      }
+    ],
+    "threshold_select_T4": [
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_00 = 'high_00' if metric_00 >= 50 else 'low_00'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_01 = 'high_01' if metric_01 >= 50 else 'low_01'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_02 = 'high_02' if metric_02 >= 50 else 'low_02'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_03 = 'high_03' if metric_03 >= 50 else 'low_03'"
+      }
+    ],
+    "threshold_select_T4_v0": [
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_00 = 'high_00' if metric_00 >= 50 else 'low_00'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_01 = 'high_01' if metric_01 >= 50 else 'low_01'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_02 = 'high_02' if metric_02 >= 50 else 'low_02'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_03 = 'high_03' if metric_03 >= 50 else 'low_03'"
+      }
+    ],
+    "threshold_select_T4_v1": [
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_00 = 'high_00' if metric_00 >= 50 else 'low_00'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_01 = 'high_01' if metric_01 >= 50 else 'low_01'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_02 = 'high_02' if metric_02 >= 50 else 'low_02'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_03 = 'high_03' if metric_03 >= 50 else 'low_03'"
+      }
+    ],
+    "threshold_select_T4_v2": [
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_00 = 'high_00' if metric_00 >= 50 else 'low_00'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_01 = 'high_01' if metric_01 >= 50 else 'low_01'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_02 = 'high_02' if metric_02 >= 50 else 'low_02'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_03 = 'high_03' if metric_03 >= 50 else 'low_03'"
+      }
+    ],
+    "threshold_select_T4_v3": [
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_00 = 'high_00' if metric_00 >= 50 else 'low_00'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_01 = 'high_01' if metric_01 >= 50 else 'low_01'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_02 = 'high_02' if metric_02 >= 50 else 'low_02'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_03 = 'high_03' if metric_03 >= 50 else 'low_03'"
+      }
+    ],
+    "threshold_select_T4_v4": [
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_00 = 'high_00' if metric_00 >= 50 else 'low_00'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_01 = 'high_01' if metric_01 >= 50 else 'low_01'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_02 = 'high_02' if metric_02 >= 50 else 'low_02'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_03 = 'high_03' if metric_03 >= 50 else 'low_03'"
+      }
+    ],
+    "threshold_select_T5": [
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_00 = 'high_00' if metric_00 >= 50 else 'low_00'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_01 = 'high_01' if metric_01 >= 50 else 'low_01'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_02 = 'high_02' if metric_02 >= 50 else 'low_02'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_03 = 'high_03' if metric_03 >= 50 else 'low_03'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_04 = 'high_04' if metric_04 >= 50 else 'low_04'"
+      }
+    ],
+    "threshold_select_T6": [
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_00 = 'high_00' if metric_00 >= 50 else 'low_00'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_01 = 'high_01' if metric_01 >= 50 else 'low_01'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_02 = 'high_02' if metric_02 >= 50 else 'low_02'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_03 = 'high_03' if metric_03 >= 50 else 'low_03'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_04 = 'high_04' if metric_04 >= 50 else 'low_04'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_05 = 'high_05' if metric_05 >= 50 else 'low_05'"
+      }
+    ],
+    "threshold_select_T7": [
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_00 = 'high_00' if metric_00 >= 50 else 'low_00'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_01 = 'high_01' if metric_01 >= 50 else 'low_01'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_02 = 'high_02' if metric_02 >= 50 else 'low_02'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_03 = 'high_03' if metric_03 >= 50 else 'low_03'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_04 = 'high_04' if metric_04 >= 50 else 'low_04'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_05 = 'high_05' if metric_05 >= 50 else 'low_05'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_06 = 'high_06' if metric_06 >= 50 else 'low_06'"
+      }
+    ],
+    "threshold_select_T8": [
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_00 = 'high_00' if metric_00 >= 50 else 'low_00'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_01 = 'high_01' if metric_01 >= 50 else 'low_01'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_02 = 'high_02' if metric_02 >= 50 else 'low_02'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_03 = 'high_03' if metric_03 >= 50 else 'low_03'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_04 = 'high_04' if metric_04 >= 50 else 'low_04'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_05 = 'high_05' if metric_05 >= 50 else 'low_05'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_06 = 'high_06' if metric_06 >= 50 else 'low_06'"
+      },
+      {
+        "op": "CONDITIONAL_SELECT",
+        "payload": "verdict_07 = 'high_07' if metric_07 >= 50 else 'low_07'"
+      }
+    ]
+  },
+  "copy_rates": {
+    "claim_inspection": {
+      "copy_rate_correct_annotated_by_model": {
+        "DeepSeek-V4-Flash": 0.12451737451737452,
+        "Llama-3.1-8B": 0.16567280269639617,
+        "Llama-3.3-70B": 0.12925649808583517,
+        "Mistral-24B": 0.14890944387347266
+      },
+      "delta_magnitude_rank": [
+        "Llama-3.1-8B",
+        "Mistral-24B",
+        "Llama-3.3-70B",
+        "DeepSeek-V4-Flash"
+      ],
+      "gap_rank": [
+        "Llama-3.1-8B",
+        "Llama-3.3-70B",
+        "Mistral-24B",
+        "DeepSeek-V4-Flash"
+      ],
+      "gap_rank_matches_delta_magnitude_rank": false,
+      "gap_vs_ablation_delta": {
+        "DeepSeek-V4-Flash": {
+          "ablation_delta": -0.017333333333333333,
+          "copy_rate_gap": 0.012
+        },
+        "Llama-3.1-8B": {
+          "ablation_delta": -0.17333333333333334,
+          "copy_rate_gap": 0.051555555555555556
+        },
+        "Llama-3.3-70B": {
+          "ablation_delta": -0.076,
+          "copy_rate_gap": 0.026285714285714287
+        },
+        "Mistral-24B": {
+          "ablation_delta": -0.104,
+          "copy_rate_gap": 0.018380952380952383
+        }
+      },
+      "monotone_decreasing_weakest_to_strongest": true,
+      "note": "reported, not enforced: the deliverable asks whether copying explains the differential inflation, whatever the answer"
+    },
+    "gap_annotated_minus_unannotated": {
+      "definition": "per-item paired payload-copy-rate difference (annotated - unannotated), items where both arms yielded extractable code",
+      "per_model": {
+        "DeepSeek-V4-Flash": {
+          "ci95": [
+            0.004242424242424243,
+            0.02148148148148148
+          ],
+          "n_clusters": 50,
+          "n_pairs": 1500,
+          "p_bootstrap": 0.0,
+          "point": 0.012
+        },
+        "Llama-3.1-8B": {
+          "ci95": [
+            0.03311111111111111,
+            0.07454545454545454
+          ],
+          "n_clusters": 50,
+          "n_pairs": 1500,
+          "p_bootstrap": 0.0,
+          "point": 0.051555555555555556
+        },
+        "Llama-3.3-70B": {
+          "ci95": [
+            0.01575757575757576,
+            0.038004535147392285
+          ],
+          "n_clusters": 50,
+          "n_pairs": 1500,
+          "p_bootstrap": 0.0,
+          "point": 0.026285714285714287
+        },
+        "Mistral-24B": {
+          "ci95": [
+            0.008616780045351474,
+            0.030566893424036283
+          ],
+          "n_clusters": 50,
+          "n_pairs": 1500,
+          "p_bootstrap": 0.0,
+          "point": 0.018380952380952383
+        }
+      }
+    },
+    "per_model": {
+      "DeepSeek-V4-Flash": {
+        "annotated": {
+          "clean_static_copy_rate_python": {
+            "semantic_ok_0": {
+              "mean": null,
+              "n": 0
+            },
+            "semantic_ok_1": {
+              "mean": 1.0,
+              "n": 300
+            }
+          },
+          "n_missing_raw": 0,
+          "n_no_code": 0,
+          "n_records": 1500,
+          "payload_copy_rate": {
+            "semantic_ok_0": {
+              "mean": 0.0,
+              "n": 20
+            },
+            "semantic_ok_1": {
+              "mean": 0.12451737451737452,
+              "n": 1480
+            }
+          }
+        },
+        "unannotated": {
+          "clean_static_copy_rate_python": {
+            "semantic_ok_0": {
+              "mean": 0.05263157894736842,
+              "n": 19
+            },
+            "semantic_ok_1": {
+              "mean": 0.9608540925266904,
+              "n": 281
+            }
+          },
+          "n_missing_raw": 0,
+          "n_no_code": 0,
+          "n_records": 1500,
+          "payload_copy_rate": {
+            "semantic_ok_0": {
+              "mean": 0.0,
+              "n": 46
+            },
+            "semantic_ok_1": {
+              "mean": 0.11436431518962467,
+              "n": 1454
+            }
+          }
+        }
+      },
+      "Llama-3.1-8B": {
+        "annotated": {
+          "clean_static_copy_rate_python": {
+            "semantic_ok_0": {
+              "mean": null,
+              "n": 0
+            },
+            "semantic_ok_1": {
+              "mean": 0.9709523809523809,
+              "n": 300
+            }
+          },
+          "n_missing_raw": 0,
+          "n_no_code": 0,
+          "n_records": 1500,
+          "payload_copy_rate": {
+            "semantic_ok_0": {
+              "mean": 0.0,
+              "n": 398
+            },
+            "semantic_ok_1": {
+              "mean": 0.16567280269639617,
+              "n": 1102
+            }
+          }
+        },
+        "unannotated": {
+          "clean_static_copy_rate_python": {
+            "semantic_ok_0": {
+              "mean": 0.01714285714285714,
+              "n": 25
+            },
+            "semantic_ok_1": {
+              "mean": 0.7376623376623377,
+              "n": 275
+            }
+          },
+          "n_missing_raw": 0,
+          "n_no_code": 0,
+          "n_records": 1500,
+          "payload_copy_rate": {
+            "semantic_ok_0": {
+              "mean": 0.0,
+              "n": 658
+            },
+            "semantic_ok_1": {
+              "mean": 0.12498586132790408,
+              "n": 842
+            }
+          }
+        }
+      },
+      "Llama-3.3-70B": {
+        "annotated": {
+          "clean_static_copy_rate_python": {
+            "semantic_ok_0": {
+              "mean": null,
+              "n": 0
+            },
+            "semantic_ok_1": {
+              "mean": 0.9966666666666667,
+              "n": 300
+            }
+          },
+          "n_missing_raw": 0,
+          "n_no_code": 0,
+          "n_records": 1500,
+          "payload_copy_rate": {
+            "semantic_ok_0": {
+              "mean": 0.0,
+              "n": 82
+            },
+            "semantic_ok_1": {
+              "mean": 0.12925649808583517,
+              "n": 1418
+            }
+          }
+        },
+        "unannotated": {
+          "clean_static_copy_rate_python": {
+            "semantic_ok_0": {
+              "mean": 0.34285714285714286,
+              "n": 5
+            },
+            "semantic_ok_1": {
+              "mean": 0.8740920096852299,
+              "n": 295
+            }
+          },
+          "n_missing_raw": 0,
+          "n_no_code": 0,
+          "n_records": 1500,
+          "payload_copy_rate": {
+            "semantic_ok_0": {
+              "mean": 0.0,
+              "n": 196
+            },
+            "semantic_ok_1": {
+              "mean": 0.11031989482909729,
+              "n": 1304
+            }
+          }
+        }
+      },
+      "Mistral-24B": {
+        "annotated": {
+          "clean_static_copy_rate_python": {
+            "semantic_ok_0": {
+              "mean": 0.0,
+              "n": 3
+            },
+            "semantic_ok_1": {
+              "mean": 1.0,
+              "n": 297
+            }
+          },
+          "n_missing_raw": 0,
+          "n_no_code": 0,
+          "n_records": 1500,
+          "payload_copy_rate": {
+            "semantic_ok_0": {
+              "mean": 0.0,
+              "n": 249
+            },
+            "semantic_ok_1": {
+              "mean": 0.14890944387347266,
+              "n": 1251
+            }
+          }
+        },
+        "unannotated": {
+          "clean_static_copy_rate_python": {
+            "semantic_ok_0": {
+              "mean": 0.475,
+              "n": 40
+            },
+            "semantic_ok_1": {
+              "mean": 0.9824175824175824,
+              "n": 260
+            }
+          },
+          "n_missing_raw": 0,
+          "n_no_code": 0,
+          "n_records": 1500,
+          "payload_copy_rate": {
+            "semantic_ok_0": {
+              "mean": 0.004232804232804232,
+              "n": 405
+            },
+            "semantic_ok_1": {
+              "mean": 0.14337899543378996,
+              "n": 1095
+            }
+          }
+        }
+      }
+    }
+  }
+}
