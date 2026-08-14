@@ -101,7 +101,9 @@ def env_block(cfg: models.Config, split: str) -> dict:
         # Which corpus condition this run used. The default corpus is self-annotated
         # (header + per-op intent comment + SPAGH_* markers), which leaks the answer into
         # the prompt; "unannotated" is the stripped control. Never compare across these.
-        "corpus_condition": "unannotated" if T.STRIP_ANNOTATIONS else "annotated",
+        "corpus_condition": T.CORPUS,
+        # Which engine rendering-spec produced the sources ("2.0" = published).
+        "engine_spec": T.ENGINE_SPEC,
         "prompt_version": P.PROMPT_VERSION,
         "prompt_set_hash": P.prompt_set_hash(),
         "n_paraphrases": P.N_PARAPHRASES,
@@ -131,7 +133,8 @@ def subagent_name(task: str, model: str, family: Optional[str], split: str = "de
     # Same rule for the corpus condition: the annotated (default) runs keep their exact
     # published names, and a stripped-annotation run writes beside them instead of over
     # them. The two conditions are different corpora and must never share a file.
-    ann = "__unannotated" if T.STRIP_ANNOTATIONS else ""
+    ann = {"annotated": "", "unannotated": "__unannotated",
+           "sidecar": "__sidecar"}[T.CORPUS]
     return f"{task}__{safe_model}" + fam + sp + ann + ".json"
 
 
@@ -782,7 +785,8 @@ def run_batch(task: str, model: str, family: Optional[str], split: str = "dev",
 # --------------------------------------------------------------------------- #
 # --regrade (re-apply graders to PERSISTED raw outputs; ZERO API)
 # --------------------------------------------------------------------------- #
-def regrade(only_task: Optional[str] = None, only_model: Optional[str] = None) -> int:
+def regrade(only_task: Optional[str] = None, only_model: Optional[str] = None,
+            write: bool = False) -> int:
     """Re-read every ``out/subagent/*.json`` batch artifact, re-run the graders on the
     STORED raw model outputs, and rewrite each file's per-item records + aggregate IN
     PLACE — making ZERO API calls. This is the payoff of persisting raw outputs: a grading
@@ -805,6 +809,14 @@ def regrade(only_task: Optional[str] = None, only_model: Optional[str] = None) -
             continue
         if only_model and pl.get("model") != only_model:
             continue
+        # ENFORCED corpus stamp (v0.3.0; previously descriptive): re-grading a
+        # batch under the wrong corpus condition rebuilds the wrong sources and
+        # silently corrupts every source-relative metric.
+        stamped = (pl.get("env") or {}).get("corpus_condition")
+        if stamped and stamped != T.CORPUS:
+            sys.exit(f"{fn}: batch was produced under corpus_condition="
+                     f"{stamped!r} but this process runs {T.CORPUS!r}; re-run "
+                     f"with BENCH_CORPUS={stamped} (one process per corpus).")
         new_items = []
         for rec in pl["items"]:
             rec2 = _strip_internal(T.regrade_record(task, dict(rec)))
@@ -817,13 +829,18 @@ def regrade(only_task: Optional[str] = None, only_model: Optional[str] = None) -
         pl["aggregate"] = headline_aggregate(
             task, [r for r in new_items if not r.get("error")])
         pl.setdefault("run_meta", {})["regraded"] = True
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(pl, f, indent=2)
-            f.write("\n")
+        # v0.3.0: dry-run by default. Several out/subagent batch files are
+        # COMMITTED artifacts; rewriting them in place under changed grading
+        # semantics would silently alter the released record. --write opts in.
+        if write:
+            with open(path, "w", encoding="utf-8") as f:
+                json.dump(pl, f, indent=2)
+                f.write("\n")
         n_files += 1
         print(f"  re-graded {fn:42s} task={task} model={pl.get('model')} "
               f"items={len(new_items)}")
-    print(f"regrade complete: {n_files} batch files; {n_regraded_items} item(s) "
+    print(f"regrade {'complete' if write else 'DRY-RUN (nothing written; add --write)'}: "
+          f"{n_files} batch files; {n_regraded_items} item(s) "
           f"re-graded from stored raw, {n_passthrough} passthrough (mock/sentinel/"
           f"error). ZERO API calls. Re-run --aggregate to refresh results.json.")
     return 0
@@ -2295,7 +2312,8 @@ def main(argv=None) -> int:
     g.add_argument("--aggregate", action="store_true", help="merge subagent JSON -> results.json")
     g.add_argument("--report", action="store_true", help="emit archived/benchmark-paper/benchmark.tex (not compiled)")
     g.add_argument("--regrade", action="store_true",
-                   help="re-run graders on STORED raw outputs in out/subagent/*.json (ZERO API)")
+                   help="re-run graders on STORED raw outputs in out/subagent/*.json (ZERO API); "
+                        "DRY-RUN unless --write is given (several batch files are committed)")
     g.add_argument("--pilot", action="store_true",
                    help="tiny live smoke run (parse-success/skip/score dist) before full spend")
     ap.add_argument("--model", help="model id for --batch/--pilot/--regrade")
@@ -2313,6 +2331,8 @@ def main(argv=None) -> int:
                     help="--batch: proceed even if a required toolchain is absent (else refuse)")
     ap.add_argument("--parse-floor", type=float, default=0.5,
                     help="--batch: abort early if running parse-success drops below this")
+    ap.add_argument("--write", action="store_true",
+                    help="--regrade: actually rewrite the batch files in place")
     ap.add_argument("--no-resume", action="store_true",
                     help="--batch: ignore any checkpoint / finalized JSON and re-grade afresh")
     ap.add_argument("--concurrency", type=int, default=None,
@@ -2330,7 +2350,7 @@ def main(argv=None) -> int:
     if args.baselines:
         return run_baselines(split=args.split)
     if args.regrade:
-        return regrade(only_task=args.task, only_model=args.model)
+        return regrade(only_task=args.task, only_model=args.model, write=args.write)
     if args.pilot:
         return pilot(args.task, args.model, args.family, limit=args.limit,
                      split=args.split, k=(args.k or 1))

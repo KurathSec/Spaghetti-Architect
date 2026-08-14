@@ -38,6 +38,7 @@ import hashlib
 import json
 import os
 import sys
+import threading
 from dataclasses import dataclass, field
 from typing import Dict, List, Optional, Tuple
 
@@ -63,6 +64,12 @@ SEED = gen_samples.SEED                      # public dev seed
 # max) for judge-monotonicity statistical power; the inclusion chain is the
 # by-construction ground-truth maintainability order.
 PROFILES = ["minimal", "light", "standard", "heavy", "max"]
+
+# THE generation lock. Generation mutates per-call state on the shared
+# generator singletons (src.generators.REGISTRY), so every render path in the
+# bench layer must serialize on this ONE lock (bench.tasks delegates here;
+# a second lock would race).
+GEN_LOCK = threading.Lock()
 KNOB_RANK = ["clean", "minimal", "light", "standard", "heavy", "max"]  # 0..5
 LANGS = ["python", "javascript", "go", "java", "cpp"]
 DB = os.path.join(_ROOT, "config", "anti_patterns_db.json")
@@ -78,7 +85,10 @@ TEST_DIR = os.path.join(DATA_DIR, "test")      # gitignored; only ever written o
 MANIFEST_PATH = os.path.join(DATA_DIR, "manifest.json")
 HELDOUT_FILE = os.path.join(_HERE, ".heldout_seed")  # gitignored convenience fallback
 
-DATASET_VERSION = "2.0"   # v2 Phase C: scaled bases, 6 incidental points, tiers B/C
+DATASET_VERSION = "2.0"       # v2 Phase C: scaled bases, 6 incidental points, tiers B/C
+# Additive successor (v0.3.0): rebalanced bases + fsm twin + per-instance
+# canaries + shape-sampled tiers. The 2.0 composition above stays frozen.
+DATASET_VERSION_V21 = "2.1"
 
 
 # --------------------------------------------------------------------------- #
@@ -193,11 +203,64 @@ class Split:
     def oracle(self, stem: str) -> dict:
         return oracle(self.program(stem))
 
-    def sources(self, stem: str, profile: str) -> Dict[str, str]:
-        return Engine(DB, profile).generate(self.samples[stem])["sources"]
+    def sources(self, stem: str, profile: str, spec: str = "2.0") -> Dict[str, str]:
+        # spec="2.0" (default) is the published rendering the frozen dev files
+        # and the committed completions bind to; "2.1" opts into the additive
+        # SPAGH_005/007 fixes (see config/anti_patterns_db.json "_spec_note").
+        return Engine(DB, profile, spec=spec).generate(self.samples[stem])["sources"]
 
     def clean_static(self, stem: str) -> str:
         return M.clean_baseline_static(self.program(stem))
+
+
+# ---- per-instance canary (v0.3.0; NEW mints only) ------------------------- #
+# The single release-level GUID detects ingestion of CANARY.txt/manifest, but
+# no rendered instance carries it. New mints (dataset 2.1+) therefore embed a
+# per-instance derived string as an inert extra INPUT: a fixture value renders
+# as a string literal in all five languages and survives every annotation mode
+# (comment stripping cannot remove it), and the parser permits unused scalar
+# inputs (Go discards them with `_ = name`). Derivation is keyed on the public
+# GUID so anyone with the repository can DETECT (scripts/canary_scan.py), while
+# private-instance values stay unguessable without the private stems.
+# The frozen dataset-2.0 records are never touched.
+
+def canary_trace_id(dataset_version: str, stem: str) -> str:
+    import hmac
+    digest = hmac.new(CANARY_GUID.encode(),
+                      f"{dataset_version}:{stem}".encode(),
+                      hashlib.sha256).hexdigest()
+    return f"sa-{digest[:16]}"
+
+
+def with_canary(ir: dict, dataset_version: str, stem: str) -> dict:
+    """A deep copy of ``ir`` carrying its derived canary as an inert input.
+    RNG-free, so it can never perturb a minting stream."""
+    ir2 = json.loads(json.dumps(ir))
+    ir2["inputs"]["trace_id"] = canary_trace_id(dataset_version, stem)
+    return ir2
+
+
+_CLEAN_PLANNER: Optional[Planner] = None
+
+
+def clean_source(program, language: str) -> str:
+    """The engine's ``clean`` profile render of ``program`` for one language.
+
+    This is the RUNNABLE per-language idiomatic form: the idiomatic op bodies
+    (unreachable under every non-empty profile) plus the always-on safety
+    scaffold and the validator's JSON epilogue. It is therefore
+    scaffold-inclusive: strictly larger than ``eval.metrics
+    .clean_baseline_runnable`` (Python's bare idiomatic form), so ceilings
+    graded from it are conservative. Go's CONDITIONAL_SELECT has no idiomatic
+    branch (documented asymmetry): its clean render keeps the explicit if.
+    """
+    global _CLEAN_PLANNER
+    from src.generators import REGISTRY
+    with GEN_LOCK:
+        if _CLEAN_PLANNER is None:
+            _CLEAN_PLANNER = Planner(DB, "clean")
+        plan = _CLEAN_PLANNER.plan(program)
+        return REGISTRY[language].generate(program, plan)
 
     def clean_runnable(self, stem: str) -> str:
         return M.clean_baseline_runnable(self.program(stem))
@@ -303,14 +366,52 @@ def _add_tier_meta(meta: dict, tier_of: Dict[str, str]) -> dict:
     return meta
 
 
-def mint(split: str) -> Split:
+def _merge_v21_extras(samples: Dict[str, dict], meta: dict) -> Tuple[Dict[str, dict], dict]:
+    """Merge the dataset-2.1 additive bases into a build() result (bases and
+    scales extend, knobs upgrade, new families append), then stamp every
+    instance with its derived per-instance canary."""
+    extra, xmeta = gen_samples.build_v21_extras(SEED)
+    samples = {**samples, **extra}
+    meta = json.loads(json.dumps(meta))
+    for fam, frag in xmeta["families"].items():
+        if fam in meta["families"]:
+            fmeta = meta["families"][fam]
+            fmeta["bases"] = fmeta["bases"] + frag["bases"]
+            fmeta["scales"].update(frag["scales"])
+            if frag["knob"] is not None:
+                fmeta["knob"] = frag["knob"]
+        else:
+            meta["families"][fam] = dict(frag)
+    for fam in xmeta["family_order_append"]:
+        if fam not in meta["family_order"]:
+            meta["family_order"].append(fam)
+    meta["batches"] = {
+        fam: fmeta["bases"] + meta["variants"].get(fmeta["repr"], [])
+        for fam, fmeta in meta["families"].items()
+    }
+    samples = {stem: with_canary(ir, DATASET_VERSION_V21, stem)
+               for stem, ir in samples.items()}
+    return samples, meta
+
+
+def mint(split: str, dataset_version: str = DATASET_VERSION) -> Split:
     """Mint a split in memory. ``dev`` is public/deterministic; ``test`` requires
     the private ``BENCH_HELDOUT_SEED`` and applies the salt (Tier A) plus the
     held-out structural/distribution-shift tiers (B/C). Every IR is validated with
     ``parse()`` before the split is returned. The benchmark uses the *extended*
-    sample set (more bases + AGGREGATE/CONDITIONAL_SELECT families)."""
+    sample set (more bases + AGGREGATE/CONDITIONAL_SELECT families).
+
+    ``dataset_version`` "2.0" (default) is the frozen published composition;
+    "2.1" adds the rebalanced bases + the fsm prior twin, stamps per-instance
+    canaries, and (for ``test``) draws the Tier-B/C SHAPES from the private
+    seed (tiers 2.1) instead of the fixed enumeration."""
+    if dataset_version not in (DATASET_VERSION, DATASET_VERSION_V21):
+        raise ValueError(f"unknown dataset_version {dataset_version!r}")
+    v21 = dataset_version == DATASET_VERSION_V21
     if split == "dev":
         samples, meta = gen_samples.build(SEED, extended=True)
+        if v21:
+            samples, meta = _merge_v21_extras(samples, meta)
         tag = None
         tier_of: Dict[str, str] = {}
     elif split == "test":
@@ -325,7 +426,14 @@ def mint(split: str) -> Split:
         # Tier A: structure-preserving literal re-mint of the public structures.
         samples = {stem: _salt_ir(ir, tag) for stem, ir in base_samples.items()}
         # Tiers B (structural held-out) + C (distribution shift): fresh private IRs.
-        tier_samples, tier_of = gen_samples.build_heldout_tiers(seed)
+        tier_samples, tier_of = gen_samples.build_heldout_tiers(
+            seed, tiers_version="2.1" if v21 else "2.0")
+        if v21:
+            base_samples2, meta = _merge_v21_extras(
+                {stem: ir for stem, ir in samples.items()}, meta)
+            samples = base_samples2
+            tier_samples = {stem: with_canary(ir, DATASET_VERSION_V21, stem)
+                            for stem, ir in tier_samples.items()}
         samples.update(tier_samples)
         meta = _add_tier_meta(dict(meta), tier_of)
         meta["seed"] = "PRIVATE"  # scrub: the held-out seed must never travel downstream
@@ -334,6 +442,16 @@ def mint(split: str) -> Split:
 
     for stem, ir in samples.items():
         parse(ir)  # raises IRValidationError if the (possibly salted) IR is invalid
+        # The oracle resolves a lookup against op["pairs"] while the idiomatic
+        # (clean-profile) render reads the map FIXTURE; the parser validates
+        # them independently, so their agreement is enforced here — a
+        # divergence would make the clean render disagree with the oracle.
+        for op in ir.get("operations", []):
+            if op.get("operation") == "KEY_VALUE_LOOKUP":
+                if ir["inputs"].get(op["map_name"]) != op["pairs"]:
+                    raise ValueError(
+                        f"{stem}: lookup map fixture {op['map_name']!r} diverges "
+                        f"from op pairs (oracle vs idiomatic-path split)")
 
     sp = Split(name=split, samples=samples, meta=meta, tag=tag)
     # dev/Tier-A items come from the meta-driven builder (tier defaults to "A");
@@ -363,12 +481,41 @@ def _ground_truth(sp: Split, stem: str) -> dict:
     }
 
 
-def freeze_dev(prompt_version: Optional[str] = None) -> dict:
+def _write_guarded(path: str, payload: str, force: bool) -> None:
+    """Refuse to overwrite an existing file with DIFFERENT bytes unless forced.
+    The frozen dataset-2.0 records are a published artifact the committed model
+    completions bind to; silently re-freezing them is the classic foot-gun."""
+    if os.path.exists(path) and not force:
+        with open(path, encoding="utf-8") as f:
+            if f.read() != payload:
+                raise SystemExit(
+                    f"refusing to overwrite {path} with different bytes; the "
+                    f"frozen split is a published artifact. Pass "
+                    f"--force-overwrite-frozen if you really mean it, or use "
+                    f"--dataset-version 2.1 to write the additive split.")
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(payload)
+
+
+def freeze_dev(prompt_version: Optional[str] = None,
+               dataset_version: str = DATASET_VERSION,
+               force: bool = False) -> dict:
     """Write ``data/dev/<stem>.json`` (IR + rendered sources + ground truth) for
     every public instance, and ``data/manifest.json`` (axes, splits, per-item dev
-    ground truth). The held-out seed is **not** written anywhere."""
-    sp = mint("dev")
-    os.makedirs(DEV_DIR, exist_ok=True)
+    ground truth). The held-out seed is **not** written anywhere.
+
+    ``dataset_version`` "2.0" targets the frozen published paths (guarded:
+    differing bytes refuse to overwrite); "2.1" writes the ADDITIVE split to
+    ``data/dev_v2.1/`` + ``data/manifest_v2.1.json``, rendered under engine
+    spec 2.1 and carrying per-instance canaries. The 2.0 artifact is never
+    touched by a 2.1 freeze."""
+    v21 = dataset_version == DATASET_VERSION_V21
+    dev_dir = os.path.join(DATA_DIR, "dev_v2.1") if v21 else DEV_DIR
+    manifest_path = (os.path.join(DATA_DIR, "manifest_v2.1.json") if v21
+                     else MANIFEST_PATH)
+    engine_spec = "2.1" if v21 else "2.0"
+    sp = mint("dev", dataset_version=dataset_version)
+    os.makedirs(dev_dir, exist_ok=True)
 
     gt_index: Dict[str, dict] = {}
     for it in sp.items:
@@ -379,11 +526,11 @@ def freeze_dev(prompt_version: Optional[str] = None) -> dict:
             "intrinsic": it.intrinsic,
             "ir": sp.ir(it.stem),
             "ground_truth": gt,
-            "sources": {p: sp.sources(it.stem, p) for p in PROFILES},
+            "sources": {p: sp.sources(it.stem, p, spec=engine_spec)
+                        for p in PROFILES},
         }
-        with open(os.path.join(DEV_DIR, f"{it.stem}.json"), "w", encoding="utf-8") as f:
-            json.dump(record, f, indent=2)
-            f.write("\n")
+        _write_guarded(os.path.join(dev_dir, f"{it.stem}.json"),
+                       json.dumps(record, indent=2) + "\n", force)
         # compact ground-truth index for the manifest (no rendered sources)
         gt_index[it.stem] = {
             "sample": it.sample, "variant": it.variant, "family": it.family,
@@ -398,7 +545,11 @@ def freeze_dev(prompt_version: Optional[str] = None) -> dict:
     }
     n_items = len(sp.items)
     manifest = {
-        "dataset_version": DATASET_VERSION,
+        "dataset_version": dataset_version,
+        # v2.1-only keys: the frozen 2.0 manifest predates them and a legacy
+        # re-freeze must reproduce it byte-for-byte.
+        **({"engine_spec": engine_spec,
+            "predecessor": "manifest.json (dataset 2.0, frozen)"} if v21 else {}),
         "prompt_version": prompt_version,
         "generator": "eval.gen_samples.build(extended=True) (reused; no second generator)",
         "canary": CANARY_GUID,
@@ -442,7 +593,14 @@ def freeze_dev(prompt_version: Optional[str] = None) -> dict:
                     "stems": [it.stem for it in sp.items]},
             "test": {"public": False,
                      "seed": "BENCH_HELDOUT_SEED (env; PRIVATE, never stored)",
-                     "n_items_expected": "n_dev (Tier A salted) + 6 held-out (B/C)",
+                     # The 2.0 string reproduces the frozen manifest byte-for-byte,
+                     # INCLUDING its stale "+ 6" (the real count is 24 = 14 Tier B
+                     # + 10 Tier C); the correction ships in the 2.1 manifest so a
+                     # legacy re-freeze still matches the published artifact.
+                     "n_items_expected": ("n_dev (Tier A salted) + 24 sampled "
+                                          "held-out structures (tiers 2.1: 14 B "
+                                          "+ 10 C, shapes private-seed-drawn)" if v21
+                                          else "n_dev (Tier A salted) + 6 held-out (B/C)"),
                      "mint": "build(seed, extended=True) re-mints numeric literals; a "
                              "structure-preserving salt re-mints string literals "
                              "(Tier A). build_heldout_tiers(seed) adds private Tier "
@@ -453,14 +611,12 @@ def freeze_dev(prompt_version: Optional[str] = None) -> dict:
         "ground_truth": gt_index,  # dev only; test ground truth is minted on demand
     }
     os.makedirs(DATA_DIR, exist_ok=True)
-    with open(MANIFEST_PATH, "w", encoding="utf-8") as f:
-        json.dump(manifest, f, indent=2)
-        f.write("\n")
+    _write_guarded(manifest_path, json.dumps(manifest, indent=2) + "\n", force)
     # Embed the canary in the public release (a plain marker file) so future
     # training-set audits can detect ingestion of this benchmark.
     with open(os.path.join(DATA_DIR, "CANARY.txt"), "w", encoding="utf-8") as f:
         f.write(CANARY_GUID + "\n")
-    return {"n_items": n_items, "dev_dir": DEV_DIR, "manifest": MANIFEST_PATH,
+    return {"n_items": n_items, "dev_dir": dev_dir, "manifest": manifest_path,
             "families": list(families_pub), "canary": CANARY_GUID}
 
 
@@ -472,6 +628,13 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Spaghetti Architect benchmark dataset")
     ap.add_argument("--freeze", action="store_true",
                     help="write the public dev split + manifest to bench/data/")
+    ap.add_argument("--dataset-version", default=DATASET_VERSION,
+                    choices=[DATASET_VERSION, DATASET_VERSION_V21],
+                    help="2.0 = the frozen published split (guarded); "
+                         "2.1 = the additive split -> data/dev_v2.1/")
+    ap.add_argument("--force-overwrite-frozen", action="store_true",
+                    help="allow --freeze to overwrite a frozen file with "
+                         "different bytes (you almost never want this)")
     ap.add_argument("--summary", action="store_true",
                     help="print split sizes and axes without writing")
     args = ap.parse_args(argv)
@@ -482,7 +645,9 @@ def main(argv=None) -> int:
             pv = prompts.PROMPT_VERSION
         except Exception:  # noqa: BLE001
             pv = None
-        info = freeze_dev(prompt_version=pv)
+        info = freeze_dev(prompt_version=pv,
+                          dataset_version=args.dataset_version,
+                          force=args.force_overwrite_frozen)
         print(f"froze dev split: {info['n_items']} items -> {info['dev_dir']}")
         print(f"wrote manifest -> {info['manifest']}")
         return 0

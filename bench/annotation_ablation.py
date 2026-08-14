@@ -78,10 +78,12 @@ _ROOT = os.path.dirname(_HERE)
 if _ROOT not in sys.path:
     sys.path.insert(0, _ROOT)
 
-if os.environ.get("BENCH_STRIP_ANNOTATIONS", "") not in ("", "0", "false"):
-    sys.exit("refusing to run with BENCH_STRIP_ANNOTATIONS set: the annotated arm is "
+if os.environ.get("BENCH_STRIP_ANNOTATIONS", "") not in ("", "0", "false") \
+        or os.environ.get("BENCH_CORPUS", "") not in ("", "annotated"):
+    sys.exit("refusing to run with a non-annotated corpus condition "
+             "(BENCH_STRIP_ANNOTATIONS / BENCH_CORPUS): the annotated arm is "
              "re-graded by rebuilding sources from the dataset, and it needs the "
-             "ANNOTATED corpus. Unset it and re-run.")
+             "ANNOTATED corpus. Unset them and re-run.")
 
 from bench import tasks as T  # noqa: E402
 

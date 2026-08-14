@@ -571,13 +571,16 @@ def baseline_panel(language: str, spaghetti_src: str, program) -> Dict[str, dict
 
     * ``formatter`` — autoformat only (lower bound: removes no anti-patterns);
     * ``rule_based`` — the conservative AST simplifier (non-LLM mid; Python only);
-    * ``clean_ceiling`` — the reachable optimum. Python grades the runnable idiomatic
-      clean baseline through the full semantic gate (the (1,1) top on the AST lane and
-      the uniform lane). The other four have no runnable per-language clean renderer,
-      so ``clean_ceiling`` is the UNIFORM-lane *metric-reachability* ceiling
-      (:func:`uniform_clean_ceiling`): it shows the cross-language ``uniform_quality``
-      optimum is 1 for every language (commensurable), without claiming a runnable
-      clean rewrite. ``rule_based`` stays Python-only (it is a Python-AST transform).
+    * ``clean_ceiling`` — Python grades the runnable idiomatic clean baseline
+      through the full semantic gate (a true reachable optimum); the other
+      four (since v0.3.0) grade the engine's own ``clean``-profile render
+      (idiomatic body + always-on safety scaffold + JSON epilogue) through the
+      same gate — a MEASURED scaffold-inclusive clean reference, not an upper
+      bound, since the scaffold itself carries metric-countable structure. The old UNIFORM-lane *metric-reachability* identity
+      (:func:`uniform_clean_ceiling`) is kept under
+      ``clean_ceiling_metric_reachability``: it is a statement about the
+      metric's definition, not a measurement. ``rule_based`` stays Python-only
+      (it is a Python-AST transform).
 
     Establishes that the task is non-trivial (formatter scores low) and the optimum is
     reachable (clean scores ~1) on a methodology that is now uniform across all five
@@ -593,7 +596,22 @@ def baseline_panel(language: str, spaghetti_src: str, program) -> Dict[str, dict
             language, M.clean_baseline_runnable(program), spaghetti_src, program)
     else:
         panel["rule_based"] = {"skip": True, "detail": "rule-based AST lane is Python-only"}
-        panel["clean_ceiling"] = uniform_clean_ceiling(language, spaghetti_src, program)
+        # MEASURED per-language clean reference (since v0.3.0): the engine's
+        # own "clean" profile render pushed through the FULL semantic gate.
+        # Scaffold-inclusive (idiomatic body + always-on safety + JSON
+        # epilogue), so it is NOT an upper bound on model scores: the scaffold
+        # carries metric-countable structure a model rewrite may strip. The
+        # hard measurement is the gate itself (the clean render runs and
+        # matches the oracle in every language). The old uniform-lane
+        # metric-reachability identity is kept alongside under its own key;
+        # it is a statement about the metric's definition, not a measurement.
+        from bench import dataset as D
+        ceiling = grade_refactor_one(
+            language, D.clean_source(program, language), spaghetti_src, program)
+        ceiling["scaffold_inclusive"] = True
+        panel["clean_ceiling"] = ceiling
+        panel["clean_ceiling_metric_reachability"] = uniform_clean_ceiling(
+            language, spaghetti_src, program)
     return panel
 
 

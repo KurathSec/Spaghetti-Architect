@@ -47,13 +47,16 @@ Install it in a throwaway venv to exercise this lane::
 
 CLEAN FLOOR
 -----------
-There is no per-language *idiomatic clean* renderer for js/go/java/cpp (only the
-Python ``clean_baseline_static`` exists). Mirroring the legacy proxy's choice (it
-compared non-Python sources against the Python clean floor as a language-neutral
-"idiomatic code has ~0 branches/nesting" reference), the uniform lane uses the
-**Python idiomatic clean baseline, measured by the same lizard+BW pipeline**, as
-the neutral clean reference for every language. Measuring the floor with the very
-same tools keeps the spaghetti->clean gap internally consistent per facet.
+The lane's floor is the **Python idiomatic clean baseline, measured by the same
+lizard+BW pipeline**, as the language-neutral "idiomatic code has ~0
+branches/nesting" reference for every language (the legacy proxy made the same
+choice); measuring the floor with the very same tools keeps the
+spaghetti->clean gap internally consistent per facet, and the definition is
+kept stable so re-grades reproduce. Since v0.3.0 a RUNNABLE per-language clean
+render does exist (the engine's ``clean`` profile, scaffold-inclusive; see
+``bench.dataset.clean_source``); it is used for the MEASURED per-language
+ceilings in ``grade.baseline_panel``, deliberately without redefining this
+lane's floor.
 """
 
 from __future__ import annotations

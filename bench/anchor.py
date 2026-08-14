@@ -454,6 +454,24 @@ def _config_resolver_spearman(rows: List[dict], col: str, knob: str = "max") -> 
     return G.spearman([r["scale"] for r in cfg], [r[col] for r in cfg])
 
 
+def _intrinsic_spearman_all(rows: List[dict], col: str,
+                            knob: str = "max") -> Dict[str, Optional[float]]:
+    """Spearman(family scale knob, metric) at a fixed profile, for EVERY family
+    that carries scales in the rows (generalizes the legacy config_resolver-only
+    key; that key is kept unchanged so the published anchor.json reproduces)."""
+    fams = sorted({r["family"] for r in rows if r.get("scale") is not None})
+    out: Dict[str, Optional[float]] = {}
+    for fam in fams:
+        sub = sorted([r for r in rows
+                      if r["family"] == fam and r["knob"] == knob
+                      and r["scale"] is not None],
+                     key=lambda r: r["scale"])
+        out[fam] = (G.spearman([r["scale"] for r in sub],
+                               [r[col] for r in sub])
+                    if len(sub) >= 2 else None)
+    return out
+
+
 def _crosscheck_spearman(rows: List[dict], ext_col: str, our_col: str) -> Optional[float]:
     """Spearman(our-lane metric, external metric) across all sources."""
     xs = [r[our_col] for r in rows if r.get(ext_col) is not None]
@@ -553,14 +571,17 @@ def _compute_bw_readability(rows: List[dict]) -> dict:
 #
 # Knob levels: the five engine messiness profiles (minimal < light < standard <
 # heavy < max), which exist identically in all five languages. The ``clean``
-# idiomatic floor is defined ONLY for Python (``eval.metrics.clean_baseline_static``;
-# there is no idiomatic-floor generator for the brace languages), so for an
+# The anchor lane's idiomatic floor stays the Python-only
+# ``eval.metrics.clean_baseline_static`` (kept stable so the published rows
+# reproduce; the engine's ``clean`` profile added in v0.3.0 is
+# scaffold-inclusive and serves the grading ceilings, not this lane). For an
 # apples-to-apples cross-language comparison we use the five engine profiles in
 # every language and report Python's ``clean..max`` figure separately as a
 # reference. A language whose source lizard cannot expose as a function records an
 # honest SKIP for that language -- never a fabricated number.
 # --------------------------------------------------------------------------- #
-def _compute_cross_language_lizard(sp, lizard_mod, version: str) -> dict:
+def _compute_cross_language_lizard(sp, lizard_mod, version: str,
+                                   spec: str = "2.0") -> dict:
     def metrics_of(lang: str, src: str):
         """(max cyclomatic complexity, file token count) for a source, or
         (None, None) if lizard exposes no function. lizard lexes each language
@@ -583,7 +604,7 @@ def _compute_cross_language_lizard(sp, lizard_mod, version: str) -> dict:
         if it.is_variant:
             continue
         prog = sp.program(it.stem)
-        srcs = {p: sp.sources(it.stem, p) for p in profiles}
+        srcs = {p: sp.sources(it.stem, p, spec=spec) for p in profiles}
         for L in D.LANGS:
             ccs: List[float] = []
             toks: List[float] = []
@@ -706,7 +727,7 @@ def _orthogonality(sp) -> dict:
 # --------------------------------------------------------------------------- #
 # main compute
 # --------------------------------------------------------------------------- #
-def compute() -> dict:
+def compute(spec: str = "2.0") -> dict:
     # 1) probe every anchor; build the set of available metric callables.
     probed: Dict[str, Optional[dict]] = {name: probe() for name, probe in _PROBES.items()}
     # external_metric_cols: col_name -> (anchor, metric, spec) for available tools.
@@ -714,10 +735,10 @@ def compute() -> dict:
     for anchor, info in probed.items():
         if not info:
             continue
-        for metric, spec in info["metrics"].items():
+        for metric, mspec in info["metrics"].items():
             col = f"{anchor}_{metric}"
             metric_cols[col] = {"anchor": anchor, "metric": metric,
-                                "fn": spec["fn"], "direction": spec["direction"]}
+                                "fn": mspec["fn"], "direction": mspec["direction"]}
 
     # 2) score every (base sample, knob level) source with our lane + every anchor.
     sp = D.mint("dev")
@@ -728,7 +749,7 @@ def compute() -> dict:
         prog = sp.program(it.stem)
         levels = {"clean": M.clean_baseline_static(prog)}
         for p in D.PROFILES:
-            levels[p] = sp.sources(it.stem, p)["python"]
+            levels[p] = sp.sources(it.stem, p, spec=spec)["python"]
         for knob, src in levels.items():
             row = {
                 "sample": it.stem, "family": it.family, "knob": knob,
@@ -738,8 +759,8 @@ def compute() -> dict:
                 "our_mi": float(M.maintainability_index(src)),
                 "our_cognitive": float(M.cognitive(src)),
             }
-            for col, spec in metric_cols.items():
-                row[col] = spec["fn"](src)
+            for col, mspec in metric_cols.items():
+                row[col] = mspec["fn"](src)
             rows.append(row)
 
     # 2b) Buse--Weimer readability features over the SAME sources, kept in a
@@ -751,7 +772,7 @@ def compute() -> dict:
         # re-derive the exact source for this (sample, knob) cell deterministically.
         prog = sp.program(r["sample"])
         src = (M.clean_baseline_static(prog) if r["knob"] == "clean"
-               else sp.sources(r["sample"], r["knob"])["python"])
+               else sp.sources(r["sample"], r["knob"], spec=spec)["python"])
         bw = bw_readability_features(src)
         bw.update({"sample": r["sample"], "family": r["family"], "knob": r["knob"],
                    "rank": r["rank"], "scale": r["scale"]})
@@ -770,16 +791,17 @@ def compute() -> dict:
                                "reason": _SKIP_REASON[anchor]}
             continue
         per_metric: Dict[str, dict] = {}
-        for metric, spec in info["metrics"].items():
+        for metric, mspec in info["metrics"].items():
             col = f"{anchor}_{metric}"
             our_col = _OUR_LANE.get(metric)
             stats = _incidental_spearman_stats(rows, col)
             per_metric[metric] = {
-                "direction": spec["direction"],  # expected knob sign (+ worse, - better)
+                "direction": mspec["direction"],  # expected knob sign (+ worse, - better)
                 "incidental_knob_spearman_mean": stats["mean"],
                 "incidental_knob_spearman_ci95": stats["ci95"],
                 "incidental_knob_spearman_n": stats["n_base_samples"],
                 "config_resolver_N_spearman": _config_resolver_spearman(rows, col),
+                "intrinsic_scale_spearman": _intrinsic_spearman_all(rows, col),
                 "crosscheck_vs_our_lane_spearman":
                     (_crosscheck_spearman(rows, col, our_col) if our_col else None),
             }
@@ -798,7 +820,7 @@ def compute() -> dict:
     if probed["lizard"] is not None:
         import lizard as _lizard_mod  # noqa: F401 (probe already confirmed import)
         anchors["lizard"]["cross_language"] = _compute_cross_language_lizard(
-            sp, _lizard_mod, anchors["lizard"]["version"])
+            sp, _lizard_mod, anchors["lizard"]["version"], spec=spec)
 
     # 4) per-sample radon view (kept for backward compat / judge-vs-anchor) +
     #    legacy top-level radon correlations that run_bench.py reads.
@@ -859,16 +881,28 @@ def _fmt(v: Optional[float]) -> str:
 
 
 def main() -> int:
-    rec = compute()
-    os.makedirs(os.path.dirname(ANCHOR_PATH), exist_ok=True)
-    with open(ANCHOR_PATH, "w", encoding="utf-8") as f:
+    # --spec 2.1 renders the dev sources under the additive-fix engine and
+    # writes a SEPARATE artifact; the published anchor.json stays bound to the
+    # spec-2.0 rendering and is guarded against accidental overwrite.
+    spec = "2.1" if "--spec" in sys.argv and "2.1" in sys.argv else "2.0"
+    out_path = (os.path.join(_HERE, "out", "anchor_v21.json") if spec == "2.1"
+                else ANCHOR_PATH)
+    if spec == "2.0" and os.path.exists(ANCHOR_PATH) \
+            and "--allow-overwrite" not in sys.argv:
+        sys.exit("refusing to overwrite the published bench/out/anchor.json "
+                 "(spec-2.0); pass --allow-overwrite if you really mean to, "
+                 "or --spec 2.1 to write bench/out/anchor_v21.json")
+    rec = compute(spec=spec)
+    rec["engine_spec"] = spec
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    with open(out_path, "w", encoding="utf-8") as f:
         json.dump(rec, f, indent=2)
         f.write("\n")
 
     ok = rec["anchors_ok"]
     skip = rec["anchors_skipped"]
     print(f"anchor {rec['status']} ({rec['n_sources']} sources, "
-          f"{rec['n_base_samples']} base samples) -> {ANCHOR_PATH}")
+          f"{rec['n_base_samples']} base samples) -> {out_path}")
     print(f"  available: {ok or '(none)'}   skipped: {skip or '(none)'}")
     for anchor in ok:
         a = rec["anchors"][anchor]

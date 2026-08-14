@@ -479,9 +479,18 @@ def build(seed: int = SEED, extended: bool = False) -> Tuple[Dict[str, dict], di
     return samples, meta
 
 
-def build_heldout_tiers(seed: int) -> Tuple[Dict[str, dict], Dict[str, str]]:
+def build_heldout_tiers(seed: int,
+                        tiers_version: str = "2.0") -> Tuple[Dict[str, dict], Dict[str, str]]:
     """Mint **private** held-out structures (never committed) for the contamination
     novelty axis (v2 Phase C). Two tiers beyond Tier A (literal re-mint):
+
+    ``tiers_version`` selects the structure source: ``"2.0"`` (default) is the
+    published FIXED enumeration below, byte-identical for a given seed (the
+    released test numbers bind to it); ``"2.1"`` routes to
+    :func:`sample_heldout_tiers`, where the op-chain SHAPES themselves are
+    private-seed draws from a shape space, so a repository reader no longer
+    learns the held-out structures (the 2.0 blind spot the datasheet
+    discloses).
 
     * **Tier B — structural held-out:** op-chain *shapes* the public families never
       use (e.g. membership co-chained with aggregate on one list), so an adversary
@@ -493,6 +502,10 @@ def build_heldout_tiers(seed: int) -> Tuple[Dict[str, dict], Dict[str, str]]:
     All literals are RNG-drawn from the held-out ``seed`` (decorrelated from
     :func:`build`'s stream). Returns ``(samples, tier_of)``; the caller
     (:func:`bench.dataset.mint`) validates every IR with ``parse()``."""
+    if tiers_version == "2.1":
+        return sample_heldout_tiers(seed)
+    if tiers_version != "2.0":
+        raise ValueError(f"unknown tiers_version {tiers_version!r} (2.0 or 2.1)")
     # Decorrelate the tier stream from build()'s Tier-A re-mint stream by XORing the
     # seed; use the FULL seed (no 32-bit mask) so a large private seed (e.g. a 256-bit
     # secrets.randbits) contributes all its entropy here too -- random.Random accepts
@@ -819,6 +832,231 @@ def build_heldout_tiers(seed: int) -> Tuple[Dict[str, dict], Dict[str, str]]:
     tier["tierC_very_deep"] = "C"
 
     return samples, tier
+
+
+# ---- tiers 2.1: shape-space sampling (v0.3.0) ------------------------------ #
+# Independent derived stream so the sampler can NEVER perturb the frozen
+# streams (build extended=False/True and the fixed 2.0 tier enumeration), all
+# of which are pinned by tests/test_stream_stability.py.
+_TIERS_V21_STREAM = 0xA5C39D71
+
+_OP_LETTER = {"MEMBERSHIP_CHECK": "M", "KEY_VALUE_LOOKUP": "L",
+              "AGGREGATE": "A", "CONDITIONAL_SELECT": "C"}
+
+
+def _op_shape(ir: dict) -> tuple:
+    return tuple(_OP_LETTER[op["operation"]] for op in ir["operations"])
+
+
+def public_shape_exclusions() -> set:
+    """Every op-type sequence an adversary could learn from the repository:
+    the public families (both build streams) plus the FIXED tiers-2.0
+    enumeration (its shapes are spelled out in this file). Computed live, so
+    new public families are excluded automatically."""
+    shapes = set()
+    for extended in (False, True):
+        samples, _meta = build(SEED, extended=extended)
+        for ir in samples.values():
+            shapes.add(_op_shape(ir))
+    fixed, _tier = build_heldout_tiers(0)   # shapes are seed-independent
+    for ir in fixed.values():
+        shapes.add(_op_shape(ir))
+    return shapes
+
+
+def sample_heldout_tiers(seed: int, n_b: int = 14,
+                         n_c: int = 10) -> Tuple[Dict[str, dict], Dict[str, str]]:
+    """Tiers 2.1: draw the Tier-B/C op-chain SHAPES from a shape space using the
+    private seed, so the structures themselves are no longer readable from the
+    repository (the tiers-2.0 blind spot). Every fixture satisfies the parser's
+    constraints by construction, lookup fixtures mirror ``op.pairs`` exactly
+    (the oracle/idiomatic-path invariant), and every draw is rejection-sampled
+    against :func:`public_shape_exclusions` plus batch-internal uniqueness."""
+    rng = random.Random(seed ^ _TIERS_V21_STREAM)
+    excl = public_shape_exclusions()
+    samples: Dict[str, dict] = {}
+    tier: Dict[str, str] = {}
+
+    def _hex(n: int = 4) -> str:
+        return f"{rng.randrange(16 ** n):0{n}x}"
+
+    def _mint_shape(name: str, shape: tuple, scales: dict) -> dict:
+        ins: Dict[str, object] = {}
+        ops: List[dict] = []
+        for i, s in enumerate(shape):
+            res = f"r_{i:02d}"
+            if s == "A":
+                coll = f"vals_{i:02d}"
+                ins[coll] = [rng.randint(1, 999)
+                             for _ in range(rng.randint(*scales["A"]))]
+                ops.append(_aggregate(coll, rng.choice(["sum", "min", "max"]), res))
+            elif s == "M":
+                coll = f"pool_{i:02d}"
+                vals = rng.sample(range(1, 100000), rng.randint(*scales["M"]))
+                ins[coll] = sorted(vals)
+                probe = f"probe_{i:02d}"
+                ins[probe] = (rng.choice(vals) if rng.random() < 0.5
+                              else max(vals) + rng.randint(1, 50))
+                ops.append(_membership(coll, probe, res))
+            elif s == "L":
+                n_keys = rng.randint(*scales["L"])
+                keys: List[str] = []
+                while len(keys) < n_keys:
+                    k = f"k{i:02d}_{_hex()}"
+                    if k not in keys:
+                        keys.append(k)
+                pairs = {k: f"v_{k}_{_hex()}" for k in keys}
+                m, kv = f"table_{i:02d}", f"key_{i:02d}"
+                ins[m] = dict(pairs)                 # mirrored fixture (invariant)
+                ins[kv] = (rng.choice(keys) if rng.random() < 0.7
+                           else f"missing_{_hex()}")
+                ops.append(_lookup(m, kv, res, pairs, f"dflt_{_hex()}"))
+            else:  # C
+                subj = f"gauge_{i:02d}"
+                ins[subj] = rng.randint(0, 100)
+                ops.append(_conditional(subj,
+                                        rng.choice([">=", "<", "==", ">", "<=", "!="]),
+                                        rng.randint(10, 90),
+                                        f"on_{_hex()}", f"off_{_hex()}", res))
+        return _ir(name, ins, ops)
+
+    def _draw(tier_name: str, count: int, len_range: tuple, scales: dict) -> None:
+        drawn = 0
+        attempts = 0
+        while drawn < count:
+            attempts += 1
+            if attempts > 10000:
+                raise RuntimeError("shape sampler failed to find novel shapes")
+            shape = tuple(rng.choice("MLAC")
+                          for _ in range(rng.randint(*len_range)))
+            if shape in excl:
+                continue
+            excl.add(shape)                          # batch-internal uniqueness
+            stem = f"tier{tier_name}21_{drawn:02d}"
+            samples[stem] = _mint_shape(stem, shape, scales)
+            tier[stem] = tier_name
+            drawn += 1
+
+    # Tier B: novel shapes at in-distribution scales.
+    _draw("B", n_b, (2, 5), {"A": (8, 64), "M": (8, 64), "L": (4, 16)})
+    # Tier C: deep chains + out-of-range scales (distribution shift).
+    _draw("C", n_c, (8, 24), {"A": (256, 1024), "M": (256, 768), "L": (64, 200)})
+    return samples, tier
+
+
+# ---- dataset 2.1 extras (v0.3.0; additive, own derived stream) ------------- #
+_DEV_V21_STREAM = 0x7E11AB05
+
+
+def build_v21_extras(seed: int = SEED) -> Tuple[Dict[str, dict], dict]:
+    """Additive dataset-2.1 base IRs: rebalance the three single-programme
+    families (status_router / discovery_pipeline gain scaled bases) and mint
+    the fsm prior-twin PROBE (two structurally identical lookup programs whose
+    only difference is whether the miss default agrees with an FSM prior).
+    All draws come from an independent derived stream, so the frozen
+    :func:`build` streams cannot shift. No model numbers exist for any of
+    these instances; they ship as a resource, not as evaluated items.
+
+    Returns ``(samples, extras_meta)`` with ``extras_meta`` shaped like the
+    :func:`build` meta fragments: ``{"families": {fam: {bases, repr, knob,
+    scales}}, "family_order_append": [...], "variants": {}}``. Existing-family
+    fragments are MERGED by the caller (bases/scales extend; knob upgrades).
+    """
+    rng = random.Random(seed ^ _DEV_V21_STREAM)
+    samples: Dict[str, dict] = {}
+
+    # status_router: the published base is one fixed 24-key table; add a
+    # table-size knob K so the family stops resting on a single programme.
+    def _code_class(c: int) -> str:
+        return ("success" if c < 300 else "redirect" if c < 400
+                else "client_error" if c < 500 else "server_error")
+
+    sr_bases: List[str] = []
+    sr_scales: Dict[str, int] = {}
+    for k in (8, 16, 32):
+        pool = sorted(rng.sample(range(200, 600), k))
+        table = {str(c): _code_class(c) for c in pool}
+        probe = (str(rng.choice(pool)) if rng.random() < 0.7
+                 else str(rng.choice([680, 780, 880])))
+        stem = f"status_router_K{k}"
+        samples[stem] = _ir(stem,
+                            {"status_table": dict(table), "incoming": probe},
+                            [_lookup("status_table", "incoming", "route",
+                                     table, "unrouted")])
+        sr_bases.append(stem)
+        sr_scales[stem] = k
+
+    # discovery_pipeline: the published base is one fixed 7-op chain; add an
+    # op-count knob P.
+    dp_bases: List[str] = []
+    dp_scales: Dict[str, int] = {}
+    for p_ops in (4, 10):
+        ins: Dict[str, object] = {}
+        ops: List[dict] = []
+        for i in range(p_ops):
+            res = f"probe_r{i:02d}"
+            if i % 2 == 0:
+                coll = f"scan_{i:02d}"
+                vals = sorted(rng.sample(range(1, 9000), rng.randint(6, 14)))
+                ins[coll] = vals
+                probe_n = f"scan_probe_{i:02d}"
+                ins[probe_n] = (rng.choice(vals) if rng.random() < 0.5
+                                else max(vals) + rng.randint(1, 40))
+                ops.append(_membership(coll, probe_n, res))
+            else:
+                n_keys = rng.randint(3, 6)
+                keys = sorted({f"svc_{rng.randrange(16**3):03x}"
+                               for _ in range(n_keys * 2)})[:n_keys]
+                pairs = {kk: f"ep_{kk}_{rng.randrange(16**3):03x}" for kk in keys}
+                m, kv = f"reg_{i:02d}", f"reg_key_{i:02d}"
+                ins[m] = dict(pairs)
+                ins[kv] = (rng.choice(keys) if rng.random() < 0.7
+                           else "svc_missing")
+                ops.append(_lookup(m, kv, res, pairs, "unregistered"))
+        stem = f"discovery_pipeline_P{p_ops}"
+        samples[stem] = _ir(stem, ins, ops)
+        dp_bases.append(stem)
+        dp_scales[stem] = p_ops
+
+    # fsm prior twin (RNG-free): identical tables, identical key membership,
+    # identical current_state; the ONLY delta is the miss default. In the
+    # conflict twin a miss reads a sentinel where an FSM prior predicts the
+    # obvious transition; in the consistent twin a miss defaults to the
+    # current state (the natural no-op), so prior and oracle agree.
+    def _fsm_twin(default: str, stem: str) -> dict:
+        tbl_start = {"idle": "running", "paused": "running", "stopped": "running"}
+        tbl_pause = {"running": "paused"}
+        tbl_resume = {"paused": "running"}
+        tbl_stop = {"idle": "stopped", "running": "stopped", "paused": "stopped"}
+        inputs = {
+            "current_state": "idle",
+            "tbl_start": dict(tbl_start), "tbl_pause": dict(tbl_pause),
+            "tbl_resume": dict(tbl_resume), "tbl_stop": dict(tbl_stop),
+        }
+        operations = [
+            _lookup("tbl_start", "current_state", "next_start", tbl_start, default),
+            _lookup("tbl_pause", "current_state", "next_pause", tbl_pause, default),
+            _lookup("tbl_resume", "current_state", "next_resume", tbl_resume, default),
+            _lookup("tbl_stop", "current_state", "next_stop", tbl_stop, default),
+        ]
+        return _ir(stem, inputs, operations)
+
+    samples["fsm_twin_conflict"] = _fsm_twin("ERR", "fsm_twin_conflict")
+    samples["fsm_twin_consistent"] = _fsm_twin("idle", "fsm_twin_consistent")
+
+    extras_meta = {
+        "families": {
+            "status_router": {"bases": sr_bases, "repr": None, "knob": "K",
+                              "scales": sr_scales},
+            "discovery_pipeline": {"bases": dp_bases, "repr": None, "knob": "P",
+                                   "scales": dp_scales},
+            "fsm_twin": {"bases": ["fsm_twin_conflict", "fsm_twin_consistent"],
+                         "repr": "fsm_twin_conflict", "knob": None, "scales": {}},
+        },
+        "family_order_append": ["fsm_twin"],
+        "variants": {},
+    }
+    return samples, extras_meta
 
 
 def load(seed: int = SEED) -> Tuple[Dict[str, dict], dict]:

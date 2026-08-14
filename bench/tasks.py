@@ -70,7 +70,9 @@ _ENGINES: Dict[tuple, Engine] = {}
 # collection name absent from the clobbering IR -> non-deterministic KeyError (e.g.
 # 'allow_list'). This lock makes the bench generation entry point honor that contract;
 # generation is instant, so the cost is negligible and the output stays byte-identical.
-_GEN_LOCK = threading.Lock()
+# Single shared generation lock (moved to bench.dataset so every bench render
+# path serializes on the same object; see dataset.GEN_LOCK).
+_GEN_LOCK = D.GEN_LOCK
 
 
 # Ablation switch. The generator annotates its own output (module header, a per-operation
@@ -87,11 +89,34 @@ _GEN_LOCK = threading.Lock()
 # set, for exactly this reason.
 STRIP_ANNOTATIONS = os.environ.get("BENCH_STRIP_ANNOTATIONS", "") not in ("", "0", "false")
 
+# Corpus condition, ternary since v0.3.0: "annotated" (the released
+# self-annotated rendering), "unannotated" (every comment stripped; the
+# EVALUATION DEFAULT per the annotation-ablation result), or "sidecar"
+# (header in-source, other annotations in line-aligned sidecars).
+# BENCH_CORPUS supersedes the legacy boolean but honors it when unset. Like
+# the legacy flag it is read ONCE at import and stamped into every run's env
+# block; regrade enforces the stamp (see run_bench.regrade).
+_CORPUS_ENV = os.environ.get("BENCH_CORPUS", "")
+_CORPUS_VALUES = ("annotated", "unannotated", "sidecar")
+if _CORPUS_ENV and _CORPUS_ENV not in _CORPUS_VALUES:
+    sys.exit(f"BENCH_CORPUS={_CORPUS_ENV!r} is not one of {_CORPUS_VALUES}")
+CORPUS = _CORPUS_ENV or ("unannotated" if STRIP_ANNOTATIONS else "annotated")
+STRIP_ANNOTATIONS = CORPUS == "unannotated"   # keep the legacy flag consistent
+
+# Engine rendering-spec version, read once at import like the corpus flags.
+# The default "2.0" reproduces the published rendering byte-for-byte, which the
+# offline regrade of the committed completions depends on; set
+# BENCH_ENGINE_SPEC=2.1 only for new work that opts into the additive
+# SPAGH_005/007 fixes. Stamped into the env block of every run.
+ENGINE_SPEC = os.environ.get("BENCH_ENGINE_SPEC", "2.0")
+
 
 def _engine(profile: str) -> Engine:
-    key = (profile, not STRIP_ANNOTATIONS)
+    key = (profile, CORPUS, ENGINE_SPEC)
     if key not in _ENGINES:
-        _ENGINES[key] = Engine(DB, profile, annotate=not STRIP_ANNOTATIONS)
+        _ENGINES[key] = Engine(
+            DB, profile, annotate=not STRIP_ANNOTATIONS, spec=ENGINE_SPEC,
+            annotations="sidecar" if CORPUS == "sidecar" else None)
     return _ENGINES[key]
 
 
