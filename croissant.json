@@ -25,10 +25,10 @@
   "@type": "sc:Dataset",
   "conformsTo": "http://mlcommons.org/croissant/1.0",
   "name": "spaghetti-architect-bench-dev",
-  "description": "Public 'dev' split of the Spaghetti Architect benchmark: 100 by-construction-labelled code instances (50 base + 50 variant) across seven families. Each instance is a program rendered from a clean JSON intermediate representation (IR) of four operation primitives (KEY_VALUE_LOOKUP, MEMBERSHIP_CHECK, AGGREGATE, CONDITIONAL_SELECT), located on four axes: incidental complexity (a strictly-nested 6-level messiness knob at identical semantics: clean < minimal < light < standard < heavy < max), intrinsic complexity (per-family scale knobs N/L/W/T and operation count), language (python, javascript, go, java, cpp), and input variant (v0..v4). Labels (oracle output, the known-optimal clean baseline, knob coordinates, the enabled SPAGH_* anti-pattern set) are correct by construction, computed deterministically from the IR with seed 20260619. A separate held-out 'test' split is private and not included here. Dataset version 2.0.",
+  "description": "Public 'dev' split of the Spaghetti Architect benchmark: 100 by-construction-labelled code instances (50 base + 50 variant) across seven families. Each instance is a program rendered from a clean JSON intermediate representation (IR) of four operation primitives (KEY_VALUE_LOOKUP, MEMBERSHIP_CHECK, AGGREGATE, CONDITIONAL_SELECT), located on four axes: incidental complexity (a strictly-nested 6-level messiness knob at identical semantics: clean < minimal < light < standard < heavy < max), intrinsic complexity (per-family scale knobs N/L/W/T and operation count), language (python, javascript, go, java, cpp), and input variant (v0..v4). Labels (oracle output, the known-optimal clean baseline, knob coordinates, the enabled SPAGH_* anti-pattern set) are correct by construction, computed deterministically from the IR with seed 20260619. A separate held-out 'test' split is private and not included here. Dataset versions: 2.0 (bench/data/dev/, the frozen split every published number binds to) and the additive 2.1 (bench/data/dev_v2.1/: 107 instances = 2.0's families rebalanced with scaled status_router/discovery_pipeline bases plus the fsm prior-twin probe, rendered under engine spec 2.1 and carrying per-instance canary inputs; no model numbers exist for 2.1 yet).",
   "license": "https://spdx.org/licenses/MIT.html",
   "url": "https://github.com/KurathSec/Spaghetti-Architect",
-  "version": "2.0",
+  "version": "2.1",
   "isLiveDataset": false,
   "keywords": [
     "data-centric",
@@ -40,7 +40,7 @@
     "code refactoring",
     "LLM-as-judge"
   ],
-  "citeAs": "Yuxiang Ji. Spaghetti Architect: a by-construction-labelled, contamination-resistant, multi-language code dataset generator (v0.2.5). Zenodo, 2026. https://doi.org/10.5281/zenodo.21033174",
+  "citeAs": "Yuxiang Ji. Spaghetti Architect: a by-construction-labelled, contamination-resistant, multi-language code dataset generator (v0.3.0). Zenodo, 2026. https://doi.org/10.5281/zenodo.21033174",
   "distribution": [
     {
       "@type": "cr:FileObject",

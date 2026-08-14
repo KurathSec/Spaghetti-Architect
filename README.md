@@ -121,8 +121,13 @@ IR JSON ─▶ Parser ─▶ Planner ─▶ Generators (×5, +safety) ─▶ Val
 | 006 | Manual indexing / pointer arithmetic | | |
 
 The last three (009–011) are grounded in the Collberg–Thomborson obfuscation
-taxonomy and classic code smells. Composed via profiles: **`minimal`**
-(de-idiomatize only) · **`light`** · **`standard`** · **`heavy`** · **`max`** (all eleven).
+taxonomy and classic code smells. Composed via profiles: **`clean`** (empty set:
+the runnable idiomatic form, v0.3.0) · **`minimal`** (de-idiomatize only) ·
+**`light`** · **`standard`** · **`heavy`** · **`max`** (all eleven). Two engine
+rendering specs coexist (v0.3.0): **2.0** (default; the published rendering, in
+which `SPAGH_005`/`SPAGH_007` are inert so `light` ≡ `standard`) and **2.1**
+(`--spec 2.1` / `Engine(..., spec="2.1")`, which activates both additively and
+resolves the tie; the frozen dataset and all published numbers stay bound to 2.0).
 
 ---
 
@@ -197,6 +202,18 @@ identical programs comment-free. On that control corpus every model scores lower
 weakest model in the ladder is inflated an order of magnitude more than the strongest, and
 the unannotated refactor ladder separates all three adjacent rungs where the annotated one
 separates one. Reproduce offline at zero API cost: `python3 bench/annotation_ablation.py`.
+
+**Since v0.3.0** the practical consequences of that result are wired in: the
+**unannotated corpus is the evaluation default** for new benchmark runs
+(`BENCH_CORPUS={annotated,unannotated,sidecar}`; the corpus stamp on every batch
+is now enforced at regrade time), and a third **sidecar** annotation mode keeps
+the module header in-source (the dual-use friction) while diverting the
+per-operation comments and `SPAGH_*` markers into line-aligned
+`*.sidecar.json` files (`python3 -m src.main <ir> --annotate sidecar
+--sidecar-out DIR`). A zero-API **re-analysis suite** (`ANALYSIS_PLAN.md`)
+re-derives and extends the published statistics from the committed archives,
+including the difference-in-differences headline for the ablation and a
+leakage-resistant judge-pair subset.
 
 Fresh instances are minted from a **private held-out seed** for contamination
 control. The whole harness runs end-to-end on a **mock model at zero cost**; going

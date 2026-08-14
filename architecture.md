@@ -1205,10 +1205,29 @@ try {
 
 ## 20. Implementation Status
 
-**All five milestones below are complete**, and the 40-test suite (golden + equivalency + parser +
-profiles) is green. Validation coverage depends on the host: with every toolchain present all five
-languages PASS; with none, Python is runtime-verified via `exec()` and JS/Go/Java/C++ **SKIP** (never
-FAIL). The four compiled targets are otherwise locked in by golden snapshots + inspection.
+**All five milestones below are complete**, and the test suite (golden + equivalency + parser +
+profiles + the v0.3.0 additions below) is green. Validation coverage depends on the host: with every
+toolchain present all five languages PASS; with none, Python is runtime-verified via `exec()` and
+JS/Go/Java/C++ **SKIP** (never FAIL). The four compiled targets are otherwise locked in by golden
+snapshots + inspection.
+
+> **As built (v0.3.0).** Four engine-level additions, all default-inert (the
+> frozen dev split reproduces byte-for-byte, pinned by `tests/test_frozen_dev.py`'s
+> 2500-cell sweep): (1) **dual rendering specs** — `Engine(..., spec="2.0"|"2.1")`;
+> 2.1 additively activates `SPAGH_005` (nested/two-stage cascades, group depth
+> capped at 8 for CPython's indentation limit; Go gains its first 005 consult
+> site) and `SPAGH_007` (redundant always-true re-checks), resolving the
+> documented `light` ≡ `standard` tie (`tests/test_spec_versions.py`); (2) the
+> **`clean` profile** (empty pattern set) makes the previously dead idiomatic
+> branches reachable — runnable, oracle-verified idiomatic source in all five
+> languages (Go conditional excepted, documented); (3) **sidecar annotation
+> mode** (`CodeEmitter(mode=...)`): header in-source, all other comments in
+> line-aligned sidecar structures with a byte-exact re-insertion round-trip
+> (`tests/test_sidecar.py`); (4) **tiers 2.1 + per-instance canary**
+> (`eval/gen_samples.sample_heldout_tiers`, `bench.dataset.with_canary`):
+> shape-space-drawn held-out structures and HMAC-derived inert canary inputs
+> for dataset-2.1 mints, with `tests/test_stream_stability.py` pinning every
+> frozen RNG stream. §24 holds the planned-primitive specs.
 
 | Milestone | Content | Verifiable acceptance |
 |-----------|---------|-----------------------|
@@ -1343,6 +1362,75 @@ committed.
 > work** that needs the paid live run; its seed draft is regenerated (never compiled) by
 > `python3 bench/run_bench.py --report`. All manuscripts are maintained and published
 > separately from this code+dataset repository (each carries its own venue DOI).
+
+---
+
+## 24. Planned IR Primitives (design spec only — NOT implemented)
+
+The extension contract's binding constraint is that **one oracle must check
+equivalence byte-identically across all five backends**. The released
+operations satisfy it by restricting `AGGREGATE`/`CONDITIONAL_SELECT` to
+integer operands (floats print with language-specific precision and would break
+the oracle). The following primitives are specified to widen the operation set
+**without giving up that property**. They are a design commitment, not code:
+none of them exists in any released engine version, and implementing them is a
+spec bump (2.2) with fresh golden coverage.
+
+### 24.1 `AGGREGATE` mode `mean_x1000` (fixed-point mean)
+
+- **Semantics:** `result = (sum(collection) * 1000) // len(collection)`,
+  integer floor division.
+- **Parser constraints:** collection must be a **non-empty, non-negative**
+  homogeneous int array. Non-negativity is load-bearing: C++/Java/Go truncate
+  integer division toward zero while Python floors toward negative infinity,
+  so the two disagree exactly on negative operands; restricting to
+  non-negative sums makes floor and truncation coincide and keeps one oracle
+  valid in all five languages.
+- **Oracle:** computed in Python with `//`; result is an `int`, so it formats
+  byte-identically everywhere (the same argument as the existing integer
+  `AGGREGATE`).
+- **Rendering:** idiomatic form is the two-step sum-then-divide; the spaghetti
+  form reuses the existing manual-reduction machinery (SPAGH_001/006/008/010)
+  plus a redundant re-scaling temp (`_scaled = _acc * 1000`), and composes with
+  the spec-2.1 additive transforms unchanged.
+
+### 24.2 `STRING_JOIN`
+
+- **Semantics:** `result = separator.join(collection)` with an explicit
+  separator literal.
+- **Parser constraints:** collection is a non-empty homogeneous **string**
+  array; the separator is a string literal restricted to printable ASCII
+  without control characters; every element must be free of the separator
+  (validated at parse time) so the join is unambiguous and reversible.
+- **Oracle:** Python `str.join`; the result is a plain string with no
+  locale-, encoding-, or float-formatting surface, so byte-identity holds
+  provided all backends emit UTF-8 (they already do; elements are ASCII by
+  constraint).
+- **Rendering:** idiomatic per language (`"|".join(xs)` / `xs.join("|")` /
+  `strings.Join` / `String.join` / manual loop with `+=` for C++); spaghetti
+  form is the manual index loop with a trailing-separator guard, which the
+  existing membership loop machinery already models.
+
+### 24.3 `CASE_MAP`
+
+- **Semantics:** `result = upper(x)` or `lower(x)` for a single string input.
+- **Parser constraints:** input restricted to **ASCII letters, digits, and
+  `_`** (validated at parse time). This dodges every Unicode case-mapping
+  divergence (Turkish dotless-i, locale tables, ICU version skew) by
+  construction: over ASCII, all five standard libraries agree byte-for-byte.
+- **Oracle:** Python `str.upper()`/`str.lower()`.
+- **Rendering:** idiomatic one-liner per language; spaghetti form is the
+  per-character manual loop over the char table (a natural SPAGH_006/008
+  target).
+
+**Why these three:** each adds a genuinely new competence surface (fixed-point
+arithmetic, sequence construction, character mapping) while its result stays a
+scalar `int`/`str` whose textual form is identical in all five languages, so
+the single compile-run oracle, the Tier-A salting machinery (SHA-256 string
+salt is injective on the constrained alphabets), and the by-construction
+labels all carry over without modification. Model numbers on any of them
+require fresh evaluation runs and are explicitly out of scope for the version
+that ships this spec.
 
 ---
 
