@@ -1,0 +1,825 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "estimation_not_family": true,
+    "generated_by": "bench/failure_stages.py",
+    "inputs": [
+      "bench/out/.annotation_ablation_grades.json",
+      "bench/out/ablation/*.jsonl.gz",
+      "bench/out/g3/refactor_dev__*.jsonl.gz",
+      "bench/out/ladder/comprehend__*.jsonl.gz"
+    ],
+    "near_miss_relerr": 0.1,
+    "post_hoc": "registered 2026-08-14 after the suite's results were read; excludes the grader-side-brittleness alternative for the ablation delta and the unannotated knob slope (ANALYSIS_PLAN.md post-hoc addenda)",
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "comprehend": {
+    "DeepSeek-V4-Flash": {
+      "annotated": {
+        "by_stage": {
+          "mixed_semantic": 54,
+          "near_miss": 148,
+          "recognition": 39
+        },
+        "by_stage_language": {
+          "mixed_semantic|cpp": 11,
+          "mixed_semantic|go": 10,
+          "mixed_semantic|java": 9,
+          "mixed_semantic|javascript": 12,
+          "mixed_semantic|python": 12,
+          "near_miss|cpp": 29,
+          "near_miss|go": 36,
+          "near_miss|java": 26,
+          "near_miss|javascript": 29,
+          "near_miss|python": 28,
+          "recognition|cpp": 8,
+          "recognition|go": 9,
+          "recognition|java": 7,
+          "recognition|javascript": 9,
+          "recognition|python": 6
+        },
+        "by_stage_profile": {
+          "mixed_semantic|max": 17,
+          "mixed_semantic|minimal": 17,
+          "mixed_semantic|standard": 20,
+          "near_miss|max": 46,
+          "near_miss|minimal": 50,
+          "near_miss|standard": 52,
+          "recognition|max": 14,
+          "recognition|minimal": 13,
+          "recognition|standard": 12
+        },
+        "incremental_by_stage": {
+          "mixed_semantic": 2,
+          "near_miss": 1,
+          "recognition": 4
+        },
+        "incremental_by_stage_profile": {
+          "mixed_semantic|minimal": 1,
+          "mixed_semantic|standard": 1,
+          "near_miss|standard": 1,
+          "recognition|max": 1,
+          "recognition|minimal": 2,
+          "recognition|standard": 1
+        },
+        "n_failures": 241
+      },
+      "unannotated": {
+        "by_stage": {
+          "mixed_semantic": 153,
+          "near_miss": 105,
+          "recognition": 64
+        },
+        "by_stage_language": {
+          "mixed_semantic|cpp": 33,
+          "mixed_semantic|go": 31,
+          "mixed_semantic|java": 26,
+          "mixed_semantic|javascript": 34,
+          "mixed_semantic|python": 29,
+          "near_miss|cpp": 19,
+          "near_miss|go": 21,
+          "near_miss|java": 23,
+          "near_miss|javascript": 19,
+          "near_miss|python": 23,
+          "recognition|cpp": 10,
+          "recognition|go": 30,
+          "recognition|java": 7,
+          "recognition|javascript": 11,
+          "recognition|python": 6
+        },
+        "by_stage_profile": {
+          "mixed_semantic|max": 95,
+          "mixed_semantic|minimal": 28,
+          "mixed_semantic|standard": 30,
+          "near_miss|minimal": 52,
+          "near_miss|standard": 53,
+          "recognition|max": 37,
+          "recognition|minimal": 13,
+          "recognition|standard": 14
+        },
+        "incremental_by_stage": {
+          "mixed_semantic": 36,
+          "near_miss": 24,
+          "recognition": 28
+        },
+        "incremental_by_stage_profile": {
+          "mixed_semantic|max": 32,
+          "mixed_semantic|minimal": 2,
+          "mixed_semantic|standard": 2,
+          "near_miss|minimal": 12,
+          "near_miss|standard": 12,
+          "recognition|max": 24,
+          "recognition|minimal": 2,
+          "recognition|standard": 2
+        },
+        "n_failures": 322
+      }
+    },
+    "Llama-3.1-8B": {
+      "annotated": {
+        "by_stage": {
+          "mixed_semantic": 237,
+          "near_miss": 50,
+          "parse_fail": 3,
+          "recognition": 283,
+          "wrong_keys": 98
+        },
+        "by_stage_language": {
+          "mixed_semantic|cpp": 45,
+          "mixed_semantic|go": 50,
+          "mixed_semantic|java": 50,
+          "mixed_semantic|javascript": 49,
+          "mixed_semantic|python": 43,
+          "near_miss|cpp": 11,
+          "near_miss|go": 11,
+          "near_miss|java": 7,
+          "near_miss|javascript": 8,
+          "near_miss|python": 13,
+          "parse_fail|cpp": 1,
+          "parse_fail|java": 2,
+          "recognition|cpp": 56,
+          "recognition|go": 66,
+          "recognition|java": 49,
+          "recognition|javascript": 52,
+          "recognition|python": 60,
+          "wrong_keys|cpp": 10,
+          "wrong_keys|go": 14,
+          "wrong_keys|javascript": 16,
+          "wrong_keys|python": 58
+        },
+        "by_stage_profile": {
+          "mixed_semantic|max": 80,
+          "mixed_semantic|minimal": 76,
+          "mixed_semantic|standard": 81,
+          "near_miss|max": 17,
+          "near_miss|minimal": 17,
+          "near_miss|standard": 16,
+          "parse_fail|max": 1,
+          "parse_fail|minimal": 1,
+          "parse_fail|standard": 1,
+          "recognition|max": 96,
+          "recognition|minimal": 94,
+          "recognition|standard": 93,
+          "wrong_keys|max": 29,
+          "wrong_keys|minimal": 42,
+          "wrong_keys|standard": 27
+        },
+        "incremental_by_stage": {
+          "mixed_semantic": 1,
+          "recognition": 43,
+          "wrong_keys": 10
+        },
+        "incremental_by_stage_profile": {
+          "mixed_semantic|standard": 1,
+          "recognition|max": 6,
+          "recognition|minimal": 17,
+          "recognition|standard": 20,
+          "wrong_keys|max": 2,
+          "wrong_keys|minimal": 5,
+          "wrong_keys|standard": 3
+        },
+        "n_failures": 671
+      },
+      "unannotated": {
+        "by_stage": {
+          "mixed_semantic": 240,
+          "near_miss": 57,
+          "recognition": 340,
+          "wrong_keys": 281
+        },
+        "by_stage_language": {
+          "mixed_semantic|cpp": 45,
+          "mixed_semantic|go": 51,
+          "mixed_semantic|java": 48,
+          "mixed_semantic|javascript": 52,
+          "mixed_semantic|python": 44,
+          "near_miss|cpp": 13,
+          "near_miss|go": 9,
+          "near_miss|java": 11,
+          "near_miss|javascript": 8,
+          "near_miss|python": 16,
+          "recognition|cpp": 68,
+          "recognition|go": 74,
+          "recognition|java": 59,
+          "recognition|javascript": 74,
+          "recognition|python": 65,
+          "wrong_keys|cpp": 60,
+          "wrong_keys|go": 41,
+          "wrong_keys|java": 59,
+          "wrong_keys|javascript": 48,
+          "wrong_keys|python": 73
+        },
+        "by_stage_profile": {
+          "mixed_semantic|max": 90,
+          "mixed_semantic|minimal": 77,
+          "mixed_semantic|standard": 73,
+          "near_miss|max": 8,
+          "near_miss|minimal": 23,
+          "near_miss|standard": 26,
+          "recognition|max": 176,
+          "recognition|minimal": 83,
+          "recognition|standard": 81,
+          "wrong_keys|max": 93,
+          "wrong_keys|minimal": 96,
+          "wrong_keys|standard": 92
+        },
+        "incremental_by_stage": {
+          "recognition": 112,
+          "wrong_keys": 189
+        },
+        "incremental_by_stage_profile": {
+          "recognition|max": 88,
+          "recognition|minimal": 12,
+          "recognition|standard": 12,
+          "wrong_keys|max": 64,
+          "wrong_keys|minimal": 59,
+          "wrong_keys|standard": 66
+        },
+        "n_failures": 918
+      }
+    },
+    "Llama-3.3-70B": {
+      "annotated": {
+        "by_stage": {
+          "mixed_semantic": 247,
+          "near_miss": 24,
+          "parse_fail": 1,
+          "recognition": 75
+        },
+        "by_stage_language": {
+          "mixed_semantic|cpp": 50,
+          "mixed_semantic|go": 49,
+          "mixed_semantic|java": 50,
+          "mixed_semantic|javascript": 48,
+          "mixed_semantic|python": 50,
+          "near_miss|cpp": 3,
+          "near_miss|go": 8,
+          "near_miss|java": 1,
+          "near_miss|javascript": 7,
+          "near_miss|python": 5,
+          "parse_fail|javascript": 1,
+          "recognition|cpp": 17,
+          "recognition|go": 14,
+          "recognition|java": 15,
+          "recognition|javascript": 14,
+          "recognition|python": 15
+        },
+        "by_stage_profile": {
+          "mixed_semantic|max": 83,
+          "mixed_semantic|minimal": 82,
+          "mixed_semantic|standard": 82,
+          "near_miss|max": 7,
+          "near_miss|minimal": 9,
+          "near_miss|standard": 8,
+          "parse_fail|standard": 1,
+          "recognition|max": 25,
+          "recognition|minimal": 25,
+          "recognition|standard": 25
+        },
+        "incremental_by_stage": {
+          "mixed_semantic": 1,
+          "near_miss": 5,
+          "recognition": 15
+        },
+        "incremental_by_stage_profile": {
+          "mixed_semantic|minimal": 1,
+          "near_miss|minimal": 2,
+          "near_miss|standard": 3,
+          "recognition|max": 3,
+          "recognition|minimal": 6,
+          "recognition|standard": 6
+        },
+        "n_failures": 347
+      },
+      "unannotated": {
+        "by_stage": {
+          "mixed_semantic": 277,
+          "near_miss": 13,
+          "recognition": 78
+        },
+        "by_stage_language": {
+          "mixed_semantic|cpp": 56,
+          "mixed_semantic|go": 56,
+          "mixed_semantic|java": 56,
+          "mixed_semantic|javascript": 55,
+          "mixed_semantic|python": 54,
+          "near_miss|cpp": 2,
+          "near_miss|go": 2,
+          "near_miss|javascript": 4,
+          "near_miss|python": 5,
+          "recognition|cpp": 15,
+          "recognition|go": 14,
+          "recognition|java": 14,
+          "recognition|javascript": 18,
+          "recognition|python": 17
+        },
+        "by_stage_profile": {
+          "mixed_semantic|max": 100,
+          "mixed_semantic|minimal": 88,
+          "mixed_semantic|standard": 89,
+          "near_miss|max": 1,
+          "near_miss|minimal": 6,
+          "near_miss|standard": 6,
+          "recognition|max": 37,
+          "recognition|minimal": 21,
+          "recognition|standard": 20
+        },
+        "incremental_by_stage": {
+          "mixed_semantic": 17,
+          "near_miss": 7,
+          "recognition": 18
+        },
+        "incremental_by_stage_profile": {
+          "mixed_semantic|max": 10,
+          "mixed_semantic|minimal": 3,
+          "mixed_semantic|standard": 4,
+          "near_miss|max": 1,
+          "near_miss|minimal": 3,
+          "near_miss|standard": 3,
+          "recognition|max": 15,
+          "recognition|minimal": 2,
+          "recognition|standard": 1
+        },
+        "n_failures": 368
+      }
+    },
+    "Mistral-24B": {
+      "annotated": {
+        "by_stage": {
+          "mixed_semantic": 214,
+          "near_miss": 58,
+          "recognition": 119
+        },
+        "by_stage_language": {
+          "mixed_semantic|cpp": 40,
+          "mixed_semantic|go": 45,
+          "mixed_semantic|java": 38,
+          "mixed_semantic|javascript": 42,
+          "mixed_semantic|python": 49,
+          "near_miss|cpp": 16,
+          "near_miss|go": 9,
+          "near_miss|java": 16,
+          "near_miss|javascript": 12,
+          "near_miss|python": 5,
+          "recognition|cpp": 26,
+          "recognition|go": 26,
+          "recognition|java": 21,
+          "recognition|javascript": 22,
+          "recognition|python": 24
+        },
+        "by_stage_profile": {
+          "mixed_semantic|max": 73,
+          "mixed_semantic|minimal": 69,
+          "mixed_semantic|standard": 72,
+          "near_miss|max": 17,
+          "near_miss|minimal": 22,
+          "near_miss|standard": 19,
+          "recognition|max": 40,
+          "recognition|minimal": 44,
+          "recognition|standard": 35
+        },
+        "incremental_by_stage": {
+          "recognition": 18
+        },
+        "incremental_by_stage_profile": {
+          "recognition|max": 3,
+          "recognition|minimal": 8,
+          "recognition|standard": 7
+        },
+        "n_failures": 391
+      },
+      "unannotated": {
+        "by_stage": {
+          "mixed_semantic": 313,
+          "near_miss": 40,
+          "recognition": 145
+        },
+        "by_stage_language": {
+          "mixed_semantic|cpp": 123,
+          "mixed_semantic|go": 46,
+          "mixed_semantic|java": 49,
+          "mixed_semantic|javascript": 45,
+          "mixed_semantic|python": 50,
+          "near_miss|cpp": 7,
+          "near_miss|go": 10,
+          "near_miss|java": 7,
+          "near_miss|javascript": 11,
+          "near_miss|python": 5,
+          "recognition|cpp": 25,
+          "recognition|go": 32,
+          "recognition|java": 29,
+          "recognition|javascript": 31,
+          "recognition|python": 28
+        },
+        "by_stage_profile": {
+          "mixed_semantic|max": 123,
+          "mixed_semantic|minimal": 98,
+          "mixed_semantic|standard": 92,
+          "near_miss|minimal": 17,
+          "near_miss|standard": 23,
+          "recognition|max": 71,
+          "recognition|minimal": 38,
+          "recognition|standard": 36
+        },
+        "incremental_by_stage": {
+          "mixed_semantic": 83,
+          "recognition": 42
+        },
+        "incremental_by_stage_profile": {
+          "mixed_semantic|max": 35,
+          "mixed_semantic|minimal": 24,
+          "mixed_semantic|standard": 24,
+          "recognition|max": 32,
+          "recognition|minimal": 2,
+          "recognition|standard": 8
+        },
+        "n_failures": 498
+      }
+    }
+  },
+  "refactor": {
+    "DeepSeek-V4-Flash": {
+      "annotated": {
+        "by_stage": {
+          "go_compile_or_run": 20
+        },
+        "by_stage_language": {
+          "go_compile_or_run|go": 20
+        },
+        "by_stage_profile": {
+          "go_compile_or_run|max": 8,
+          "go_compile_or_run|minimal": 6,
+          "go_compile_or_run|standard": 6
+        },
+        "incremental_by_stage": {
+          "go_compile_or_run": 2
+        },
+        "incremental_by_stage_profile": {
+          "go_compile_or_run|max": 2
+        },
+        "n_failures": 20,
+        "n_no_fence": 0
+      },
+      "unannotated": {
+        "by_stage": {
+          "go_compile_or_run": 18,
+          "runtime_error": 1,
+          "wrong_output": 27
+        },
+        "by_stage_language": {
+          "go_compile_or_run|go": 18,
+          "runtime_error|python": 1,
+          "wrong_output|cpp": 3,
+          "wrong_output|go": 5,
+          "wrong_output|java": 1,
+          "wrong_output|python": 18
+        },
+        "by_stage_profile": {
+          "go_compile_or_run|max": 6,
+          "go_compile_or_run|minimal": 6,
+          "go_compile_or_run|standard": 6,
+          "runtime_error|minimal": 1,
+          "wrong_output|max": 26,
+          "wrong_output|standard": 1
+        },
+        "incremental_by_stage": {
+          "runtime_error": 1,
+          "wrong_output": 27
+        },
+        "incremental_by_stage_profile": {
+          "runtime_error|minimal": 1,
+          "wrong_output|max": 26,
+          "wrong_output|standard": 1
+        },
+        "n_failures": 46,
+        "n_no_fence": 0
+      }
+    },
+    "Llama-3.1-8B": {
+      "annotated": {
+        "by_stage": {
+          "compile_error": 288,
+          "go_compile_or_run": 23,
+          "run_error": 24,
+          "wrong_output": 63
+        },
+        "by_stage_language": {
+          "compile_error|cpp": 108,
+          "compile_error|java": 180,
+          "go_compile_or_run|go": 23,
+          "run_error|cpp": 23,
+          "run_error|javascript": 1,
+          "wrong_output|cpp": 4,
+          "wrong_output|go": 50,
+          "wrong_output|java": 9
+        },
+        "by_stage_profile": {
+          "compile_error|max": 101,
+          "compile_error|minimal": 86,
+          "compile_error|standard": 101,
+          "go_compile_or_run|max": 7,
+          "go_compile_or_run|minimal": 9,
+          "go_compile_or_run|standard": 7,
+          "run_error|max": 8,
+          "run_error|minimal": 8,
+          "run_error|standard": 8,
+          "wrong_output|max": 19,
+          "wrong_output|minimal": 20,
+          "wrong_output|standard": 24
+        },
+        "incremental_by_stage": {
+          "compile_error": 7,
+          "go_compile_or_run": 3,
+          "run_error": 23,
+          "wrong_output": 6
+        },
+        "incremental_by_stage_profile": {
+          "compile_error|minimal": 3,
+          "compile_error|standard": 4,
+          "go_compile_or_run|max": 2,
+          "go_compile_or_run|minimal": 1,
+          "run_error|max": 8,
+          "run_error|minimal": 7,
+          "run_error|standard": 8,
+          "wrong_output|max": 1,
+          "wrong_output|minimal": 2,
+          "wrong_output|standard": 3
+        },
+        "n_failures": 398,
+        "n_no_fence": 0
+      },
+      "unannotated": {
+        "by_stage": {
+          "compile_error": 350,
+          "go_compile_or_run": 74,
+          "runtime_error": 1,
+          "wrong_output": 233
+        },
+        "by_stage_language": {
+          "compile_error|cpp": 130,
+          "compile_error|java": 220,
+          "go_compile_or_run|go": 74,
+          "runtime_error|python": 1,
+          "wrong_output|cpp": 53,
+          "wrong_output|go": 88,
+          "wrong_output|java": 18,
+          "wrong_output|javascript": 50,
+          "wrong_output|python": 24
+        },
+        "by_stage_profile": {
+          "compile_error|max": 103,
+          "compile_error|minimal": 123,
+          "compile_error|standard": 124,
+          "go_compile_or_run|max": 23,
+          "go_compile_or_run|minimal": 27,
+          "go_compile_or_run|standard": 24,
+          "runtime_error|standard": 1,
+          "wrong_output|max": 132,
+          "wrong_output|minimal": 51,
+          "wrong_output|standard": 50
+        },
+        "incremental_by_stage": {
+          "compile_error": 80,
+          "go_compile_or_run": 47,
+          "runtime_error": 1,
+          "wrong_output": 171
+        },
+        "incremental_by_stage_profile": {
+          "compile_error|max": 20,
+          "compile_error|minimal": 38,
+          "compile_error|standard": 22,
+          "go_compile_or_run|max": 14,
+          "go_compile_or_run|minimal": 18,
+          "go_compile_or_run|standard": 15,
+          "runtime_error|standard": 1,
+          "wrong_output|max": 100,
+          "wrong_output|minimal": 35,
+          "wrong_output|standard": 36
+        },
+        "n_failures": 658,
+        "n_no_fence": 0
+      }
+    },
+    "Llama-3.3-70B": {
+      "annotated": {
+        "by_stage": {
+          "compile_error": 49,
+          "go_compile_or_run": 22,
+          "run_error": 6,
+          "wrong_output": 5
+        },
+        "by_stage_language": {
+          "compile_error|cpp": 3,
+          "compile_error|java": 46,
+          "go_compile_or_run|go": 22,
+          "run_error|cpp": 6,
+          "wrong_output|cpp": 4,
+          "wrong_output|go": 1
+        },
+        "by_stage_profile": {
+          "compile_error|max": 17,
+          "compile_error|minimal": 16,
+          "compile_error|standard": 16,
+          "go_compile_or_run|max": 9,
+          "go_compile_or_run|minimal": 7,
+          "go_compile_or_run|standard": 6,
+          "run_error|max": 1,
+          "run_error|minimal": 1,
+          "run_error|standard": 4,
+          "wrong_output|max": 2,
+          "wrong_output|minimal": 1,
+          "wrong_output|standard": 2
+        },
+        "incremental_by_stage": {
+          "compile_error": 26,
+          "go_compile_or_run": 7,
+          "run_error": 6,
+          "wrong_output": 2
+        },
+        "incremental_by_stage_profile": {
+          "compile_error|max": 11,
+          "compile_error|minimal": 9,
+          "compile_error|standard": 6,
+          "go_compile_or_run|max": 6,
+          "go_compile_or_run|minimal": 1,
+          "run_error|max": 1,
+          "run_error|minimal": 1,
+          "run_error|standard": 4,
+          "wrong_output|max": 1,
+          "wrong_output|standard": 1
+        },
+        "n_failures": 82,
+        "n_no_fence": 0
+      },
+      "unannotated": {
+        "by_stage": {
+          "compile_error": 114,
+          "go_compile_or_run": 12,
+          "run_error": 8,
+          "wrong_output": 62
+        },
+        "by_stage_language": {
+          "compile_error|cpp": 80,
+          "compile_error|java": 34,
+          "go_compile_or_run|go": 12,
+          "run_error|cpp": 2,
+          "run_error|java": 6,
+          "wrong_output|cpp": 31,
+          "wrong_output|go": 6,
+          "wrong_output|java": 15,
+          "wrong_output|javascript": 5,
+          "wrong_output|python": 5
+        },
+        "by_stage_profile": {
+          "compile_error|max": 20,
+          "compile_error|minimal": 47,
+          "compile_error|standard": 47,
+          "go_compile_or_run|minimal": 6,
+          "go_compile_or_run|standard": 6,
+          "run_error|max": 2,
+          "run_error|minimal": 3,
+          "run_error|standard": 3,
+          "wrong_output|max": 53,
+          "wrong_output|minimal": 6,
+          "wrong_output|standard": 3
+        },
+        "incremental_by_stage": {
+          "compile_error": 90,
+          "run_error": 7,
+          "wrong_output": 58
+        },
+        "incremental_by_stage_profile": {
+          "compile_error|max": 14,
+          "compile_error|minimal": 40,
+          "compile_error|standard": 36,
+          "run_error|max": 2,
+          "run_error|minimal": 2,
+          "run_error|standard": 3,
+          "wrong_output|max": 49,
+          "wrong_output|minimal": 6,
+          "wrong_output|standard": 3
+        },
+        "n_failures": 196,
+        "n_no_fence": 0
+      }
+    },
+    "Mistral-24B": {
+      "annotated": {
+        "by_stage": {
+          "compile_error": 180,
+          "go_compile_or_run": 34,
+          "run_error": 4,
+          "runtime_error": 3,
+          "wrong_output": 28
+        },
+        "by_stage_language": {
+          "compile_error|cpp": 33,
+          "compile_error|java": 147,
+          "go_compile_or_run|go": 34,
+          "run_error|cpp": 1,
+          "run_error|javascript": 3,
+          "runtime_error|python": 3,
+          "wrong_output|cpp": 17,
+          "wrong_output|java": 11
+        },
+        "by_stage_profile": {
+          "compile_error|max": 66,
+          "compile_error|minimal": 57,
+          "compile_error|standard": 57,
+          "go_compile_or_run|max": 11,
+          "go_compile_or_run|minimal": 10,
+          "go_compile_or_run|standard": 13,
+          "run_error|max": 1,
+          "run_error|minimal": 1,
+          "run_error|standard": 2,
+          "runtime_error|max": 1,
+          "runtime_error|minimal": 1,
+          "runtime_error|standard": 1,
+          "wrong_output|max": 9,
+          "wrong_output|minimal": 11,
+          "wrong_output|standard": 8
+        },
+        "incremental_by_stage": {
+          "compile_error": 28,
+          "go_compile_or_run": 30,
+          "wrong_output": 5
+        },
+        "incremental_by_stage_profile": {
+          "compile_error|max": 11,
+          "compile_error|minimal": 7,
+          "compile_error|standard": 10,
+          "go_compile_or_run|max": 10,
+          "go_compile_or_run|minimal": 8,
+          "go_compile_or_run|standard": 12,
+          "wrong_output|max": 2,
+          "wrong_output|minimal": 2,
+          "wrong_output|standard": 1
+        },
+        "n_failures": 249,
+        "n_no_fence": 0
+      },
+      "unannotated": {
+        "by_stage": {
+          "compile_error": 226,
+          "go_compile_or_run": 3,
+          "run_error": 40,
+          "runtime_error": 19,
+          "wrong_output": 117
+        },
+        "by_stage_language": {
+          "compile_error|cpp": 98,
+          "compile_error|java": 128,
+          "go_compile_or_run|go": 3,
+          "run_error|java": 22,
+          "run_error|javascript": 18,
+          "runtime_error|python": 19,
+          "wrong_output|cpp": 43,
+          "wrong_output|go": 11,
+          "wrong_output|java": 26,
+          "wrong_output|javascript": 16,
+          "wrong_output|python": 21
+        },
+        "by_stage_profile": {
+          "compile_error|max": 66,
+          "compile_error|minimal": 82,
+          "compile_error|standard": 78,
+          "go_compile_or_run|max": 1,
+          "go_compile_or_run|minimal": 1,
+          "go_compile_or_run|standard": 1,
+          "run_error|max": 16,
+          "run_error|minimal": 10,
+          "run_error|standard": 14,
+          "runtime_error|max": 6,
+          "runtime_error|minimal": 6,
+          "runtime_error|standard": 7,
+          "wrong_output|max": 90,
+          "wrong_output|minimal": 16,
+          "wrong_output|standard": 11
+        },
+        "incremental_by_stage": {
+          "compile_error": 90,
+          "run_error": 25,
+          "runtime_error": 16,
+          "wrong_output": 88
+        },
+        "incremental_by_stage_profile": {
+          "compile_error|max": 23,
+          "compile_error|minimal": 33,
+          "compile_error|standard": 34,
+          "run_error|max": 10,
+          "run_error|minimal": 6,
+          "run_error|standard": 9,
+          "runtime_error|max": 5,
+          "runtime_error|minimal": 5,
+          "runtime_error|standard": 6,
+          "wrong_output|max": 76,
+          "wrong_output|minimal": 8,
+          "wrong_output|standard": 4
+        },
+        "n_failures": 405,
+        "n_no_fence": 0
+      }
+    }
+  }
+}

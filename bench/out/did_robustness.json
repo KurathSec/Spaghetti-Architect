@@ -1,0 +1,452 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "estimation_not_family": true,
+    "generated_by": "bench/did_robustness.py",
+    "inputs": [
+      "bench/out/.annotation_ablation_grades.json",
+      "bench/out/ablation_did.json",
+      "bench/out/annotation_ablation.json"
+    ],
+    "interior_band": [
+      0.1,
+      0.9
+    ],
+    "post_hoc": "registered 2026-08-14 after the suite's results were read (ANALYSIS_PLAN.md post-hoc addenda)",
+    "shared_draws": true,
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "paired_rung_tests": {
+    "comprehend": {
+      "annotated_k1": {
+        "Llama-3.1-8B -> Mistral-24B": {
+          "ci95": [
+            0.12,
+            0.2593939393939394
+          ],
+          "p_bootstrap": 0.0,
+          "point": 0.18666666666666668
+        },
+        "Llama-3.3-70B -> DeepSeek-V4-Flash": {
+          "ci95": [
+            0.006060606060606061,
+            0.16521739130434782
+          ],
+          "p_bootstrap": 0.018,
+          "point": 0.07066666666666667
+        },
+        "Mistral-24B -> Llama-3.3-70B": {
+          "ci95": [
+            -0.004912280701754386,
+            0.06793650793650793
+          ],
+          "p_bootstrap": 0.092,
+          "point": 0.029333333333333333
+        }
+      },
+      "unannotated_k1": {
+        "Llama-3.1-8B -> Mistral-24B": {
+          "ci95": [
+            0.1896969696969697,
+            0.385
+          ],
+          "p_bootstrap": 0.0,
+          "point": 0.28
+        },
+        "Llama-3.3-70B -> DeepSeek-V4-Flash": {
+          "ci95": [
+            -0.006376811594202898,
+            0.08
+          ],
+          "p_bootstrap": 0.128,
+          "point": 0.030666666666666665
+        },
+        "Mistral-24B -> Llama-3.3-70B": {
+          "ci95": [
+            0.047017543859649125,
+            0.12941176470588237
+          ],
+          "p_bootstrap": 0.0,
+          "point": 0.08666666666666667
+        }
+      }
+    },
+    "refactor": {
+      "annotated_k1": {
+        "Llama-3.1-8B -> Mistral-24B": {
+          "ci95": [
+            -0.0004761904761904762,
+            0.20083333333333334
+          ],
+          "p_bootstrap": 0.051,
+          "point": 0.09933333333333333
+        },
+        "Llama-3.3-70B -> DeepSeek-V4-Flash": {
+          "ci95": [
+            0.015238095238095238,
+            0.07277777777777777
+          ],
+          "p_bootstrap": 0.0,
+          "point": 0.04133333333333333
+        },
+        "Mistral-24B -> Llama-3.3-70B": {
+          "ci95": [
+            0.05052631578947368,
+            0.16698412698412698
+          ],
+          "p_bootstrap": 0.0,
+          "point": 0.11133333333333334
+        }
+      },
+      "unannotated_k1": {
+        "Llama-3.1-8B -> Mistral-24B": {
+          "ci95": [
+            0.07555555555555556,
+            0.26318840579710145
+          ],
+          "p_bootstrap": 0.0,
+          "point": 0.16866666666666666
+        },
+        "Llama-3.3-70B -> DeepSeek-V4-Flash": {
+          "ci95": [
+            0.056666666666666664,
+            0.1503030303030303
+          ],
+          "p_bootstrap": 0.0,
+          "point": 0.1
+        },
+        "Mistral-24B -> Llama-3.3-70B": {
+          "ci95": [
+            0.03833333333333333,
+            0.21894736842105264
+          ],
+          "p_bootstrap": 0.006,
+          "point": 0.13933333333333334
+        }
+      }
+    }
+  },
+  "rescue_spoil": {
+    "comprehend": {
+      "DeepSeek-V4-Flash": {
+        "n_unannotated_fail": 322,
+        "n_unannotated_pass": 1178,
+        "rescue_rate": 0.2732919254658385,
+        "spoil_rate": 0.005942275042444821
+      },
+      "Llama-3.1-8B": {
+        "n_unannotated_fail": 918,
+        "n_unannotated_pass": 582,
+        "rescue_rate": 0.32788671023965144,
+        "spoil_rate": 0.09278350515463918
+      },
+      "Llama-3.3-70B": {
+        "n_unannotated_fail": 368,
+        "n_unannotated_pass": 1132,
+        "rescue_rate": 0.11413043478260869,
+        "spoil_rate": 0.018551236749116608
+      },
+      "Mistral-24B": {
+        "n_unannotated_fail": 498,
+        "n_unannotated_pass": 1002,
+        "rescue_rate": 0.25100401606425704,
+        "spoil_rate": 0.017964071856287425
+      }
+    },
+    "refactor": {
+      "DeepSeek-V4-Flash": {
+        "n_unannotated_fail": 46,
+        "n_unannotated_pass": 1454,
+        "rescue_rate": 0.6086956521739131,
+        "spoil_rate": 0.001375515818431912
+      },
+      "Llama-3.1-8B": {
+        "n_unannotated_fail": 658,
+        "n_unannotated_pass": 842,
+        "rescue_rate": 0.45440729483282677,
+        "spoil_rate": 0.04631828978622328
+      },
+      "Llama-3.3-70B": {
+        "n_unannotated_fail": 196,
+        "n_unannotated_pass": 1304,
+        "rescue_rate": 0.7908163265306123,
+        "spoil_rate": 0.03144171779141104
+      },
+      "Mistral-24B": {
+        "n_unannotated_fail": 405,
+        "n_unannotated_pass": 1095,
+        "rescue_rate": 0.5407407407407407,
+        "spoil_rate": 0.057534246575342465
+      }
+    }
+  },
+  "stratified_did": {
+    "comprehend": {
+      "excluded_strata_annotated_means": {
+        "agg_stats:high": {
+          "DeepSeek-V4-Flash": 0.0,
+          "Llama-3.1-8B": 0.0,
+          "Llama-3.3-70B": 0.0,
+          "Mistral-24B": 0.0
+        },
+        "agg_stats:low": {
+          "DeepSeek-V4-Flash": 0.7,
+          "Llama-3.1-8B": 0.0,
+          "Llama-3.3-70B": 0.125,
+          "Mistral-24B": 0.25
+        },
+        "agg_stats:mid": {
+          "DeepSeek-V4-Flash": 0.133,
+          "Llama-3.1-8B": 0.0,
+          "Llama-3.3-70B": 0.108,
+          "Mistral-24B": 0.0
+        },
+        "allowlist:high": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.813,
+          "Llama-3.3-70B": 1.0,
+          "Mistral-24B": 1.0
+        },
+        "allowlist:low": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 1.0,
+          "Llama-3.3-70B": 1.0,
+          "Mistral-24B": 1.0
+        },
+        "allowlist:mid": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.902,
+          "Llama-3.3-70B": 1.0,
+          "Mistral-24B": 1.0
+        },
+        "config_resolver:high": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.733,
+          "Llama-3.3-70B": 1.0,
+          "Mistral-24B": 1.0
+        },
+        "config_resolver:low": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.652,
+          "Llama-3.3-70B": 1.0,
+          "Mistral-24B": 0.985
+        },
+        "config_resolver:mid": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.767,
+          "Llama-3.3-70B": 1.0,
+          "Mistral-24B": 1.0
+        },
+        "discovery_pipeline": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.722,
+          "Llama-3.3-70B": 1.0,
+          "Mistral-24B": 1.0
+        },
+        "fsm_transition": {
+          "DeepSeek-V4-Flash": 0.544,
+          "Llama-3.1-8B": 0.056,
+          "Llama-3.3-70B": 0.644,
+          "Mistral-24B": 0.6
+        },
+        "status_router": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 1.0,
+          "Llama-3.3-70B": 1.0,
+          "Mistral-24B": 1.0
+        },
+        "threshold_select:high": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.2,
+          "Llama-3.3-70B": 0.667,
+          "Mistral-24B": 0.4
+        },
+        "threshold_select:low": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.65,
+          "Llama-3.3-70B": 1.0,
+          "Mistral-24B": 0.858
+        },
+        "threshold_select:mid": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.0,
+          "Llama-3.3-70B": 0.378,
+          "Mistral-24B": 0.133
+        }
+      },
+      "interior_strata_strict": [],
+      "per_contrast": {
+        "extremes": {
+          "illustration_only": true,
+          "interior_strata": [
+            "fsm_transition"
+          ],
+          "n_clusters": 1,
+          "n_items": 90,
+          "n_strata": 1,
+          "point": -0.05555555555555555
+        },
+        "weakest_vs_llama70b": {
+          "illustration_only": true,
+          "interior_strata": [
+            "fsm_transition",
+            "threshold_select:high"
+          ],
+          "n_clusters": 4,
+          "n_items": 135,
+          "n_strata": 2,
+          "point": -0.0962962962962963
+        }
+      },
+      "rule_per_contrast": "interior = BOTH contrast models' annotated_k1 stratum means in [0.05, 0.95]",
+      "rule_strict": "family x scale terciles; interior = every model's annotated_k1 mean in [0.1, 0.9]",
+      "strict": {
+        "extremes": {
+          "n_items": 0
+        },
+        "weakest_vs_llama70b": {
+          "n_items": 0
+        }
+      }
+    },
+    "refactor": {
+      "excluded_strata_annotated_means": {
+        "agg_stats:high": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.683,
+          "Llama-3.3-70B": 0.983,
+          "Mistral-24B": 0.967
+        },
+        "agg_stats:low": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.483,
+          "Llama-3.3-70B": 1.0,
+          "Mistral-24B": 0.942
+        },
+        "agg_stats:mid": {
+          "DeepSeek-V4-Flash": 0.992,
+          "Llama-3.1-8B": 0.475,
+          "Llama-3.3-70B": 0.975,
+          "Mistral-24B": 0.908
+        },
+        "allowlist:high": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.76,
+          "Llama-3.3-70B": 0.947,
+          "Mistral-24B": 0.787
+        },
+        "allowlist:low": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.617,
+          "Llama-3.3-70B": 0.983,
+          "Mistral-24B": 1.0
+        },
+        "allowlist:mid": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.667,
+          "Llama-3.3-70B": 0.991,
+          "Mistral-24B": 0.867
+        },
+        "config_resolver:high": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.893,
+          "Llama-3.3-70B": 0.96,
+          "Mistral-24B": 0.787
+        },
+        "config_resolver:low": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.933,
+          "Llama-3.3-70B": 0.837,
+          "Mistral-24B": 0.807
+        },
+        "config_resolver:mid": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.8,
+          "Llama-3.3-70B": 0.98,
+          "Mistral-24B": 0.767
+        },
+        "fsm_transition": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 1.0,
+          "Llama-3.3-70B": 0.989,
+          "Mistral-24B": 0.833
+        },
+        "status_router": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.833,
+          "Llama-3.3-70B": 0.944,
+          "Mistral-24B": 0.822
+        },
+        "threshold_select:high": {
+          "DeepSeek-V4-Flash": 0.978,
+          "Llama-3.1-8B": 0.511,
+          "Llama-3.3-70B": 0.956,
+          "Mistral-24B": 0.6
+        },
+        "threshold_select:low": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.975,
+          "Llama-3.3-70B": 0.992,
+          "Mistral-24B": 0.758
+        },
+        "threshold_select:mid": {
+          "DeepSeek-V4-Flash": 1.0,
+          "Llama-3.1-8B": 0.867,
+          "Llama-3.3-70B": 1.0,
+          "Mistral-24B": 0.644
+        }
+      },
+      "interior_strata_strict": [
+        "discovery_pipeline"
+      ],
+      "per_contrast": {
+        "extremes": {
+          "illustration_only": true,
+          "interior_strata": [
+            "discovery_pipeline"
+          ],
+          "n_clusters": 1,
+          "n_items": 90,
+          "n_strata": 1,
+          "point": -0.12222222222222222
+        },
+        "weakest_vs_llama70b": {
+          "ci95": [
+            -0.1641025641025641,
+            0.06060606060606061
+          ],
+          "interior_strata": [
+            "allowlist:high",
+            "config_resolver:low",
+            "discovery_pipeline",
+            "status_router"
+          ],
+          "n_clusters": 11,
+          "n_items": 390,
+          "n_strata": 4,
+          "p_bootstrap": 0.339,
+          "point": -0.05897435897435897
+        }
+      },
+      "rule_per_contrast": "interior = BOTH contrast models' annotated_k1 stratum means in [0.05, 0.95]",
+      "rule_strict": "family x scale terciles; interior = every model's annotated_k1 mean in [0.1, 0.9]",
+      "strict": {
+        "extremes": {
+          "illustration_only": true,
+          "n_clusters": 1,
+          "n_items": 90,
+          "n_strata": 1,
+          "point": -0.12222222222222222
+        },
+        "weakest_vs_llama70b": {
+          "illustration_only": true,
+          "n_clusters": 1,
+          "n_items": 90,
+          "n_strata": 1,
+          "point": 0.11111111111111112
+        }
+      }
+    }
+  }
+}

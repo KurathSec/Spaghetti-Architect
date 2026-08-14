@@ -1,0 +1,2311 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "estimation_not_family": true,
+    "generated_by": "bench/unannotated_slopes.py",
+    "inputs": [
+      "bench/out/.annotation_ablation_grades.json",
+      "bench/out/annotation_ablation.json"
+    ],
+    "knob_rank": {
+      "max": 2,
+      "minimal": 0,
+      "standard": 1
+    },
+    "post_hoc": "registered 2026-08-14 after the suite's results were read; the published knob-inertness result used the annotated arm only, this recomputes it on the unannotated arm (ANALYSIS_PLAN.md post-hoc addenda)",
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "mess_by_width_comprehend": {
+    "DeepSeek-V4-Flash": {
+      "band_rule": "high_w: W >= 48; low_w: W <= 32",
+      "grid": {
+        "annotated_k8": {
+          "max": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.575,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.7,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.025,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.16666666666666666,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 1.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "minimal": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.5,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.6916666666666667,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.16666666666666666,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 1.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "standard": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.3,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.6791666666666667,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.16666666666666666,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 1.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          }
+        },
+        "unannotated_k1": {
+          "max": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.03333333333333333,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.13333333333333333,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "minimal": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.3333333333333333,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.16666666666666666,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 1.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "standard": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.23333333333333334,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.16666666666666666,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 1.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          }
+        }
+      },
+      "unannotated_knob_slope_by_width_band": {
+        "high_w": {
+          "by_knob": {
+            "max": {
+              "mean": 0.0,
+              "n": 25
+            },
+            "minimal": {
+              "mean": 0.0,
+              "n": 25
+            },
+            "standard": {
+              "mean": 0.0,
+              "n": 25
+            }
+          },
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 5,
+          "n_obs": 75,
+          "p_bootstrap": 1.0,
+          "slope": 0.0
+        },
+        "low_w": {
+          "by_knob": {
+            "max": {
+              "mean": 0.06666666666666667,
+              "n": 75
+            },
+            "minimal": {
+              "mean": 0.26666666666666666,
+              "n": 75
+            },
+            "standard": {
+              "mean": 0.22666666666666666,
+              "n": 75
+            }
+          },
+          "ci95": [
+            -0.22,
+            -0.01
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 5,
+          "n_obs": 225,
+          "p_bootstrap": 0.02,
+          "slope": -0.1
+        }
+      }
+    },
+    "Llama-3.1-8B": {
+      "band_rule": "high_w: W >= 48; low_w: W <= 32",
+      "grid": {
+        "annotated_k8": {
+          "max": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "minimal": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "standard": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          }
+        },
+        "unannotated_k1": {
+          "max": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "minimal": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "standard": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          }
+        }
+      },
+      "unannotated_knob_slope_by_width_band": {
+        "high_w": {
+          "by_knob": {
+            "max": {
+              "mean": 0.0,
+              "n": 25
+            },
+            "minimal": {
+              "mean": 0.0,
+              "n": 25
+            },
+            "standard": {
+              "mean": 0.0,
+              "n": 25
+            }
+          },
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 5,
+          "n_obs": 75,
+          "p_bootstrap": 1.0,
+          "slope": 0.0
+        },
+        "low_w": {
+          "by_knob": {
+            "max": {
+              "mean": 0.0,
+              "n": 75
+            },
+            "minimal": {
+              "mean": 0.0,
+              "n": 75
+            },
+            "standard": {
+              "mean": 0.0,
+              "n": 75
+            }
+          },
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 5,
+          "n_obs": 225,
+          "p_bootstrap": 1.0,
+          "slope": 0.0
+        }
+      }
+    },
+    "Llama-3.3-70B": {
+      "band_rule": "high_w: W >= 48; low_w: W <= 32",
+      "grid": {
+        "annotated_k8": {
+          "max": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.05416666666666667,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.13333333333333333,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 0.775,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "minimal": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.029166666666666667,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.16666666666666666,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 0.6,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "standard": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.03333333333333333,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.13333333333333333,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 0.8,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          }
+        },
+        "unannotated_k1": {
+          "max": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "minimal": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.1,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.06666666666666667,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 0.2,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "standard": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.13333333333333333,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.03333333333333333,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 0.2,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          }
+        }
+      },
+      "unannotated_knob_slope_by_width_band": {
+        "high_w": {
+          "by_knob": {
+            "max": {
+              "mean": 0.0,
+              "n": 25
+            },
+            "minimal": {
+              "mean": 0.0,
+              "n": 25
+            },
+            "standard": {
+              "mean": 0.0,
+              "n": 25
+            }
+          },
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 5,
+          "n_obs": 75,
+          "p_bootstrap": 1.0,
+          "slope": 0.0
+        },
+        "low_w": {
+          "by_knob": {
+            "max": {
+              "mean": 0.0,
+              "n": 75
+            },
+            "minimal": {
+              "mean": 0.08,
+              "n": 75
+            },
+            "standard": {
+              "mean": 0.08,
+              "n": 75
+            }
+          },
+          "ci95": [
+            -0.06,
+            -0.02
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 5,
+          "n_obs": 225,
+          "p_bootstrap": 0.02,
+          "slope": -0.04
+        }
+      }
+    },
+    "Mistral-24B": {
+      "band_rule": "high_w: W >= 48; low_w: W <= 32",
+      "grid": {
+        "annotated_k8": {
+          "max": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.16666666666666666,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 1.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "minimal": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.16666666666666666,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 1.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "standard": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.16666666666666666,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.016666666666666666,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 1.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          }
+        },
+        "unannotated_k1": {
+          "max": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "minimal": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.16666666666666666,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 1.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          },
+          "standard": {
+            "12": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "128": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "16": {
+              "illustration_only": true,
+              "mean": 0.16666666666666666,
+              "n": 30
+            },
+            "160": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "24": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "32": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 30
+            },
+            "48": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "64": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            },
+            "8": {
+              "illustration_only": true,
+              "mean": 1.0,
+              "n": 5
+            },
+            "96": {
+              "illustration_only": true,
+              "mean": 0.0,
+              "n": 5
+            }
+          }
+        }
+      },
+      "unannotated_knob_slope_by_width_band": {
+        "high_w": {
+          "by_knob": {
+            "max": {
+              "mean": 0.0,
+              "n": 25
+            },
+            "minimal": {
+              "mean": 0.0,
+              "n": 25
+            },
+            "standard": {
+              "mean": 0.0,
+              "n": 25
+            }
+          },
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 5,
+          "n_obs": 75,
+          "p_bootstrap": 1.0,
+          "slope": 0.0
+        },
+        "low_w": {
+          "by_knob": {
+            "max": {
+              "mean": 0.0,
+              "n": 75
+            },
+            "minimal": {
+              "mean": 0.13333333333333333,
+              "n": 75
+            },
+            "standard": {
+              "mean": 0.13333333333333333,
+              "n": 75
+            }
+          },
+          "ci95": [
+            -0.2,
+            0.0
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 5,
+          "n_obs": 225,
+          "p_bootstrap": 0.158,
+          "slope": -0.06666666666666667
+        }
+      }
+    }
+  },
+  "per_model": {
+    "comprehend": {
+      "DeepSeek-V4-Flash": {
+        "annotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.846,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.84,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.832,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.0016666666666666668,
+            0.008888888888888889
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.313,
+          "slope": 0.003
+        },
+        "delta_un_minus_ann": {
+          "by_knob": {
+            "max": {
+              "mean": -0.11,
+              "n": 500
+            },
+            "minimal": {
+              "mean": -0.026,
+              "n": 500
+            },
+            "standard": {
+              "mean": -0.026,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.06888888888888889,
+            -0.021
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.0,
+          "slope": -0.042
+        },
+        "unannotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.736,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.814,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.806,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.06235294117647059,
+            -0.02
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.0,
+          "slope": -0.039
+        },
+        "unannotated_robustness": {
+          "leave_one_family_out": {
+            "agg_stats": -0.03,
+            "allowlist": -0.02894736842105263,
+            "config_resolver": -0.05131578947368421,
+            "discovery_pipeline": -0.03723404255319149,
+            "fsm_transition": -0.04042553191489362,
+            "status_router": -0.04148936170212766,
+            "threshold_select": -0.04302325581395349
+          },
+          "per_language": {
+            "cpp": -0.02,
+            "go": -0.12,
+            "java": -0.03,
+            "javascript": -0.01,
+            "python": -0.015
+          }
+        }
+      },
+      "Llama-3.1-8B": {
+        "annotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.554,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.54,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.564,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.021,
+            0.03037037037037037
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.639,
+          "slope": 0.007
+        },
+        "delta_un_minus_ann": {
+          "by_knob": {
+            "max": {
+              "mean": -0.288,
+              "n": 500
+            },
+            "minimal": {
+              "mean": -0.098,
+              "n": 500
+            },
+            "standard": {
+              "mean": -0.108,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.14947368421052631,
+            -0.04625
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.0,
+          "slope": -0.095
+        },
+        "unannotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.266,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.442,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.456,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.1380952380952381,
+            -0.044
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.0,
+          "slope": -0.088
+        },
+        "unannotated_robustness": {
+          "leave_one_family_out": {
+            "agg_stats": -0.11,
+            "allowlist": -0.018421052631578946,
+            "config_resolver": -0.11842105263157894,
+            "discovery_pipeline": -0.08085106382978724,
+            "fsm_transition": -0.09361702127659574,
+            "status_router": -0.09361702127659574,
+            "threshold_select": -0.09767441860465116
+          },
+          "per_language": {
+            "cpp": -0.05,
+            "go": -0.12,
+            "java": -0.055,
+            "javascript": -0.125,
+            "python": -0.09
+          }
+        }
+      },
+      "Llama-3.3-70B": {
+        "annotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.77,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.768,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.768,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.003157894736842105,
+            0.00625
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.81,
+          "slope": 0.001
+        },
+        "delta_un_minus_ann": {
+          "by_knob": {
+            "max": {
+              "mean": -0.046,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.002,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.002,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.04,
+            -0.0125
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.0,
+          "slope": -0.024
+        },
+        "unannotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.724,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.77,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.77,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.036,
+            -0.0128
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.0,
+          "slope": -0.023
+        },
+        "unannotated_robustness": {
+          "leave_one_family_out": {
+            "agg_stats": -0.02125,
+            "allowlist": -0.02368421052631579,
+            "config_resolver": -0.02894736842105263,
+            "discovery_pipeline": -0.023404255319148935,
+            "fsm_transition": -0.023404255319148935,
+            "status_router": -0.02446808510638298,
+            "threshold_select": -0.01627906976744186
+          },
+          "per_language": {
+            "cpp": -0.01,
+            "go": -0.025,
+            "java": -0.02,
+            "javascript": -0.02,
+            "python": -0.04
+          }
+        }
+      },
+      "Mistral-24B": {
+        "annotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.74,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.73,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.748,
+              "n": 500
+            }
+          },
+          "ci95": [
+            0.0008695652173913044,
+            0.010476190476190476
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.033,
+          "slope": 0.005
+        },
+        "delta_un_minus_ann": {
+          "by_knob": {
+            "max": {
+              "mean": -0.128,
+              "n": 500
+            },
+            "minimal": {
+              "mean": -0.036,
+              "n": 500
+            },
+            "standard": {
+              "mean": -0.05,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.0725,
+            -0.024
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.0,
+          "slope": -0.046
+        },
+        "unannotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.612,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.694,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.698,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.06761904761904762,
+            -0.01888888888888889
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.0,
+          "slope": -0.041
+        },
+        "unannotated_robustness": {
+          "leave_one_family_out": {
+            "agg_stats": -0.03875,
+            "allowlist": -0.04078947368421053,
+            "config_resolver": -0.05394736842105263,
+            "discovery_pipeline": -0.03404255319148936,
+            "fsm_transition": -0.04468085106382979,
+            "status_router": -0.043617021276595745,
+            "threshold_select": -0.03255813953488372
+          },
+          "per_language": {
+            "cpp": -0.02,
+            "go": -0.05,
+            "java": -0.055,
+            "javascript": -0.06,
+            "python": -0.02
+          }
+        }
+      }
+    },
+    "refactor": {
+      "DeepSeek-V4-Flash": {
+        "annotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.984,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.988,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.988,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.005555555555555556,
+            0.0
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.22,
+          "slope": -0.002
+        },
+        "delta_un_minus_ann": {
+          "by_knob": {
+            "max": {
+              "mean": -0.048,
+              "n": 500
+            },
+            "minimal": {
+              "mean": -0.002,
+              "n": 500
+            },
+            "standard": {
+              "mean": -0.002,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.04380952380952381,
+            -0.006666666666666667
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.0,
+          "slope": -0.023
+        },
+        "unannotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.936,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.986,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.986,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.04588235294117647,
+            -0.008695652173913044
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.0,
+          "slope": -0.025
+        },
+        "unannotated_robustness": {
+          "leave_one_family_out": {
+            "agg_stats": -0.00125,
+            "allowlist": -0.03289473684210526,
+            "config_resolver": -0.03289473684210526,
+            "discovery_pipeline": -0.026595744680851064,
+            "fsm_transition": -0.027659574468085105,
+            "status_router": -0.026595744680851064,
+            "threshold_select": -0.026744186046511628
+          },
+          "per_language": {
+            "cpp": -0.01,
+            "go": -0.025,
+            "java": -0.005,
+            "javascript": 0.0,
+            "python": -0.085
+          }
+        }
+      },
+      "Llama-3.1-8B": {
+        "annotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.73,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.754,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.72,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.035,
+            0.01125
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.376,
+          "slope": -0.012
+        },
+        "delta_un_minus_ann": {
+          "by_knob": {
+            "max": {
+              "mean": -0.246,
+              "n": 500
+            },
+            "minimal": {
+              "mean": -0.156,
+              "n": 500
+            },
+            "standard": {
+              "mean": -0.118,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.08842105263157894,
+            -0.007272727272727273
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.013,
+          "slope": -0.045
+        },
+        "unannotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.484,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.598,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.602,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.08666666666666667,
+            -0.03090909090909091
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.0,
+          "slope": -0.057
+        },
+        "unannotated_robustness": {
+          "leave_one_family_out": {
+            "agg_stats": -0.03625,
+            "allowlist": -0.04078947368421053,
+            "config_resolver": -0.08157894736842106,
+            "discovery_pipeline": -0.059574468085106386,
+            "fsm_transition": -0.05851063829787234,
+            "status_router": -0.06063829787234042,
+            "threshold_select": -0.06046511627906977
+          },
+          "per_language": {
+            "cpp": 0.0,
+            "go": -0.1,
+            "java": -0.015,
+            "javascript": -0.095,
+            "python": -0.075
+          }
+        }
+      },
+      "Llama-3.3-70B": {
+        "annotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.942,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.95,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.944,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.01217391304347826,
+            0.004705882352941176
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.405,
+          "slope": -0.004
+        },
+        "delta_un_minus_ann": {
+          "by_knob": {
+            "max": {
+              "mean": -0.092,
+              "n": 500
+            },
+            "minimal": {
+              "mean": -0.074,
+              "n": 500
+            },
+            "standard": {
+              "mean": -0.062,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.04695652173913043,
+            0.02875
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.674,
+          "slope": -0.009
+        },
+        "unannotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.85,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.876,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.882,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.05058823529411765,
+            0.024
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.573,
+          "slope": -0.013
+        },
+        "unannotated_robustness": {
+          "leave_one_family_out": {
+            "agg_stats": 0.02875,
+            "allowlist": -0.042105263157894736,
+            "config_resolver": -0.015789473684210527,
+            "discovery_pipeline": -0.01276595744680851,
+            "fsm_transition": -0.013829787234042552,
+            "status_router": -0.013829787234042552,
+            "threshold_select": -0.022093023255813953
+          },
+          "per_language": {
+            "cpp": 0.04,
+            "go": 0.0,
+            "java": -0.085,
+            "javascript": -0.005,
+            "python": -0.015
+          }
+        }
+      },
+      "Mistral-24B": {
+        "annotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.824,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.84,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.838,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.021,
+            0.004285714285714286
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.251,
+          "slope": -0.008
+        },
+        "delta_un_minus_ann": {
+          "by_knob": {
+            "max": {
+              "mean": -0.182,
+              "n": 500
+            },
+            "minimal": {
+              "mean": -0.07,
+              "n": 500
+            },
+            "standard": {
+              "mean": -0.06,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.116,
+            -0.008
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.013,
+          "slope": -0.056
+        },
+        "unannotated_k1": {
+          "by_knob": {
+            "max": {
+              "mean": 0.642,
+              "n": 500
+            },
+            "minimal": {
+              "mean": 0.77,
+              "n": 500
+            },
+            "standard": {
+              "mean": 0.778,
+              "n": 500
+            }
+          },
+          "ci95": [
+            -0.12105263157894737,
+            -0.016
+          ],
+          "iters": 2000,
+          "method": "cluster_bootstrap",
+          "n_clusters": 50,
+          "n_obs": 1500,
+          "p_bootstrap": 0.002,
+          "slope": -0.064
+        },
+        "unannotated_robustness": {
+          "leave_one_family_out": {
+            "agg_stats": -0.00375,
+            "allowlist": -0.0868421052631579,
+            "config_resolver": -0.08157894736842106,
+            "discovery_pipeline": -0.0627659574468085,
+            "fsm_transition": -0.06489361702127659,
+            "status_router": -0.06808510638297872,
+            "threshold_select": -0.08023255813953488
+          },
+          "per_language": {
+            "cpp": 0.02,
+            "go": -0.045,
+            "java": -0.11,
+            "javascript": -0.08,
+            "python": -0.105
+          }
+        }
+      }
+    }
+  }
+}
