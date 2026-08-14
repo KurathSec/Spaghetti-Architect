@@ -1,0 +1,161 @@
+{
+  "_meta": {
+    "audit_seed": 20260814,
+    "bootstrap_iters": 2000,
+    "estimation_not_family": true,
+    "generated_by": "bench/gate_integrity_audit.py",
+    "inputs": [
+      "bench/out/.annotation_ablation_grades.json",
+      "bench/out/ablation/refactor_unannotated__*.jsonl.gz",
+      "bench/out/g3/refactor_dev__*.jsonl.gz"
+    ],
+    "post_hoc": "registered 2026-08-14 after the suite's results were read; certifies the one-fixture semantic gate against hardcoded-output rewrites (ANALYSIS_PLAN.md post-hoc addenda)",
+    "salt": "_px",
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "per_model": {
+    "DeepSeek-V4-Flash": {
+      "annotated": {
+        "n_passing": 1480,
+        "outcomes": {
+          "perturbed_pass": 1455,
+          "unsubstitutable": 25
+        },
+        "outcomes_by_profile": {
+          "perturbed_pass|max": 486,
+          "perturbed_pass|minimal": 484,
+          "perturbed_pass|standard": 485,
+          "unsubstitutable|max": 6,
+          "unsubstitutable|minimal": 10,
+          "unsubstitutable|standard": 9
+        }
+      },
+      "unannotated": {
+        "n_passing": 1454,
+        "outcomes": {
+          "perturbed_pass": 1387,
+          "unsubstitutable": 67
+        },
+        "outcomes_by_profile": {
+          "perturbed_pass|max": 450,
+          "perturbed_pass|minimal": 466,
+          "perturbed_pass|standard": 471,
+          "unsubstitutable|max": 18,
+          "unsubstitutable|minimal": 27,
+          "unsubstitutable|standard": 22
+        }
+      }
+    },
+    "Llama-3.1-8B": {
+      "annotated": {
+        "n_passing": 1102,
+        "outcomes": {
+          "perturbed_fail_other": 1,
+          "perturbed_pass": 1092,
+          "unsubstitutable": 9
+        },
+        "outcomes_by_profile": {
+          "perturbed_fail_other|max": 1,
+          "perturbed_pass|max": 361,
+          "perturbed_pass|minimal": 374,
+          "perturbed_pass|standard": 357,
+          "unsubstitutable|max": 3,
+          "unsubstitutable|minimal": 3,
+          "unsubstitutable|standard": 3
+        }
+      },
+      "unannotated": {
+        "n_passing": 842,
+        "outcomes": {
+          "hardcode_signal": 3,
+          "perturbed_fail_other": 6,
+          "perturbed_pass": 813,
+          "unsubstitutable": 20
+        },
+        "outcomes_by_profile": {
+          "hardcode_signal|max": 2,
+          "hardcode_signal|minimal": 1,
+          "perturbed_fail_other|max": 6,
+          "perturbed_pass|max": 226,
+          "perturbed_pass|minimal": 289,
+          "perturbed_pass|standard": 298,
+          "unsubstitutable|max": 8,
+          "unsubstitutable|minimal": 9,
+          "unsubstitutable|standard": 3
+        }
+      }
+    },
+    "Llama-3.3-70B": {
+      "annotated": {
+        "n_passing": 1418,
+        "outcomes": {
+          "perturbed_fail_other": 2,
+          "perturbed_pass": 1333,
+          "unsubstitutable": 83
+        },
+        "outcomes_by_profile": {
+          "perturbed_fail_other|minimal": 1,
+          "perturbed_fail_other|standard": 1,
+          "perturbed_pass|max": 450,
+          "perturbed_pass|minimal": 446,
+          "perturbed_pass|standard": 437,
+          "unsubstitutable|max": 21,
+          "unsubstitutable|minimal": 28,
+          "unsubstitutable|standard": 34
+        }
+      },
+      "unannotated": {
+        "n_passing": 1304,
+        "outcomes": {
+          "hardcode_signal": 1,
+          "perturbed_fail_other": 6,
+          "perturbed_pass": 1127,
+          "unsubstitutable": 170
+        },
+        "outcomes_by_profile": {
+          "hardcode_signal|max": 1,
+          "perturbed_fail_other|max": 6,
+          "perturbed_pass|max": 373,
+          "perturbed_pass|minimal": 373,
+          "perturbed_pass|standard": 381,
+          "unsubstitutable|max": 45,
+          "unsubstitutable|minimal": 65,
+          "unsubstitutable|standard": 60
+        }
+      }
+    },
+    "Mistral-24B": {
+      "annotated": {
+        "n_passing": 1251,
+        "outcomes": {
+          "perturbed_pass": 1238,
+          "unsubstitutable": 13
+        },
+        "outcomes_by_profile": {
+          "perturbed_pass|max": 408,
+          "perturbed_pass|minimal": 414,
+          "perturbed_pass|standard": 416,
+          "unsubstitutable|max": 4,
+          "unsubstitutable|minimal": 6,
+          "unsubstitutable|standard": 3
+        }
+      },
+      "unannotated": {
+        "n_passing": 1095,
+        "outcomes": {
+          "perturbed_pass": 994,
+          "unsubstitutable": 101
+        },
+        "outcomes_by_profile": {
+          "perturbed_pass|max": 288,
+          "perturbed_pass|minimal": 347,
+          "perturbed_pass|standard": 359,
+          "unsubstitutable|max": 33,
+          "unsubstitutable|minimal": 38,
+          "unsubstitutable|standard": 30
+        }
+      }
+    }
+  }
+}
