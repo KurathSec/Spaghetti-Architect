@@ -132,8 +132,9 @@ H1 CONFIRMED (refactor DiD -0.096 [-0.164, -0.038]); H2 not confirmed
 annotated comprehension arm shifted -0.112 vs the published run, the one
 level shift outside the expected band -- disclosed as serving drift, and the
 reason the paired same-week contrast is the primary statistic); H3 CONFIRMED
-(unannotated knob slopes negative in 7/8 cells, all four comprehension cells
-significant); H4 refactor leg significant (comments_only beats markers_only
+(unannotated knob slopes negative in sign in 8/8 cells, 7/8 with intervals
+excluding zero, all four comprehension cells significant; the criterion is
+sign, as frozen above); H4 refactor leg significant (comments_only beats markers_only
 for the weakest, +0.043 [+0.013, +0.078]), comprehension leg directionally
 positive but n.s., so H4 as pre-registered (both tasks) NOT confirmed; H5
 CONFIRMED (+0.043 [+0.010, +0.076], Holm-adjusted p = .04: the naming-only
