@@ -104,5 +104,39 @@ CoT table) is estimation with intervals, no p-claims.
 
 ## Deviations
 
-(none yet; amendments to this section must be committed before the affected
-batches run)
+Recorded after the campaign (none touches a hypothesis, a statistic, or the
+analysis script):
+
+1. Operational per-batch `--max-cost` was raised from the runner's initial $8
+   to $12 (and $16 for DeepSeek-V4-Flash batches) after the harness's
+   worst-case projections refused the pricier models' batches. The
+   pre-registered cap is the cumulative $220 stop; actual campaign spend was
+   about $151 (the DeepInfra dashboard is the authoritative ledger; resumed
+   batches overwrite their finalize `est_usd` with the resume's marginal cost).
+2. A provider-side user-set spending limit tripped mid-campaign (HTTP 402).
+   Per-item checkpoints held; after the account limit was raised, the four
+   affected batches resumed and refetched only their error stubs (no item was
+   fetched twice).
+3. Six items (five Llama CoT/lying cells, one more on retry) failed on read
+   timeouts; they were refetched under a temporarily raised
+   `request_timeout_s` (300s, then 420s for one Llama-3.3-70B CoT item),
+   restored to 120s afterwards.
+4. The campaign window is 2026-08-14T20:12Z to 2026-08-15T05:48Z (9.6 hours,
+   within the same-day target; window and interruption history are also in
+   `bench/out/ablation_v2/README.md`).
+
+## Outcome (mechanical verdicts from bench/out/rep1_results.json)
+
+H1 CONFIRMED (refactor DiD -0.096 [-0.164, -0.038]); H2 not confirmed
+(comprehension DiD -0.043 [-0.141, +0.052]; note the weakest model's
+annotated comprehension arm shifted -0.112 vs the published run, the one
+level shift outside the expected band -- disclosed as serving drift, and the
+reason the paired same-week contrast is the primary statistic); H3 CONFIRMED
+(unannotated knob slopes negative in 7/8 cells, all four comprehension cells
+significant); H4 refactor leg significant (comments_only beats markers_only
+for the weakest, +0.043 [+0.013, +0.078]), comprehension leg directionally
+positive but n.s., so H4 as pre-registered (both tasks) NOT confirmed; H5
+CONFIRMED (+0.043 [+0.010, +0.076], Holm-adjusted p = .04: the naming-only
+channel is real); H6 not confirmed at the CI criterion (weakest lying minus
+unannotated -0.106 [-0.213, +0.002], p = .056; the capability ordering holds
+and the contrast is reported as estimation).

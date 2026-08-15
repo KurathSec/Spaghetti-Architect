@@ -11,14 +11,15 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-MODEL="${1:?usage: run_rep1.sh <model-slug> [concurrency]}"
+MODEL="${1:?usage: run_rep1.sh <model-slug> [concurrency] [max-cost-per-batch]}"
 CONC="${2:-96}"
+MAXCOST="${3:-12}"
 
 run() { # task cond extra...
   local task="$1" cond="$2"; shift 2
   echo "=== rep1: ${task} / ${cond} / ${MODEL} ==="
   BENCH_RUN_TAG=rep1 BENCH_CORPUS="$cond" python3 bench/run_bench.py \
-    --batch "$task" --model "$MODEL" --k 8 --max-cost 8 \
+    --batch "$task" --model "$MODEL" --k 8 --max-cost "$MAXCOST" \
     --concurrency "$CONC" "$@"
 }
 
@@ -31,7 +32,7 @@ run refactor lying
 echo "=== rep1: comprehend / cot / ${MODEL} ==="
 BENCH_RUN_TAG=rep1 BENCH_CORPUS=annotated BENCH_PROMPT_MODE=cot \
   python3 bench/run_bench.py --batch comprehend --model "$MODEL" \
-  --family agg_stats --k 8 --max-tokens 4096 --max-cost 8 \
+  --family agg_stats --k 8 --max-tokens 4096 --max-cost "$MAXCOST" \
   --concurrency "$CONC" --parse-floor 0.05
 
 echo "rep1 complete for ${MODEL}"
