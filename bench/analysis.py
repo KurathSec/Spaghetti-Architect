@@ -447,7 +447,10 @@ def analyze(results_path: str = DEFAULT_RESULTS, q: float = 0.05,
     any_sm = any(per_model[m].get("status") == "statsmodels" for m in models_order)
     record = {
         "analysis": "judge rating ~ knob_rank | random intercepts {family, sample, language}",
-        "results_path": os.path.abspath(results_path),
+        # Repo-relative on purpose: an absolute path bakes the checkout
+        # location (and the local username) into a committed artifact.
+        "results_path": os.path.relpath(os.path.abspath(results_path),
+                                        os.path.dirname(_HERE)),
         "engine": "statsmodels" if any_sm else "SKIP_statsmodels+cluster_bootstrap",
         "statsmodels_available": any_sm,
         "n_models": len(models_order),
