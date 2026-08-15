@@ -1,0 +1,457 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "estimation_not_family": true,
+    "generated_by": "bench/rep1_extras2.py",
+    "inputs": [
+      "bench/out/.rep1_grades.json",
+      "bench/out/ablation_v2/refactor__{annotated,unannotated}__*.jsonl.gz",
+      "bench/out/rep1_results.json",
+      "config/anti_patterns_db.json"
+    ],
+    "post_hoc": "registered 2026-08-15 after the projected-review pass on the integrated draft; estimation only (ANALYSIS_PLAN.md addenda)",
+    "shared_draws": true,
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "lying_on_unannotated_solved": {
+    "pass_threshold": 0.5,
+    "per_model": {
+      "DeepSeek-V4-Flash": {
+        "ci95": [
+          -0.053767123287671234,
+          -0.011796875
+        ],
+        "n_clusters": 50,
+        "n_items": 1455,
+        "p_bootstrap": 0.0,
+        "point": -0.031872852233676974
+      },
+      "Llama-3.1-8B": {
+        "ci95": [
+          -0.4266443987667009,
+          -0.21144994246260068
+        ],
+        "n_clusters": 50,
+        "n_items": 957,
+        "p_bootstrap": 0.0,
+        "point": -0.3062957157784744
+      },
+      "Llama-3.3-70B": {
+        "ci95": [
+          -0.5247762148337596,
+          -0.27655807365439095
+        ],
+        "n_clusters": 50,
+        "n_items": 1297,
+        "p_bootstrap": 0.0,
+        "point": -0.4045875096376253
+      },
+      "Mistral-24B": {
+        "ci95": [
+          -0.2188897168405365,
+          -0.07276785714285715
+        ],
+        "n_clusters": 49,
+        "n_items": 1092,
+        "p_bootstrap": 0.0,
+        "point": -0.14354395604395603
+      }
+    }
+  },
+  "per_language_copy_gain_replication": {
+    "DeepSeek-V4-Flash": {
+      "by_language": {
+        "cpp": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 1.0,
+          "point": 0.0
+        },
+        "go": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 1.0,
+          "point": 0.0
+        },
+        "java": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 1.0,
+          "point": 0.0
+        },
+        "javascript": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 1.0,
+          "point": 0.0
+        },
+        "python": {
+          "ci95": [
+            0.022222222222222223,
+            0.10666666666666667
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 0.0,
+          "point": 0.06
+        }
+      },
+      "counts": {
+        "annotated": {
+          "n_no_code": 0,
+          "n_scored": 1500
+        },
+        "unannotated": {
+          "n_no_code": 0,
+          "n_scored": 1500
+        }
+      },
+      "overall": {
+        "ci95": [
+          0.0044444444444444444,
+          0.021333333333333333
+        ],
+        "n_clusters": 50,
+        "n_items": 1500,
+        "p_bootstrap": 0.0,
+        "point": 0.012
+      }
+    },
+    "Llama-3.1-8B": {
+      "by_language": {
+        "cpp": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 1.0,
+          "point": 0.0
+        },
+        "go": {
+          "ci95": [
+            -0.014814814814814815,
+            0.013333333333333334
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 1.0,
+          "point": 0.0
+        },
+        "java": {
+          "ci95": [
+            0.0,
+            0.011764705882352941
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 0.729,
+          "point": 0.0033333333333333335
+        },
+        "javascript": {
+          "ci95": [
+            0.06777777777777777,
+            0.17777777777777778
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 0.0,
+          "point": 0.11777777777777779
+        },
+        "python": {
+          "ci95": [
+            0.06666666666666667,
+            0.24912280701754386
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 0.0,
+          "point": 0.14666666666666667
+        }
+      },
+      "counts": {
+        "annotated": {
+          "n_no_code": 0,
+          "n_scored": 1500
+        },
+        "unannotated": {
+          "n_no_code": 0,
+          "n_scored": 1500
+        }
+      },
+      "overall": {
+        "ci95": [
+          0.03305555555555555,
+          0.07755555555555556
+        ],
+        "n_clusters": 50,
+        "n_items": 1500,
+        "p_bootstrap": 0.0,
+        "point": 0.05355555555555555
+      }
+    },
+    "Llama-3.3-70B": {
+      "by_language": {
+        "cpp": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 1.0,
+          "point": 0.0
+        },
+        "go": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 1.0,
+          "point": 0.0
+        },
+        "java": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 1.0,
+          "point": 0.0
+        },
+        "javascript": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 1.0,
+          "point": 0.0
+        },
+        "python": {
+          "ci95": [
+            0.07301587301587302,
+            0.18412698412698414
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 0.0,
+          "point": 0.12476190476190477
+        }
+      },
+      "counts": {
+        "annotated": {
+          "n_no_code": 0,
+          "n_scored": 1500
+        },
+        "unannotated": {
+          "n_no_code": 0,
+          "n_scored": 1500
+        }
+      },
+      "overall": {
+        "ci95": [
+          0.014603174603174604,
+          0.03682539682539683
+        ],
+        "n_clusters": 50,
+        "n_items": 1500,
+        "p_bootstrap": 0.0,
+        "point": 0.024952380952380955
+      }
+    },
+    "Mistral-24B": {
+      "by_language": {
+        "cpp": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 1.0,
+          "point": 0.0
+        },
+        "go": {
+          "ci95": [
+            0.0,
+            0.047058823529411764
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 0.25,
+          "point": 0.016666666666666666
+        },
+        "java": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 1.0,
+          "point": 0.0
+        },
+        "javascript": {
+          "ci95": [
+            0.0,
+            0.0
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 1.0,
+          "point": 0.0
+        },
+        "python": {
+          "ci95": [
+            0.022222222222222223,
+            0.12222222222222222
+          ],
+          "n_clusters": 50,
+          "n_items": 300,
+          "p_bootstrap": 0.0,
+          "point": 0.06666666666666667
+        }
+      },
+      "counts": {
+        "annotated": {
+          "n_no_code": 0,
+          "n_scored": 1500
+        },
+        "unannotated": {
+          "n_no_code": 0,
+          "n_scored": 1500
+        }
+      },
+      "overall": {
+        "ci95": [
+          0.006933333333333333,
+          0.029206349206349208
+        ],
+        "n_clusters": 50,
+        "n_items": 1500,
+        "p_bootstrap": 0.0,
+        "point": 0.016666666666666666
+      }
+    },
+    "_protocol": {
+      "definition": "paired per-item payload-copy-rate difference (annotated - unannotated), replication arms, items where both arms yielded extractable code",
+      "draw": 0,
+      "whitespace_normalization": "strip-all"
+    }
+  },
+  "per_language_replication_did": {
+    "cpp": {
+      "ci95": [
+        -0.2677083333333333,
+        -0.058333333333333334
+      ],
+      "p_bootstrap": 0.0,
+      "per_model_delta": {
+        "DeepSeek-V4-Flash": -0.009166666666666667,
+        "Llama-3.1-8B": -0.16875,
+        "Llama-3.3-70B": -0.3279166666666667,
+        "Mistral-24B": -0.28375
+      },
+      "point": -0.15958333333333335,
+      "weakest_means": {
+        "annotated": 0.6941666666666667,
+        "unannotated": 0.5254166666666666
+      }
+    },
+    "go": {
+      "ci95": [
+        -0.26916666666666667,
+        -0.027631578947368424
+      ],
+      "p_bootstrap": 0.011,
+      "per_model_delta": {
+        "DeepSeek-V4-Flash": -0.0175,
+        "Llama-3.1-8B": -0.155,
+        "Llama-3.3-70B": 0.017083333333333332,
+        "Mistral-24B": 0.06708333333333333
+      },
+      "point": -0.1375,
+      "weakest_means": {
+        "annotated": 0.72125,
+        "unannotated": 0.56625
+      }
+    },
+    "java": {
+      "ci95": [
+        -0.19215686274509805,
+        0.03571428571428571
+      ],
+      "p_bootstrap": 0.19,
+      "per_model_delta": {
+        "DeepSeek-V4-Flash": -0.0016666666666666668,
+        "Llama-3.1-8B": -0.07875,
+        "Llama-3.3-70B": -0.030833333333333334,
+        "Mistral-24B": -0.06416666666666666
+      },
+      "point": -0.07708333333333334,
+      "weakest_means": {
+        "annotated": 0.46,
+        "unannotated": 0.38125
+      }
+    },
+    "javascript": {
+      "ci95": [
+        -0.24087301587301588,
+        -0.09015151515151515
+      ],
+      "p_bootstrap": 0.0,
+      "per_model_delta": {
+        "DeepSeek-V4-Flash": 0.0,
+        "Llama-3.1-8B": -0.15708333333333332,
+        "Llama-3.3-70B": -0.0125,
+        "Mistral-24B": -0.10541666666666667
+      },
+      "point": -0.15708333333333332,
+      "weakest_means": {
+        "annotated": 0.9845833333333334,
+        "unannotated": 0.8275
+      }
+    },
+    "python": {
+      "ci95": [
+        -0.008333333333333335,
+        0.12017543859649123
+      ],
+      "p_bootstrap": 0.107,
+      "per_model_delta": {
+        "DeepSeek-V4-Flash": -0.05625,
+        "Llama-3.1-8B": -0.004583333333333333,
+        "Llama-3.3-70B": -0.019583333333333335,
+        "Mistral-24B": -0.11541666666666667
+      },
+      "point": 0.051666666666666666,
+      "weakest_means": {
+        "annotated": 0.955,
+        "unannotated": 0.9504166666666667
+      }
+    }
+  }
+}
