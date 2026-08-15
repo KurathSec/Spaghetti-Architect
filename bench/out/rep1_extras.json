@@ -1,0 +1,107 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "estimation_not_family": true,
+    "generated_by": "bench/rep1_extras.py",
+    "inputs": [
+      "bench/out/.rep1_grades.json",
+      "bench/out/rep1_results.json"
+    ],
+    "post_hoc": "registered 2026-08-15 after the integrated draft's review pass; estimation only (ANALYSIS_PLAN.md addenda)",
+    "shared_draws": true,
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "leakage_free_did": {
+    "comprehend": {
+      "comments_only": {
+        "ci95": [
+          -0.020606060606060607,
+          0.1323148148148148
+        ],
+        "p_bootstrap": 0.147,
+        "per_model_delta": {
+          "DeepSeek-V4-Flash": 0.005583333333333333,
+          "Llama-3.1-8B": 0.06441666666666666,
+          "Llama-3.3-70B": 0.004333333333333333,
+          "Mistral-24B": 0.017416666666666667
+        },
+        "point": 0.05883333333333333
+      },
+      "markers_only": {
+        "ci95": [
+          -0.05789473684210526,
+          0.029938271604938272
+        ],
+        "p_bootstrap": 0.535,
+        "per_model_delta": {
+          "DeepSeek-V4-Flash": 0.03241666666666667,
+          "Llama-3.1-8B": 0.018666666666666668,
+          "Llama-3.3-70B": 0.005,
+          "Mistral-24B": 0.057583333333333334
+        },
+        "point": -0.013750000000000002
+      }
+    },
+    "refactor": {
+      "comments_only": {
+        "ci95": [
+          0.0314,
+          0.12516666666666668
+        ],
+        "p_bootstrap": 0.0,
+        "per_model_delta": {
+          "DeepSeek-V4-Flash": 0.015416666666666667,
+          "Llama-3.1-8B": 0.08608333333333333,
+          "Llama-3.3-70B": 0.02275,
+          "Mistral-24B": 0.0885
+        },
+        "point": 0.07066666666666667
+      },
+      "markers_only": {
+        "ci95": [
+          -0.007647058823529413,
+          0.0621969696969697
+        ],
+        "p_bootstrap": 0.137,
+        "per_model_delta": {
+          "DeepSeek-V4-Flash": 0.017083333333333332,
+          "Llama-3.1-8B": 0.043333333333333335,
+          "Llama-3.3-70B": 0.055,
+          "Mistral-24B": 0.07941666666666666
+        },
+        "point": 0.026250000000000002
+      }
+    }
+  },
+  "off_ceiling_replication": {
+    "comprehend": {
+      "ci95": [
+        -0.15971014492753624,
+        -0.008809523809523805
+      ],
+      "p_bootstrap": 0.027,
+      "per_model_delta": {
+        "DeepSeek-V4-Flash": -0.05325,
+        "Llama-3.1-8B": -0.0965,
+        "Llama-3.3-70B": -0.010333333333333333,
+        "Mistral-24B": -0.07108333333333333
+      },
+      "point": -0.08616666666666667
+    },
+    "refactor": {
+      "ci95": [
+        -0.11464912280701756,
+        0.023333333333333338
+      ],
+      "p_bootstrap": 0.251,
+      "per_model_delta": {
+        "DeepSeek-V4-Flash": -0.016916666666666667,
+        "Llama-3.1-8B": -0.11283333333333333,
+        "Llama-3.3-70B": -0.07475,
+        "Mistral-24B": -0.10033333333333333
+      },
+      "point": -0.03808333333333333
+    }
+  }
+}
