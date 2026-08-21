@@ -1,0 +1,102 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "estimation_not_family": true,
+    "generated_by": "bench/paper_number_addenda.py",
+    "inputs": [
+      "bench/out/.annotation_ablation_grades.json",
+      "bench/out/anchor.json",
+      "bench/out/ladder/comprehend__*.jsonl.gz",
+      "config/anti_patterns_db.json"
+    ],
+    "post_hoc": "registered 2026-08-22 after the number-bindings audit; estimation only (ANALYSIS_PLAN.md addenda)",
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "fsm_prior_conflict": {
+    "majority_for_every_model": true,
+    "per_model": {
+      "DeepSeek-V4-Flash": {
+        "conflict_misses": 47,
+        "fraction": 0.9591836734693877,
+        "total_misses": 49
+      },
+      "Llama-3.1-8B": {
+        "conflict_misses": 183,
+        "fraction": 1.0,
+        "total_misses": 183
+      },
+      "Llama-3.3-70B": {
+        "conflict_misses": 32,
+        "fraction": 1.0,
+        "total_misses": 32
+      },
+      "Mistral-24B": {
+        "conflict_misses": 26,
+        "fraction": 0.7647058823529411,
+        "total_misses": 34
+      }
+    },
+    "pooled": {
+      "conflict_misses": 288,
+      "fraction": 0.9664429530201343,
+      "total_misses": 298
+    },
+    "protocol": "per (model, record, slot); miss = strict majority of the k=8 parsed right-keyed draws mismatch the oracle; conflicting slot = oracle value equals the lookup default_value"
+  },
+  "percentile_rule_null": {
+    "cells": {
+      "DeepSeek-V4-Flash": {
+        "inner_bootstrap": 500,
+        "null_size": 0.105,
+        "sims": 400
+      },
+      "Llama-3.1-8B": {
+        "inner_bootstrap": 500,
+        "null_size": 0.0425,
+        "sims": 400
+      },
+      "Llama-3.3-70B": {
+        "inner_bootstrap": 500,
+        "null_size": 0.0775,
+        "sims": 400
+      },
+      "Mistral-24B": {
+        "inner_bootstrap": 500,
+        "null_size": 0.095,
+        "sims": 400
+      }
+    },
+    "detector": "95% percentile CI of the cluster-mean difference over a 500-draw inner cluster bootstrap; reject if 0 excluded; null = dev-vs-dev resamples, Random(SUITE_SEED + sim) as in freshness_power.py",
+    "max_null_size": 0.105
+  },
+  "percentile_rule_vs_testA": {
+    "cells": {
+      "DeepSeek-V4-Flash": {
+        "rejection_rate": 0.1175
+      },
+      "Llama-3.1-8B": {
+        "rejection_rate": 0.0825
+      },
+      "Llama-3.3-70B": {
+        "rejection_rate": 0.135
+      },
+      "Mistral-24B": {
+        "rejection_rate": 0.12
+      }
+    },
+    "max_rejection": 0.135
+  },
+  "token_counterfactual": {
+    "dropped_duplicate_mean_rho": 0.918633927806367,
+    "n_base_samples": 50,
+    "profiles": [
+      "minimal",
+      "light",
+      "standard",
+      "heavy",
+      "max"
+    ],
+    "tied_published_mean_rho": 0.8843768808692358
+  }
+}

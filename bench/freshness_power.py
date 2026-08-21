@@ -165,7 +165,8 @@ def _simulate(arm1: dict, arm2: dict, delta: float) -> dict:
         # null (both arms drawn from the same pool) cluster means are
         # exchangeable, so the test is exactly calibrated by construction,
         # which the percentile-CI rule is not on the skewed near-ceiling arms
-        # (observed null sizes up to ~0.12 there). Statistic: difference of
+        # (null sizes up to 0.105; frozen re-derivation in
+        # bench/out/paper_number_addenda.json). Statistic: difference of
         # unweighted cluster-mean averages.
         cm1 = [a1s[i] / a1c[i] for i in range(n1)]
         cm2 = [a2s[i] / a2c[i] for i in range(n2)]
