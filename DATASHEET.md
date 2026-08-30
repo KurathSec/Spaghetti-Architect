@@ -3,7 +3,7 @@
 This datasheet follows the "Datasheets for Datasets" template (Gebru et al., 2021).
 It describes the public `dev` split frozen in [`bench/data/dev/`](bench/data/dev/) and
 indexed by [`bench/data/manifest.json`](bench/data/manifest.json) (dataset version
-`2.0`). It mirrors Appendix "Datasheet" of the accompanying DMLR resource paper. A
+`2.0`). It mirrors Appendix "Datasheet" of the accompanying resource paper. A
 machine-readable record for the same split is in [`croissant.json`](croissant.json).
 
 ## Motivation

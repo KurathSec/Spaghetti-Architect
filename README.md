@@ -229,7 +229,7 @@ The near-term write-up *leads* with the **reference baselines** the generator yi
 measured capability ladder across a four-model reference set on the comprehend and refactor
 tasks, plus empirical contamination evidence — while the **LLM-as-judge** question (do
 judges track the by-construction ground-truth quality order?) is deferred. That write-up is
-a data-centric **resource paper** (DMLR, *data.mlr.press*; single-blind, under review),
+a data-centric **resource paper**,
 covering the generator + by-construction-labelled dataset and publishable **without** the
 paid live run; the full LLM-as-judge study (design, figures, bibliography) is deferred
 future work that needs that run. The manuscript is published separately from this

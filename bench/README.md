@@ -9,7 +9,7 @@
 > so a quality ordering exists *independently of any rater*.
 >
 > This README is the authoritative architecture anchor for the benchmark layer. The
-> near-term write-up is a DMLR resource paper (single-blind, under review), maintained and
+> near-term write-up is a resource paper, maintained and
 > published separately from this repo; the LLM-as-judge study is future work (its deferred
 > seed draft is regenerated locally by `run_bench.py --report`). The design freeze is recorded
 > in the (private) pre-registration. Where this README and any older note disagree, **this

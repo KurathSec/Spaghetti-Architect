@@ -94,7 +94,7 @@ The repo is a **layered monorepo** — one published library and two research la
   an accident, so the published tool stays dependency-free while the layers above carry
   their own optional deps: the LLM client and the anchor tools).
 - The benchmark layer's LLM-as-judge meta-evaluation is **future work** (it needs a paid live
-  run). The near-term write-up is a data-centric DMLR resource paper, maintained and published
+  run). The near-term write-up is a data-centric resource paper, maintained and published
   separately from this code+dataset repository.
   *This* document covers the engine both stand on.
 
@@ -237,7 +237,7 @@ pyproject.toml · requirements.txt · REQUIREMENTS.md   # packaging + per-layer 
 CITATION.cff · codemeta.json · croissant.json · LICENSE   # citation/dataset metadata + MIT
 ```
 
-> The DMLR resource paper and the deferred/superseded drafts are maintained **outside** this
+> The resource paper and the deferred/superseded drafts are maintained **outside** this
 > repository (the public repo is the engine + dataset); the paper carries its own venue DOI.
 
 ---
@@ -1345,7 +1345,7 @@ committed.
 > `semantic_ok` stays high and flat as the collection width `W` grows while comprehension EM
 > collapses with `W` — so the dataset cleanly separates a **structural** competence
 > (restructuring, width-invariant) from a **computational** one (list summation, width-sensitive).
-> These are by-construction reference baselines for the accompanying DMLR resource paper,
+> These are by-construction reference baselines for the accompanying resource paper,
 > **not** an LLM-as-judge finding; the held-out split exists for contamination-resistance, not
 > as a generalization/novelty probe.
 
@@ -1353,8 +1353,7 @@ committed.
 > `gen_samples.py`) that `bench/` reuses; a separate de-optimization study that also lives
 > under `eval/` is kept private.
 
-> **Publication.** The near-term primary write-up is a data-centric **resource paper**
-> (DMLR, a rolling JMLR-family journal, data.mlr.press; single-blind / open review): the
+> **Publication.** The near-term primary write-up is a data-centric **resource paper**: the
 > generator, the by-construction-labelled multi-language dataset, label-validity evidence, and
 > reference baselines — publishable **without** the paid live run. The LLM-as-judge
 > meta-evaluation — whether judges track the by-construction ground-truth quality order, with
