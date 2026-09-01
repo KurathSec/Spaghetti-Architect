@@ -1,0 +1,1985 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "estimation_not_family": true,
+    "generated_by": "bench/knob_slope_degenerate.py",
+    "inputs": [
+      "bench/out/.annotation_ablation_grades.json",
+      "bench/out/anchor_subsets.json",
+      "bench/out/annotation_ablation.json",
+      "bench/out/provenance_figures.json",
+      "bench/out/unannotated_slopes.json"
+    ],
+    "post_hoc": "registered 2026-09-01 after the suite's results were read (ANALYSIS_PLAN.md post-hoc addenda); prompted by external review of the degenerate-item share",
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "per_model": {
+    "comprehend": {
+      "DeepSeek-V4-Flash": {
+        "annotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.803125,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.790625,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.78125,
+                "n": 320
+              }
+            },
+            "ci95": [
+              0.0,
+              0.0140625
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.084,
+            "slope": 0.00625
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.803125,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.790625,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.78125,
+                "n": 320
+              }
+            },
+            "ci95": [
+              0.0,
+              0.0140625
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.084,
+            "slope": 0.00625
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.846,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.84,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.832,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.0016666666666666668,
+              0.008888888888888889
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.313,
+            "slope": 0.003
+          }
+        },
+        "delta_un_minus_ann": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": -0.171875,
+                "n": 320
+              },
+              "minimal": {
+                "mean": -0.040625,
+                "n": 320
+              },
+              "standard": {
+                "mean": -0.040625,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.0984375,
+              -0.03898305084745763
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.065625
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": -0.171875,
+                "n": 320
+              },
+              "minimal": {
+                "mean": -0.040625,
+                "n": 320
+              },
+              "standard": {
+                "mean": -0.040625,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.0984375,
+              -0.03898305084745763
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.065625
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": -0.11,
+                "n": 500
+              },
+              "minimal": {
+                "mean": -0.026,
+                "n": 500
+              },
+              "standard": {
+                "mean": -0.026,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.06888888888888889,
+              -0.021
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.0,
+            "slope": -0.042
+          }
+        },
+        "unannotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.63125,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.75,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.740625,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.08888888888888889,
+              -0.035443037974683546
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.059375
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.63125,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.75,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.740625,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.08888888888888889,
+              -0.035443037974683546
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.059375
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.736,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.814,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.806,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.06235294117647059,
+              -0.02
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.0,
+            "slope": -0.039
+          }
+        }
+      },
+      "Llama-3.1-8B": {
+        "annotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.4875,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.503125,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.496875,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.04772727272727273,
+              0.020253164556962026
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.626,
+            "slope": -0.0078125
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.4875,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.503125,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.496875,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.04772727272727273,
+              0.020253164556962026
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.626,
+            "slope": -0.0078125
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.554,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.54,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.564,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.021,
+              0.03037037037037037
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.639,
+            "slope": 0.007
+          }
+        },
+        "delta_un_minus_ann": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": -0.246875,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.01875,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.0375,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.19375,
+              -0.06666666666666667
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.1328125
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": -0.246875,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.01875,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.0375,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.19375,
+              -0.06666666666666667
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.1328125
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": -0.288,
+                "n": 500
+              },
+              "minimal": {
+                "mean": -0.098,
+                "n": 500
+              },
+              "standard": {
+                "mean": -0.108,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.14947368421052631,
+              -0.04625
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.0,
+            "slope": -0.095
+          }
+        },
+        "unannotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.240625,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.521875,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.534375,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.2037037037037037,
+              -0.07966101694915254
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.140625
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.240625,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.521875,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.534375,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.2037037037037037,
+              -0.07966101694915254
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.140625
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.266,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.442,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.456,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.1380952380952381,
+              -0.044
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.0,
+            "slope": -0.088
+          }
+        }
+      },
+      "Llama-3.3-70B": {
+        "annotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.675,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.66875,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.671875,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.002702702702702703,
+              0.01020408163265306
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.429,
+            "slope": 0.003125
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.675,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.66875,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.671875,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.002702702702702703,
+              0.01020408163265306
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.429,
+            "slope": 0.003125
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.77,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.768,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.768,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.003157894736842105,
+              0.00625
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.81,
+            "slope": 0.001
+          }
+        },
+        "delta_un_minus_ann": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": -0.071875,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.0,
+                "n": 320
+              },
+              "standard": {
+                "mean": -0.003125,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.05918367346938776,
+              -0.01884057971014493
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.0359375
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": -0.071875,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.0,
+                "n": 320
+              },
+              "standard": {
+                "mean": -0.003125,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.05918367346938776,
+              -0.01884057971014493
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.0359375
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": -0.046,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.002,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.002,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.04,
+              -0.0125
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.0,
+            "slope": -0.024
+          }
+        },
+        "unannotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.603125,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.66875,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.66875,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.05227272727272727,
+              -0.018518518518518517
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.0328125
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.603125,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.66875,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.66875,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.05227272727272727,
+              -0.018518518518518517
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.0328125
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.724,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.77,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.77,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.036,
+              -0.0128
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.0,
+            "slope": -0.023
+          }
+        }
+      },
+      "Mistral-24B": {
+        "annotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.63125,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.625,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.640625,
+                "n": 320
+              }
+            },
+            "ci95": [
+              0.0,
+              0.0078125
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.233,
+            "slope": 0.003125
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.63125,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.625,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.640625,
+                "n": 320
+              }
+            },
+            "ci95": [
+              0.0,
+              0.0078125
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.233,
+            "slope": 0.003125
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.74,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.73,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.748,
+                "n": 500
+              }
+            },
+            "ci95": [
+              0.0008695652173913044,
+              0.010476190476190476
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.033,
+            "slope": 0.005
+          }
+        },
+        "delta_un_minus_ann": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": -0.115625,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.021875,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.009375,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.1016949152542373,
+              -0.037037037037037035
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.06875
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": -0.115625,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.021875,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.009375,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.1016949152542373,
+              -0.037037037037037035
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.06875
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": -0.128,
+                "n": 500
+              },
+              "minimal": {
+                "mean": -0.036,
+                "n": 500
+              },
+              "standard": {
+                "mean": -0.05,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.0725,
+              -0.024
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.0,
+            "slope": -0.046
+          }
+        },
+        "unannotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.515625,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.646875,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.65,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.09710144927536232,
+              -0.034782608695652174
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.065625
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.515625,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.646875,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.65,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.09710144927536232,
+              -0.034782608695652174
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.065625
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.612,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.694,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.698,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.06761904761904762,
+              -0.01888888888888889
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.0,
+            "slope": -0.041
+          }
+        }
+      }
+    },
+    "refactor": {
+      "DeepSeek-V4-Flash": {
+        "annotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.975,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.98125,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.98125,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.00909090909090909,
+              0.0
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.25,
+            "slope": -0.003125
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.975,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.98125,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.98125,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.00909090909090909,
+              0.0
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.25,
+            "slope": -0.003125
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.984,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.988,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.988,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.005555555555555556,
+              0.0
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.22,
+            "slope": -0.002
+          }
+        },
+        "delta_un_minus_ann": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": -0.075,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.0,
+                "n": 320
+              },
+              "standard": {
+                "mean": -0.003125,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.06610169491525424,
+              -0.013513513513513514
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.0375
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": -0.075,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.0,
+                "n": 320
+              },
+              "standard": {
+                "mean": -0.003125,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.06610169491525424,
+              -0.013513513513513514
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.0375
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": -0.048,
+                "n": 500
+              },
+              "minimal": {
+                "mean": -0.002,
+                "n": 500
+              },
+              "standard": {
+                "mean": -0.002,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.04380952380952381,
+              -0.006666666666666667
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.0,
+            "slope": -0.023
+          }
+        },
+        "unannotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.9,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.98125,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.978125,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.06938775510204082,
+              -0.01694915254237288
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.040625
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.9,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.98125,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.978125,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.06938775510204082,
+              -0.01694915254237288
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.040625
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.936,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.986,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.986,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.04588235294117647,
+              -0.008695652173913044
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.0,
+            "slope": -0.025
+          }
+        }
+      },
+      "Llama-3.1-8B": {
+        "annotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.646875,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.66875,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.634375,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.04375,
+              0.028205128205128206
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.623,
+            "slope": -0.0109375
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.646875,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.66875,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.634375,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.04375,
+              0.028205128205128206
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.623,
+            "slope": -0.0109375
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.73,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.754,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.72,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.035,
+              0.01125
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.376,
+            "slope": -0.012
+          }
+        },
+        "delta_un_minus_ann": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": -0.334375,
+                "n": 320
+              },
+              "minimal": {
+                "mean": -0.16875,
+                "n": 320
+              },
+              "standard": {
+                "mean": -0.15,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.1469387755102041,
+              -0.030379746835443037
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.0828125
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": -0.334375,
+                "n": 320
+              },
+              "minimal": {
+                "mean": -0.16875,
+                "n": 320
+              },
+              "standard": {
+                "mean": -0.15,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.1469387755102041,
+              -0.030379746835443037
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.0828125
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": -0.246,
+                "n": 500
+              },
+              "minimal": {
+                "mean": -0.156,
+                "n": 500
+              },
+              "standard": {
+                "mean": -0.118,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.08842105263157894,
+              -0.007272727272727273
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.013,
+            "slope": -0.045
+          }
+        },
+        "unannotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.3125,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.5,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.484375,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.12727272727272726,
+              -0.062162162162162166
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.09375
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.3125,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.5,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.484375,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.12727272727272726,
+              -0.062162162162162166
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.0,
+            "slope": -0.09375
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.484,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.598,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.602,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.08666666666666667,
+              -0.03090909090909091
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.0,
+            "slope": -0.057
+          }
+        }
+      },
+      "Llama-3.3-70B": {
+        "annotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.95,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.95,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.95,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.010126582278481013,
+              0.010126582278481013
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 1.0,
+            "slope": 0.0
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.95,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.95,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.95,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.010126582278481013,
+              0.010126582278481013
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 1.0,
+            "slope": 0.0
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.942,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.95,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.944,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.01217391304347826,
+              0.004705882352941176
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.405,
+            "slope": -0.004
+          }
+        },
+        "delta_un_minus_ann": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": -0.153125,
+                "n": 320
+              },
+              "minimal": {
+                "mean": -0.115625,
+                "n": 320
+              },
+              "standard": {
+                "mean": -0.096875,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.07341772151898734,
+              0.040625
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.564,
+            "slope": -0.018750000000000003
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": -0.153125,
+                "n": 320
+              },
+              "minimal": {
+                "mean": -0.115625,
+                "n": 320
+              },
+              "standard": {
+                "mean": -0.096875,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.07341772151898734,
+              0.040625
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.564,
+            "slope": -0.018750000000000003
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": -0.092,
+                "n": 500
+              },
+              "minimal": {
+                "mean": -0.074,
+                "n": 500
+              },
+              "standard": {
+                "mean": -0.062,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.04695652173913043,
+              0.02875
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.674,
+            "slope": -0.009
+          }
+        },
+        "unannotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.796875,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.834375,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.853125,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.07592592592592592,
+              0.04081632653061224
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.605,
+            "slope": -0.01875
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.796875,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.834375,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.853125,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.07592592592592592,
+              0.04081632653061224
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.605,
+            "slope": -0.01875
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.85,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.876,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.882,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.05058823529411765,
+              0.024
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.573,
+            "slope": -0.013
+          }
+        }
+      },
+      "Mistral-24B": {
+        "annotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.8375,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.85625,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.865625,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.027848101265822784,
+              0.01020408163265306
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.387,
+            "slope": -0.009375
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.8375,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.85625,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.865625,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.027848101265822784,
+              0.01020408163265306
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.387,
+            "slope": -0.009375
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.824,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.84,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.838,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.021,
+              0.004285714285714286
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.251,
+            "slope": -0.008
+          }
+        },
+        "delta_un_minus_ann": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": -0.209375,
+                "n": 320
+              },
+              "minimal": {
+                "mean": -0.04375,
+                "n": 320
+              },
+              "standard": {
+                "mean": -0.025,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.17142857142857143,
+              -0.007812499999999998
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.024,
+            "slope": -0.08281249999999998
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": -0.209375,
+                "n": 320
+              },
+              "minimal": {
+                "mean": -0.04375,
+                "n": 320
+              },
+              "standard": {
+                "mean": -0.025,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.17142857142857143,
+              -0.007812499999999998
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.024,
+            "slope": -0.08281249999999998
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": -0.182,
+                "n": 500
+              },
+              "minimal": {
+                "mean": -0.07,
+                "n": 500
+              },
+              "standard": {
+                "mean": -0.06,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.116,
+              -0.008
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.013,
+            "slope": -0.056
+          }
+        },
+        "unannotated_k1": {
+          "excl_bases": {
+            "by_knob": {
+              "max": {
+                "mean": 0.628125,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.8125,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.840625,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.17721518987341772,
+              -0.020289855072463767
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.007,
+            "slope": -0.0921875
+          },
+          "excl_items": {
+            "by_knob": {
+              "max": {
+                "mean": 0.628125,
+                "n": 320
+              },
+              "minimal": {
+                "mean": 0.8125,
+                "n": 320
+              },
+              "standard": {
+                "mean": 0.840625,
+                "n": 320
+              }
+            },
+            "ci95": [
+              -0.17721518987341772,
+              -0.020289855072463767
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 34,
+            "n_obs": 960,
+            "p_bootstrap": 0.007,
+            "slope": -0.0921875
+          },
+          "full": {
+            "by_knob": {
+              "max": {
+                "mean": 0.642,
+                "n": 500
+              },
+              "minimal": {
+                "mean": 0.77,
+                "n": 500
+              },
+              "standard": {
+                "mean": 0.778,
+                "n": 500
+              }
+            },
+            "ci95": [
+              -0.12105263157894737,
+              -0.016
+            ],
+            "iters": 2000,
+            "method": "cluster_bootstrap",
+            "n_clusters": 50,
+            "n_obs": 1500,
+            "p_bootstrap": 0.002,
+            "slope": -0.064
+          }
+        }
+      }
+    }
+  },
+  "summary": {
+    "exclusions": {
+      "excl_bases": {
+        "n_base_samples_dropped": 16,
+        "rule": "drop every item of the 16 metric-degenerate base samples"
+      },
+      "excl_items": {
+        "n_items_dropped": 36,
+        "rule": "drop the 36 degenerate items (2 distinct renders across the 5 profiles; all languages)"
+      }
+    },
+    "unannotated_cells_of_8": {
+      "excl_bases": {
+        "ci_excludes_zero": 7,
+        "sign_negative": 8
+      },
+      "excl_items": {
+        "ci_excludes_zero": 7,
+        "sign_negative": 8
+      },
+      "full": {
+        "ci_excludes_zero": 7,
+        "sign_negative": 8
+      }
+    }
+  }
+}
