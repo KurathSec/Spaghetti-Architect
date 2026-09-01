@@ -1,0 +1,610 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "echo_definition": "extracted completion code equals the item's own input render, byte-identical after per-line comment stripping and whitespace removal",
+    "estimation_not_family": true,
+    "generated_by": "bench/echo_quality_analysis.py",
+    "inputs": [
+      "bench/out/.annotation_ablation_grades.json",
+      "bench/out/ablation/refactor_unannotated__*.jsonl.gz",
+      "bench/out/ablation_did.json",
+      "bench/out/annotation_ablation.json",
+      "bench/out/g3/refactor_dev__*.jsonl.gz",
+      "config/anti_patterns_db.json"
+    ],
+    "languages": [
+      "python",
+      "javascript",
+      "go",
+      "java",
+      "cpp"
+    ],
+    "models": [
+      "Llama-3.1-8B",
+      "Mistral-24B",
+      "Llama-3.3-70B",
+      "DeepSeek-V4-Flash"
+    ],
+    "n_reexec_per_cell": 10,
+    "post_hoc": "registered 2026-09-01 after the suite's results were read (ANALYSIS_PLAN.md post-hoc addenda); prompted by external review of the gate metric",
+    "profiles": [
+      "minimal",
+      "standard",
+      "max"
+    ],
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "genuine_pass": {
+    "definition": "outcome = gate AND not identity echo; delta = unannotated - annotated, paired per item; DiD = delta(weakest) - delta(strongest)",
+    "did_extremes": {
+      "ci95": [
+        -0.22533333333333333,
+        -0.10500000000000001
+      ],
+      "n": 1500,
+      "p_bootstrap": 0.0,
+      "point": -0.156
+    },
+    "gate_did_committed": -0.156,
+    "per_model_delta": {
+      "DeepSeek-V4-Flash": {
+        "ci95": [
+          -0.03058823529411765,
+          -0.006666666666666667
+        ],
+        "n": 1500,
+        "p_bootstrap": 0.0,
+        "point": -0.017333333333333333
+      },
+      "Llama-3.1-8B": {
+        "ci95": [
+          -0.24,
+          -0.12466666666666666
+        ],
+        "n": 1500,
+        "p_bootstrap": 0.0,
+        "point": -0.17333333333333334
+      },
+      "Llama-3.3-70B": {
+        "ci95": [
+          -0.12133333333333333,
+          -0.025128205128205128
+        ],
+        "n": 1500,
+        "p_bootstrap": 0.001,
+        "point": -0.076
+      },
+      "Mistral-24B": {
+        "ci95": [
+          -0.16733333333333333,
+          -0.05015873015873016
+        ],
+        "n": 1500,
+        "p_bootstrap": 0.0,
+        "point": -0.104
+      }
+    }
+  },
+  "per_model": {
+    "DeepSeek-V4-Flash": {
+      "annotated": {
+        "gate_pass": {
+          "n": 1480,
+          "rate": 0.9866666666666667
+        },
+        "identity_echo": {
+          "n": 0,
+          "n_among_passes": 0,
+          "rate_all": 0.0,
+          "rate_among_passes": 0.0
+        },
+        "n_no_code": 0,
+        "n_records": 1500,
+        "no_measurable_change_among_passes": {
+          "n": 12,
+          "rate": 0.008108108108108109
+        },
+        "quality_given_pass": {
+          "ast_python": {
+            "mean_given_pass": 0.8304992497461989,
+            "n_pass_excluded": 1180,
+            "n_pass_scored": 300
+          },
+          "headline": {
+            "mean_given_pass": 0.7188538629517686,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 1480
+          },
+          "uniform": {
+            "mean_given_pass": 0.7008690008401637,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 1480
+          }
+        }
+      },
+      "unannotated": {
+        "gate_pass": {
+          "n": 1454,
+          "rate": 0.9693333333333334
+        },
+        "identity_echo": {
+          "n": 0,
+          "n_among_passes": 0,
+          "rate_all": 0.0,
+          "rate_among_passes": 0.0
+        },
+        "n_no_code": 0,
+        "n_records": 1500,
+        "no_measurable_change_among_passes": {
+          "n": 7,
+          "rate": 0.004814305364511692
+        },
+        "quality_given_pass": {
+          "ast_python": {
+            "mean_given_pass": 0.8212944381865619,
+            "n_pass_excluded": 1173,
+            "n_pass_scored": 281
+          },
+          "headline": {
+            "mean_given_pass": 0.7019902966799164,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 1454
+          },
+          "uniform": {
+            "mean_given_pass": 0.6782989183783606,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 1454
+          }
+        }
+      }
+    },
+    "Llama-3.1-8B": {
+      "annotated": {
+        "gate_pass": {
+          "n": 1102,
+          "rate": 0.7346666666666667
+        },
+        "identity_echo": {
+          "n": 0,
+          "n_among_passes": 0,
+          "rate_all": 0.0,
+          "rate_among_passes": 0.0
+        },
+        "n_no_code": 0,
+        "n_records": 1500,
+        "no_measurable_change_among_passes": {
+          "n": 5,
+          "rate": 0.004537205081669692
+        },
+        "quality_given_pass": {
+          "ast_python": {
+            "mean_given_pass": 0.760328527626292,
+            "n_pass_excluded": 802,
+            "n_pass_scored": 300
+          },
+          "headline": {
+            "mean_given_pass": 0.7020369815915855,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 1102
+          },
+          "uniform": {
+            "mean_given_pass": 0.6921542507870788,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 1102
+          }
+        }
+      },
+      "unannotated": {
+        "gate_pass": {
+          "n": 842,
+          "rate": 0.5613333333333334
+        },
+        "identity_echo": {
+          "n": 0,
+          "n_among_passes": 0,
+          "rate_all": 0.0,
+          "rate_among_passes": 0.0
+        },
+        "n_no_code": 0,
+        "n_records": 1500,
+        "no_measurable_change_among_passes": {
+          "n": 7,
+          "rate": 0.00831353919239905
+        },
+        "quality_given_pass": {
+          "ast_python": {
+            "mean_given_pass": 0.7364886026085481,
+            "n_pass_excluded": 567,
+            "n_pass_scored": 275
+          },
+          "headline": {
+            "mean_given_pass": 0.6831832825197123,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 842
+          },
+          "uniform": {
+            "mean_given_pass": 0.666730375986289,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 842
+          }
+        }
+      }
+    },
+    "Llama-3.3-70B": {
+      "annotated": {
+        "gate_pass": {
+          "n": 1418,
+          "rate": 0.9453333333333334
+        },
+        "identity_echo": {
+          "n": 0,
+          "n_among_passes": 0,
+          "rate_all": 0.0,
+          "rate_among_passes": 0.0
+        },
+        "n_no_code": 0,
+        "n_records": 1500,
+        "no_measurable_change_among_passes": {
+          "n": 12,
+          "rate": 0.00846262341325811
+        },
+        "quality_given_pass": {
+          "ast_python": {
+            "mean_given_pass": 0.7840582852109002,
+            "n_pass_excluded": 1118,
+            "n_pass_scored": 300
+          },
+          "headline": {
+            "mean_given_pass": 0.7294208550242862,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 1418
+          },
+          "uniform": {
+            "mean_given_pass": 0.7162869901769351,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 1418
+          }
+        }
+      },
+      "unannotated": {
+        "gate_pass": {
+          "n": 1304,
+          "rate": 0.8693333333333333
+        },
+        "identity_echo": {
+          "n": 0,
+          "n_among_passes": 0,
+          "rate_all": 0.0,
+          "rate_among_passes": 0.0
+        },
+        "n_no_code": 0,
+        "n_records": 1500,
+        "no_measurable_change_among_passes": {
+          "n": 6,
+          "rate": 0.004601226993865031
+        },
+        "quality_given_pass": {
+          "ast_python": {
+            "mean_given_pass": 0.7637236519006994,
+            "n_pass_excluded": 1009,
+            "n_pass_scored": 295
+          },
+          "headline": {
+            "mean_given_pass": 0.7240234985968927,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 1304
+          },
+          "uniform": {
+            "mean_given_pass": 0.7068299972716018,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 1304
+          }
+        }
+      }
+    },
+    "Mistral-24B": {
+      "annotated": {
+        "gate_pass": {
+          "n": 1251,
+          "rate": 0.834
+        },
+        "identity_echo": {
+          "n": 0,
+          "n_among_passes": 0,
+          "rate_all": 0.0,
+          "rate_among_passes": 0.0
+        },
+        "n_no_code": 0,
+        "n_records": 1500,
+        "no_measurable_change_among_passes": {
+          "n": 9,
+          "rate": 0.007194244604316547
+        },
+        "quality_given_pass": {
+          "ast_python": {
+            "mean_given_pass": 0.8075705734141969,
+            "n_pass_excluded": 954,
+            "n_pass_scored": 297
+          },
+          "headline": {
+            "mean_given_pass": 0.7043284953195624,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 1251
+          },
+          "uniform": {
+            "mean_given_pass": 0.6904052934868297,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 1251
+          }
+        }
+      },
+      "unannotated": {
+        "gate_pass": {
+          "n": 1095,
+          "rate": 0.73
+        },
+        "identity_echo": {
+          "n": 0,
+          "n_among_passes": 0,
+          "rate_all": 0.0,
+          "rate_among_passes": 0.0
+        },
+        "n_no_code": 0,
+        "n_records": 1500,
+        "no_measurable_change_among_passes": {
+          "n": 5,
+          "rate": 0.0045662100456621
+        },
+        "quality_given_pass": {
+          "ast_python": {
+            "mean_given_pass": 0.8126839117542624,
+            "n_pass_excluded": 835,
+            "n_pass_scored": 260
+          },
+          "headline": {
+            "mean_given_pass": 0.7006503732822217,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 1095
+          },
+          "uniform": {
+            "mean_given_pass": 0.6823100822943382,
+            "n_pass_excluded": 0,
+            "n_pass_scored": 1095
+          }
+        }
+      }
+    }
+  },
+  "quality_given_pass": {
+    "ast_python": {
+      "did_extremes": {
+        "ci95": [
+          -0.04158689267102045,
+          0.0020349314716162636
+        ],
+        "n": 2000,
+        "p_bootstrap": 0.153,
+        "point": -0.014635113458106863
+      },
+      "per_model_delta": {
+        "DeepSeek-V4-Flash": {
+          "ci95": [
+            -0.016829799581792648,
+            -0.0006406012599691202
+          ],
+          "n": 281,
+          "p_bootstrap": 0.034,
+          "point": -0.009204811559637038
+        },
+        "Llama-3.1-8B": {
+          "ci95": [
+            -0.04380584804502552,
+            -0.009059189625783004
+          ],
+          "n": 275,
+          "p_bootstrap": 0.0,
+          "point": -0.0238399250177439
+        },
+        "Llama-3.3-70B": {
+          "ci95": [
+            -0.0307753015510841,
+            -0.011009467187050759
+          ],
+          "n": 295,
+          "p_bootstrap": 0.0,
+          "point": -0.0203346333102008
+        },
+        "Mistral-24B": {
+          "ci95": [
+            -0.014495222975898114,
+            0.02617953307022669
+          ],
+          "n": 260,
+          "p_bootstrap": 0.577,
+          "point": 0.005113338340065443
+        }
+      }
+    },
+    "headline": {
+      "did_extremes": {
+        "ci95": [
+          -0.021745925543344646,
+          0.014867248441417624
+        ],
+        "n": 2000,
+        "p_bootstrap": 0.862,
+        "point": -0.001990132800021027
+      },
+      "per_model_delta": {
+        "DeepSeek-V4-Flash": {
+          "ci95": [
+            -0.028471122137421756,
+            -0.005503949629104943
+          ],
+          "n": 1454,
+          "p_bootstrap": 0.001,
+          "point": -0.01686356627185215
+        },
+        "Llama-3.1-8B": {
+          "ci95": [
+            -0.036787520892011094,
+            -0.002845837469236834
+          ],
+          "n": 842,
+          "p_bootstrap": 0.013,
+          "point": -0.018853699071873176
+        },
+        "Llama-3.3-70B": {
+          "ci95": [
+            -0.019632989790968725,
+            0.008004182332223664
+          ],
+          "n": 1304,
+          "p_bootstrap": 0.453,
+          "point": -0.005397356427393474
+        },
+        "Mistral-24B": {
+          "ci95": [
+            -0.021266682217829014,
+            0.016523616322419055
+          ],
+          "n": 1095,
+          "p_bootstrap": 0.766,
+          "point": -0.0036781220373407475
+        }
+      }
+    },
+    "uniform": {
+      "did_extremes": {
+        "ci95": [
+          -0.020011978850050793,
+          0.011039875675024957
+        ],
+        "n": 2000,
+        "p_bootstrap": 0.716,
+        "point": -0.0028537923389867492
+      },
+      "per_model_delta": {
+        "DeepSeek-V4-Flash": {
+          "ci95": [
+            -0.035520116598402374,
+            -0.010253284758731107
+          ],
+          "n": 1454,
+          "p_bootstrap": 0.0,
+          "point": -0.02257008246180303
+        },
+        "Llama-3.1-8B": {
+          "ci95": [
+            -0.04326189605507247,
+            -0.0098301723058416
+          ],
+          "n": 842,
+          "p_bootstrap": 0.001,
+          "point": -0.02542387480078978
+        },
+        "Llama-3.3-70B": {
+          "ci95": [
+            -0.026048701028749566,
+            0.00581517134381071
+          ],
+          "n": 1304,
+          "p_bootstrap": 0.232,
+          "point": -0.009456992905333306
+        },
+        "Mistral-24B": {
+          "ci95": [
+            -0.03169565904145066,
+            0.01679565521399573
+          ],
+          "n": 1095,
+          "p_bootstrap": 0.555,
+          "point": -0.008095211192491458
+        }
+      }
+    }
+  },
+  "reexec_verified": [
+    "DeepSeek-V4-Flash|annotated|allowlist_L384|max|cpp|base",
+    "DeepSeek-V4-Flash|annotated|config_resolver_N4|standard|cpp|base",
+    "DeepSeek-V4-Flash|annotated|config_resolver_N4|standard|go|base",
+    "DeepSeek-V4-Flash|annotated|config_resolver_N8|max|go|v3",
+    "DeepSeek-V4-Flash|annotated|discovery_pipeline|max|cpp|v2",
+    "DeepSeek-V4-Flash|annotated|fsm_transition|standard|javascript|base",
+    "DeepSeek-V4-Flash|annotated|status_router|minimal|java|v3",
+    "DeepSeek-V4-Flash|annotated|threshold_select_T4|max|cpp|v3",
+    "DeepSeek-V4-Flash|annotated|threshold_select_T4|minimal|python|base",
+    "DeepSeek-V4-Flash|annotated|threshold_select_T5|max|cpp|base",
+    "DeepSeek-V4-Flash|unannotated|agg_stats_W32|max|go|v1",
+    "DeepSeek-V4-Flash|unannotated|allowlist_L24|max|python|base",
+    "DeepSeek-V4-Flash|unannotated|allowlist_L64|max|cpp|v0",
+    "DeepSeek-V4-Flash|unannotated|allowlist_L64|max|python|v4",
+    "DeepSeek-V4-Flash|unannotated|allowlist_L64|standard|go|v1",
+    "DeepSeek-V4-Flash|unannotated|config_resolver_N6|minimal|go|base",
+    "DeepSeek-V4-Flash|unannotated|config_resolver_N6|standard|javascript|base",
+    "DeepSeek-V4-Flash|unannotated|fsm_transition|minimal|go|v4",
+    "DeepSeek-V4-Flash|unannotated|threshold_select_T4|max|go|base",
+    "DeepSeek-V4-Flash|unannotated|threshold_select_T7|max|cpp|base",
+    "Llama-3.1-8B|annotated|agg_stats_W16|max|python|base",
+    "Llama-3.1-8B|annotated|agg_stats_W16|standard|javascript|v2",
+    "Llama-3.1-8B|annotated|config_resolver_N16|max|go|base",
+    "Llama-3.1-8B|annotated|config_resolver_N16|minimal|java|v1",
+    "Llama-3.1-8B|annotated|discovery_pipeline|max|javascript|v4",
+    "Llama-3.1-8B|annotated|discovery_pipeline|minimal|java|v1",
+    "Llama-3.1-8B|annotated|fsm_transition|standard|cpp|v4",
+    "Llama-3.1-8B|annotated|status_router|minimal|cpp|v2",
+    "Llama-3.1-8B|annotated|threshold_select_T12|minimal|javascript|base",
+    "Llama-3.1-8B|annotated|threshold_select_T8|standard|java|base",
+    "Llama-3.1-8B|unannotated|agg_stats_W16|max|javascript|v1",
+    "Llama-3.1-8B|unannotated|agg_stats_W24|max|java|base",
+    "Llama-3.1-8B|unannotated|agg_stats_W32|max|python|v4",
+    "Llama-3.1-8B|unannotated|allowlist_L64|minimal|javascript|v1",
+    "Llama-3.1-8B|unannotated|config_resolver_N56|standard|javascript|base",
+    "Llama-3.1-8B|unannotated|config_resolver_N8|standard|cpp|v3",
+    "Llama-3.1-8B|unannotated|discovery_pipeline|minimal|java|v2",
+    "Llama-3.1-8B|unannotated|fsm_transition|max|java|base",
+    "Llama-3.1-8B|unannotated|threshold_select_T4|minimal|java|v2",
+    "Llama-3.1-8B|unannotated|threshold_select_T7|max|cpp|base",
+    "Llama-3.3-70B|annotated|agg_stats_W32|standard|go|base",
+    "Llama-3.3-70B|annotated|allowlist_L32|max|java|v1",
+    "Llama-3.3-70B|annotated|allowlist_L32|minimal|javascript|v4",
+    "Llama-3.3-70B|annotated|allowlist_L64|standard|python|base",
+    "Llama-3.3-70B|annotated|config_resolver_N12|minimal|python|base",
+    "Llama-3.3-70B|annotated|config_resolver_N6|max|javascript|base",
+    "Llama-3.3-70B|annotated|discovery_pipeline|max|java|v0",
+    "Llama-3.3-70B|annotated|status_router|max|python|v0",
+    "Llama-3.3-70B|annotated|status_router|minimal|python|v1",
+    "Llama-3.3-70B|annotated|threshold_select_T4|max|javascript|v2",
+    "Llama-3.3-70B|unannotated|allowlist_L128|max|java|base",
+    "Llama-3.3-70B|unannotated|allowlist_L16|standard|javascript|base",
+    "Llama-3.3-70B|unannotated|allowlist_L96|max|javascript|base",
+    "Llama-3.3-70B|unannotated|config_resolver_N32|standard|java|base",
+    "Llama-3.3-70B|unannotated|config_resolver_N56|minimal|java|base",
+    "Llama-3.3-70B|unannotated|config_resolver_N8|standard|javascript|base",
+    "Llama-3.3-70B|unannotated|discovery_pipeline|standard|javascript|v4",
+    "Llama-3.3-70B|unannotated|status_router|standard|go|v1",
+    "Llama-3.3-70B|unannotated|threshold_select_T4|max|python|v4",
+    "Llama-3.3-70B|unannotated|threshold_select_T4|standard|java|v1",
+    "Mistral-24B|annotated|agg_stats_W12|max|python|base",
+    "Mistral-24B|annotated|allowlist_L128|max|go|base",
+    "Mistral-24B|annotated|allowlist_L64|minimal|javascript|v4",
+    "Mistral-24B|annotated|config_resolver_N16|max|python|v1",
+    "Mistral-24B|annotated|config_resolver_N16|standard|javascript|v4",
+    "Mistral-24B|annotated|config_resolver_N28|standard|java|base",
+    "Mistral-24B|annotated|config_resolver_N8|max|python|base",
+    "Mistral-24B|annotated|config_resolver_N8|minimal|cpp|base",
+    "Mistral-24B|annotated|fsm_transition|standard|python|v1",
+    "Mistral-24B|annotated|threshold_select_T7|max|cpp|base",
+    "Mistral-24B|unannotated|agg_stats_W16|max|java|v4",
+    "Mistral-24B|unannotated|agg_stats_W16|minimal|java|v1",
+    "Mistral-24B|unannotated|agg_stats_W16|standard|java|v3",
+    "Mistral-24B|unannotated|agg_stats_W8|max|cpp|base",
+    "Mistral-24B|unannotated|allowlist_L256|standard|cpp|base",
+    "Mistral-24B|unannotated|config_resolver_N16|max|cpp|v4",
+    "Mistral-24B|unannotated|discovery_pipeline|max|python|v3",
+    "Mistral-24B|unannotated|fsm_transition|max|javascript|v3",
+    "Mistral-24B|unannotated|threshold_select_T12|standard|javascript|base",
+    "Mistral-24B|unannotated|threshold_select_T4|minimal|python|base"
+  ]
+}
