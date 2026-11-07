@@ -1,0 +1,313 @@
+{
+  "_meta": {
+    "bootstrap_iters": 2000,
+    "generated_by": "bench/rung_census.py",
+    "inputs": [
+      "bench/data/dev/*.json",
+      "bench/out/anchor.json",
+      "bench/out/g3/refactor_test__deepseek-ai-DeepSeek-V4-Flash.jsonl.gz",
+      "bench/out/provenance_figures.json",
+      "config/anti_patterns_db.json"
+    ],
+    "suite_seed": 20260814,
+    "zero_api": true
+  },
+  "code_lines": {
+    "agg_stats": {
+      "clean": 25,
+      "heavy": 53,
+      "light": 48,
+      "max": 53,
+      "minimal": 45,
+      "standard": 48
+    },
+    "allowlist": {
+      "clean": 10,
+      "heavy": 20,
+      "light": 18,
+      "max": 23,
+      "minimal": 17,
+      "standard": 18
+    },
+    "config_resolver": {
+      "clean": 10,
+      "heavy": 76,
+      "light": 76,
+      "max": 76,
+      "minimal": 75,
+      "standard": 76
+    },
+    "discovery_pipeline": {
+      "clean": 69,
+      "heavy": 166,
+      "light": 158,
+      "max": 178,
+      "minimal": 151,
+      "standard": 158
+    },
+    "fsm_transition": {
+      "clean": 37,
+      "heavy": 81,
+      "light": 81,
+      "max": 81,
+      "minimal": 77,
+      "standard": 81
+    },
+    "status_router": {
+      "clean": 10,
+      "heavy": 87,
+      "light": 87,
+      "max": 87,
+      "minimal": 86,
+      "standard": 87
+    },
+    "threshold_select": {
+      "clean": 33,
+      "heavy": 60.5,
+      "light": 55,
+      "max": 60.5,
+      "minimal": 49.5,
+      "standard": 55
+    }
+  },
+  "comment_free_exposure": {
+    "n_line_slots": 3855,
+    "with_comments": 0.7198443579766537,
+    "without_comments": 0.0
+  },
+  "distinct_renders": {
+    "clean_equals_minimal_cells": [
+      {
+        "family": "threshold_select",
+        "lang": "go",
+        "stem": "threshold_select_T10"
+      },
+      {
+        "family": "threshold_select",
+        "lang": "go",
+        "stem": "threshold_select_T12"
+      },
+      {
+        "family": "threshold_select",
+        "lang": "go",
+        "stem": "threshold_select_T2"
+      },
+      {
+        "family": "threshold_select",
+        "lang": "go",
+        "stem": "threshold_select_T3"
+      },
+      {
+        "family": "threshold_select",
+        "lang": "go",
+        "stem": "threshold_select_T4"
+      },
+      {
+        "family": "threshold_select",
+        "lang": "go",
+        "stem": "threshold_select_T4_v0"
+      },
+      {
+        "family": "threshold_select",
+        "lang": "go",
+        "stem": "threshold_select_T4_v1"
+      },
+      {
+        "family": "threshold_select",
+        "lang": "go",
+        "stem": "threshold_select_T4_v2"
+      },
+      {
+        "family": "threshold_select",
+        "lang": "go",
+        "stem": "threshold_select_T4_v3"
+      },
+      {
+        "family": "threshold_select",
+        "lang": "go",
+        "stem": "threshold_select_T4_v4"
+      },
+      {
+        "family": "threshold_select",
+        "lang": "go",
+        "stem": "threshold_select_T5"
+      },
+      {
+        "family": "threshold_select",
+        "lang": "go",
+        "stem": "threshold_select_T6"
+      },
+      {
+        "family": "threshold_select",
+        "lang": "go",
+        "stem": "threshold_select_T7"
+      },
+      {
+        "family": "threshold_select",
+        "lang": "go",
+        "stem": "threshold_select_T8"
+      }
+    ],
+    "groupings_per_family": {
+      "agg_stats": {
+        "cpp: clean|minimal|light=standard|heavy|max": 20,
+        "go: clean|minimal|light=standard|heavy|max": 20,
+        "java: clean|minimal|light=standard|heavy|max": 20,
+        "javascript: clean|minimal|light=standard|heavy|max": 20,
+        "python: clean|minimal|light=standard|heavy|max": 20
+      },
+      "allowlist": {
+        "cpp: clean|minimal|light=standard|heavy|max": 24,
+        "go: clean|minimal|light=standard|heavy|max": 24,
+        "java: clean|minimal|light=standard|heavy|max": 24,
+        "javascript: clean|minimal|light=standard|heavy|max": 24,
+        "python: clean|minimal|light=standard|heavy|max": 24
+      },
+      "config_resolver": {
+        "cpp: clean|minimal|light=standard=heavy=max": 24,
+        "go: clean|minimal|light=standard=heavy=max": 24,
+        "java: clean|minimal|light=standard=heavy=max": 24,
+        "javascript: clean|minimal|light=standard=heavy=max": 24,
+        "python: clean|minimal|light=standard=heavy=max": 24
+      },
+      "discovery_pipeline": {
+        "cpp: clean|minimal|light=standard|heavy|max": 6,
+        "go: clean|minimal|light=standard|heavy|max": 6,
+        "java: clean|minimal|light=standard|heavy|max": 6,
+        "javascript: clean|minimal|light=standard|heavy|max": 6,
+        "python: clean|minimal|light=standard|heavy|max": 6
+      },
+      "fsm_transition": {
+        "cpp: clean|minimal|light=standard=heavy=max": 6,
+        "go: clean|minimal|light=standard=heavy=max": 6,
+        "java: clean|minimal|light=standard=heavy=max": 6,
+        "javascript: clean|minimal|light=standard=heavy=max": 6,
+        "python: clean|minimal|light=standard=heavy=max": 6
+      },
+      "status_router": {
+        "cpp: clean|minimal|light=standard=heavy=max": 6,
+        "go: clean|minimal|light=standard=heavy=max": 6,
+        "java: clean|minimal|light=standard=heavy=max": 6,
+        "javascript: clean|minimal|light=standard=heavy=max": 6,
+        "python: clean|minimal|light=standard=heavy=max": 6
+      },
+      "threshold_select": {
+        "cpp: clean|minimal|light=standard|heavy|max": 14,
+        "go: clean=minimal|light=standard|heavy|max": 14,
+        "java: clean|minimal|light=standard|heavy|max": 14,
+        "javascript: clean|minimal|light=standard|heavy|max": 14,
+        "python: clean|minimal|light=standard|heavy|max": 14
+      }
+    },
+    "histogram_with_clean": {
+      "3": 180,
+      "4": 14,
+      "5": 306
+    },
+    "histogram_without_clean": {
+      "2": 180,
+      "4": 320
+    },
+    "n_cells": 500,
+    "n_clean_equals_minimal": 14
+  },
+  "drop_duplicate": {
+    "bw_proxy": {
+      "dropped_duplicate_mean_rho": 0.40926464202122603,
+      "n_base_samples": 50,
+      "published_mean_rho": 0.39444491984785884,
+      "samples_magnitude_fell": 9,
+      "samples_magnitude_rose": 41
+    },
+    "cognitive_cognitive": {
+      "dropped_duplicate_mean_rho": 0.840893107833722,
+      "n_base_samples": 50,
+      "published_mean_rho": 0.7978888094111487,
+      "samples_magnitude_fell": 0,
+      "samples_magnitude_rose": 50
+    },
+    "radon_cc": {
+      "dropped_duplicate_mean_rho": 0.8007669860932316,
+      "n_base_samples": 50,
+      "published_mean_rho": 0.7499039627182469,
+      "samples_magnitude_fell": 0,
+      "samples_magnitude_rose": 50
+    },
+    "radon_mi": {
+      "dropped_duplicate_mean_rho": -0.785710289809591,
+      "n_base_samples": 50,
+      "published_mean_rho": -0.788734183943857,
+      "samples_magnitude_fell": 17,
+      "samples_magnitude_rose": 33
+    }
+  },
+  "spec_21_stability": {
+    "cells_changed": {
+      "heavy": 500,
+      "light": 0,
+      "max": 500,
+      "minimal": 0,
+      "standard": 500
+    },
+    "cells_per_profile": 500
+  },
+  "tier_c_cutoff": {
+    "n_draws": 1192,
+    "n_unfenced": 449,
+    "unfenced_share": {
+      "tierC_cond_cascade_t20": 0.0,
+      "tierC_cond_cascade_t30": 0.0,
+      "tierC_deep_chain": 0.0,
+      "tierC_huge_agg": 1.0,
+      "tierC_huge_agg_xl": 1.0,
+      "tierC_huge_allow": 0.0,
+      "tierC_huge_allow_xl": 1.0,
+      "tierC_huge_cfg": 0.8,
+      "tierC_huge_cfg_mid": 0.0,
+      "tierC_very_deep": 0.008333333333333333
+    }
+  },
+  "tier_c_structures": {
+    "fixed_literals": [
+      "tierC_huge_cfg",
+      "tierC_huge_cfg_mid"
+    ],
+    "n": 10,
+    "n_new_chain": 4,
+    "n_seed_dependent_literals": 8
+  },
+  "transform_effect_at_max": {
+    "SPAGH_001": 250,
+    "SPAGH_002": 500,
+    "SPAGH_003": 150,
+    "SPAGH_004": 320,
+    "SPAGH_005": 0,
+    "SPAGH_006": 0,
+    "SPAGH_007": 0,
+    "SPAGH_008": 0,
+    "SPAGH_009": 250,
+    "SPAGH_010": 250,
+    "SPAGH_011": 320,
+    "no_effect": [
+      "SPAGH_005",
+      "SPAGH_006",
+      "SPAGH_007",
+      "SPAGH_008"
+    ]
+  },
+  "variants": {
+    "change_list_length": [
+      "agg_stats_W16_v2",
+      "agg_stats_W32_v2"
+    ],
+    "n_repeat_base_inputs": 6,
+    "repeat_base_inputs": [
+      "allowlist_L32_v1",
+      "allowlist_L64_v1",
+      "config_resolver_N16_v1",
+      "discovery_pipeline_v0",
+      "fsm_transition_v0",
+      "status_router_v1"
+    ]
+  }
+}
